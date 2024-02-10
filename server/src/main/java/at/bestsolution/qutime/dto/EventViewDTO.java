@@ -54,8 +54,8 @@ public record EventViewDTO(
             event.key.toString()+"_"+date,
             event.title, 
             event.desription, 
-            adjustedStart, 
-            adjustedEnd, 
+            adjustedStart.withZoneSameInstant(zone), 
+            adjustedEnd.withZoneSameInstant(zone), 
             event.key.toString(),
             event.calendar.key.toString(),
             true);

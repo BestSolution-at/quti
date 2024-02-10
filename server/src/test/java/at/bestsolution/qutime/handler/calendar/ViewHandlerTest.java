@@ -154,4 +154,32 @@ public class ViewHandlerTest extends BaseTest {
         // 6 in March + 5 April
         assertEquals(12, result.size());
     }
+
+    @Test
+    public void testViewDailyCustResultTimezone() {
+        var result = handler.view(
+            UUID.fromString(referenceCalendarKey), 
+            LocalDate.parse("2024-01-10"), 
+            LocalDate.parse("2024-01-10"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Z"));
+        // 31 Repeating + 1 Simple
+        assertEquals(2, result.size());
+        assertEquals(ZonedDateTime.parse("2024-01-10T06:00Z"), result.get(0).start());
+        assertEquals(ZonedDateTime.parse("2024-01-10T12:00Z"), result.get(1).start());
+    }
+
+    @Test
+    public void testDaylightSavingCustResultTimezone() {
+        var result = handler.view(
+            UUID.fromString(basicCalendarKey), 
+            LocalDate.parse("2024-03-25"), 
+            LocalDate.parse("2024-04-05"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Z"));
+        assertEquals(12, result.size());
+        assertEquals(ZonedDateTime.parse("2024-03-25T12:00Z"), result.get(0).start());
+        assertEquals(ZonedDateTime.parse("2024-04-05T11:00Z"), result.get(11).start());
+    }
+
 }
