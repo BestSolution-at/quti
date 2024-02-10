@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import at.bestsolution.qutime.model.CalendarEntity;
 import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.qutime.model.EventModificationMovedEntity;
 import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatDailyEntity;
 import jakarta.inject.Inject;
@@ -136,6 +137,26 @@ public class BaseTest {
         em.persist(repeatPattern);
         em.persist(event);
 
+        em.flush();
+
+        {
+            var move = new EventModificationMovedEntity();
+            move.event = event;
+            move.date = LocalDate.parse("2024-05-05");
+            move.start = ZonedDateTime.parse("2024-05-05T10:00:00+02:00[Europe/Vienna]");
+            move.end = ZonedDateTime.parse("2024-05-05T12:00:00+02:00[Europe/Vienna]");
+            em.persist(move);
+        }
+
+        {
+            var move = new EventModificationMovedEntity();
+            move.event = event;
+            move.date = LocalDate.parse("2024-05-08");
+            move.start = ZonedDateTime.parse("2024-05-10T10:00:00+02:00[Europe/Vienna]");
+            move.end = ZonedDateTime.parse("2024-05-10T12:00:00+02:00[Europe/Vienna]");
+            em.persist(move);
+        }
+        
         repeatingDailyEndlessKey = event.key.toString();
         repeatingDailyEndless = event;
     }

@@ -120,13 +120,26 @@ public class ViewHandlerTest extends BaseTest {
         var result = handler.view(
             UUID.fromString(basicCalendarKey), 
             LocalDate.parse("2024-01-01"), 
-            LocalDate.parse("2024-01-31"), 
+            LocalDate.parse("2024-03-01"), 
             ZoneId.of("Europe/Vienna"), 
             ZoneId.of("Europe/Vienna"));
-        // 31 Repeating + 1 Simple
-        assertEquals(32, result.size());
+        // 1 Simple
+        // 31 Repeating Jan
+        // 29 Repeating Feb
+        // 1 Repeating March
+        assertEquals(62, result.size());
         assertEquals(LocalDate.parse("2024-01-01"), result.get(0).start().toLocalDate());
         assertEquals(LocalDate.parse("2024-01-31"), result.get(31).start().toLocalDate());
+
+        result = handler.view(
+            UUID.fromString(basicCalendarKey), 
+            LocalDate.parse("2025-02-01"), 
+            LocalDate.parse("2025-03-01"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        assertEquals(29, result.size());
+        assertEquals(LocalDate.parse("2025-02-01"), result.get(0).start().toLocalDate());
+        assertEquals(LocalDate.parse("2025-03-01"), result.get(28).start().toLocalDate());
     }
 
     @Test
@@ -182,4 +195,42 @@ public class ViewHandlerTest extends BaseTest {
         assertEquals(ZonedDateTime.parse("2024-04-05T11:00Z"), result.get(11).start());
     }
 
+
+    @Test
+    public void testMoveEvents() {
+        var result = handler.view(
+            UUID.fromString(basicCalendarKey), 
+            LocalDate.parse("2024-05-04"), 
+            LocalDate.parse("2024-05-06"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        assertEquals(3, result.size());
+
+        result = handler.view(
+            UUID.fromString(basicCalendarKey), 
+            LocalDate.parse("2024-05-07"), 
+            LocalDate.parse("2024-05-09"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void testMoveRefEvents() {
+        var result = handler.view(
+            UUID.fromString(referenceCalendarKey), 
+            LocalDate.parse("2024-05-04"), 
+            LocalDate.parse("2024-05-06"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        assertEquals(3, result.size());
+
+        result = handler.view(
+            UUID.fromString(referenceCalendarKey), 
+            LocalDate.parse("2024-05-07"), 
+            LocalDate.parse("2024-05-09"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        assertEquals(2, result.size());
+    }
 }

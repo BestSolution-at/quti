@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 import at.bestsolution.qutime.model.EventEntity;
 import at.bestsolution.qutime.model.EventModificationMovedEntity;
@@ -45,11 +46,23 @@ public record EventViewDTO(
     public static EventViewDTO of(EventEntity event, LocalDate date, ZoneId recurrenceTimeZone, ZoneId zone) {
         var start = event.start.withZoneSameInstant(recurrenceTimeZone);
         var end = event.end.withZoneSameInstant(recurrenceTimeZone);
-
-        var diff = ChronoUnit.NANOS.between(start, end);
+        var dayDiff = ChronoUnit.DAYS.between(start.toLocalDate(), date);
         
-        var adjustedStart = start.withDayOfYear(date.getDayOfYear());
-        var adjustedEnd = start.plusNanos(diff);
+        var adjustedStart = start.plusDays(dayDiff);
+        var adjustedEnd = end.plusDays(dayDiff);
+
+        if( ! event.modifications.isEmpty() ) {
+            var targetDate = adjustedStart.toLocalDate();
+            var modified = event.modifications.stream()
+                .map( m -> m.as(EventModificationMovedEntity.class))
+                .filter(Objects::nonNull)
+                .filter( m -> m.date.equals(targetDate))
+                .findFirst().isPresent();
+            if( modified ) {
+                return null;
+            }
+        }
+
         return new EventViewDTO(
             event.key.toString()+"_"+date,
             event.title, 

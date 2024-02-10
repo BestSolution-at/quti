@@ -153,6 +153,5 @@ public class CalendarResourceTest extends BaseTest {
             .statusCode(200)
             .extract()
             .asString();
-        
     }
 }

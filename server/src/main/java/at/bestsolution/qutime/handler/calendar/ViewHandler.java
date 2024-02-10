@@ -235,22 +235,28 @@ public class ViewHandler {
 
         if( entity.repeatPattern instanceof EventRepeatDailyEntity r ) {
             return fromRepeatDaily(r.interval, entity.start, boxStart, boxEnd)
-                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone));
+                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone))
+                .filter(Objects::nonNull);
         } else if( entity.repeatPattern instanceof EventRepeatWeeklyEntity r ) {
             return fromRepeatWeekly(r.daysOfWeek, r.interval, boxStart, boxEnd)
-                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone));
+                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone))
+                .filter(Objects::nonNull);
         } else if( entity.repeatPattern instanceof EventRepeatAbsoluteMonthlyEntity r ) {
             return fromRepeatAbsoluteMonthly(r, entity, boxStart, boxEnd, resultZone)
-                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone));
+                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone))
+                .filter(Objects::nonNull);
         } else if( entity.repeatPattern instanceof EventRepeatAbsoluteYearlyEntity r ) {
             return fromRepeatAbsoluteYearly(r, entity, boxStart, boxEnd, resultZone)
-                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone));
+                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone))
+                .filter(Objects::nonNull);
         } else if( entity.repeatPattern instanceof EventRepeatRelativeMonthlyEntity r ) {
             return fromRepeatRelativeMonthly(r, entity, boxStart, boxEnd, resultZone)
-                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone));
+                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone))
+                .filter(Objects::nonNull);
         } else if( entity.repeatPattern instanceof EventRepeatRelativeYearlyEntity r ) {
             return fromRepeatRelativeYearly(r, entity, boxStart, boxEnd, resultZone)
-            .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone));
+                .map( date -> mapToView(entity, date, r.recurrenceTimezone, resultZone))
+                .filter(Objects::nonNull);
         }
         throw new IllegalStateException(String.format("Unknown repeatPattern '%s'", entity.repeatPattern));
     }
