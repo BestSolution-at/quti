@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import at.bestsolution.qutime.model.CalendarEntity;
 import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatDailyEntity;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -21,10 +22,14 @@ public class BaseTest {
 
     public static String basicCalendarKey;
     public static String ownerlessCalendarKey;
+    public static String referenceCalendarKey;
 
     public static String simpleEventKey;
     public static String simpleSummerEventKey;
     public static String repeatingDailyEndlessKey;
+
+    private static EventEntity simpleEvent;
+    private static EventEntity repeatingDailyEndless;
 
     private static boolean initDone;
 
@@ -34,8 +39,38 @@ public class BaseTest {
         if( ! initDone ) {
             initDone = true;
             creatBasicCalendar();
-            createDatabaseCalenderNoOwner();    
+            em.flush();
+            createDatabaseCalenderNoOwner();
+            em.flush();
+            createReferenceCalendar();
+            em.flush();
         }
+    }
+
+    private void createReferenceCalendar() {
+        var calendar = new CalendarEntity();
+        calendar.key = UUID.randomUUID();
+        calendar.name = "My Calendar";
+        calendar.owner = "somebody@bestsolution.at";
+
+        em.persist(calendar);
+        em.flush();
+
+        {
+            var reference = new EventReferenceEntity();
+            reference.calendar = calendar;
+            reference.event = simpleEvent;
+            em.persist(reference);
+        }
+
+        {
+            var reference = new EventReferenceEntity();
+            reference.calendar = calendar;
+            reference.event = repeatingDailyEndless;
+            em.persist(reference);
+        }
+
+        referenceCalendarKey = calendar.key.toString();
     }
 
     private void creatBasicCalendar() {
@@ -44,11 +79,12 @@ public class BaseTest {
         calendar.name = "My Calendar";
         calendar.owner = "cutime@bestsolution.at";
 
+        em.persist(calendar);
+        em.flush();
+
         createSimpleEvent(calendar);
         createSimpleSummerEvent(calendar);
         createRepeatingDailyEndless(calendar);
-
-        em.persist(calendar);
 
         basicCalendarKey = calendar.key.toString();
     }
@@ -64,6 +100,7 @@ public class BaseTest {
         em.persist(event);
 
         simpleEventKey = event.key.toString();
+        simpleEvent = event;
     }
 
     private void createSimpleSummerEvent(CalendarEntity calendar) {
@@ -100,6 +137,7 @@ public class BaseTest {
         em.persist(event);
 
         repeatingDailyEndlessKey = event.key.toString();
+        repeatingDailyEndless = event;
     }
 
     private void createDatabaseCalenderNoOwner() {

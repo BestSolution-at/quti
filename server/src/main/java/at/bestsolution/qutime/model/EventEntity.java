@@ -28,7 +28,7 @@ public class EventEntity {
     @Column( name = "ev_key" )
     public UUID key;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn( name = "ev_fk_calendar", foreignKey = @ForeignKey(name = "event_calendar_fkey") )
     public CalendarEntity calendar;
 

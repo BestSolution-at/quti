@@ -8,14 +8,24 @@ import java.time.temporal.ChronoUnit;
 import at.bestsolution.qutime.model.EventEntity;
 import at.bestsolution.qutime.model.EventModificationMovedEntity;
 
-public record EventViewDTO(String key, String title, String description, ZonedDateTime start, ZonedDateTime end, boolean series) implements Comparable<EventViewDTO> {
+public record EventViewDTO(
+    String key, 
+    String title, 
+    String description, 
+    ZonedDateTime start, 
+    ZonedDateTime end, 
+    String masterCalendar,
+    String masterKey,
+    boolean series) implements Comparable<EventViewDTO> {
     public static EventViewDTO of(EventEntity event, ZoneId resultZone) {
         return new EventViewDTO(
             event.key.toString(),
             event.title, 
             event.desription,
             event.start.withZoneSameInstant(resultZone),
-            event.end.withZoneSameInstant(resultZone), 
+            event.end.withZoneSameInstant(resultZone),
+            event.key.toString(),
+            event.calendar.key.toString(),
             false);
     }
 
@@ -45,7 +55,10 @@ public record EventViewDTO(String key, String title, String description, ZonedDa
             event.title, 
             event.desription, 
             adjustedStart, 
-            adjustedEnd, true);
+            adjustedEnd, 
+            event.key.toString(),
+            event.calendar.key.toString(),
+            true);
     }
 
     public static EventViewDTO of(EventModificationMovedEntity movedEntity, ZoneId zone) {
@@ -55,6 +68,8 @@ public record EventViewDTO(String key, String title, String description, ZonedDa
             movedEntity.event.desription, 
             movedEntity.start.withZoneSameInstant(zone),
             movedEntity.end.withZoneSameInstant(zone), 
+            movedEntity.event.key.toString(),
+            movedEntity.event.calendar.key.toString(),
             true);
     }
 }

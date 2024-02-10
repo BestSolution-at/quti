@@ -130,6 +130,20 @@ public class ViewHandlerTest extends BaseTest {
     }
 
     @Test
+    public void testViewDailyRef() {
+        var result = handler.view(
+            UUID.fromString(referenceCalendarKey), 
+            LocalDate.parse("2024-01-01"), 
+            LocalDate.parse("2024-01-31"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        // 31 Repeating + 1 Simple
+        assertEquals(32, result.size());
+        assertEquals(LocalDate.parse("2024-01-01"), result.get(0).start().toLocalDate());
+        assertEquals(LocalDate.parse("2024-01-31"), result.get(31).start().toLocalDate());
+    }
+
+    @Test
     void testViewDailyAboveDaylightSaving() {
         var result = handler.view(
             UUID.fromString(basicCalendarKey), 

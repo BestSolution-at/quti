@@ -18,11 +18,11 @@ public class EventReferenceEntity {
     @Column( name = "er_id" )
     public Long id;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.LAZY, optional = false )
     @JoinColumn( name = "er_fk_calendar", foreignKey = @ForeignKey(name = "event_reference_calendar_fkey") )
     public CalendarEntity calendar;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.LAZY, optional = false )
     @JoinColumn( name= "er_fk_event", foreignKey = @ForeignKey(name = "event_reference_event_fkey") )
     public EventEntity event;
 }

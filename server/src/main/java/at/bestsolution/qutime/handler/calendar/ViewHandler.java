@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import at.bestsolution.qutime.dto.EventViewDTO;
 import at.bestsolution.qutime.model.EventEntity;
 import at.bestsolution.qutime.model.EventModificationMovedEntity;
+import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatAbsoluteMonthlyEntity;
 import at.bestsolution.qutime.model.EventRepeatAbsoluteYearlyEntity;
 import at.bestsolution.qutime.model.EventRepeatDailyEntity;
@@ -45,8 +46,13 @@ public class ViewHandler {
 
         var result = new ArrayList<EventViewDTO>();
         result.addAll(findOneTimeEvents(calendarKey, startDatetime, endDatetime, resultZone));
+        result.addAll(findOneTimeReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
+
         result.addAll(findMovedSeriesEvents(calendarKey, startDatetime, endDatetime, resultZone));
+        result.addAll(findMovedSeriesReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
+        
         result.addAll(findSeriesEvents(calendarKey, startDatetime, endDatetime, resultZone));
+        result.addAll(findSeriesReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
 
         Collections.sort(result);
 
@@ -69,9 +75,35 @@ public class ViewHandler {
         query.setParameter("calendarKey", calendarKey);
         query.setParameter("startDatetime", startDatetime);
         query.setParameter("endDatetime", endDatetime);
+
         return query.getResultList()
             .stream()
             .map( event -> EventViewDTO.of(event, resultZone))
+            .toList();
+    }
+
+    private List<EventViewDTO> findOneTimeReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
+        var query = em.createQuery("""
+            FROM
+                EventReference er
+            JOIN FETCH er.event e
+            WHERE
+                er.calendar.key = :calendarKey
+            AND e.repeatPattern IS NULL
+            AND (
+                e.start BETWEEN :startDatetime AND :endDatetime
+                OR
+                e.end BETWEEN :startDatetime AND :endDatetime
+            )
+        """, EventReferenceEntity.class);
+
+        query.setParameter("calendarKey", calendarKey);
+        query.setParameter("startDatetime", startDatetime);
+        query.setParameter("endDatetime", endDatetime);
+
+        return query.getResultList()
+            .stream()
+            .map( eventReference -> EventViewDTO.of(eventReference.event, resultZone))
             .toList();
     }
 
@@ -87,6 +119,31 @@ public class ViewHandler {
                 OR
                 em.end BETWEEN :startDatetime AND :endDatetime
             )
+        """, EventModificationMovedEntity.class);
+        query.setParameter("calendarKey", calendarKey);
+        query.setParameter("startDatetime", startDatetime);
+        query.setParameter("endDatetime", endDatetime);
+
+        return query.getResultList()
+            .stream()
+            .map( eventModification -> EventViewDTO.of(eventModification, resultZone))
+            .toList();
+    }
+
+    private List<EventViewDTO> findMovedSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
+        var query = em.createQuery("""
+            FROM
+                EventModificationMoved em
+            JOIN FETCH em.event e
+            JOIN FETCH em.event.references r
+            WHERE
+            ( 
+                em.start BETWEEN :startDatetime AND :endDatetime
+                OR
+                em.end BETWEEN :startDatetime AND :endDatetime
+            )    
+            AND r.calendar.key = :calendarKey
+            
         """, EventModificationMovedEntity.class);
         query.setParameter("calendarKey", calendarKey);
         query.setParameter("startDatetime", startDatetime);
@@ -121,6 +178,33 @@ public class ViewHandler {
         query.setParameter("endDate", endDatetime);
 
         return query.getResultList().stream().flatMap( event -> fromRepeat(event, startDatetime, endDatetime, resultZone)).toList();
+    }
+
+    private List<EventViewDTO> findSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
+        var query = em.createQuery("""
+            FROM
+                EventReference er
+            JOIN FETCH er.event e
+            JOIN FETCH e.repeatPattern
+            WHERE
+                er.calendar.key = :calendarKey
+            AND ( 
+                e.repeatPattern.startDate <= :startDate
+                OR
+                e.repeatPattern.startDate <= :endDate
+            )
+            AND ( 
+                e.repeatPattern.endDate IS NULL 
+                OR 
+                e.repeatPattern.endDate >= :startDate
+            )
+        """, EventReferenceEntity.class);
+
+        query.setParameter("calendarKey", calendarKey);
+        query.setParameter("startDate", startDatetime);
+        query.setParameter("endDate", endDatetime);
+
+        return query.getResultList().stream().flatMap( eventReference -> fromRepeat(eventReference.event, startDatetime, endDatetime, resultZone)).toList();
     }
 
     private static ZonedDateTime boxEndDateTime(EventRepeatEntity entity, ZonedDateTime endDatetime) {
