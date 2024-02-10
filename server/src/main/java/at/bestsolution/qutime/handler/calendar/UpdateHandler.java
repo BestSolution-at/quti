@@ -1,0 +1,67 @@
+package at.bestsolution.qutime.handler.calendar;
+
+import java.util.ArrayList;
+import java.util.UUID;
+
+import at.bestsolution.qutime.Utils.UpdateResult;
+import at.bestsolution.qutime.model.CalendarEntity;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.json.JsonPatch;
+import jakarta.json.JsonValue;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
+
+@Singleton
+public class UpdateHandler {
+
+    private final EntityManager em;
+
+    @Inject
+    public UpdateHandler(EntityManager em) {
+        this.em = em;
+    }
+
+    @Transactional
+    public UpdateResult update(UUID key, JsonPatch patch) {
+        var query = em.createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
+        query.setParameter("key", key);
+
+        try {
+            var entity = query.getSingleResult();
+            var updateRunnables = new ArrayList<Runnable>();
+            for( JsonValue e : patch.toJsonArray() ) {
+                var op = e.asJsonObject();
+                var operation = op.getString("op");
+                var path = op.getString("path");
+
+                if( "add".equals(operation) ) {
+                    if( "owner".equals(path) ) {
+                        if( entity.owner == null ) {
+                            updateRunnables.add( () -> entity.owner = op.getString("value"));
+                        } else {
+                            return UpdateResult.invalidContent("Calendar has already an owner set");
+                        }
+                    } else {
+                        return UpdateResult.invalidContent("Operation '%s' on '%s' is not allowed", operation, path);    
+                    }
+                } else if( "replace".equals(operation) ) {
+                    if( "name".equals(path) ) {
+                        updateRunnables.add(() -> entity.name = op.getString("value"));
+                    } else {
+                        return UpdateResult.invalidContent("Updating '%s' is not allowed", path);
+                    }
+                } else {
+                    return UpdateResult.invalidContent("Operation '%s' on '%s' is not allowed", operation, path);
+                }
+            }
+
+            updateRunnables.forEach(Runnable::run);
+
+            return UpdateResult.OK;
+        } catch(NoResultException e) {
+            return UpdateResult.notFound("Could not find calendar with '%s'", key);
+        }
+    }
+}
