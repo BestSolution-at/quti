@@ -1,9 +1,11 @@
 package at.bestsolution.qutime.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,4 +52,13 @@ public class EventEntity {
     public ZonedDateTime start;
     @Column( name = "ev_end" )
     public ZonedDateTime end;
+
+    private transient Map<LocalDate, List<EventModificationEntity>> modificationByDate;
+
+    public List<EventModificationEntity> modificationsAt(LocalDate date) {
+        if( modificationByDate == null ) {
+            modificationByDate = modifications.stream().collect(Collectors.groupingBy(EventModificationEntity::date));
+        }
+        return modificationByDate.getOrDefault(date, List.of());
+    }
 }

@@ -27,20 +27,7 @@ public abstract class EventModificationEntity {
     @Column( name = "em_date" )
     public LocalDate date;
 
-    @SuppressWarnings("unchecked")
-    public <T extends EventModificationEntity> T as(Class<T> clazz) {
-        if( clazz == EventModificationCanceledEntity.class
-            || clazz == EventModificationGenericEntity.class
-            || clazz == EventModificationMovedEntity.class ) {
-            if( getClass() == EventModificationCanceledEntity.class ) {
-                return (T) this;
-            } else if( getClass() == EventModificationGenericEntity.class ) {
-                return (T) this;
-            } else if( getClass() == EventModificationMovedEntity.class ) {
-                return (T) this;
-            }
-            return null;
-        }
-        throw new IllegalArgumentException(String.format("Unsupported EventModificationEntity-Type '%s'", clazz));
+    public LocalDate date() {
+        return this.date;
     }
 }

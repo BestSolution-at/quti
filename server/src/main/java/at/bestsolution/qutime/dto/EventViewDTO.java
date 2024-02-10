@@ -53,11 +53,11 @@ public record EventViewDTO(
 
         if( ! event.modifications.isEmpty() ) {
             var targetDate = adjustedStart.toLocalDate();
-            var modified = event.modifications.stream()
-                .map( m -> m.as(EventModificationMovedEntity.class))
-                .filter(Objects::nonNull)
-                .filter( m -> m.date.equals(targetDate))
-                .findFirst().isPresent();
+            var modified = event.modificationsAt(targetDate)
+                .stream()
+                .filter( m -> m instanceof EventModificationMovedEntity)
+                .findFirst()
+                .isPresent();
             if( modified ) {
                 return null;
             }
