@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 
 import at.bestsolution.qutime.dto.EventViewDTO;
 import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.EventModificationMovedEntity;
 import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatAbsoluteMonthlyEntity;
 import at.bestsolution.qutime.model.EventRepeatAbsoluteYearlyEntity;
@@ -25,6 +24,7 @@ import at.bestsolution.qutime.model.EventRepeatEntity;
 import at.bestsolution.qutime.model.EventRepeatRelativeMonthlyEntity;
 import at.bestsolution.qutime.model.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.qutime.model.EventRepeatWeeklyEntity;
+import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

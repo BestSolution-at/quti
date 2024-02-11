@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 
 import at.bestsolution.qutime.model.CalendarEntity;
 import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.EventModificationMovedEntity;
 import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatDailyEntity;
+import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

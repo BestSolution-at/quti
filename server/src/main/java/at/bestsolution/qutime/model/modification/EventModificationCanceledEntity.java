@@ -1,5 +1,6 @@
-package at.bestsolution.qutime.model;
+package at.bestsolution.qutime.model.modification;
 
+import at.bestsolution.qutime.model.EventModificationEntity;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 

@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.EventModificationMovedEntity;
+import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
