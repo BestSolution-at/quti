@@ -13,16 +13,16 @@ import jakarta.persistence.SequenceGenerator;
 @Entity(name="EventReference")
 public class EventReferenceEntity {
     @Id
-    @SequenceGenerator(name = "eventRefSeq", sequenceName = "eventref_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "eventRefSeq")
+    @SequenceGenerator(name = "eventref_seq", sequenceName = "eventref_seq_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "eventref_seq")
     @Column( name = "er_id" )
     public Long id;
 
     @ManyToOne( fetch = FetchType.LAZY, optional = false )
-    @JoinColumn( name = "er_fk_calendar", foreignKey = @ForeignKey(name = "event_reference_calendar_fkey") )
+    @JoinColumn( name = "er_fk_calendar", foreignKey = @ForeignKey(name = "eventref_fkey_calendar") )
     public CalendarEntity calendar;
 
     @ManyToOne( fetch = FetchType.LAZY, optional = false )
-    @JoinColumn( name= "er_fk_event", foreignKey = @ForeignKey(name = "event_reference_event_fkey") )
+    @JoinColumn( name= "er_fk_event", foreignKey = @ForeignKey(name = "eventref_fkey_event") )
     public EventEntity event;
 }

@@ -1,30 +1,31 @@
 package at.bestsolution.qutime.model;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 
-@Entity
+@Entity(name="EventRepeat")
+@DiscriminatorColumn( name = "er_type", discriminatorType = DiscriminatorType.INTEGER )
 public abstract class EventRepeatEntity {
+    public static final String DISCRIMINATOR_ABS_MONTHLY = "1";
+    public static final String DISCRIMINATOR_ABS_YEAR = "2";
+    public static final String DISCRIMINATOR_DAILY = "3";
+    public static final String DISCRIMINATOR_REL_MONTHLY = "4";
+    public static final String DISCRIMINATOR_REL_YEARLY = "5";
+    public static final String DISCRIMINATOR_WEEKLY = "6";
+
     @Id
-    @SequenceGenerator(name = "eventRepSeq", sequenceName = "eventrep_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "eventRepSeq")
+    @SequenceGenerator(name = "eventrep_seq", sequenceName = "eventrep_seq_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "eventrep_seq")
     @Column( name = "er_id" )
     public Long id;
-
-    @OneToOne( fetch = FetchType.LAZY )
-    @JoinColumn( name = "er_fk_event", foreignKey = @ForeignKey( name = "event_repeat_event_fkey" ) )
-    public EventEntity event;
 
     @Column( name = "er_interval", nullable = false )
     public short interval;

@@ -10,19 +10,26 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity(name="Calendar")
+@Table(
+    uniqueConstraints = {
+        @UniqueConstraint( name = "calendar_uq_key", columnNames = { "ca_key" } )
+    }
+)
 public class CalendarEntity {
     @Id
-    @SequenceGenerator(name = "calendarSeq", sequenceName = "calendar_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "calendarSeq")
+    @SequenceGenerator(name = "calendar_seq", sequenceName = "calendar_seq_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "calendar_seq")
     @Column( name = "ca_id" )
     public Long id;
 
-    @Column( name = "ca_key", unique = true )
+    @Column( name = "ca_key", nullable = false )
     public UUID key;
 
-    @Column( name = "ca_name" )
+    @Column( name = "ca_name", nullable = false )
     public String name;
 
     @Column( name = "ca_owner" )
