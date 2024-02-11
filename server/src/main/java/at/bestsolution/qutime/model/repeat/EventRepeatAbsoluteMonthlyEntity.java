@@ -1,5 +1,6 @@
-package at.bestsolution.qutime.model;
+package at.bestsolution.qutime.model.repeat;
 
+import at.bestsolution.qutime.model.EventRepeatEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

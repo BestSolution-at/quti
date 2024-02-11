@@ -5,13 +5,13 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-import at.bestsolution.qutime.model.EventRepeatAbsoluteMonthlyEntity;
-import at.bestsolution.qutime.model.EventRepeatAbsoluteYearlyEntity;
-import at.bestsolution.qutime.model.EventRepeatDailyEntity;
 import at.bestsolution.qutime.model.EventRepeatEntity;
-import at.bestsolution.qutime.model.EventRepeatRelativeMonthlyEntity;
-import at.bestsolution.qutime.model.EventRepeatRelativeYearlyEntity;
-import at.bestsolution.qutime.model.EventRepeatWeeklyEntity;
+import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteMonthlyEntity;
+import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteYearlyEntity;
+import at.bestsolution.qutime.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.qutime.model.repeat.EventRepeatRelativeMonthlyEntity;
+import at.bestsolution.qutime.model.repeat.EventRepeatRelativeYearlyEntity;
+import at.bestsolution.qutime.model.repeat.EventRepeatWeeklyEntity;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
