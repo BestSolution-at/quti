@@ -15,20 +15,20 @@ import jakarta.inject.Inject;
 @QuarkusTest
 public class CreateHandlerTest extends BaseHandlerTest<CreateHandler> {
 
-    @Inject
-    public CreateHandlerTest(CreateHandler handler) {
-        super(handler);
-    }
+	@Inject
+	public CreateHandlerTest(CreateHandler handler) {
+		super(handler);
+	}
 
-    @Test
-    public void testCreate() {
-        var result = handler.create("Test Handler");
-        assertNotNull(result, "Expected an UUID");
-        assertDoesNotThrow(() -> UUID.fromString(result), "Result should have been an UUID");
-    }
+	@Test
+	public void testCreate() {
+		var result = handler.create("Test Handler");
+		assertNotNull(result, "Expected an UUID");
+		assertDoesNotThrow(() -> UUID.fromString(result), "Result should have been an UUID");
+	}
 
-    @Test
-    public void testFail() {
-        assertThrows(NullPointerException.class, () -> handler.create(null));
-    }
+	@Test
+	public void testFail() {
+		assertThrows(NullPointerException.class, () -> handler.create(null));
+	}
 }

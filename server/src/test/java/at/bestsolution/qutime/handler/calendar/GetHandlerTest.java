@@ -14,21 +14,21 @@ import jakarta.inject.Inject;
 
 @QuarkusTest
 public class GetHandlerTest extends BaseHandlerTest<GetHandler> {
-    
-    @Inject
-    public GetHandlerTest(GetHandler handler) {
-        super(handler);
-    }
 
-    @Test
-    public void testGet() {
-        var result = handler.get(basicCalendarKey);
-        assertNotNull(result);
-        assertEquals(basicCalendarKey, result.key());
-    }
+	@Inject
+	public GetHandlerTest(GetHandler handler) {
+		super(handler);
+	}
 
-    @Test
-    public void testFail() {
-        assertThrows(NullPointerException.class, () -> handler.get(null));
-    }
+	@Test
+	public void testGet() {
+		var result = handler.get(basicCalendarKey);
+		assertNotNull(result);
+		assertEquals(basicCalendarKey, result.key());
+	}
+
+	@Test
+	public void testFail() {
+		assertThrows(NullPointerException.class, () -> handler.get(null));
+	}
 }
