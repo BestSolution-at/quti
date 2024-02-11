@@ -13,26 +13,26 @@ import jakarta.persistence.EntityManager;
 
 @Singleton
 public class GetHandler extends BaseReadonlyHandler {
-    
-    @Inject
-    public GetHandler(EntityManager em) {
-        super(em);
-    }
 
-    protected List<CalendarEntity> getEnties(UUID key) {
-        var query = em().createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
-        query.setParameter("key", key);
-        return query.getResultList();
-    }
+	@Inject
+	public GetHandler(EntityManager em) {
+		super(em);
+	}
 
-    public CalendarDTO get(UUID key) {
-        Objects.requireNonNull(key, "key must not be null");
-        var result = getEnties(key);
-        if( result.size() == 1 ) {
-            return CalendarDTO.of(result.get(0));
-        } else if( result.size() == 0 ) {
-            return null;
-        }
-        throw new IllegalStateException(String.format("Multiple calendars for '%s' are found", key));
-    }
+	protected List<CalendarEntity> getEnties(UUID key) {
+		var query = em().createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
+		query.setParameter("key", key);
+		return query.getResultList();
+	}
+
+	public CalendarDTO get(UUID key) {
+		Objects.requireNonNull(key, "key must not be null");
+		var result = getEnties(key);
+		if (result.size() == 1) {
+			return CalendarDTO.of(result.get(0));
+		} else if (result.size() == 0) {
+			return null;
+		}
+		throw new IllegalStateException(String.format("Multiple calendars for '%s' are found", key));
+	}
 }

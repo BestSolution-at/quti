@@ -9,12 +9,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-@Entity( name = "EventRepeatRelativeYearly" )
+@Entity(name = "EventRepeatRelativeYearly")
 @DiscriminatorValue(EventRepeatEntity.DISCRIMINATOR_REL_YEARLY)
 public class EventRepeatRelativeYearlyEntity extends EventRepeatEntity {
-    @Column( name = "er_days_of_week" )
-    public List<DayOfWeek> daysOfWeek;
+	@Column(name = "er_days_of_week")
+	public List<DayOfWeek> daysOfWeek;
 
-    @Column( name =  "er_month" )
-    public Month month;
+	@Column(name = "er_month")
+	public Month month;
 }

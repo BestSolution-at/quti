@@ -21,51 +21,51 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-@Entity(name="Event")
-@Table( uniqueConstraints = {
-    @UniqueConstraint( name="event_uq_key", columnNames = { "ev_key" }),
-    @UniqueConstraint( name="event_uq_fk_repeat_pattern", columnNames = { "ev_fk_repeat_pattern" })
-} )
+@Entity(name = "Event")
+@Table(uniqueConstraints = {
+		@UniqueConstraint(name = "event_uq_key", columnNames = { "ev_key" }),
+		@UniqueConstraint(name = "event_uq_fk_repeat_pattern", columnNames = { "ev_fk_repeat_pattern" })
+})
 
 public class EventEntity {
-    @Id
-    @SequenceGenerator(name = "event_seq", sequenceName = "event_seq_id", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "event_seq")
-    @Column( name = "ev_id" )
-    public Long id;
+	@Id
+	@SequenceGenerator(name = "event_seq", sequenceName = "event_seq_id", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(generator = "event_seq")
+	@Column(name = "ev_id")
+	public Long id;
 
-    @Column( name = "ev_key", nullable = false )
-    public UUID key;
+	@Column(name = "ev_key", nullable = false)
+	public UUID key;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn( name = "ev_fk_calendar", foreignKey = @ForeignKey(name = "event_fkey_calendar") )
-    public CalendarEntity calendar;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "ev_fk_calendar", foreignKey = @ForeignKey(name = "event_fkey_calendar"))
+	public CalendarEntity calendar;
 
-    @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "ev_fk_repeat_pattern", foreignKey = @ForeignKey(name = "event_fkey_repeatpattern") )
-    public EventRepeatEntity repeatPattern;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ev_fk_repeat_pattern", foreignKey = @ForeignKey(name = "event_fkey_repeatpattern"))
+	public EventRepeatEntity repeatPattern;
 
-    @OneToMany( fetch = FetchType.LAZY, mappedBy="event", orphanRemoval = true )
-    public List<EventReferenceEntity> references;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", orphanRemoval = true)
+	public List<EventReferenceEntity> references;
 
-    @OneToMany( fetch = FetchType.LAZY, mappedBy = "event", orphanRemoval = true )
-    public List<EventModificationEntity> modifications;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event", orphanRemoval = true)
+	public List<EventModificationEntity> modifications;
 
-    @Column( name = "ev_title", nullable = false )
-    public String title;
-    @Column( name = "ev_description", columnDefinition = "text" )
-    public String desription;
-    @Column( name = "ev_start", nullable = false )
-    public ZonedDateTime start;
-    @Column( name = "ev_end", nullable = false )
-    public ZonedDateTime end;
+	@Column(name = "ev_title", nullable = false)
+	public String title;
+	@Column(name = "ev_description", columnDefinition = "text")
+	public String desription;
+	@Column(name = "ev_start", nullable = false)
+	public ZonedDateTime start;
+	@Column(name = "ev_end", nullable = false)
+	public ZonedDateTime end;
 
-    private transient Map<LocalDate, List<EventModificationEntity>> modificationByDate;
+	private transient Map<LocalDate, List<EventModificationEntity>> modificationByDate;
 
-    public List<EventModificationEntity> modificationsAt(LocalDate date) {
-        if( modificationByDate == null ) {
-            modificationByDate = modifications.stream().collect(Collectors.groupingBy(EventModificationEntity::date));
-        }
-        return modificationByDate.getOrDefault(date, List.of());
-    }
+	public List<EventModificationEntity> modificationsAt(LocalDate date) {
+		if (modificationByDate == null) {
+			modificationByDate = modifications.stream().collect(Collectors.groupingBy(EventModificationEntity::date));
+		}
+		return modificationByDate.getOrDefault(date, List.of());
+	}
 }

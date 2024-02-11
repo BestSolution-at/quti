@@ -24,99 +24,100 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CalendarResource {
 
-    private final GetHandler getHandler;
-    private final CreateHandler createHandler;
-    private final UpdateHandler updateHandler;
-    private final ViewHandler viewHandler;
+	private final GetHandler getHandler;
+	private final CreateHandler createHandler;
+	private final UpdateHandler updateHandler;
+	private final ViewHandler viewHandler;
 
-    @Inject
-    public CalendarResource(GetHandler getHandler, CreateHandler createHandler, UpdateHandler updateHandler, ViewHandler viewHandler) {
-        this.getHandler = getHandler;
-        this.createHandler = createHandler;
-        this.updateHandler = updateHandler;
-        this.viewHandler = viewHandler;
-    }
+	@Inject
+	public CalendarResource(GetHandler getHandler, CreateHandler createHandler, UpdateHandler updateHandler,
+			ViewHandler viewHandler) {
+		this.getHandler = getHandler;
+		this.createHandler = createHandler;
+		this.updateHandler = updateHandler;
+		this.viewHandler = viewHandler;
+	}
 
-    @GET
-    @Path("{key}")
-    public Response get(@PathParam("key") String key) {
-        var parsedKey = Utils.parseUUID(key, "key");
-        if( parsedKey.response() != null ) {
-            return parsedKey.response();
-        }
+	@GET
+	@Path("{key}")
+	public Response get(@PathParam("key") String key) {
+		var parsedKey = Utils.parseUUID(key, "key");
+		if (parsedKey.response() != null) {
+			return parsedKey.response();
+		}
 
-        var calendar = getHandler.get(parsedKey.value());
-        if( calendar == null ) {
-            return Utils.notFound(String.format("Could not find calendar with '%s'", key));
-        }
-        return Response.ok(calendar).build();
-    }
+		var calendar = getHandler.get(parsedKey.value());
+		if (calendar == null) {
+			return Utils.notFound(String.format("Could not find calendar with '%s'", key));
+		}
+		return Response.ok(calendar).build();
+	}
 
-    @POST
-    public Response create(String name) {
-        var key = createHandler.create(name);
-        return Response.created(URI.create("/" + key)).build();
-    }
+	@POST
+	public Response create(String name) {
+		var key = createHandler.create(name);
+		return Response.created(URI.create("/" + key)).build();
+	}
 
-    @PATCH
-    @Path("{key}")
-    public Response update(@PathParam("key") String key, String patch) {
-        var parsedKey = Utils.parseUUID(key, "key");
-        var parsedPatch = Utils.parseJsonPatch(patch, "patch");
+	@PATCH
+	@Path("{key}")
+	public Response update(@PathParam("key") String key, String patch) {
+		var parsedKey = Utils.parseUUID(key, "key");
+		var parsedPatch = Utils.parseJsonPatch(patch, "patch");
 
-        if( parsedKey.response() != null ) {
-            return parsedKey.response();
-        }
-        if( parsedPatch.response() != null ) {
-            return parsedPatch.response();
-        }
+		if (parsedKey.response() != null) {
+			return parsedKey.response();
+		}
+		if (parsedPatch.response() != null) {
+			return parsedPatch.response();
+		}
 
-        var result = updateHandler.update(parsedKey.value(), parsedPatch.value());
-        if( result.isOk() ) {
-            return Response.noContent().build();
-        }
-        return Utils.toResponse(result);
-    }
+		var result = updateHandler.update(parsedKey.value(), parsedPatch.value());
+		if (result.isOk()) {
+			return Response.noContent().build();
+		}
+		return Utils.toResponse(result);
+	}
 
-    @GET
-    @Path("{key}/view")
-    public Response views(
-        @PathParam("key") String key, 
-        @QueryParam("from") String from, 
-        @QueryParam("to") String to, 
-        @QueryParam("timezone") String timezone,
-        @HeaderParam("timezone") String resultTimeZone) {
+	@GET
+	@Path("{key}/view")
+	public Response views(
+			@PathParam("key") String key,
+			@QueryParam("from") String from,
+			@QueryParam("to") String to,
+			@QueryParam("timezone") String timezone,
+			@HeaderParam("timezone") String resultTimeZone) {
 
-        var parsedCalendarKey = Utils.parseUUID(key, "request path");
-        var parsedFrom = Utils.parseLocalDate(from, "query parameter 'from'");
-        var parsedTo = Utils.parseLocalDate(to, "query parameter 'to'");
-        var parsedZone = Utils.parseZone(timezone, "query parameter 'timezone'");
-        var parsedResultTimeZone = resultTimeZone == null ? parsedZone : Utils.parseZone(resultTimeZone, "header parameter 'timezone'");
+		var parsedCalendarKey = Utils.parseUUID(key, "request path");
+		var parsedFrom = Utils.parseLocalDate(from, "query parameter 'from'");
+		var parsedTo = Utils.parseLocalDate(to, "query parameter 'to'");
+		var parsedZone = Utils.parseZone(timezone, "query parameter 'timezone'");
+		var parsedResultTimeZone = resultTimeZone == null ? parsedZone
+				: Utils.parseZone(resultTimeZone, "header parameter 'timezone'");
 
-        if( parsedCalendarKey.response() != null ) {
-            return parsedCalendarKey.response();
-        }
-        if( parsedFrom.response() != null ) {
-            return parsedFrom.response();
-        }
-        if(parsedTo.response() != null) {
-            return parsedTo.response();
-        }
-        if( parsedZone.response() != null ) {
-            return parsedZone.response();
-        }
-        if( parsedResultTimeZone.response() != null ) {
-            return parsedResultTimeZone.response();
-        }
+		if (parsedCalendarKey.response() != null) {
+			return parsedCalendarKey.response();
+		}
+		if (parsedFrom.response() != null) {
+			return parsedFrom.response();
+		}
+		if (parsedTo.response() != null) {
+			return parsedTo.response();
+		}
+		if (parsedZone.response() != null) {
+			return parsedZone.response();
+		}
+		if (parsedResultTimeZone.response() != null) {
+			return parsedResultTimeZone.response();
+		}
 
-        return Response.ok(
-            viewHandler.view(
-                parsedCalendarKey.value(), 
-                parsedFrom.value(), 
-                parsedTo.value(), 
-                parsedZone.value(), 
-                parsedResultTimeZone.value()
-            )
-        ).build();
-    }
+		return Response.ok(
+				viewHandler.view(
+						parsedCalendarKey.value(),
+						parsedFrom.value(),
+						parsedTo.value(),
+						parsedZone.value(),
+						parsedResultTimeZone.value()))
+				.build();
+	}
 }

@@ -13,31 +13,29 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-@Entity(name="Calendar")
-@Table(
-    uniqueConstraints = {
-        @UniqueConstraint( name = "calendar_uq_key", columnNames = { "ca_key" } )
-    }
-)
+@Entity(name = "Calendar")
+@Table(uniqueConstraints = {
+		@UniqueConstraint(name = "calendar_uq_key", columnNames = { "ca_key" })
+})
 public class CalendarEntity {
-    @Id
-    @SequenceGenerator(name = "calendar_seq", sequenceName = "calendar_seq_id", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "calendar_seq")
-    @Column( name = "ca_id" )
-    public Long id;
+	@Id
+	@SequenceGenerator(name = "calendar_seq", sequenceName = "calendar_seq_id", allocationSize = 1, initialValue = 1)
+	@GeneratedValue(generator = "calendar_seq")
+	@Column(name = "ca_id")
+	public Long id;
 
-    @Column( name = "ca_key", nullable = false )
-    public UUID key;
+	@Column(name = "ca_key", nullable = false)
+	public UUID key;
 
-    @Column( name = "ca_name", nullable = false )
-    public String name;
+	@Column(name = "ca_name", nullable = false)
+	public String name;
 
-    @Column( name = "ca_owner" )
-    public String owner;
+	@Column(name = "ca_owner")
+	public String owner;
 
-    @OneToMany( fetch=FetchType.LAZY, mappedBy="calendar", orphanRemoval = true )
-    public List<EventEntity> events;
-    
-    @OneToMany( fetch=FetchType.LAZY, mappedBy="calendar", orphanRemoval = true )
-    public List<EventReferenceEntity> eventReferences;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "calendar", orphanRemoval = true)
+	public List<EventEntity> events;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "calendar", orphanRemoval = true)
+	public List<EventReferenceEntity> eventReferences;
 }
