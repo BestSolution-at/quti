@@ -19,13 +19,14 @@ public class GetHandler {
     }
 
     public CalendarDTO get(UUID key) { 
-        try {
-            var query = em.createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
-            query.setParameter("key", key);
-            var result = query.getSingleResult();
-            return CalendarDTO.of(result);
-        } catch(NoResultException e) {
+        var query = em.createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
+        query.setParameter("key", key);
+        var result = query.getResultList();
+        if( result.size() == 1 ) {
+            return CalendarDTO.of(result.get(0));
+        } else if( result.size() == 0 ) {
             return null;
         }
+        throw new IllegalStateException(String.format("Multiple calendars for '%s' are found"));
     }
 }
