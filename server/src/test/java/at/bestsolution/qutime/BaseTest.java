@@ -127,7 +127,6 @@ public class BaseTest {
         event.end = ZonedDateTime.parse("2024-01-01T16:00:00+01:00[Europe/Vienna]");
         
         var repeatPattern = new EventRepeatDailyEntity();
-        repeatPattern.event = event;
         repeatPattern.startDate = ZonedDateTime.of(LocalDate.parse("2024-01-01"), LocalTime.MIN, ZoneId.of("Europe/Vienna"));
         repeatPattern.interval = 1;
         repeatPattern.recurrenceTimezone = ZoneId.of("Europe/Vienna");
