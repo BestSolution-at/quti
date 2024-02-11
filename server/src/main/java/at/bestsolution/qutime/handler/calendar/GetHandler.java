@@ -7,7 +7,6 @@ import at.bestsolution.qutime.model.CalendarEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 
 @Singleton
 public class GetHandler {

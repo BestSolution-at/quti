@@ -7,7 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-@Entity
+@Entity( name = "EventRepeatAbsoluteYearly" )
 @DiscriminatorValue(EventRepeatEntity.DISCRIMINATOR_ABS_YEAR)
 public class EventRepeatAbsoluteYearlyEntity extends EventRepeatEntity {
     @Column( name = "er_day_of_month" )
