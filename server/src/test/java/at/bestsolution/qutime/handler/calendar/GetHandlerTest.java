@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.BaseHandlerTest;
+import at.bestsolution.qutime.handler.BaseHandlerTest;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 

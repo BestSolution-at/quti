@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.hibernate.StatelessSession;
 
-import at.bestsolution.qutime.BaseHandlerTest;
 import at.bestsolution.qutime.handler.BaseHandler;
+import at.bestsolution.qutime.handler.BaseHandlerTest;
 import at.bestsolution.qutime.model.CalendarEntity;
 import jakarta.inject.Inject;
 
