@@ -21,13 +21,13 @@ public class BaseTest {
     @Inject
     EntityManager em;
 
-    public static String basicCalendarKey;
-    public static String ownerlessCalendarKey;
-    public static String referenceCalendarKey;
+    public static UUID basicCalendarKey;
+    public static UUID ownerlessCalendarKey;
+    public static UUID referenceCalendarKey;
 
-    public static String simpleEventKey;
-    public static String simpleSummerEventKey;
-    public static String repeatingDailyEndlessKey;
+    public static UUID simpleEventKey;
+    public static UUID simpleSummerEventKey;
+    public static UUID repeatingDailyEndlessKey;
 
     private static EventEntity simpleEvent;
     private static EventEntity repeatingDailyEndless;
@@ -71,7 +71,7 @@ public class BaseTest {
             em.persist(reference);
         }
 
-        referenceCalendarKey = calendar.key.toString();
+        referenceCalendarKey = calendar.key;
     }
 
     private void creatBasicCalendar() {
@@ -87,7 +87,7 @@ public class BaseTest {
         createSimpleSummerEvent(calendar);
         createRepeatingDailyEndless(calendar);
 
-        basicCalendarKey = calendar.key.toString();
+        basicCalendarKey = calendar.key;
     }
 
     private void createSimpleEvent(CalendarEntity calendar) {
@@ -100,7 +100,7 @@ public class BaseTest {
         event.end = ZonedDateTime.parse("2024-01-10T13:00:00+01:00[Europe/Vienna]");
         em.persist(event);
 
-        simpleEventKey = event.key.toString();
+        simpleEventKey = event.key;
         simpleEvent = event;
     }
 
@@ -114,7 +114,7 @@ public class BaseTest {
         event.end = ZonedDateTime.parse("2024-06-10T13:00:00+02:00[Europe/Vienna]");
         em.persist(event);
 
-        simpleSummerEventKey = event.key.toString();
+        simpleSummerEventKey = event.key;
     }
 
     private void createRepeatingDailyEndless(CalendarEntity calendar) {
@@ -156,7 +156,7 @@ public class BaseTest {
             em.persist(move);
         }
         
-        repeatingDailyEndlessKey = event.key.toString();
+        repeatingDailyEndlessKey = event.key;
         repeatingDailyEndless = event;
     }
 
@@ -167,6 +167,6 @@ public class BaseTest {
         
         em.persist(calendar);
 
-        ownerlessCalendarKey = calendar.key.toString();
+        ownerlessCalendarKey = calendar.key;
     }
 }

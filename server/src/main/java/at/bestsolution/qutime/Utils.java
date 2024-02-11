@@ -11,34 +11,34 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 public class Utils {
-    public enum UpdateResultType {
+    public enum ResultType {
         OK,
         NOT_FOUND,
         INVALID_CONTENT
     }
 
-    public record UpdateResult(UpdateResultType type, String message) {
-        public static UpdateResult OK = ok();
+    public record Result<T>(ResultType type, T value, String message) {
+        public static Result<Void> OK = ok(null);
 
         public boolean isOk() {
-            return type == UpdateResultType.OK;
+            return type == ResultType.OK;
         }
 
-        public static UpdateResult ok() {
-            return new UpdateResult(UpdateResultType.OK, null);
+        public static <T> Result<T> ok(T value) {
+            return new Result<T>(ResultType.OK, value, null);
         }
-        public static UpdateResult notFound(String message, Object... args) {
-            return new UpdateResult(UpdateResultType.NOT_FOUND, String.format(message, args));
+        public static <T> Result<T> notFound(String message, Object... args) {
+            return new Result<T>(ResultType.NOT_FOUND, null, String.format(message, args));
         }
-        public static UpdateResult invalidContent(String message, Object... args) {
-            return new UpdateResult(UpdateResultType.INVALID_CONTENT, String.format(message, args));
+        public static <T> Result<T> invalidContent(String message, Object... args) {
+            return new Result<T>(ResultType.INVALID_CONTENT, null, String.format(message, args));
         }
     }
 
-    public static Response toResponse(UpdateResult result) {
-        if( result.type == UpdateResultType.NOT_FOUND ) {
+    public static Response toResponse(Result<?> result) {
+        if( result.type == ResultType.NOT_FOUND ) {
             return notFound(result.message);
-        } else if( result.type == UpdateResultType.INVALID_CONTENT ) {
+        } else if( result.type == ResultType.INVALID_CONTENT ) {
             return unprocessableContent(result.message);
         }
         throw new IllegalStateException(String.format("Unable to convert %s to a response", result.type));

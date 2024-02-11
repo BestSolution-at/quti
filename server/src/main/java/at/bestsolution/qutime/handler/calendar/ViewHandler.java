@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import at.bestsolution.qutime.dto.EventViewDTO;
+import at.bestsolution.qutime.handler.BaseReadonlyHandler;
 import at.bestsolution.qutime.model.EventEntity;
 import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatEntity;
@@ -30,16 +31,23 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class ViewHandler {
+public class ViewHandler extends BaseReadonlyHandler {
+    
     @Inject
-    EntityManager em;
+    public ViewHandler(EntityManager em) {
+        super(em);
+    }
 
     public List<EventViewDTO> view(UUID calendarKey, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultZone) {
-        Objects.requireNonNull(calendarKey);
-        Objects.requireNonNull(start);
-        Objects.requireNonNull(end);
-        Objects.requireNonNull(timezone);
-        Objects.requireNonNull(resultZone);
+        Objects.requireNonNull(calendarKey, "calendarKey must not be null");
+        Objects.requireNonNull(start, "start must not be null");
+        Objects.requireNonNull(end, "end must not be null");
+        Objects.requireNonNull(timezone, "timezone must not be null");
+        Objects.requireNonNull(resultZone, "resultZone must not be null");
+
+        if( start.isAfter(end) ) {
+            throw new IllegalArgumentException(String.format("start-date '%s' must not be past end-date '%s'", start, end));
+        }
         
         var startDatetime = ZonedDateTime.of(start, LocalTime.MIN, timezone);
         var endDatetime = ZonedDateTime.of(end, LocalTime.MAX, timezone);
@@ -60,7 +68,7 @@ public class ViewHandler {
     }
 
     private List<EventViewDTO> findOneTimeEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
-        var query = em.createQuery("""
+        var query = em().createQuery("""
             FROM 
                 Event e 
             WHERE 
@@ -83,7 +91,7 @@ public class ViewHandler {
     }
 
     private List<EventViewDTO> findOneTimeReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
-        var query = em.createQuery("""
+        var query = em().createQuery("""
             FROM
                 EventReference er
             JOIN FETCH er.event e
@@ -108,7 +116,7 @@ public class ViewHandler {
     }
 
     private List<EventViewDTO> findMovedSeriesEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
-        var query = em.createQuery("""
+        var query = em().createQuery("""
             FROM
                 EventModificationMoved em
             JOIN FETCH em.event
@@ -131,7 +139,7 @@ public class ViewHandler {
     }
 
     private List<EventViewDTO> findMovedSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
-        var query = em.createQuery("""
+        var query = em().createQuery("""
             FROM
                 EventModificationMoved em
             JOIN FETCH em.event e
@@ -156,7 +164,7 @@ public class ViewHandler {
     }
 
     private List<EventViewDTO> findSeriesEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
-        var query = em.createQuery("""
+        var query = em().createQuery("""
             FROM
                 Event e
             JOIN FETCH e.repeatPattern
@@ -181,7 +189,7 @@ public class ViewHandler {
     }
 
     private List<EventViewDTO> findSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId resultZone) {
-        var query = em.createQuery("""
+        var query = em().createQuery("""
             FROM
                 EventReference er
             JOIN FETCH er.event e

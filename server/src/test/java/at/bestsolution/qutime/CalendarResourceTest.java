@@ -53,11 +53,9 @@ public class CalendarResourceTest extends BaseTest {
 
     @Test
     void testUpdateName() {
-
         var patch = Json.createPatchBuilder()
             .replace("name", "My Updated Calendar")
             .build().toString();
-
         given()
             .body(patch)
             .patch(String.format("/api/calendar/%s",basicCalendarKey))
