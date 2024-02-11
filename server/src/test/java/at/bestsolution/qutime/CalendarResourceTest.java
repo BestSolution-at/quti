@@ -128,28 +128,30 @@ public class CalendarResourceTest extends BaseTest {
 
 	@Test
 	void testViewDaily() {
-		var result = given()
+		given()
 				.queryParam("from", LocalDate.parse("2024-01-01").toString())
 				.queryParam("to", LocalDate.parse("2024-01-31").toString())
 				.queryParam("timezone", "Europe/Vienna")
 				.get(String.format("/api/calendar/%s/view", basicCalendarKey))
 				.then()
 				.statusCode(200)
-				.extract()
-				.asString();
+				.body("[0].key", is(repeatingDailyEndlessKey.toString()+"_2024-01-01"))
+				.body("[0].@type", is("series"));
 
 	}
 
 	@Test
 	void testViewDailyAbsoveDaylight() {
-		var result = given()
+		given()
 				.queryParam("from", LocalDate.parse("2024-03-25").toString())
 				.queryParam("to", LocalDate.parse("2024-04-05").toString())
 				.queryParam("timezone", "Europe/Vienna")
 				.get(String.format("/api/calendar/%s/view", basicCalendarKey))
 				.then()
 				.statusCode(200)
-				.extract()
-				.asString();
+				.body("[0].start", is("2024-03-25T13:00:00+01:00[Europe/Vienna]"))
+				.body("[11].key", is(repeatingDailyEndlessKey.toString()+"_2024-04-05"))
+				.body("[11].@type", is("series"))
+				.body("[11].start", is("2024-04-05T13:00:00+02:00[Europe/Vienna]"));
 	}
 }
