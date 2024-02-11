@@ -1,7 +1,6 @@
 package at.bestsolution.qutime.dto;
 
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import at.bestsolution.qutime.model.EventEntity;

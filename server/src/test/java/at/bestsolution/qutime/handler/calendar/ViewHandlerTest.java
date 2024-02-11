@@ -128,8 +128,8 @@ public class ViewHandlerTest extends BaseTest {
         // 29 Repeating Feb
         // 1 Repeating March
         assertEquals(62, result.size());
-        assertEquals(LocalDate.parse("2024-01-01"), result.get(0).start().toLocalDate());
-        assertEquals(LocalDate.parse("2024-01-31"), result.get(31).start().toLocalDate());
+        assertEquals(LocalDate.parse("2024-01-01"), result.get(0).start.toLocalDate());
+        assertEquals(LocalDate.parse("2024-01-31"), result.get(31).start.toLocalDate());
 
         result = handler.view(
             UUID.fromString(basicCalendarKey), 
@@ -138,8 +138,8 @@ public class ViewHandlerTest extends BaseTest {
             ZoneId.of("Europe/Vienna"), 
             ZoneId.of("Europe/Vienna"));
         assertEquals(29, result.size());
-        assertEquals(LocalDate.parse("2025-02-01"), result.get(0).start().toLocalDate());
-        assertEquals(LocalDate.parse("2025-03-01"), result.get(28).start().toLocalDate());
+        assertEquals(LocalDate.parse("2025-02-01"), result.get(0).start.toLocalDate());
+        assertEquals(LocalDate.parse("2025-03-01"), result.get(28).start.toLocalDate());
     }
 
     @Test
@@ -152,8 +152,8 @@ public class ViewHandlerTest extends BaseTest {
             ZoneId.of("Europe/Vienna"));
         // 31 Repeating + 1 Simple
         assertEquals(32, result.size());
-        assertEquals(LocalDate.parse("2024-01-01"), result.get(0).start().toLocalDate());
-        assertEquals(LocalDate.parse("2024-01-31"), result.get(31).start().toLocalDate());
+        assertEquals(LocalDate.parse("2024-01-01"), result.get(0).start.toLocalDate());
+        assertEquals(LocalDate.parse("2024-01-31"), result.get(31).start.toLocalDate());
     }
 
     @Test
@@ -178,8 +178,8 @@ public class ViewHandlerTest extends BaseTest {
             ZoneId.of("Z"));
         // 31 Repeating + 1 Simple
         assertEquals(2, result.size());
-        assertEquals(ZonedDateTime.parse("2024-01-10T06:00Z"), result.get(0).start());
-        assertEquals(ZonedDateTime.parse("2024-01-10T12:00Z"), result.get(1).start());
+        assertEquals(ZonedDateTime.parse("2024-01-10T06:00Z"), result.get(0).start);
+        assertEquals(ZonedDateTime.parse("2024-01-10T12:00Z"), result.get(1).start);
     }
 
     @Test
@@ -191,8 +191,8 @@ public class ViewHandlerTest extends BaseTest {
             ZoneId.of("Europe/Vienna"), 
             ZoneId.of("Z"));
         assertEquals(12, result.size());
-        assertEquals(ZonedDateTime.parse("2024-03-25T12:00Z"), result.get(0).start());
-        assertEquals(ZonedDateTime.parse("2024-04-05T11:00Z"), result.get(11).start());
+        assertEquals(ZonedDateTime.parse("2024-03-25T12:00Z"), result.get(0).start);
+        assertEquals(ZonedDateTime.parse("2024-04-05T11:00Z"), result.get(11).start);
     }
 
 
