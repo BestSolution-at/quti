@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
@@ -158,6 +157,26 @@ public class ViewHandlerTest extends BaseTest {
                 ZoneId.of("Europe/Vienna"), 
                 null)
         );
+
+        assertThrows(IllegalArgumentException.class, () -> 
+            handler.view(
+                basicCalendarKey, 
+                LocalDate.parse("2024-01-03"), 
+                LocalDate.parse("2024-01-01"), 
+                ZoneId.of("Europe/Vienna"), 
+                ZoneId.of("Europe/Vienna"))
+        );
+    }
+
+    @Test
+    public void testOneDay() {
+        var result = handler.view(
+            basicCalendarKey, 
+            LocalDate.parse("2024-01-01"), 
+            LocalDate.parse("2024-01-01"), 
+            ZoneId.of("Europe/Vienna"), 
+            ZoneId.of("Europe/Vienna"));
+        assertEquals(1, result.size());
     }
 
     @Test
