@@ -20,6 +20,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Version;
 
 @Entity(name = "Event")
 @Table(uniqueConstraints = {
@@ -33,6 +34,10 @@ public class EventEntity {
 	@GeneratedValue(generator = "event_seq")
 	@Column(name = "ev_id")
 	public Long id;
+
+	@Version
+	@Column(name = "ev_version")
+	public long version;
 
 	@Column(name = "ev_key", nullable = false)
 	public UUID key;
@@ -54,7 +59,7 @@ public class EventEntity {
 	@Column(name = "ev_title", nullable = false)
 	public String title;
 	@Column(name = "ev_description", columnDefinition = "text")
-	public String desription;
+	public String description;
 	@Column(name = "ev_start", nullable = false)
 	public ZonedDateTime start;
 	@Column(name = "ev_end", nullable = false)

@@ -9,7 +9,7 @@ import at.bestsolution.qutime.handler.BaseHandlerTest;
 import at.bestsolution.qutime.model.CalendarEntity;
 import jakarta.inject.Inject;
 
-public class CalendarHandlerTest<T extends BaseHandler> extends BaseHandlerTest<T> {
+public abstract class CalendarHandlerTest<T extends BaseHandler> extends BaseHandlerTest<T> {
 	@Inject
 	StatelessSession session;
 

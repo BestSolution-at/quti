@@ -95,7 +95,7 @@ public class BaseTest {
 		event.calendar = calendar;
 		event.key = UUID.randomUUID();
 		event.title = "Simple Event";
-		event.desription = "A simple none repeating event";
+		event.description = "A simple none repeating event";
 		event.start = ZonedDateTime.parse("2024-01-10T07:00:00+01:00[Europe/Vienna]");
 		event.end = ZonedDateTime.parse("2024-01-10T13:00:00+01:00[Europe/Vienna]");
 		em.persist(event);
@@ -109,7 +109,7 @@ public class BaseTest {
 		event.calendar = calendar;
 		event.key = UUID.randomUUID();
 		event.title = "Simple Summer Event";
-		event.desription = "A simple none repeating event in summer";
+		event.description = "A simple none repeating event in summer";
 		event.start = ZonedDateTime.parse("2024-06-10T07:00:00+02:00[Europe/Vienna]");
 		event.end = ZonedDateTime.parse("2024-06-10T13:00:00+02:00[Europe/Vienna]");
 		em.persist(event);
@@ -122,7 +122,7 @@ public class BaseTest {
 		event.calendar = calendar;
 		event.key = UUID.randomUUID();
 		event.title = "Daily endless repeating Event";
-		event.desription = "A daily event repeating endless";
+		event.description = "A daily event repeating endless";
 		event.start = ZonedDateTime.parse("2024-01-01T13:00:00+01:00[Europe/Vienna]");
 		event.end = ZonedDateTime.parse("2024-01-01T16:00:00+01:00[Europe/Vienna]");
 

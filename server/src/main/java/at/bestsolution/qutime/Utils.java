@@ -3,10 +3,15 @@ package at.bestsolution.qutime;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.json.JsonPatch;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue.ValueType;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
@@ -17,9 +22,37 @@ public class Utils {
 		INVALID_CONTENT
 	}
 
+	@FunctionalInterface
+	public interface JsonPatchOperationHandler<T> {
+		public Result<Void> apply(T entity, JsonObject o, List<Runnable> runnable);
+	}
+
+	public static String getAsString(String name, JsonObject o) {
+		var value = o.get(name);
+		if( value.getValueType() == ValueType.STRING ) {
+			return ((JsonString)o).getString();
+		}
+		return null;
+	}
+
+	public static String getPatchStringValue(JsonObject o) {
+		return getAsString("value", o);
+	}
+
 	public record Result<T>(ResultType type, T value, String message) {
 
 		public static Result<Void> OK = ok(null);
+
+		public Result<Void> toVoid() {
+			return new Result<Void>(type, null, message);
+		}
+
+		public <X> Result<X> toAny() {
+			if( ! isOk() ) {
+				return new Result<X>(type, null, message);
+			}
+			throw new UnsupportedOperationException("You can only convert a failure to any result");
+		}
 
 		public boolean isOk() {
 			return type == ResultType.OK;
@@ -35,6 +68,17 @@ public class Utils {
 
 		public static <T> Result<T> invalidContent(String message, Object... args) {
 			return new Result<T>(ResultType.INVALID_CONTENT, null, String.format(message, args));
+		}
+	}
+
+	public static void throwAsException(Result<?> result) {
+		if( result.isOk() ) {
+			return;
+		}
+		if( result.type == ResultType.INVALID_CONTENT ) {
+			throw new WebApplicationException(result.message(), Status.NOT_FOUND);
+		} else if( result.type == ResultType.NOT_FOUND ) {
+			throw new WebApplicationException(result.message(), 422);
 		}
 	}
 

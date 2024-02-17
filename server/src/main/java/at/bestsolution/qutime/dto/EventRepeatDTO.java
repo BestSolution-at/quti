@@ -3,7 +3,10 @@ package at.bestsolution.qutime.dto;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.List;
+
+import com.aayushatharva.brotli4j.common.annotations.Local;
 
 import at.bestsolution.qutime.model.EventRepeatEntity;
 import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteMonthlyEntity;
@@ -34,9 +37,17 @@ public abstract class EventRepeatDTO {
 		public static EventRepeatDailyDTO of(EventRepeatDailyEntity entity) {
 			var result = new EventRepeatDailyDTO();
 			result.interval = entity.interval;
-			result.endDate = entity.endDate != null ? entity.endDate.toLocalDate() : null;
+			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone.toString();
 			return result;
+		}
+
+		public static EventRepeatDailyDTO of(short interval, String timeZone, LocalDate endDate) {
+			var rv = new EventRepeatDailyDTO();
+			rv.interval = interval;
+			rv.timeZone = timeZone;
+			rv.endDate = endDate;
+			return rv;
 		}
 	}
 
@@ -46,9 +57,18 @@ public abstract class EventRepeatDTO {
 		public static EventRepeatWeeklyDTO of(EventRepeatWeeklyEntity entity) {
 			var result = new EventRepeatWeeklyDTO();
 			result.interval = entity.interval;
-			result.endDate = entity.endDate.toLocalDate();
+			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone.toString();
 			result.daysOfWeek = entity.daysOfWeek;
+			return result;
+		}
+
+		public static EventRepeatWeeklyDTO of(short interval, String timeZone, LocalDate endDate, List<DayOfWeek> daysOfWeek) {
+			var result = new EventRepeatWeeklyDTO();
+			result.interval = interval;
+			result.endDate = endDate;
+			result.timeZone = timeZone;
+			result.daysOfWeek = daysOfWeek;
 			return result;
 		}
 	}
@@ -59,7 +79,7 @@ public abstract class EventRepeatDTO {
 		public static EventRepeatAbsoluteMonthlyDTO of(EventRepeatAbsoluteMonthlyEntity entity) {
 			var result = new EventRepeatAbsoluteMonthlyDTO();
 			result.interval = entity.interval;
-			result.endDate = entity.endDate.toLocalDate();
+			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone.toString();
 			result.dayOfMonth = entity.dayOfMonth;
 			return result;
@@ -73,7 +93,7 @@ public abstract class EventRepeatDTO {
 		public static EventRepeatAbsoluteYearlyDTO of(EventRepeatAbsoluteYearlyEntity entity) {
 			var result = new EventRepeatAbsoluteYearlyDTO();
 			result.interval = entity.interval;
-			result.endDate = entity.endDate.toLocalDate();
+			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone.toString();
 			result.dayOfMonth = entity.dayOfMonth;
 			result.month = entity.month;
@@ -87,7 +107,7 @@ public abstract class EventRepeatDTO {
 		public static EventRepeatRelativeMonthlyDTO of(EventRepeatRelativeMonthlyEntity entity) {
 			var result = new EventRepeatRelativeMonthlyDTO();
 			result.interval = entity.interval;
-			result.endDate = entity.endDate.toLocalDate();
+			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone.toString();
 			result.daysOfWeek = entity.daysOfWeek;
 			return result;
@@ -101,7 +121,7 @@ public abstract class EventRepeatDTO {
 		public static EventRepeatRelativeYearlyDTO of(EventRepeatRelativeYearlyEntity entity) {
 			var result = new EventRepeatRelativeYearlyDTO();
 			result.interval = entity.interval;
-			result.endDate = entity.endDate.toLocalDate();
+			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone.toString();
 			result.daysOfWeek = entity.daysOfWeek;
 			result.month = entity.month;

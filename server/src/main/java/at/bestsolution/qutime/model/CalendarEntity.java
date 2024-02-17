@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Version;
 
 @Entity(name = "Calendar")
 @Table(uniqueConstraints = {
@@ -23,6 +24,10 @@ public class CalendarEntity {
 	@GeneratedValue(generator = "calendar_seq")
 	@Column(name = "ca_id")
 	public Long id;
+
+	@Version
+	@Column(name = "ca_version")
+	public long version;
 
 	@Column(name = "ca_key", nullable = false)
 	public UUID key;

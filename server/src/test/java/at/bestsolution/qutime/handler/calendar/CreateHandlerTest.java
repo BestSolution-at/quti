@@ -8,12 +8,11 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.handler.BaseHandlerTest;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class CreateHandlerTest extends BaseHandlerTest<CreateHandler> {
+public class CreateHandlerTest extends CalendarHandlerTest<CreateHandler> {
 
 	@Inject
 	public CreateHandlerTest(CreateHandler handler) {

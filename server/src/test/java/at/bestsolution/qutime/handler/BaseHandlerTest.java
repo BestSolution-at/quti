@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.qutime.BaseTest;
-import at.bestsolution.qutime.handler.BaseHandler;
 import jakarta.transaction.Transactional;
 
 public abstract class BaseHandlerTest<T extends BaseHandler> extends BaseTest {

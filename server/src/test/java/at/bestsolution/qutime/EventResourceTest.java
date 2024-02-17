@@ -118,9 +118,9 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("key", is(repeatingDailyEndlessKey))
+				.body("repeat.@type", is("daily"))
 				.body("repeat.interval", is(1))
 				.body("repeat.timeZone", is("Europe/Vienna"))
-				.body("repeat.@type", is("daily"))
 				.body("repeat.endDate", nullValue())
 				.extract()
 				.asString();

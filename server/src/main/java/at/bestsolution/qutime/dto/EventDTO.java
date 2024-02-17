@@ -17,7 +17,7 @@ public record EventDTO(
 		return new EventDTO(
 				event.key.toString(),
 				event.title,
-				event.desription,
+				event.description,
 				event.start.withZoneSameInstant(zoneId),
 				event.end.withZoneSameInstant(zoneId), EventRepeatDTO.of(event.repeatPattern));
 	}

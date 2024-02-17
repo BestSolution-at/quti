@@ -42,7 +42,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.key = event.key.toString();
 			result.calendarKey = event.calendar.key.toString();
 			result.title = event.title;
-			result.description = event.desription;
+			result.description = event.description;
 			result.start = event.start.withZoneSameInstant(resultZone);
 			result.end = event.end.withZoneSameInstant(resultZone);
 			return result;
@@ -60,7 +60,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.calendarKey = movedEntity.event.calendar.key.toString();
 			result.masterEventKey = movedEntity.event.key.toString();
 			result.title = movedEntity.event.title;
-			result.description = movedEntity.event.desription;
+			result.description = movedEntity.event.description;
 			result.start = movedEntity.start.withZoneSameInstant(resultZone);
 			result.end = movedEntity.end.withZoneSameInstant(resultZone);
 
@@ -103,7 +103,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.calendarKey = event.calendar.key.toString();
 			result.masterEventKey = event.key.toString();
 			result.title = event.title;
-			result.description = event.desription;
+			result.description = event.description;
 			result.start = adjustedStart.withZoneSameInstant(zone);
 			result.end = adjustedEnd.withZoneSameInstant(zone);
 			return result;

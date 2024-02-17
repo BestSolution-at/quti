@@ -4,16 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.handler.BaseHandlerTest;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class GetHandlerTest extends BaseHandlerTest<GetHandler> {
+public class GetHandlerTest extends CalendarHandlerTest<GetHandler> {
 
 	@Inject
 	public GetHandlerTest(GetHandler handler) {

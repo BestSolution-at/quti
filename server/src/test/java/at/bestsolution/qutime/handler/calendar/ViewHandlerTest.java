@@ -11,14 +11,16 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.BaseTest;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class ViewHandlerTest extends BaseTest {
+public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
+
 	@Inject
-	ViewHandler handler;
+	public ViewHandlerTest(ViewHandler handler) {
+		super(handler);
+	}
 
 	@Test
 	public void testFromRepeatWeeklySimple() {
