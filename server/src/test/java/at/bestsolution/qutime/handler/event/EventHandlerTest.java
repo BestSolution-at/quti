@@ -24,6 +24,7 @@ public abstract class EventHandlerTest<T extends BaseHandler> extends BaseHandle
 					Event e
 				JOIN FETCH e.calendar
 				OUTER JOIN FETCH e.repeatPattern
+				OUTER JOIN FETCH e.references
 				WHERE
 					e.key = :key
 			""", EventEntity.class)

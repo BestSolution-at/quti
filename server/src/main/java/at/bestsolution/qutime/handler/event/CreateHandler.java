@@ -3,6 +3,8 @@ package at.bestsolution.qutime.handler.event;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,8 +18,10 @@ import at.bestsolution.qutime.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO;
 import at.bestsolution.qutime.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO;
 import at.bestsolution.qutime.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 import at.bestsolution.qutime.handler.BaseHandler;
+import at.bestsolution.qutime.handler.calendar.CalendarUtils;
 import at.bestsolution.qutime.model.CalendarEntity;
 import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.qutime.model.EventReferenceEntity;
 import at.bestsolution.qutime.model.EventRepeatEntity;
 import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteMonthlyEntity;
 import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteYearlyEntity;
@@ -56,6 +60,7 @@ public class CreateHandler extends BaseHandler {
 
 	@Transactional
 	public Result<String> create(UUID calendarKey, EventNewDTO event) {
+		var em = em();
 		var eventEntity = new EventEntity();
 		eventEntity.calendar = calendar(calendarKey);
 		eventEntity.key = UUID.randomUUID();
@@ -66,20 +71,41 @@ public class CreateHandler extends BaseHandler {
 
 		eventEntity.repeatPattern = event.repeat() == null ? null : createRepeatPattern(event, event.repeat());
 
+		List<EventReferenceEntity> references = List.of();
+		if( event.referencedCalendars() != null && event.referencedCalendars().size() > 0 ) {
+			references = event.referencedCalendars().stream()
+				.map(UUID::fromString)
+				.map(key -> CalendarUtils.calendar(em, key))
+				.filter(Objects::nonNull)
+				.map( calendar -> {
+					var ref = new EventReferenceEntity();
+					ref.calendar = calendar;
+					ref.event = eventEntity;
+					return ref;
+				}).toList();
+
+			if( references.size() != event.referencedCalendars().size() ) {
+				return Result.invalidContent("At least one calendar reference could not be resolved");
+			}
+		}
+
 		var result = EventUtils.validateEvent(eventEntity);
 		if( ! result.isOk() ) {
 			return result.toAny();
 		}
 
 		if( eventEntity.repeatPattern != null ) {
-			em().persist(eventEntity.repeatPattern);
+			em.persist(eventEntity.repeatPattern);
 		}
-		em().persist(eventEntity);
+		em.persist(eventEntity);
+
+		references.forEach(em::persist);
+
 		return Result.ok(eventEntity.key.toString());
 	}
 
 	private static EventRepeatEntity createRepeatPattern(EventNewDTO event, EventRepeatDTO repeat) {
-		if( repeat instanceof EventRepeatDailyDTO r ) {
+		if( repeat instanceof EventRepeatDailyDTO ) {
 			return fillDefaults(new EventRepeatDailyEntity(), event);
 		} else if( repeat instanceof EventRepeatWeeklyDTO r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatWeeklyEntity(), event);

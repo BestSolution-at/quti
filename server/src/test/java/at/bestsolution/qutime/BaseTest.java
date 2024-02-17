@@ -24,6 +24,7 @@ public class BaseTest {
 	public static UUID basicCalendarKey;
 	public static UUID ownerlessCalendarKey;
 	public static UUID referenceCalendarKey;
+	public static UUID writeableReferenceCalendarKey;
 
 	public static UUID simpleEventKey;
 	public static UUID simpleSummerEventKey;
@@ -45,7 +46,20 @@ public class BaseTest {
 			em.flush();
 			createReferenceCalendar();
 			em.flush();
+			writableReferenceCalendar();
+			em.flush();
 		}
+	}
+
+	private void writableReferenceCalendar() {
+		var calendar = new CalendarEntity();
+		calendar.key = UUID.randomUUID();
+		calendar.name = "My Calendar";
+		calendar.owner = "someone@bestsolution.at";
+
+		writeableReferenceCalendarKey = calendar.key;
+		em.persist(calendar);
+		em.flush();
 	}
 
 	private void createReferenceCalendar() {

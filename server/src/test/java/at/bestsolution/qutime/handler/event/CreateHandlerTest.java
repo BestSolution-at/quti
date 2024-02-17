@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null);
+			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null, List.of());
 
 		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
@@ -55,7 +56,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event",
 			"New event description",
 			null,
-			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null);
+			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null, List.of());
 
 		var result = handler.create(ownerlessCalendarKey, newEvent);
 		assertFalse(result.isOk());
@@ -68,7 +69,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
-			null, null);
+			null, null, List.of());
 
 		var result = handler.create(ownerlessCalendarKey, newEvent);
 		assertFalse(result.isOk());
@@ -81,7 +82,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			null,
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null);
+			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null, List.of());
 
 		var result = handler.create(ownerlessCalendarKey, newEvent);
 		assertFalse(result.isOk());
@@ -94,7 +95,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null);
+			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null, List.of());
 
 		var result = handler.create(ownerlessCalendarKey, newEvent);
 		assertFalse(result.isOk());
@@ -107,11 +108,39 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"    ",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null);
+			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"), null, List.of());
 
 		var result = handler.create(ownerlessCalendarKey, newEvent);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.INVALID_CONTENT, result.type());
+	}
+
+	@Test
+	public void testWithReferences() {
+		var newEvent = new EventNewDTO(
+			"Event referenced",
+			"New referenced event description",
+			ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2020-01-01T09:00:00+01:00[Europe/Vienna]"), null, List.of(writeableReferenceCalendarKey.toString()));
+
+		var result = handler.create(ownerlessCalendarKey, newEvent);
+		assertTrue(result.isOk());
+		var eventEntity = event(UUID.fromString(result.value()));
+
+		assertEquals(1,eventEntity.references.size());
+		assertEquals(writeableReferenceCalendarKey, eventEntity.references.get(0).calendar.key);
+	}
+
+	@Test
+	public void testWithInvalidReferences() {
+		var newEvent = new EventNewDTO(
+			"Event referenced",
+			"New referenced event description",
+			ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2020-01-01T09:00:00+01:00[Europe/Vienna]"), null, List.of(writeableReferenceCalendarKey.toString(), UUID.randomUUID().toString()));
+
+		var result = handler.create(ownerlessCalendarKey, newEvent);
+		assertFalse(result.isOk());
 	}
 
 	@Test
@@ -121,7 +150,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event daily",
 			"New event description daily",
 			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"), repeat);
+			ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"), repeat, List.of());
 		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
@@ -139,7 +168,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event daily with end",
 			"New event description daily with end",
 			ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"), repeat);
+			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"), repeat, List.of());
 		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
@@ -154,7 +183,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event weekly with end",
 			"New event description weekly with end",
 			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"), repeat);
+			ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"), repeat, List.of());
 		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
@@ -171,7 +200,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			"New event weekly with end",
 			"New event description weekly with end",
 			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
-			ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"), repeat);
+			ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"), repeat, List.of());
 		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
