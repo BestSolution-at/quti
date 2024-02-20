@@ -70,16 +70,16 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findOneTimeEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime,
 			ZoneId resultZone) {
 		var query = em().createQuery("""
-				    FROM
-				        Event e
-				    WHERE
-				        e.calendar.key = :calendarKey
-				    AND e.repeatPattern IS NULL
-				    AND (
-				        e.start BETWEEN :startDatetime AND :endDatetime
-				        OR
-				        e.end BETWEEN :startDatetime AND :endDatetime
-				    )
+					FROM
+						Event e
+					WHERE
+						e.calendar.key = :calendarKey
+					AND e.repeatPattern IS NULL
+					AND (
+						e.start <= :endDatetime
+						AND
+						e.end >= :startDatetime
+					)
 				""", EventEntity.class);
 		query.setParameter("calendarKey", calendarKey);
 		query.setParameter("startDatetime", startDatetime);
@@ -94,17 +94,17 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findOneTimeReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
-				    FROM
-				        EventReference er
-				    JOIN FETCH er.event e
-				    WHERE
-				        er.calendar.key = :calendarKey
-				    AND e.repeatPattern IS NULL
-				    AND (
-				        e.start BETWEEN :startDatetime AND :endDatetime
-				        OR
-				        e.end BETWEEN :startDatetime AND :endDatetime
-				    )
+					FROM
+						EventReference er
+					JOIN FETCH er.event e
+					WHERE
+						er.calendar.key = :calendarKey
+					AND e.repeatPattern IS NULL
+					AND (
+						e.start <= :endDatetime
+						AND
+						e.end >= :startDatetime
+					)
 				""", EventReferenceEntity.class);
 
 		query.setParameter("calendarKey", calendarKey);
@@ -120,16 +120,16 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findMovedSeriesEvents(UUID calendarKey, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
-				    FROM
-				        EventModificationMoved em
-				    JOIN FETCH em.event
-				    WHERE
-				        em.event.calendar.key = :calendarKey
-				    AND (
-				        em.start BETWEEN :startDatetime AND :endDatetime
-				        OR
-				        em.end BETWEEN :startDatetime AND :endDatetime
-				    )
+					FROM
+						EventModificationMoved em
+					JOIN FETCH em.event
+					WHERE
+						em.event.calendar.key = :calendarKey
+					AND (
+						em.start <= :endDatetime
+						AND
+						em.end >= :startDatetime
+					)
 				""", EventModificationMovedEntity.class);
 		query.setParameter("calendarKey", calendarKey);
 		query.setParameter("startDatetime", startDatetime);
@@ -144,19 +144,18 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findMovedSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
-				    FROM
-				        EventModificationMoved em
-				    JOIN FETCH em.event e
-				    JOIN FETCH em.event.references r
-				    WHERE
-				    (
-				        em.start BETWEEN :startDatetime AND :endDatetime
-				        OR
-				        em.end BETWEEN :startDatetime AND :endDatetime
-				    )
-				    AND r.calendar.key = :calendarKey
-
-				""", EventModificationMovedEntity.class);
+					FROM
+						EventModificationMoved em
+					JOIN FETCH em.event e
+					JOIN FETCH em.event.references r
+					WHERE
+						r.calendar.key = :calendarKey
+					AND (
+						em.start <= :endDatetime
+						AND
+						em.end >= :startDatetime
+					)
+					""", EventModificationMovedEntity.class);
 		query.setParameter("calendarKey", calendarKey);
 		query.setParameter("startDatetime", startDatetime);
 		query.setParameter("endDatetime", endDatetime);
@@ -170,21 +169,17 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findSeriesEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime,
 			ZoneId resultZone) {
 		var query = em().createQuery("""
-				    FROM
-				        Event e
-				    JOIN FETCH e.repeatPattern
-				    WHERE
-				        e.calendar.key = :calendarKey
-				    AND (
-				        e.repeatPattern.startDate <= :startDate
-				        OR
-				        e.repeatPattern.startDate <= :endDate
-				    )
-				    AND (
-				        e.repeatPattern.endDate IS NULL
-				        OR
-				        e.repeatPattern.endDate >= :startDate
-				    )
+					FROM
+							Event e
+					JOIN FETCH e.repeatPattern
+					WHERE
+							e.calendar.key = :calendarKey
+					AND e.repeatPattern.startDate <= :endDate
+					AND (
+							e.repeatPattern.endDate IS NULL
+							OR
+							e.repeatPattern.endDate >= :startDate
+					)
 				""", EventEntity.class);
 		query.setParameter("calendarKey", calendarKey);
 		query.setParameter("startDate", startDatetime);
@@ -197,22 +192,18 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
-				    FROM
-				        EventReference er
-				    JOIN FETCH er.event e
-				    JOIN FETCH e.repeatPattern
-				    WHERE
-				        er.calendar.key = :calendarKey
-				    AND (
-				        e.repeatPattern.startDate <= :startDate
-				        OR
-				        e.repeatPattern.startDate <= :endDate
-				    )
-				    AND (
-				        e.repeatPattern.endDate IS NULL
-				        OR
-				        e.repeatPattern.endDate >= :startDate
-				    )
+					FROM
+						EventReference er
+					JOIN FETCH er.event e
+					JOIN FETCH e.repeatPattern
+					WHERE
+						er.calendar.key = :calendarKey
+					AND e.repeatPattern.startDate <= :endDate
+					AND (
+							e.repeatPattern.endDate IS NULL
+							OR
+							e.repeatPattern.endDate >= :startDate
+					)
 				""", EventReferenceEntity.class);
 
 		query.setParameter("calendarKey", calendarKey);

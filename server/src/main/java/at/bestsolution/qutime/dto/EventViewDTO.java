@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Objects;
 
 import at.bestsolution.qutime.model.EventEntity;
 import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
@@ -22,6 +24,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 	public String description;
 	public ZonedDateTime start;
 	public ZonedDateTime end;
+	public List<String> tags;
 
 	@Override
 	public int compareTo(EventViewDTO o) {
@@ -45,6 +48,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.description = event.description;
 			result.start = event.start.withZoneSameInstant(resultZone);
 			result.end = event.end.withZoneSameInstant(resultZone);
+			result.tags = Objects.requireNonNullElse(event.tags, List.of());
 			return result;
 		}
 	}
@@ -63,6 +67,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.description = movedEntity.event.description;
 			result.start = movedEntity.start.withZoneSameInstant(resultZone);
 			result.end = movedEntity.end.withZoneSameInstant(resultZone);
+			result.tags = Objects.requireNonNullElse(movedEntity.event.tags, List.of());
 
 			result.originalStart = movedEntity.event.start
 					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
@@ -106,6 +111,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.description = event.description;
 			result.start = adjustedStart.withZoneSameInstant(zone);
 			result.end = adjustedEnd.withZoneSameInstant(zone);
+			result.tags = Objects.requireNonNullElse(event.tags, List.of());
 			return result;
 		}
 	}

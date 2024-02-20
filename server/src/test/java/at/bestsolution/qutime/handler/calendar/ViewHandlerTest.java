@@ -286,4 +286,15 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				ZoneId.of("Europe/Vienna"));
 		assertEquals(2, result.size());
 	}
+
+	@Test
+	public void testFulldaySimpleEvents() {
+		var result = handler.view(fulldayCalendarKey,
+			LocalDate.parse("2024-01-02"),
+			LocalDate.parse("2024-01-09"),
+			ZoneId.of("Europe/Vienna"), ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+
+
+	}
 }

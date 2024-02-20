@@ -2,7 +2,10 @@ package at.bestsolution.qutime;
 
 import java.io.StringReader;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +28,14 @@ public class Utils {
 	@FunctionalInterface
 	public interface JsonPatchOperationHandler<T> {
 		public Result<Void> apply(T entity, JsonObject o, List<Runnable> runnable);
+	}
+
+	public static ZonedDateTime atStartOfDay(ZonedDateTime datetime) {
+		return datetime.with(ChronoField.HOUR_OF_DAY, 0);
+	}
+
+	public static ZonedDateTime atEndOfDay(ZonedDateTime datetime) {
+		return datetime.toLocalDateTime().with(LocalTime.MAX).atZone(datetime.getZone());
 	}
 
 	public static String getAsString(String name, JsonObject o) {

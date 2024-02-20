@@ -25,10 +25,13 @@ public class BaseTest {
 	public static UUID ownerlessCalendarKey;
 	public static UUID referenceCalendarKey;
 	public static UUID writeableReferenceCalendarKey;
+	public static UUID fulldayCalendarKey;
 
 	public static UUID simpleEventKey;
 	public static UUID simpleSummerEventKey;
 	public static UUID repeatingDailyEndlessKey;
+
+	public static UUID simpleFulldayEventKey;
 
 	private static EventEntity simpleEvent;
 	private static EventEntity repeatingDailyEndless;
@@ -48,7 +51,37 @@ public class BaseTest {
 			em.flush();
 			writableReferenceCalendar();
 			em.flush();
+			fulldayCalendar();
+			em.flush();
 		}
+	}
+
+	private void fulldayCalendar() {
+		var calendar = new CalendarEntity();
+		calendar.key = UUID.randomUUID();
+		calendar.name = "My fullday Calendar";
+		calendar.owner = "someone@bestsolution.at";
+
+		fulldayCalendarKey = calendar.key;
+		em.persist(calendar);
+		em.flush();
+
+		createSimpleFulldayEvent(calendar);
+	}
+
+	private void createSimpleFulldayEvent(CalendarEntity calendar) {
+		var event = new EventEntity();
+		event.calendar = calendar;
+		event.key = UUID.randomUUID();
+		event.title = "Simple Event";
+		event.description = "A simple none repeating event";
+		event.fullday = true;
+		event.start = ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]");
+		event.end = ZonedDateTime.parse("2024-01-20T23:59:59+01:00[Europe/Vienna]");
+		em.persist(event);
+
+		simpleFulldayEventKey = event.key;
+
 	}
 
 	private void writableReferenceCalendar() {

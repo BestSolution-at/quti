@@ -2,6 +2,7 @@ package at.bestsolution.qutime.dto;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import at.bestsolution.qutime.model.EventEntity;
 
@@ -11,6 +12,8 @@ public record EventDTO(
 		String description,
 		ZonedDateTime start,
 		ZonedDateTime end,
+		boolean fullday,
+		List<String> tags,
 		EventRepeatDTO repeat) {
 
 	public static EventDTO of(EventEntity event, ZoneId zoneId) {
@@ -19,6 +22,9 @@ public record EventDTO(
 				event.title,
 				event.description,
 				event.start.withZoneSameInstant(zoneId),
-				event.end.withZoneSameInstant(zoneId), EventRepeatDTO.of(event.repeatPattern));
+				event.end.withZoneSameInstant(zoneId),
+				event.fullday,
+				event.tags,
+				EventRepeatDTO.of(event.repeatPattern));
 	}
 }

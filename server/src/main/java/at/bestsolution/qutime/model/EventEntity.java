@@ -64,6 +64,10 @@ public class EventEntity {
 	public ZonedDateTime start;
 	@Column(name = "ev_end", nullable = false)
 	public ZonedDateTime end;
+	@Column(name = "ev_tags")
+	public List<String> tags;
+	@Column(name = "ev_fullday")
+	public boolean fullday;
 
 	private transient Map<LocalDate, List<EventModificationEntity>> modificationByDate;
 

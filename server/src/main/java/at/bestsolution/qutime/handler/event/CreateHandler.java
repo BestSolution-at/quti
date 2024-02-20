@@ -3,11 +3,13 @@ package at.bestsolution.qutime.handler.event;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.qutime.Utils;
 import at.bestsolution.qutime.Utils.Result;
 import at.bestsolution.qutime.dto.EventNewDTO;
 import at.bestsolution.qutime.dto.EventRepeatDTO;
@@ -66,8 +68,10 @@ public class CreateHandler extends BaseHandler {
 		eventEntity.key = UUID.randomUUID();
 		eventEntity.title = event.title();
 		eventEntity.description = event.description();
-		eventEntity.start = event.start();
-		eventEntity.end = event.end();
+		eventEntity.start = event.fullday() ? Utils.atStartOfDay(event.start()) : event.start();
+		eventEntity.end = event.fullday() ? Utils.atEndOfDay(event.end()) : event.end();
+		eventEntity.fullday = event.fullday();
+		eventEntity.tags = event.tags();
 
 		eventEntity.repeatPattern = event.repeat() == null ? null : createRepeatPattern(event, event.repeat());
 
