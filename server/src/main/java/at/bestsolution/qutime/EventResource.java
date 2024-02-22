@@ -1,8 +1,11 @@
 package at.bestsolution.qutime;
 
+import java.net.URI;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
+import at.bestsolution.qutime.dto.EventNewDTO;
+import at.bestsolution.qutime.handler.event.CreateHandler;
 import at.bestsolution.qutime.handler.event.GetHandler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -17,9 +20,12 @@ public class EventResource {
 
 	private final GetHandler getHandler;
 
+	private final CreateHandler createHandler;
+
 	@Inject
-	public EventResource(GetHandler getHandler) {
+	public EventResource(GetHandler getHandler, CreateHandler createHandler) {
 		this.getHandler = getHandler;
+		this.createHandler = createHandler;
 	}
 
 	@GET
@@ -47,8 +53,17 @@ public class EventResource {
 		return Response.ok(event).build();
 	}
 
+
 	@POST
-	public Response create() {
-		return null;
+	public Response create(@PathParam("calendar") String calendarKey, EventNewDTO event) {
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+		var result = this.createHandler.create(parsedCalendarKey.value(), event);
+		if( result.isOk() ) {
+			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).build();
+		}
+		return Utils.toResponse(result);
 	}
 }
