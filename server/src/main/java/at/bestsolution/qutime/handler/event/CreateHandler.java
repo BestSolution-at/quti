@@ -55,7 +55,7 @@ public class CreateHandler extends BaseHandler {
 		var recurrenceTimezone = ZoneId.of(r.timeZone);
 		repeatEntity.interval = r.interval;
 		repeatEntity.startDate = ZonedDateTime.of(event.start().toLocalDate(), LocalTime.MIN, recurrenceTimezone);
-		repeatEntity.endDate = r.endDate == null ? null : ZonedDateTime.of(r.endDate, LocalTime.MAX, recurrenceTimezone);
+		repeatEntity.endDate = r.endDate == null ? null : Utils.atEndOfDay(ZonedDateTime.of(r.endDate, LocalTime.NOON, recurrenceTimezone));
 		repeatEntity.recurrenceTimezone = recurrenceTimezone;
 		return repeatEntity;
 	}
