@@ -25,6 +25,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 	public ZonedDateTime start;
 	public ZonedDateTime end;
 	public List<String> tags;
+	public List<String> referencedCalendars;
 
 	@Override
 	public int compareTo(EventViewDTO o) {
@@ -49,6 +50,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.start = event.start.withZoneSameInstant(resultZone);
 			result.end = event.end.withZoneSameInstant(resultZone);
 			result.tags = Objects.requireNonNullElse(event.tags, List.of());
+			result.referencedCalendars = event.references.stream().map( er -> er.calendar.key.toString()).toList();
 			return result;
 		}
 	}
@@ -68,6 +70,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.start = movedEntity.start.withZoneSameInstant(resultZone);
 			result.end = movedEntity.end.withZoneSameInstant(resultZone);
 			result.tags = Objects.requireNonNullElse(movedEntity.event.tags, List.of());
+			result.referencedCalendars = movedEntity.event.references.stream().map( er -> er.calendar.key.toString()).toList();
 
 			result.originalStart = movedEntity.event.start
 					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
@@ -112,6 +115,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.start = adjustedStart.withZoneSameInstant(zone);
 			result.end = adjustedEnd.withZoneSameInstant(zone);
 			result.tags = Objects.requireNonNullElse(event.tags, List.of());
+			result.referencedCalendars = event.references.stream().map( er -> er.calendar.key.toString()).toList();
 			return result;
 		}
 	}
