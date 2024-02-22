@@ -35,7 +35,7 @@ public class Utils {
 	}
 
 	public static ZonedDateTime atEndOfDay(ZonedDateTime datetime) {
-		return datetime.toLocalDateTime().with(LocalTime.MAX).atZone(datetime.getZone());
+		return datetime.toLocalDateTime().with(LocalTime.parse("23:59:59")).atZone(datetime.getZone());
 	}
 
 	public static String getAsString(String name, JsonObject o) {
