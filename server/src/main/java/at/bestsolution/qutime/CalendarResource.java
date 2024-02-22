@@ -56,7 +56,7 @@ public class CalendarResource {
 	@POST
 	public Response create(String name) {
 		var key = createHandler.create(name);
-		return Response.created(URI.create("/" + key)).build();
+		return Response.created(URI.create("/api/calendar/" + key)).build();
 	}
 
 	@PATCH
@@ -74,7 +74,7 @@ public class CalendarResource {
 
 		var result = updateHandler.update(parsedKey.value(), parsedPatch.value());
 		if (result.isOk()) {
-			return Response.noContent().build();
+			return Response.ok().build();
 		}
 		return Utils.toResponse(result);
 	}
