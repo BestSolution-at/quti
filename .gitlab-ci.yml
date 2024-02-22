@@ -1,0 +1,43 @@
+stages:
+  - verify
+  - docker-build
+
+include:
+  - project: 'BestSolution.at/gitlab-pipelines'
+    ref: 1.19.1
+    file: 
+      - '/templates/workflow-MergeRequest-pipelines.yml'
+      - '/templates/maven-base.yml'
+      - '/jobs/maven/verify-dind.yml'
+      - '/templates/docker-build-template.yml'
+      - '/templates/docker-dind-service-template.yml'
+
+maven-verify:
+  stage: verify
+  variables:
+    PARENT_POM_LOCATION: server
+  artifacts:
+    reports:
+      junit:
+        - ./**/target/surefire-reports/TEST-*.xml
+  needs: []
+  interruptible: true
+
+docker:database:
+  extends:
+    - .docker-build
+    - .docker-dind-service
+  variables:
+    IMAGE_NAME: dbinit
+    DOCKERFILE_LOCATION: server/src/database
+  needs: []
+
+docker:quarkus:
+  extends:
+    - .docker-build
+    - .docker-dind-service
+  variables:
+    IMAGE_NAME: quarkus-server
+    DOCKERFILE_LOCATION: server
+  needs:
+    - maven-verify
