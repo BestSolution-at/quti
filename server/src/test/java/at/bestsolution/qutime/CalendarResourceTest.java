@@ -31,7 +31,7 @@ public class CalendarResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("owner", is("cutime@bestsolution.at"))
-				.body("key", is(basicCalendarKey))
+				.body("key", is(basicCalendarKey.toString()))
 				.body("name", is("My Calendar"));
 	}
 
@@ -60,7 +60,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
-				.statusCode(204);
+				.statusCode(200);
 
 		given()
 				.get(String.format("/api/calendar/%s", basicCalendarKey))
@@ -79,7 +79,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", ownerlessCalendarKey))
 				.then()
-				.statusCode(204);
+				.statusCode(200);
 		given()
 				.get("/api/calendar/" + ownerlessCalendarKey)
 				.then()

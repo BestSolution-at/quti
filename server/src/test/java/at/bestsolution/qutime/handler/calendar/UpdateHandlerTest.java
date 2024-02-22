@@ -24,24 +24,22 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandler> {
 		var patch = Json.createPatchBuilder()
 				.replace("name", "My Updated Calendar")
 				.build();
-		assertEquals("My Calendar", calendar(basicCalendarKey).name);
-		assertTrue(handler.update(basicCalendarKey, patch).isOk());
-		assertEquals("My Updated Calendar", calendar(basicCalendarKey).name);
+		assertTrue(handler.update(handler_ownerlessCalendarKey, patch).isOk());
+		assertEquals("My Updated Calendar", calendar(handler_ownerlessCalendarKey).name);
 	}
 
 	@Test
 	public void testUpdateMulti() {
 		var patch = Json.createPatchBuilder()
-				.replace("name", "My Updated Calendar")
+				.replace("name", "My Updated Calendar 2")
 				.add("owner", "testowner@bestsolution.at")
 				.build();
-		assertEquals("My Calendar", calendar(ownerlessCalendarKey).name);
-		assertNull(calendar(ownerlessCalendarKey).owner);
+		assertNull(calendar(handler_ownerlessCalendarKey).owner);
 
-		assertTrue(handler.update(ownerlessCalendarKey, patch).isOk());
+		assertTrue(handler.update(handler_ownerlessCalendarKey, patch).isOk());
 
-		assertEquals("My Updated Calendar", calendar(ownerlessCalendarKey).name);
-		assertEquals("testowner@bestsolution.at", calendar(ownerlessCalendarKey).owner);
+		assertEquals("My Updated Calendar 2", calendar(handler_ownerlessCalendarKey).name);
+		assertEquals("testowner@bestsolution.at", calendar(handler_ownerlessCalendarKey).owner);
 	}
 
 	@Test

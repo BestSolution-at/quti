@@ -27,6 +27,8 @@ public class BaseTest {
 	public static UUID writeableReferenceCalendarKey;
 	public static UUID fulldayCalendarKey;
 
+	public static UUID handler_ownerlessCalendarKey;
+
 	public static UUID simpleEventKey;
 	public static UUID simpleSummerEventKey;
 	public static UUID repeatingDailyEndlessKey;
@@ -209,12 +211,23 @@ public class BaseTest {
 	}
 
 	private void createDatabaseCalenderNoOwner() {
-		var calendar = new CalendarEntity();
-		calendar.key = UUID.randomUUID();
-		calendar.name = "My Calendar";
+		{
+			var calendar = new CalendarEntity();
+			calendar.key = UUID.randomUUID();
+			calendar.name = "My Calendar";
 
-		em.persist(calendar);
+			em.persist(calendar);
 
-		ownerlessCalendarKey = calendar.key;
+			ownerlessCalendarKey = calendar.key;
+		}
+		{
+			var calendar = new CalendarEntity();
+			calendar.key = UUID.randomUUID();
+			calendar.name = "My Handler Calendar";
+
+			em.persist(calendar);
+
+			handler_ownerlessCalendarKey = calendar.key;
+		}
 	}
 }

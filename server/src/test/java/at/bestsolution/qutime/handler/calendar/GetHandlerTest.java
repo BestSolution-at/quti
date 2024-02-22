@@ -21,7 +21,7 @@ public class GetHandlerTest extends CalendarHandlerTest<GetHandler> {
 	public void testGet() {
 		var result = handler.get(basicCalendarKey);
 		assertNotNull(result);
-		assertEquals(basicCalendarKey, result.key());
+		assertEquals(basicCalendarKey.toString(), result.key());
 	}
 
 	@Test

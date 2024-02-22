@@ -19,7 +19,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleEventKey))
+				.body("key", is(simpleEventKey.toString()))
 				.body("title", is("Simple Event"))
 				.body("description", is("A simple none repeating event"))
 				.body("start", is("2024-01-10T06:00:00Z"))
@@ -29,7 +29,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleSummerEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleSummerEventKey))
+				.body("key", is(simpleSummerEventKey.toString()))
 				.body("title", is("Simple Summer Event"))
 				.body("description", is("A simple none repeating event in summer"))
 				.body("start", is("2024-06-10T05:00:00Z"))
@@ -67,7 +67,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleEventKey))
+				.body("key", is(simpleEventKey.toString()))
 				.body("start", is("2024-01-10T07:00:00+01:00[Europe/Vienna]"))
 				.body("end", is("2024-01-10T13:00:00+01:00[Europe/Vienna]"));
 
@@ -76,7 +76,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleSummerEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleSummerEventKey))
+				.body("key", is(simpleSummerEventKey.toString()))
 				.body("start", is("2024-06-10T07:00:00+02:00[Europe/Vienna]"))
 				.body("end", is("2024-06-10T13:00:00+02:00[Europe/Vienna]"));
 
@@ -85,7 +85,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleEventKey))
+				.body("key", is(simpleEventKey.toString()))
 				.body("start", is("2024-01-10T07:00:00+01:00"))
 				.body("end", is("2024-01-10T13:00:00+01:00"));
 	}
@@ -97,7 +97,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleEventKey))
+				.body("key", is(simpleEventKey.toString()))
 				.body("start", is("2024-01-10T01:00:00-05:00[America/New_York]"))
 				.body("end", is("2024-01-10T07:00:00-05:00[America/New_York]"));
 
@@ -106,7 +106,7 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(simpleEventKey))
+				.body("key", is(simpleEventKey.toString()))
 				.body("start", is("2024-01-09T22:00:00-08:00[US/Pacific]"))
 				.body("end", is("2024-01-10T04:00:00-08:00[US/Pacific]"));
 	}
@@ -117,13 +117,12 @@ public class EventResourceTest extends BaseTest {
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, repeatingDailyEndlessKey))
 				.then()
 				.statusCode(200)
-				.body("key", is(repeatingDailyEndlessKey))
+				.body("key", is(repeatingDailyEndlessKey.toString()))
 				.body("repeat.@type", is("daily"))
 				.body("repeat.interval", is(1))
 				.body("repeat.timeZone", is("Europe/Vienna"))
 				.body("repeat.endDate", nullValue())
 				.extract()
 				.asString();
-		System.err.println(data);
 	}
 }
