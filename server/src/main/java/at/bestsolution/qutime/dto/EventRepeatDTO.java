@@ -19,7 +19,7 @@ import jakarta.json.bind.annotation.JsonbTypeInfo;
 		@JsonbSubtype(alias = "daily", type = EventRepeatDTO.EventRepeatDailyDTO.class),
 		@JsonbSubtype(alias = "weekly", type = EventRepeatDTO.EventRepeatWeeklyDTO.class),
 		@JsonbSubtype(alias = "absolute-monthly", type = EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.class),
-		@JsonbSubtype(alias = "absolute-monthly", type = EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.class),
+		@JsonbSubtype(alias = "absolute-yearly", type = EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.class),
 		@JsonbSubtype(alias = "relative-monthly", type = EventRepeatDTO.EventRepeatRelativeMonthlyDTO.class),
 		@JsonbSubtype(alias = "relative-yearly", type = EventRepeatDTO.EventRepeatRelativeYearlyDTO.class),
 })
