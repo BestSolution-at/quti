@@ -237,7 +237,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatDailyEntity.class, entity.repeatPattern);
-		assertEquals(ZonedDateTime.parse("2020-02-01T00:00:00+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
+		assertEquals(ZonedDateTime.parse("2020-01-31T23:59:59+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
 	}
 
 	@Test
@@ -279,7 +279,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
-		assertEquals(ZonedDateTime.parse("2020-01-16T00:00:00+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
+		assertEquals(ZonedDateTime.parse("2020-01-15T23:59:59+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
 		assertEquals(List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY), ((EventRepeatWeeklyEntity)entity.repeatPattern).daysOfWeek);
 	}
 }
