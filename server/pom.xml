@@ -64,6 +64,28 @@
   </dependencies>
   <build>
     <plugins>
+			<plugin>
+				<groupId>at.bestsolution.maven</groupId>
+				<artifactId>hibernate6-ddl-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<executions>
+					<execution>
+						<id>gen-ddl</id>
+						<goals>
+							<goal>gen-ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<dialects>
+						<param>PostgreSQL@16</param>
+					</dialects>
+					<packages>
+						<param>at.bestsolution.qutime.model</param>
+					</packages>
+					<outputDirectory>${project.basedir}/src/database/sql-generated</outputDirectory>
+				</configuration>
+			</plugin>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
