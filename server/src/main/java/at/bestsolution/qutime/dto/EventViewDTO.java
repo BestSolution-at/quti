@@ -20,6 +20,7 @@ import jakarta.json.bind.annotation.JsonbTypeInfo;
 public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 	public String key;
 	public String calendarKey;
+	public String owner;
 	public String title;
 	public String description;
 	public ZonedDateTime start;
@@ -45,6 +46,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			var result = new SingleEventViewDTO();
 			result.key = event.key.toString();
 			result.calendarKey = event.calendar.key.toString();
+			result.owner = event.calendar.owner;
 			result.title = event.title;
 			result.description = event.description;
 			result.start = event.start.withZoneSameInstant(resultZone);
@@ -64,6 +66,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			var result = new SeriesMovedEventViewDTO();
 			result.key = movedEntity.event.key.toString() + "_" + movedEntity.date;
 			result.calendarKey = movedEntity.event.calendar.key.toString();
+			result.owner = movedEntity.event.calendar.owner;
 			result.masterEventKey = movedEntity.event.key.toString();
 			result.title = movedEntity.event.title;
 			result.description = movedEntity.event.description;
@@ -109,6 +112,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			var result = new SeriesEventViewDTO();
 			result.key = event.key.toString() + "_" + date;
 			result.calendarKey = event.calendar.key.toString();
+			result.owner = event.calendar.owner;
 			result.masterEventKey = event.key.toString();
 			result.title = event.title;
 			result.description = event.description;
