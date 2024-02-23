@@ -62,6 +62,7 @@ public class CalendarResource {
 	@PATCH
 	@Path("{key}")
 	public Response update(@PathParam("key") String key, String patch) {
+		System.err.println("Updating calendar" +  key + ":" + patch);
 		var parsedKey = Utils.parseUUID(key, "key");
 		var parsedPatch = Utils.parseJsonPatch(patch, "patch");
 
