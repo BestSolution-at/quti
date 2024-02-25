@@ -10,8 +10,8 @@ import jakarta.persistence.Entity;
 @Entity(name = "EventModificationMoved")
 @DiscriminatorValue(EventModificationEntity.DISCRIMINATOR_MOVED)
 public class EventModificationMovedEntity extends EventModificationEntity {
-	@Column(name = "em_start", nullable = false)
+	@Column(name = "em_start")
 	public ZonedDateTime start;
-	@Column(name = "em_end", nullable = false)
+	@Column(name = "em_end")
 	public ZonedDateTime end;
 }

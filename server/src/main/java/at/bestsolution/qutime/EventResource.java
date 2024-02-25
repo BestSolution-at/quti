@@ -4,16 +4,20 @@ import java.net.URI;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
+import at.bestsolution.qutime.dto.EventMoveDTO;
 import at.bestsolution.qutime.dto.EventNewDTO;
+import at.bestsolution.qutime.handler.event.CancelHandler;
 import at.bestsolution.qutime.handler.event.CreateHandler;
 import at.bestsolution.qutime.handler.event.DeleteHandler;
 import at.bestsolution.qutime.handler.event.GetHandler;
+import at.bestsolution.qutime.handler.event.MoveHandler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
@@ -24,12 +28,20 @@ public class EventResource {
 	private final GetHandler getHandler;
 	private final CreateHandler createHandler;
 	private final DeleteHandler deleteHandler;
+	private final MoveHandler moveHandler;
+	private final CancelHandler cancelHandler;
 
 	@Inject
-	public EventResource(GetHandler getHandler, CreateHandler createHandler, DeleteHandler deleteHandler) {
+	public EventResource(GetHandler getHandler,
+		CreateHandler createHandler,
+		DeleteHandler deleteHandler,
+		MoveHandler moveHandler,
+		CancelHandler cancelHandler) {
 		this.getHandler = getHandler;
 		this.createHandler = createHandler;
 		this.deleteHandler = deleteHandler;
+		this.moveHandler = moveHandler;
+		this.cancelHandler = cancelHandler;
 	}
 
 	@GET
@@ -94,6 +106,67 @@ public class EventResource {
 		if( result.isOk() ) {
 			return Response.noContent().build();
 		}
+		return Utils.toResponse(result);
+	}
+
+	@Path("{key}/action/move")
+	@PUT
+	public Response move(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, EventMoveDTO dto) {
+		var seriesSep = eventKey.indexOf('_');
+		if( seriesSep == -1 ) {
+			return Utils.badRequest("'%s' is not an event in a series", eventKey);
+		}
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+		if( parsedEventKey.response() != null ) {
+			return parsedEventKey.response();
+		}
+		if( parsedOriginalDate.response() != null ) {
+			return parsedOriginalDate.response();
+		}
+
+		var result = moveHandler.move(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), dto.start(), dto.end());
+
+		if( result.isOk() ) {
+			return Response.noContent().build();
+		}
+
+		return Utils.toResponse(result);
+	}
+
+	@Path("{key}/action/cancel")
+	public Response cancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
+		var seriesSep = eventKey.indexOf('_');
+		if( seriesSep == -1 ) {
+			return Utils.badRequest("'%s' is not an event in a series", eventKey);
+		}
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+		if( parsedEventKey.response() != null ) {
+			return parsedEventKey.response();
+		}
+		if( parsedOriginalDate.response() != null ) {
+			return parsedOriginalDate.response();
+		}
+
+		var result = cancelHandler.cancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
+
+		if( result.isOk() ) {
+			return Response.noContent().build();
+		}
+
 		return Utils.toResponse(result);
 	}
 }

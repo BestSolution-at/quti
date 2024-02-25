@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.qutime.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
@@ -18,6 +19,11 @@ import jakarta.json.bind.annotation.JsonbTypeInfo;
 		@JsonbSubtype(alias = "series", type = EventViewDTO.SeriesEventViewDTO.class)
 })
 public abstract class EventViewDTO implements Comparable<EventViewDTO> {
+	public static enum Status {
+		ACCEPTED,
+		CANCELED
+	}
+
 	public String key;
 	public String calendarKey;
 	public String owner;
@@ -27,6 +33,8 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 	public ZonedDateTime end;
 	public List<String> tags;
 	public List<String> referencedCalendars;
+	public Status status = Status.ACCEPTED;
+
 
 	@Override
 	public int compareTo(EventViewDTO o) {
@@ -63,6 +71,15 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 		public ZonedDateTime originalEnd;
 
 		public static SeriesMovedEventViewDTO of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+			var status = Status.ACCEPTED;
+
+			var canceled = movedEntity.event.modificationsAt(movedEntity.date)
+				.stream()
+				.anyMatch(m -> m instanceof EventModificationCanceledEntity);
+			if( canceled ) {
+				status = Status.CANCELED;
+			}
+
 			var result = new SeriesMovedEventViewDTO();
 			result.key = movedEntity.event.key.toString() + "_" + movedEntity.date;
 			result.calendarKey = movedEntity.event.calendar.key.toString();
@@ -81,6 +98,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.originalEnd = movedEntity.event.end
 					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
 					.withZoneSameInstant(resultZone);
+			result.status = status;
 
 			return result;
 		}
@@ -97,15 +115,21 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			var adjustedStart = start.plusDays(dayDiff);
 			var adjustedEnd = end.plusDays(dayDiff);
 
+			var status = Status.ACCEPTED;
 			if (!event.modifications.isEmpty()) {
 				var targetDate = adjustedStart.toLocalDate();
 				var modified = event.modificationsAt(targetDate)
 						.stream()
-						.filter(m -> m instanceof EventModificationMovedEntity)
-						.findFirst()
-						.isPresent();
+						.anyMatch(m -> m instanceof EventModificationMovedEntity);
 				if (modified) {
 					return null;
+				}
+
+				var canceled = event.modificationsAt(targetDate)
+					.stream()
+					.anyMatch(m -> m instanceof EventModificationCanceledEntity);
+				if( canceled ) {
+					status = Status.CANCELED;
 				}
 			}
 
@@ -120,6 +144,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.end = adjustedEnd.withZoneSameInstant(zone);
 			result.tags = Objects.requireNonNullElse(event.tags, List.of());
 			result.referencedCalendars = event.references.stream().map( er -> er.calendar.key.toString()).toList();
+			result.status = status;
 			return result;
 		}
 	}
