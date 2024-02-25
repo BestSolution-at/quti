@@ -1,6 +1,10 @@
 package at.bestsolution.qutime.handler.event;
 
 import at.bestsolution.qutime.model.EventEntity;
+import jakarta.persistence.EntityManager;
+
+import java.util.UUID;
+
 import at.bestsolution.qutime.Utils.Result;
 
 public class EventUtils {
@@ -21,5 +25,21 @@ public class EventUtils {
 			return Result.invalidContent("event.start has to be before event.end");
 		}
 		return Result.OK;
+	}
+
+	public static EventEntity event(EntityManager em, UUID calendarKey, UUID eventKey) {
+		var result = em.createQuery("FROM Event e WHERE e.key = :eventKey AND e.calendar.key = :calendarKey",
+				EventEntity.class)
+				.setParameter("eventKey", eventKey)
+				.setParameter("calendarKey", calendarKey)
+				.getResultList();
+
+			if( result.size() == 1 ) {
+				return result.get(0);
+			} else if( result.size() == 0 ) {
+				return null;
+			}
+			throw new IllegalStateException("Multiple events with key '%s' found");
+
 	}
 }

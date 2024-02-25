@@ -6,10 +6,13 @@ import java.time.ZoneOffset;
 
 import at.bestsolution.qutime.dto.EventNewDTO;
 import at.bestsolution.qutime.handler.event.CreateHandler;
+import at.bestsolution.qutime.handler.event.DeleteHandler;
 import at.bestsolution.qutime.handler.event.GetHandler;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -19,13 +22,14 @@ import jakarta.ws.rs.core.Response;
 public class EventResource {
 
 	private final GetHandler getHandler;
-
 	private final CreateHandler createHandler;
+	private final DeleteHandler deleteHandler;
 
 	@Inject
-	public EventResource(GetHandler getHandler, CreateHandler createHandler) {
+	public EventResource(GetHandler getHandler, CreateHandler createHandler, DeleteHandler deleteHandler) {
 		this.getHandler = getHandler;
 		this.createHandler = createHandler;
+		this.deleteHandler = deleteHandler;
 	}
 
 	@GET
@@ -35,7 +39,7 @@ public class EventResource {
 			@PathParam("key") String eventKey,
 			@HeaderParam("timezone") String zone) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey, "in query parameter 'key'");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
 		if (parsedCalendarKey.response() != null) {
 			return parsedCalendarKey.response();
@@ -63,6 +67,32 @@ public class EventResource {
 		var result = this.createHandler.create(parsedCalendarKey.value(), event);
 		if( result.isOk() ) {
 			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).build();
+		}
+		return Utils.toResponse(result);
+	}
+
+	@PATCH
+	public Response update(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String patch) {
+		return Response.ok().build();
+	}
+
+	@Path("{key}")
+	@DELETE
+	public Response delete(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
+
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+
+		if( parsedEventKey.response() != null ) {
+			return parsedEventKey.response();
+		}
+
+		var result = deleteHandler.delete(parsedCalendarKey.value(), parsedEventKey.value());
+		if( result.isOk() ) {
+			return Response.noContent().build();
 		}
 		return Utils.toResponse(result);
 	}
