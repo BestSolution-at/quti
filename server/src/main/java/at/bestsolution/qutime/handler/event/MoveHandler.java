@@ -1,11 +1,13 @@
 package at.bestsolution.qutime.handler.event;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import at.bestsolution.qutime.Utils.Result;
 import at.bestsolution.qutime.handler.BaseHandler;
+import at.bestsolution.qutime.handler.RepeatUtils;
 import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -27,13 +29,20 @@ public class MoveHandler extends BaseHandler {
 		var event = EventUtils.event(em, calendarKey, eventKey);
 
 		if( event == null ) {
-			return Result.notFound("No event with key '%s' was found in calendar '%s'", eventKey, calendarKey);
+			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+		}
+
+		var startDatetime = ZonedDateTime.of(original, LocalTime.MIN, event.repeatPattern.recurrenceTimezone);
+		var endDatetime = ZonedDateTime.of(original, LocalTime.MAX, event.repeatPattern.recurrenceTimezone);
+
+		if( ! RepeatUtils.fromRepeat(event, startDatetime, endDatetime).anyMatch( d -> d.equals(original)) ) {
+			return Result.notFound("Event is not repeated on the given date %s", original);
 		}
 
 		var entity = event.modifications.stream()
 			.filter(e -> e instanceof EventModificationMovedEntity)
 			.map(e -> (EventModificationMovedEntity)e)
-			.filter( e -> e.date == original)
+			.filter( e -> e.date.equals(original))
 			.findFirst()
 			.orElseGet( () -> new EventModificationMovedEntity());
 

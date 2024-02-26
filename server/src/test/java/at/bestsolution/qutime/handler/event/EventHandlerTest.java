@@ -1,5 +1,6 @@
 package at.bestsolution.qutime.handler.event;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.StatelessSession;
@@ -7,6 +8,7 @@ import org.hibernate.StatelessSession;
 import at.bestsolution.qutime.handler.BaseHandler;
 import at.bestsolution.qutime.handler.BaseHandlerTest;
 import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.qutime.model.EventModificationEntity;
 import jakarta.inject.Inject;
 
 public abstract class EventHandlerTest<T extends BaseHandler> extends BaseHandlerTest<T> {
@@ -30,5 +32,16 @@ public abstract class EventHandlerTest<T extends BaseHandler> extends BaseHandle
 			""", EventEntity.class)
 			.setParameter("key", eventKey)
 			.getSingleResult();
+	}
+
+	public List<EventModificationEntity> modifications(UUID eventKey) {
+		return session.createQuery("""
+			FROM
+				EventModification em
+			WHERE
+				em.event.key = :key
+		""", EventModificationEntity.class)
+		.setParameter("key", eventKey)
+		.getResultList();
 	}
 }

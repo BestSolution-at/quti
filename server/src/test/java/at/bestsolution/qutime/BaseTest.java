@@ -38,24 +38,19 @@ public class BaseTest {
 	private static EventEntity simpleEvent;
 	private static EventEntity repeatingDailyEndless;
 
-	private static boolean initDone;
-
 	@BeforeEach
 	@Transactional
 	public void setupDatabase() {
-		if (!initDone) {
-			initDone = true;
-			creatBasicCalendar();
-			em.flush();
-			createDatabaseCalenderNoOwner();
-			em.flush();
-			createReferenceCalendar();
-			em.flush();
-			writableReferenceCalendar();
-			em.flush();
-			fulldayCalendar();
-			em.flush();
-		}
+		creatBasicCalendar();
+		em.flush();
+		createDatabaseCalenderNoOwner();
+		em.flush();
+		createReferenceCalendar();
+		em.flush();
+		writableReferenceCalendar();
+		em.flush();
+		fulldayCalendar();
+		em.flush();
 	}
 
 	private void fulldayCalendar() {

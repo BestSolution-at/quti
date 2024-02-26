@@ -1,12 +1,10 @@
 package at.bestsolution.qutime.handler.calendar;
 
-import java.time.DayOfWeek;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,16 +14,10 @@ import java.util.stream.Stream;
 
 import at.bestsolution.qutime.dto.EventViewDTO;
 import at.bestsolution.qutime.handler.BaseReadonlyHandler;
+import at.bestsolution.qutime.handler.RepeatUtils;
 import at.bestsolution.qutime.model.EventEntity;
 import at.bestsolution.qutime.model.EventReferenceEntity;
-import at.bestsolution.qutime.model.EventRepeatEntity;
 import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteMonthlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteYearlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatDailyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatRelativeMonthlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatRelativeYearlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatWeeklyEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
@@ -144,18 +136,18 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private List<EventViewDTO> findMovedSeriesReferencedEvents(UUID calendarKey, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
-					FROM
-						EventModificationMoved em
-					JOIN FETCH em.event e
-					JOIN FETCH em.event.references r
-					WHERE
-						r.calendar.key = :calendarKey
-					AND (
-						em.start <= :endDatetime
-						AND
-						em.end >= :startDatetime
-					)
-					""", EventModificationMovedEntity.class);
+				FROM
+					EventModificationMoved em
+				JOIN FETCH em.event e
+				JOIN FETCH em.event.references r
+				WHERE
+					r.calendar.key = :calendarKey
+				AND (
+					em.start <= :endDatetime
+					AND
+					em.end >= :startDatetime
+				)
+				""", EventModificationMovedEntity.class);
 		query.setParameter("calendarKey", calendarKey);
 		query.setParameter("startDatetime", startDatetime);
 		query.setParameter("endDatetime", endDatetime);
@@ -214,108 +206,10 @@ public class ViewHandler extends BaseReadonlyHandler {
 				.flatMap(eventReference -> fromRepeat(eventReference.event, startDatetime, endDatetime, resultZone)).toList();
 	}
 
-	private static ZonedDateTime boxEndDateTime(EventRepeatEntity entity, ZonedDateTime endDatetime) {
-		if (entity.endDate == null) {
-			return endDatetime;
-		} else {
-			if (endDatetime.isBefore(entity.endDate)) {
-				return endDatetime;
-			}
-			return entity.endDate;
-		}
-	}
-
-	private static ZonedDateTime boxStartDateTime(EventRepeatEntity entity, ZonedDateTime startDatetime) {
-		if (startDatetime.isBefore(entity.startDate)) {
-			return entity.startDate;
-		}
-		return startDatetime;
-	}
-
-	private static EventViewDTO mapToView(EventEntity event, LocalDate date, ZoneId resultZone) {
-		return EventViewDTO.of(event, date, resultZone);
-	}
-
 	private static Stream<EventViewDTO> fromRepeat(EventEntity entity, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
-		var boxStart = boxStartDateTime(entity.repeatPattern, startDatetime);
-		var boxEnd = boxEndDateTime(entity.repeatPattern, endDatetime);
-
-		if (entity.repeatPattern instanceof EventRepeatDailyEntity r) {
-			return fromRepeatDaily(r.interval, entity.start, boxStart, boxEnd)
-					.map(date -> mapToView(entity, date, resultZone))
+				return RepeatUtils.fromRepeat(entity, startDatetime, endDatetime)
+					.map( date -> EventViewDTO.of(entity, date, resultZone))
 					.filter(Objects::nonNull);
-		} else if (entity.repeatPattern instanceof EventRepeatWeeklyEntity r) {
-			return fromRepeatWeekly(r.daysOfWeek, r.interval, boxStart, boxEnd)
-					.map(date -> mapToView(entity, date, resultZone))
-					.filter(Objects::nonNull);
-		} else if (entity.repeatPattern instanceof EventRepeatAbsoluteMonthlyEntity r) {
-			return fromRepeatAbsoluteMonthly(r, entity, boxStart, boxEnd, resultZone)
-					.map(date -> mapToView(entity, date, resultZone))
-					.filter(Objects::nonNull);
-		} else if (entity.repeatPattern instanceof EventRepeatAbsoluteYearlyEntity r) {
-			return fromRepeatAbsoluteYearly(r, entity, boxStart, boxEnd, resultZone)
-					.map(date -> mapToView(entity, date, resultZone))
-					.filter(Objects::nonNull);
-		} else if (entity.repeatPattern instanceof EventRepeatRelativeMonthlyEntity r) {
-			return fromRepeatRelativeMonthly(r, entity, boxStart, boxEnd, resultZone)
-					.map(date -> mapToView(entity, date, resultZone))
-					.filter(Objects::nonNull);
-		} else if (entity.repeatPattern instanceof EventRepeatRelativeYearlyEntity r) {
-			return fromRepeatRelativeYearly(r, entity, boxStart, boxEnd, resultZone)
-					.map(date -> mapToView(entity, date, resultZone))
-					.filter(Objects::nonNull);
-		}
-		throw new IllegalStateException(String.format("Unknown repeatPattern '%s'", entity.repeatPattern));
-	}
-
-	public static Stream<LocalDate> fromRepeatDaily(int interval, ZonedDateTime eventStart, ZonedDateTime startDatetime,
-			ZonedDateTime endDatetime) {
-		List<LocalDate> dates = new ArrayList<>();
-
-		var days = ChronoUnit.DAYS.between(eventStart.toLocalDate(), startDatetime.toLocalDate()) % interval;
-		var currentDate = days == 0 ? startDatetime : startDatetime.plusDays(interval - days);
-
-		while (currentDate.isBefore(endDatetime)) {
-			dates.add(currentDate.toLocalDate());
-			currentDate = currentDate.plusDays(interval);
-		}
-
-		return dates.stream();
-	}
-
-	public static Stream<LocalDate> fromRepeatWeekly(List<DayOfWeek> daysOfWeek, int interval,
-			ZonedDateTime startDatetime, ZonedDateTime endDatetime) {
-		List<LocalDate> dates = new ArrayList<>();
-		for (DayOfWeek day : daysOfWeek) {
-			var currentDate = startDatetime.with(TemporalAdjusters.nextOrSame(day));
-
-			while (currentDate.isBefore(endDatetime)) {
-				dates.add(currentDate.toLocalDate());
-				currentDate = currentDate.plusWeeks(interval);
-			}
-		}
-
-		return dates.stream().sorted();
-	}
-
-	private static Stream<LocalDate> fromRepeatAbsoluteMonthly(EventRepeatAbsoluteMonthlyEntity repeat,
-			EventEntity entity, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId zone) {
-		return Stream.empty();
-	}
-
-	private static Stream<LocalDate> fromRepeatAbsoluteYearly(EventRepeatAbsoluteYearlyEntity repeat, EventEntity entity,
-			ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId zone) {
-		return Stream.empty();
-	}
-
-	private static Stream<LocalDate> fromRepeatRelativeMonthly(EventRepeatRelativeMonthlyEntity repeat,
-			EventEntity entity, ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId zone) {
-		return Stream.empty();
-	}
-
-	private static Stream<LocalDate> fromRepeatRelativeYearly(EventRepeatRelativeYearlyEntity repeat, EventEntity entity,
-			ZonedDateTime startDatetime, ZonedDateTime endDatetime, ZoneId zone) {
-		return Stream.empty();
 	}
 }
