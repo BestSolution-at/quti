@@ -304,8 +304,8 @@ export class QuTimeMultidayView {
   @Watch('workingHoursMin')
   @Watch('workingHoursMax')
   watchWorkingHours() {
-    const min = Math.max(0, this.workingHoursMin);
-    const max = Math.min(24, this.workingHoursMax);
+    const min = Math.max(0, Math.trunc(this.workingHoursMin));
+    const max = Math.min(24, Math.trunc(this.workingHoursMax));
 
     if (min < max) {
       this.internalWorkhours = { min, max };
@@ -315,8 +315,8 @@ export class QuTimeMultidayView {
   @Watch('hoursMin')
   @Watch('hoursMax')
   watchHours() {
-    let min = Math.max(0, this.hoursMin);
-    const max = Math.min(24, this.hoursMax);
+    let min = Math.max(0, Math.trunc(this.hoursMin));
+    const max = Math.min(24, Math.trunc(this.hoursMax));
 
     if (min < max) {
       const hours: number[] = [];
