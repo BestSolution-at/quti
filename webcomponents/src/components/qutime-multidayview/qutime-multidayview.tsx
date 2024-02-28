@@ -251,12 +251,11 @@ export class QuTimeMultidayView {
     } );
     const dayLayout = startDate && dayEntries && dayEntries.length > 0 ? computeDayLayout(startDate, this.internalDates.length, dayEntries) : undefined;
 
-    return <Host>
+    return <Host style={{ '--day-count': `${this.dates.length}` }}>
       <div class="header-area" style={{ paddingRight: `${this.scrollbarInsets}px` }}>
-        <div class="time-column-spacer"></div>
         <div class="days-area">
           <div class="days-area-header-area">
-            { this.internalDates.map( d => <Header date={d} base={100/this.dates.length} /> ) }
+            { this.internalDates.map( d => <Header date={d} /> ) }
           </div>
           { dayLayout && dayLayout.entries.length > 0 &&
             <Fragment>
@@ -300,12 +299,12 @@ const MONTH_AND_DAY = new DateFormatter( 'de', { month: 'short', day: '2-digit',
 const DAY = new DateFormatter( 'de', { day: '2-digit',  } );
 const TIME_FORMAT = new DateFormatter('de', { hour: '2-digit', minute: '2-digit' });
 
-const Header = (props: { date: CalendarDate, base: number } ) => {
+const Header = (props: { date: CalendarDate } ) => {
   const today = isToday(props.date, getLocalTimeZone());
   const isFirsDayOfMonth = isSameDay(startOfMonth(props.date), props.date);
   const date = props.date.toDate(getLocalTimeZone());
 
-  return <div class="day-header-container" style={{ flexBasis: `${props.base}%` }}>
+  return <div class="day-header-container">
     <div class={{"day-header-text-container": true, "today": today}}>
       <div class="day-header-text-node-container">
         <span class='day-text-date'>{ today || isFirsDayOfMonth ? MONTH_AND_DAY.format(date).replace(/\./g, '') : DAY.format(date) }</span>
@@ -324,9 +323,7 @@ const FullDayEvents = (props: FullDayEventsProps) => {
   const height = 'calc( ' + props.layout.maxLanes + ' * var(--size-300)';
   return <div class="header-full-day-container">
     { props.dates.map( () =>
-      <div class="header-full-day-column" style={{
-        flexBasis: `${100/props.dates.length}%`,
-        }}>
+      <div class="header-full-day-column">
         <div style={{ minHeight: `${height}` }}></div>
       </div> ) }
       { props.layout.entries.map( e => <FullDayEntry maxLanes={props.layout.maxLanes} startDate={props.dates[0]} endDate={props.dates[props.dates.length - 1]} layoutEntry={e}></FullDayEntry> ) }

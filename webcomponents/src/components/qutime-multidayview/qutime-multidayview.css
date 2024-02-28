@@ -20,33 +20,29 @@
   --color-blue-600: #0054b6;
   --color-blue-700: #004491;
 
-  --header-area-bottom-color: var(--color-gray-300);
-
   border-width: var(--border-width-thin);
   border-style: solid;
   border-color: var(--color-gray-200);
 }
 
 .header-area {
-  display: flex;
-  align-items: stretch;
-  border-bottom: var(--header-area-bottom-color);
+  display: grid;
+  grid-template-columns: var(--size-600) auto;
+  border-bottom-color: var(--color-gray-300);
   border-bottom-width: var(--border-width-thick);
   border-bottom-style: solid;
-}
-
-.header-area > .time-column-spacer {
-  width: var(--size-600);
 }
 
 .header-area > .days-area {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  grid-column: 2;
 }
 
 .header-area > .days-area > .days-area-header-area {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(var(--day-count, 1), 1fr);
 }
 
 .day-header-container {
@@ -98,7 +94,8 @@
 }
 
 .header-full-day-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(var(--day-count, 1), 1fr);
   position: relative;
 }
 
