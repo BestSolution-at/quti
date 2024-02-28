@@ -5,14 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Events, LocalDates } from "./components/qutime-multidayview/qutime-multidayview";
-export { Events, LocalDates } from "./components/qutime-multidayview/qutime-multidayview";
+import { Events, LocalDate } from "./components/qutime-multidayview/qutime-multidayview";
+export { Events, LocalDate } from "./components/qutime-multidayview/qutime-multidayview";
 export namespace Components {
     interface QutimeMultidayview {
-        "dates": LocalDates;
-        "events": Events;
+        "days": number;
+        "events": Events | string;
         "hoursMax": number;
         "hoursMin": number;
+        "startDate": LocalDate;
         "workingHoursMax": number;
         "workingHoursMin": number;
     }
@@ -30,10 +31,11 @@ declare global {
 }
 declare namespace LocalJSX {
     interface QutimeMultidayview {
-        "dates"?: LocalDates;
-        "events"?: Events;
+        "days"?: number;
+        "events"?: Events | string;
         "hoursMax"?: number;
         "hoursMin"?: number;
+        "startDate"?: LocalDate;
         "workingHoursMax"?: number;
         "workingHoursMin"?: number;
     }

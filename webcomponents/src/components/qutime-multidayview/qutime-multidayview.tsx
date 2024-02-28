@@ -11,8 +11,10 @@ import {
   parseDuration,
   parseTime,
   startOfMonth,
+  startOfWeek,
   toCalendarDate,
   toTime,
+  today,
 } from '@internationalized/date';
 import {
   Component,
@@ -32,6 +34,8 @@ import {
   computeLaneLayout,
   createDateRange,
   intersects,
+  isBoolean,
+  isString,
 } from '../../utils/utils';
 
 export type LocalDate = string;
@@ -153,6 +157,40 @@ function toDayLayoutEntry(
   };
 }
 
+function defaultStartDate() {
+  return startOfWeek(
+    today(getLocalTimeZone()),
+    navigator.languages[0],
+  ).toString();
+}
+
+function isEvent(value: unknown): value is Event {
+  return (
+    value !== undefined &&
+    value !== null &&
+    typeof value === 'object' &&
+    'key' in value &&
+    isString(value.key) &&
+    'start' in value &&
+    isString(value.start) &&
+    'end' in value &&
+    isString(value.end) &&
+    'subject' in value &&
+    isString(value.subject) &&
+    (!('fullday' in value) || isBoolean(value.fullday))
+  );
+}
+
+function eventsFromString(value: string): Events {
+  const result = JSON.parse(value);
+
+  if (Array.isArray(result)) {
+    return result.filter(isEvent);
+  }
+
+  return [];
+}
+
 @Component({
   tag: 'qutime-multidayview',
   styleUrl: 'qutime-multidayview.css',
@@ -160,10 +198,13 @@ function toDayLayoutEntry(
 })
 export class QuTimeMultidayView {
   @Prop()
-  dates: LocalDates;
+  startDate: LocalDate = defaultStartDate();
 
   @Prop()
-  events: Events;
+  days = 7;
+
+  @Prop()
+  events: Events | string = [];
 
   @Prop()
   workingHoursMin = 8;
@@ -228,14 +269,29 @@ export class QuTimeMultidayView {
     this.observeContentArea();
   }
 
-  @Watch('dates')
-  watchDates(dates: readonly LocalDate[]) {
-    this.internalDates = dates.map(parseDate);
-    console.log('this', this.internalDates);
+  @Watch('startDate')
+  @Watch('endDate')
+  watchDates() {
+    if (this.startDate) {
+      let start = parseDate(this.startDate);
+      const dates: CalendarDate[] = [];
+
+      for (let i = 0; i < this.days; i++) {
+        dates.push(start);
+        start = start.add({ days: 1 });
+      }
+
+      this.internalDates = dates;
+    }
   }
 
   @Watch('events')
-  watchEvents(events: readonly Event[]) {
+  watchEvents() {
+    const events =
+      typeof this.events === 'string'
+        ? eventsFromString(this.events)
+        : this.events;
+
     this.internalEvents = events.map(e => ({
       key: e.key,
       subject: e.subject,
@@ -274,8 +330,8 @@ export class QuTimeMultidayView {
 
   connectedCallback() {
     this.observeContentArea();
-    this.watchDates(this.dates);
-    this.watchEvents(this.events);
+    this.watchDates();
+    this.watchEvents();
     this.watchWorkingHours();
     this.watchHours();
   }
@@ -315,7 +371,7 @@ export class QuTimeMultidayView {
           class="header-area"
           style={{
             paddingRight: `${this.scrollbarInsets}px`,
-            '--day-count': `${this.dates.length}`,
+            '--day-count': `${this.internalDates.length}`,
           }}
         >
           <div class="days-area">
@@ -337,7 +393,7 @@ export class QuTimeMultidayView {
         <div
           class="content-area"
           style={{
-            '--day-count': `${this.dates.length}`,
+            '--day-count': `${this.internalDates.length}`,
             '--hours-count': `${this.internalHours.length}`,
             '--hour-partition': `${scaleToHourPartition(this.scale)}`,
           }}
@@ -542,6 +598,10 @@ const ContentColumn = (props: ContentColumnProps) => {
     }),
     props.hoursCount,
   );
+  const startShift =
+    props.hours[0] === 0
+      ? 0
+      : toTimeFraction(new Time(props.hours[0], 0), props.hoursCount);
   return (
     <div class="content-column">
       {/* required because of padding above it */}
@@ -556,23 +616,23 @@ const ContentColumn = (props: ContentColumnProps) => {
           />
         ))}
         {layout.entries.map(entry => (
-          <TimeEventElement entry={entry} />
+          <TimeEventElement entry={entry} startShift={startShift} />
         ))}
       </div>
     </div>
   );
 };
 
-const TimeEventElement = (props: { entry: LaneLayoutEntry<InternalEvent> }) => {
+const TimeEventElement = (props: {
+  entry: LaneLayoutEntry<InternalEvent>;
+  startShift: number;
+}) => {
   const { entry } = props;
   const event = entry.data;
-  const top = 'calc(' + entry.dimension.min + '% + 2px)';
-  const bottom = 'calc(' + (100 - entry.dimension.max) + '% + 1px)';
-  const left = (entry.lane.startLane / entry.lane.maxLane) * 100 + '%';
-  const right =
-    'calc(max(' +
-    (100 - (entry.lane.endLane / entry.lane.maxLane) * 100) +
-    '% + 2px, 10px))';
+  const top = `calc(${entry.dimension.min - props.startShift}% + 2px)`;
+  const bottom = `calc(${Math.max(0, 100 - entry.dimension.max + props.startShift)}% + 1px)`;
+  const left = `${(entry.lane.startLane / entry.lane.maxLane) * 100}%`;
+  const right = `calc(max(${100 - (entry.lane.endLane / entry.lane.maxLane) * 100}% + 2px, 10px))`;
 
   const timezone = getLocalTimeZone();
   const startTime = TIME_FORMAT.format(event.start.toDate(timezone));
