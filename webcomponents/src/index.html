@@ -16,9 +16,11 @@
       }
     </style>
   </head>
-  <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
-    <qutime-multidayview id="bla" style="max-height: 500px;"></qutime-multidayview>
+  <body style="margin: 0;">
+    <div style="max-height: 100vh; overflow: hidden; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box">
+      <qutime-multidayview id="bla" ></qutime-multidayview>
+    </div>
+
   </body>
   <script>
     const view = document.querySelector('qutime-multidayview');
