@@ -1,9 +1,6 @@
 # qutime-multidayview
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -16,7 +13,6 @@
 | `workingHoursMax` | `working-hours-max` |             | `number`            | `17`        |
 | `workingHoursMin` | `working-hours-min` |             | `number`            | `8`         |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

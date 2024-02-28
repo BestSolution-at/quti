@@ -1,11 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
     <title>Stencil Component Starter</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
 
     <script type="module" src="/build/qutime-webcomponents.esm.js"></script>
     <script nomodule src="/build/qutime-webcomponents.js"></script>
@@ -16,15 +22,31 @@
       }
     </style>
   </head>
-  <body style="margin: 0;">
-    <div style="max-height: 100vh; overflow: hidden; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box">
-      <qutime-multidayview id="bla" ></qutime-multidayview>
+  <body style="margin: 0">
+    <div
+      style="
+        max-height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        box-sizing: border-box;
+      "
+    >
+      <qutime-multidayview id="bla"></qutime-multidayview>
     </div>
-
   </body>
   <script>
     const view = document.querySelector('qutime-multidayview');
-    view.dates = ['2024-02-26','2024-02-27','2024-02-28','2024-02-29','2024-03-01','2024-03-02','2024-03-03'];
+    view.dates = [
+      '2024-02-26',
+      '2024-02-27',
+      '2024-02-28',
+      '2024-02-29',
+      '2024-03-01',
+      '2024-03-02',
+      '2024-03-03',
+    ];
     view.events = [
       {
         key: '1',
@@ -37,15 +59,15 @@
         start: '2024-02-23T00:00:00',
         end: '2024-03-05T23:59:00',
         subject: 'Fullday event',
-        fullday: true
+        fullday: true,
       },
       {
         key: '3',
         start: '2024-02-26T00:00:00',
         end: '2024-03-02T23:59:00',
         subject: 'Fullday event',
-        fullday: true
-      }
-    ]
+        fullday: true,
+      },
+    ];
   </script>
 </html>

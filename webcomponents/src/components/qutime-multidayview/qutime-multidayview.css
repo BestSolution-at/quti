@@ -7,11 +7,12 @@
   --size-125: 10px;
   --size-300: 24px;
   --size-600: 48px;
-
   --border-width-thin: 1px;
   --border-width-thick: 4px;
 
-  --color-gray-50: #fff;
+  /* stylelint-disable color-no-hex -- colors fow now in here */
+  --text-event-color-focus: #ffffff;
+  --color-gray-50: #ffffff;
   --color-gray-100: #f8f8f8;
   --color-gray-200: #e6e6e6;
   --color-gray-300: #d5d5d5;
@@ -19,6 +20,8 @@
   --color-blue-400: #147af3;
   --color-blue-600: #0054b6;
   --color-blue-700: #004491;
+
+  /* stylelint-enablecolor-no-hex */
 
   border-width: var(--border-width-thin);
   border-style: solid;
@@ -28,9 +31,7 @@
 .header-area {
   display: grid;
   grid-template-columns: var(--size-600) auto;
-  border-bottom-color: var(--color-gray-300);
-  border-bottom-width: var(--border-width-thick);
-  border-bottom-style: solid;
+  border-bottom: var(--border-width-thick) solid var(--color-gray-300);
 }
 
 .header-area > .days-area {
@@ -55,10 +56,7 @@
   flex-grow: 1;
   min-height: var(--size-600);
   align-items: flex-end;
-
-  border-left-color: var(--color-gray-200);
-  border-left-width: var(--border-width-thin);
-  border-left-style: solid;
+  border-left: var(--border-width-thin) solid var(--color-gray-200);
 }
 
 .day-header-text-container.today::after {
@@ -66,7 +64,7 @@
   position: absolute;
   top: 0;
   left: calc(var(--border-width-thin) * -1);
-  right:0;
+  right: 0;
   border-top-style: solid;
   border-top-width: 4px;
   border-color: var(--color-blue-400);
@@ -100,9 +98,7 @@
 }
 
 .header-full-day-column {
-  border-left-color: var(--color-gray-200);
-  border-left-width: var(--border-width-thin);
-  border-left-style: solid;
+  border-left: var(--border-width-thin) solid var(--color-gray-200);
 }
 
 .content-top-spacer {
@@ -123,6 +119,17 @@
   padding-top: var(--size-125);
 }
 
+.hours-column-content {
+  min-height: calc(var(--hours-count) * var(--hour-partition) * 30px);
+  width: var(--size-600);
+  display: grid;
+  grid-template-rows: repeat(
+    calc(var(--hours-count) * var(--hour-partition)),
+    1fr
+  );
+  flex-grow: 1;
+}
+
 .hour-text-container-dashed {
   border-top-width: var(--border-width-thin);
   border-top-style: solid;
@@ -132,7 +139,7 @@
 }
 
 .hour-text-positioner {
-  translate: 0px -1.7ex;
+  translate: 0 -1.7ex;
   text-align: center;
 }
 
@@ -153,10 +160,19 @@
   position: relative;
   padding-top: var(--size-125);
   background-color: var(--color-gray-100);
-  border-left-color: var(--color-gray-400);
-  border-left-width: var(--border-width-thin);
-  border-left-style: solid;
+  border-left: var(--border-width-thin) solid var(--color-gray-400);
   flex-direction: column;
+  flex-grow: 1;
+}
+
+.content-column-content {
+  position: relative;
+  min-height: calc(var(--hours-count) * var(--hour-partition) * 30px);
+  display: grid;
+  grid-template-rows: repeat(
+    calc(var(--hours-count) * var(--hour-partition)),
+    1fr
+  );
   flex-grow: 1;
 }
 
@@ -174,9 +190,7 @@
 }
 
 .time-event-content {
-  border-left-style: solid;
-  border-left-width: 4px;
-  border-left-color: var(--event-color-fg);
+  border-left: 4px solid var(--event-color-fg);
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }
@@ -184,10 +198,7 @@
 .time-event::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 4px;
-  right: 0;
-  bottom: 0;
+  inset: 0 0 0 4px;
   background-color: var(--event-color-bg);
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
@@ -203,14 +214,14 @@
 }
 
 .time-event:focus {
-  color: white;
+  color: var(--text-event-color-focus);
+  /* stylelint-disable-next-line property-disallowed-list -- move event above others if overlapping */
   z-index: 1;
 }
 
 .time-event .event-text-positioner {
   overflow: hidden;
   max-height: 100%;
-
   position: sticky;
   top: 0;
   display: flex;
@@ -240,7 +251,6 @@
   display: inline-block;
   font-size: 0.8em;
 }
-
 
 .day-event {
   position: absolute;
@@ -283,16 +293,13 @@
 }
 
 .day-event:focus {
-  color: white;
+  color: var(--text-event-color-focus);
 }
 
 .day-event::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: var(--event-color-bg);
   border-radius: 2px;
   opacity: 0.02;
@@ -309,10 +316,7 @@
 .day-event::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   border-color: var(--event-color-bg);
   border-style: solid;
   border-width: 1px;

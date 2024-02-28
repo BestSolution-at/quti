@@ -1,0 +1,35 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-html"],
+  "reportNeedlessDisables": true,
+  "reportInvalidScopeDisables": true,
+  "reportDescriptionlessDisables": true,
+
+  "rules": {
+    "color-hex-length": "long",
+
+    "value-keyword-case": ["lower", { "camelCaseSvgKeywords": true }],
+
+    "color-no-hex": true,
+    "color-named": "never",
+    "function-disallowed-list": ["/^rgb/", "/^hsl/", "hwb", "gray"],
+
+    "font-family-no-missing-generic-family-keyword": [
+      true,
+      { "severity": "warning" }
+    ],
+
+    "property-disallowed-list": [["z-index"]],
+    "declaration-property-value-disallowed-list": {
+      "/color$/": ["none"]
+    },
+    "declaration-property-value-no-unknown": [
+      true,
+      {
+        "typesSyntax": {
+          "color": "| <system-color>",
+          "system-color": "Canvas | CanvasText | LinkText"
+        }
+      }
+    ]
+  }
+}
