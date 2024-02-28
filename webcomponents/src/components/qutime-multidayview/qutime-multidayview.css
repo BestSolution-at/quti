@@ -110,15 +110,17 @@
 }
 
 .content-area {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: var(--size-600) auto;
   overflow-y: auto;
+  flex-grow: 1;
 }
 
 .hours-column-area {
   display: flex;
   flex-direction: column;
   width: var(--size-600);
+  padding-top: var(--size-125);
 }
 
 .hour-text-container-dashed {
@@ -141,19 +143,21 @@
   padding-right: 2px;
 }
 
+.content-days-area {
+  display: grid;
+  grid-template-columns: repeat(var(--day-count, 1), 1fr);
+}
+
 .content-column {
   display: flex;
   position: relative;
-}
-
-.content-column-content {
+  padding-top: var(--size-125);
+  background-color: var(--color-gray-100);
   border-left-color: var(--color-gray-400);
   border-left-width: var(--border-width-thin);
   border-left-style: solid;
-  display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: var(--color-gray-100);
 }
 
 .time-event {

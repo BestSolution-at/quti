@@ -251,8 +251,8 @@ export class QuTimeMultidayView {
     } );
     const dayLayout = startDate && dayEntries && dayEntries.length > 0 ? computeDayLayout(startDate, this.internalDates.length, dayEntries) : undefined;
 
-    return <Host style={{ '--day-count': `${this.dates.length}` }}>
-      <div class="header-area" style={{ paddingRight: `${this.scrollbarInsets}px` }}>
+    return <Host>
+      <div class="header-area" style={{ paddingRight: `${this.scrollbarInsets}px`, '--day-count': `${this.dates.length}` }}>
         <div class="days-area">
           <div class="days-area-header-area">
             { this.internalDates.map( d => <Header date={d} /> ) }
@@ -264,24 +264,22 @@ export class QuTimeMultidayView {
           }
         </div>
       </div>
-      <div class="content-area" ref={this.connectContentArea.bind(this)}>
-        <div style={{ display: 'flex' }}>
-          <div class="hours-column-area">
-            <div class="content-top-spacer"></div>
-            <div style={{ minHeight: `${scaleToMinSize(this.scale, this.internalHours.length)}px`, width: 'var(--size-600)' }}>
-              { this.internalHours.map( hour =>
-                <HourSegment
-                  hour={hour}
-                  scale={this.scale}
-                  showText={true}
-                  workhours={this.internalWorkhours}
-                  hoursCount={this.internalHours.length}
-                /> ) }
-            </div>
+      <div class="content-area" style={{ '--day-count': `${this.dates.length}` }} ref={this.connectContentArea.bind(this)}>
+        <div class="hours-column-area">
+          <div style={{ minHeight: `${scaleToMinSize(this.scale, this.internalHours.length)}px`, width: 'var(--size-600)' }}>
+            { this.internalHours.map( hour =>
+              <HourSegment
+                hour={hour}
+                scale={this.scale}
+                showText={true}
+                workhours={this.internalWorkhours}
+                hoursCount={this.internalHours.length}
+              /> ) }
           </div>
+        </div>
+        <div class="content-days-area">
           { this.internalDates.map( d =>
             <ContentColumn
-              base={100/this.internalDates.length}
               hours={this.internalHours}
               workhours={this.internalWorkhours} scale={this.scale}
               date={d}
@@ -378,7 +376,6 @@ const FullDayEntry = (props: FullDayEntryProps) => {
 type ContentColumnProps = {
   date: CalendarDate,
   events: readonly InternalEvent[],
-  base: number,
   hours: number[],
   scale: SCALE,
   workhours: Range<number>
@@ -390,11 +387,8 @@ const ContentColumn = ( props: ContentColumnProps ) => {
   const layout = computeTimeLayout(props.date,  props.events.filter( e => {
     return e.fullday !== true && (isSameDay(toCalendarDate(e.start), props.date) || isSameDay(toCalendarDate(e.end), props.date));
   }), props.hoursCount)
-  return <div class="content-column" style={{
-    flexBasis: `${props.base}%`,
-  }}>
-    <div class="content-column-content">
-      <div class="content-top-spacer"></div>
+  return <div class="content-column">
+      { /* required because of padding above it */ }
       <div style={{ minHeight: `${scaleToMinSize(props.scale, props.hoursCount)}px`, position: 'relative' }}>
         { props.hours.map( hour =>
           <HourSegment
@@ -407,7 +401,6 @@ const ContentColumn = ( props: ContentColumnProps ) => {
         }
         { layout.entries.map( entry => <TimeEventElement entry={entry} /> ) }
       </div>
-    </div>
   </div>
 };
 
