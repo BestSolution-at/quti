@@ -9,7 +9,7 @@
   --size-600: 48px;
 
   --border-width-thin: 1px;
-  --border-width-think: 4px;
+  --border-width-thick: 4px;
 
   --color-gray-50: #fff;
   --color-gray-100: #f8f8f8;
@@ -31,7 +31,7 @@
   display: flex;
   align-items: stretch;
   border-bottom: var(--header-area-bottom-color);
-  border-bottom-width: var(--border-width-think);
+  border-bottom-width: var(--border-width-thick);
   border-bottom-style: solid;
 }
 
