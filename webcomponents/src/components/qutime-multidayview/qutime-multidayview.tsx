@@ -322,17 +322,10 @@ type FullDayEventsProps = {
 
 const FullDayEvents = (props: FullDayEventsProps) => {
   const height = 'calc( ' + props.layout.maxLanes + ' * var(--size-300)';
-  return <div style={{
-    display: 'flex',
-    position: 'relative',
-
-  }}>
+  return <div class="header-full-day-container">
     { props.dates.map( () =>
-      <div style={{
+      <div class="header-full-day-column" style={{
         flexBasis: `${100/props.dates.length}%`,
-        borderLeftColor: 'var(--color-gray-200)',
-        borderLeftWidth: 'var(--border-width-thin)',
-        borderLeftStyle: 'solid'
         }}>
         <div style={{ minHeight: `${height}` }}></div>
       </div> ) }
@@ -375,11 +368,12 @@ const FullDayEntry = (props: FullDayEntryProps) => {
 
   return <div class="day-event"
     tabIndex={0}
-    style={{ position: 'absolute', display: 'flex', top, bottom, left, right, whiteSpace: 'nowrap', overflow: 'hidden' }}>
-    <div style={{ position: 'absolute', display: 'flex', left: '10px', right: '10px', top: '0px', bottom: '0px', alignItems: 'baseline' }}>
-      { leadText && <span style={{ 'paddingRight': '5px', fontWeight: '300px', fontSize: '0.75em' }}>{chevronLeft} {leadText}</span> }
-      <span style={{ fontWeight: '600' }}>{props.layoutEntry.data.subject}</span>
-      { endText && <span style={{ marginLeft: 'auto', fontWeight: '300', fontSize: '0.75em' }}>{endText} {chevronRight}</span> }
+    style={{ top, bottom, left, right }}>
+    { /* Create a new stacking context so that we can use :after/:before */ }
+    <div class="day-event-text-container">
+      { leadText && <span class="day-event-text-lead-text">{chevronLeft} {leadText}</span> }
+      <span class="day-event-text">{props.layoutEntry.data.subject}</span>
+      { endText && <span class="day-event-text-end-text">{endText} {chevronRight}</span> }
     </div>
   </div>
 }

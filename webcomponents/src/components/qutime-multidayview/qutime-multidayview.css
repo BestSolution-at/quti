@@ -97,6 +97,17 @@
   font-weight: 400;
 }
 
+.header-full-day-container {
+  display: flex;
+  position: relative;
+}
+
+.header-full-day-column {
+  border-left-color: var(--color-gray-200);
+  border-left-width: var(--border-width-thin);
+  border-left-style: solid;
+}
+
 .content-top-spacer {
   min-height: var(--size-125);
 }
@@ -231,7 +242,13 @@
 
 
 .day-event {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
   outline: none;
+  white-space: nowrap;
+  padding-left: 10px;
+  padding-right: 10px;
 
   --event-color-bg: var(--color-blue-400);
   --event-color-fg: var(--color-blue-700);
@@ -239,9 +256,29 @@
   color: var(--event-color-fg);
 }
 
-.day-event {
-  padding-left: 10px;
-  padding-right: 10px;
+.day-event-text-container {
+  position: relative; /* We want a new stacking container */
+  display: flex;
+  flex-grow: 1;
+  align-items: baseline;
+}
+
+.day-event-text {
+  font-weight: 600;
+}
+
+.day-event-text-lead-text,
+.day-event-text-end-text {
+  font-weight: 300;
+  font-size: 0.75em;
+}
+
+.day-event-text-lead-text {
+  padding-right: 5px;
+}
+
+.day-event-text-end-text {
+  margin-left: auto;
 }
 
 .day-event:focus {
