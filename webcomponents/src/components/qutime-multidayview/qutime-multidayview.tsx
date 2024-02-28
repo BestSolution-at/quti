@@ -49,6 +49,7 @@ export type Event = {
   readonly end: LocalDatetime;
   readonly subject: string;
   readonly fullday?: boolean;
+  readonly type?: string;
 };
 
 export type Events = readonly Event[];
@@ -59,6 +60,7 @@ type InternalEvent = {
   readonly end: CalendarDateTime;
   readonly subject: string;
   readonly fullday?: boolean;
+  readonly type?: string;
 };
 
 export type SCALE =
@@ -298,6 +300,7 @@ export class QuTimeMultidayView {
       fullday: e.fullday,
       start: parseDateTime(e.start),
       end: parseDateTime(e.end),
+      type: e.type,
     }));
   }
 
@@ -366,66 +369,66 @@ export class QuTimeMultidayView {
         : undefined;
 
     return (
-      <Host>
-        <div
-          class="header-area"
-          style={{
-            paddingRight: `${this.scrollbarInsets}px`,
-            '--day-count': `${this.internalDates.length}`,
-          }}
-        >
-          <div class="days-area">
-            <div class="days-area-header-area">
-              {this.internalDates.map(d => (
-                <Header date={d} />
-              ))}
+      <div
+        class="overflow-wrapper"
+        style={{
+          '--day-count': `${this.internalDates.length}`,
+          '--hours-count': `${this.internalHours.length}`,
+          '--hour-partition': `${scaleToHourPartition(this.scale)}`,
+        }}
+      >
+        <div class="main-content">
+          <div
+            class="header-area"
+            style={{
+              paddingRight: `${this.scrollbarInsets}px`,
+            }}
+          >
+            <div class="days-area">
+              <div class="days-area-header-area">
+                {this.internalDates.map(d => (
+                  <Header date={d} />
+                ))}
+              </div>
+              {dayLayout && dayLayout.entries.length > 0 && (
+                <Fragment>
+                  <FullDayEvents
+                    dates={this.internalDates}
+                    layout={dayLayout}
+                  ></FullDayEvents>
+                </Fragment>
+              )}
             </div>
-            {dayLayout && dayLayout.entries.length > 0 && (
-              <Fragment>
-                <FullDayEvents
-                  dates={this.internalDates}
-                  layout={dayLayout}
-                ></FullDayEvents>
-              </Fragment>
-            )}
           </div>
-        </div>
-        <div
-          class="content-area"
-          style={{
-            '--day-count': `${this.internalDates.length}`,
-            '--hours-count': `${this.internalHours.length}`,
-            '--hour-partition': `${scaleToHourPartition(this.scale)}`,
-          }}
-          ref={this.connectContentArea.bind(this)}
-        >
-          <div class="hours-column-area">
-            <div class="hours-column-content">
-              {this.internalHours.map(hour => (
-                <HourSegment
-                  hour={hour}
-                  scale={this.scale}
-                  showText={true}
+          <div class="content-area" ref={this.connectContentArea.bind(this)}>
+            <div class="hours-column-area">
+              <div class="hours-column-content">
+                {this.internalHours.map(hour => (
+                  <HourSegment
+                    hour={hour}
+                    scale={this.scale}
+                    showText={true}
+                    workhours={this.internalWorkhours}
+                    hoursCount={this.internalHours.length}
+                  />
+                ))}
+              </div>
+            </div>
+            <div class="content-days-area">
+              {this.internalDates.map(d => (
+                <ContentColumn
+                  hours={this.internalHours}
                   workhours={this.internalWorkhours}
+                  scale={this.scale}
+                  date={d}
+                  events={this.internalEvents}
                   hoursCount={this.internalHours.length}
                 />
               ))}
             </div>
           </div>
-          <div class="content-days-area">
-            {this.internalDates.map(d => (
-              <ContentColumn
-                hours={this.internalHours}
-                workhours={this.internalWorkhours}
-                scale={this.scale}
-                date={d}
-                events={this.internalEvents}
-                hoursCount={this.internalHours.length}
-              />
-            ))}
-          </div>
         </div>
-      </Host>
+      </div>
     );
   }
 }
@@ -468,13 +471,13 @@ type FullDayEventsProps = {
 };
 
 const FullDayEvents = (props: FullDayEventsProps) => {
-  const height = 'calc( ' + props.layout.maxLanes + ' * var(--size-300)';
   return (
-    <div class="header-full-day-container">
+    <div
+      class="header-full-day-container"
+      style={{ '--day-max-lanes': `${props.layout.maxLanes}` }}
+    >
       {props.dates.map(() => (
-        <div class="header-full-day-column">
-          <div style={{ minHeight: height }}></div>
-        </div>
+        <div class="header-full-day-column"></div>
       ))}
       {props.layout.entries.map(e => (
         <FullDayEntry
@@ -638,9 +641,20 @@ const TimeEventElement = (props: {
   const startTime = TIME_FORMAT.format(event.start.toDate(timezone));
   const endTime = TIME_FORMAT.format(event.end.toDate(timezone));
 
+  const part = event.type ? `time-event ${event.type}` : 'time-event';
+
+  const styleClasses = {
+    'time-event': true,
+  };
+
+  if (event.type) {
+    styleClasses[event.type] = true;
+  }
+
   return (
     <div
-      class="time-event"
+      class={styleClasses}
+      part={part}
       tabIndex={0}
       style={{
         left,
@@ -672,19 +686,6 @@ type HourSegmentProps = {
 };
 
 const HourSegment = (props: HourSegmentProps) => {
-  const borderTopColor =
-    props.hour < props.workhours.min + 1 || props.hour > props.workhours.max - 1
-      ? 'gray-400'
-      : 'gray-300';
-  const borderBottomColor =
-    props.hour < props.workhours.min || props.hour > props.workhours.max - 1
-      ? 'gray-400'
-      : 'gray-300';
-  const background =
-    props.hour >= props.workhours.min && props.hour < props.workhours.max
-      ? 'gray-50'
-      : undefined;
-
   const hourText = props.showText ? (
     <div class="hour-text-positioner">
       <span class="hour-text-text">
@@ -696,22 +697,27 @@ const HourSegment = (props: HourSegmentProps) => {
   return (
     <Fragment>
       <div
-        class="hour-text-container-dashed"
-        style={{
-          borderTopColor: `var(--color-${borderTopColor})`,
-          borderBottomColor: `var(--color-${borderBottomColor})`,
-          backgroundColor: background
-            ? `var(--color-${background})`
-            : undefined,
+        class={{
+          'hour-segment': true,
+          'hour-segment-work-hour':
+            props.hour >= props.workhours.min &&
+            props.hour < props.workhours.max,
+          'hour-segment-dashed': true,
+          'hour-segment-top-none-working':
+            props.hour < props.workhours.min + 1 ||
+            props.hour > props.workhours.max - 1,
+          'hour-segment-bottom-none-working':
+            props.hour < props.workhours.min ||
+            props.hour > props.workhours.max - 1,
         }}
       >
         {hourText}
       </div>
       <div
-        style={{
-          backgroundColor: background
-            ? `var(--color-${background})`
-            : undefined,
+        class={{
+          'hour-segment-work-hour':
+            props.hour >= props.workhours.min &&
+            props.hour < props.workhours.max,
         }}
       ></div>
     </Fragment>
