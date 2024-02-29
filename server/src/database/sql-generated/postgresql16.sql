@@ -39,9 +39,9 @@
         em_type integer not null,
         em_id bigint not null,
         em_date date not null,
+        em_description varchar(255),
         em_end timestamp(6) with time zone,
         em_start timestamp(6) with time zone,
-        em_description varchar(255),
         em_fk_event bigint not null,
         primary key (em_id)
     );
@@ -61,8 +61,8 @@
         er_recurrence_tz varchar(255) not null,
         er_start timestamp(6) with time zone not null,
         er_days_of_week smallint array,
-        er_month smallint check (er_month between 0 and 11),
         er_day_of_month smallint,
+        er_month smallint check (er_month between 0 and 11),
         primary key (er_id)
     );
 
