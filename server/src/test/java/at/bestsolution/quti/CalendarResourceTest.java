@@ -17,7 +17,8 @@ public class CalendarResourceTest extends BaseTest {
 	@Test
 	void testCreate() {
 		given()
-				.body("demo")
+				.header("Content-Type", "application/json")
+				.body("{ \"name\": \"demo\" }")
 				.post("/api/calendar")
 				.then()
 				.statusCode(201)

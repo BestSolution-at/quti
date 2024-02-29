@@ -2,6 +2,7 @@ package at.bestsolution.quti;
 
 import java.net.URI;
 
+import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.handler.calendar.CreateHandler;
 import at.bestsolution.quti.handler.calendar.GetHandler;
 import at.bestsolution.quti.handler.calendar.UpdateHandler;
@@ -54,15 +55,14 @@ public class CalendarResource {
 	}
 
 	@POST
-	public Response create(String name) {
-		var key = createHandler.create(name);
+	public Response create(CalendarNewDTO calendar) {
+		var key = createHandler.create(calendar);
 		return Response.created(URI.create("/api/calendar/" + key)).build();
 	}
 
 	@PATCH
 	@Path("{key}")
 	public Response update(@PathParam("key") String key, String patch) {
-		System.err.println("Updating calendar" +  key + ":" + patch);
 		var parsedKey = Utils.parseUUID(key, "key");
 		var parsedPatch = Utils.parseJsonPatch(patch, "patch");
 
