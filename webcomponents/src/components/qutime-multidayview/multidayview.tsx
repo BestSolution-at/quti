@@ -195,7 +195,7 @@ function eventsFromString(value: string): Events {
 
 @Component({
   tag: 'qutime-multidayview',
-  styleUrl: 'qutime-multidayview.css',
+  styleUrl: 'multidayview.css',
   shadow: true,
 })
 export class QuTimeMultidayView {

@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Events, LocalDate } from "./components/qutime-multidayview/qutime-multidayview";
-export { Events, LocalDate } from "./components/qutime-multidayview/qutime-multidayview";
+import { Events, LocalDate } from "./components/qutime-multidayview/multidayview";
+export { Events, LocalDate } from "./components/qutime-multidayview/multidayview";
 export namespace Components {
     interface QutimeMultidayview {
         "days": number;
