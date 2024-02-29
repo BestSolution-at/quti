@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.dto;
+package at.bestsolution.quti.dto;
 
 import java.time.ZonedDateTime;
 

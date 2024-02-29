@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler;
+package at.bestsolution.quti.handler;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.BaseTest;
+import at.bestsolution.quti.BaseTest;
 import jakarta.transaction.Transactional;
 
 public abstract class BaseHandlerTest<T extends BaseHandler> extends BaseTest {

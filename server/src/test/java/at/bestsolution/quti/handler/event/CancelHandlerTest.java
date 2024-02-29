@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,8 +8,8 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.Utils.ResultType;
-import at.bestsolution.qutime.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.Utils.ResultType;
+import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 

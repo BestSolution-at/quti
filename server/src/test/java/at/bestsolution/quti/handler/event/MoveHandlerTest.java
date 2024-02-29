@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,9 +9,8 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.Utils.ResultType;
-import at.bestsolution.qutime.model.modification.EventModificationCanceledEntity;
-import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.Utils.ResultType;
+import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest

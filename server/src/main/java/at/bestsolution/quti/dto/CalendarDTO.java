@@ -1,6 +1,6 @@
-package at.bestsolution.qutime.dto;
+package at.bestsolution.quti.dto;
 
-import at.bestsolution.qutime.model.CalendarEntity;
+import at.bestsolution.quti.model.CalendarEntity;
 
 public record CalendarDTO(String key, String name, String owner) {
 	public static CalendarDTO of(CalendarEntity entity) {

@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.dto;
+package at.bestsolution.quti.dto;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -7,9 +7,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 
-import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.modification.EventModificationCanceledEntity;
-import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 

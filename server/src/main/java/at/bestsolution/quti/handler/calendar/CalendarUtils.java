@@ -1,8 +1,8 @@
-package at.bestsolution.qutime.handler.calendar;
+package at.bestsolution.quti.handler.calendar;
 
 import java.util.UUID;
 
-import at.bestsolution.qutime.model.CalendarEntity;
+import at.bestsolution.quti.model.CalendarEntity;
 import jakarta.persistence.EntityManager;
 
 public class CalendarUtils {

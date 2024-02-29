@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.model;
+package at.bestsolution.quti.model;
 
 import java.util.List;
 import java.util.UUID;

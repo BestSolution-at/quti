@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler.calendar;
+package at.bestsolution.quti.handler.calendar;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

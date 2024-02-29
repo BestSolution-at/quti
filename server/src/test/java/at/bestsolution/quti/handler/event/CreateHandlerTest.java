@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,12 +16,12 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.qutime.Utils.ResultType;
-import at.bestsolution.qutime.dto.EventNewDTO;
-import at.bestsolution.qutime.dto.EventRepeatDTO.EventRepeatDailyDTO;
-import at.bestsolution.qutime.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
-import at.bestsolution.qutime.model.repeat.EventRepeatDailyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.Utils.ResultType;
+import at.bestsolution.quti.dto.EventNewDTO;
+import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatDailyDTO;
+import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
+import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest

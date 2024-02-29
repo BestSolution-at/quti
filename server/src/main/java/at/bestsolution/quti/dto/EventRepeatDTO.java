@@ -1,17 +1,17 @@
-package at.bestsolution.qutime.dto;
+package at.bestsolution.quti.dto;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-import at.bestsolution.qutime.model.EventRepeatEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteMonthlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatAbsoluteYearlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatDailyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatRelativeMonthlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatRelativeYearlyEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.model.EventRepeatEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatAbsoluteMonthlyEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatAbsoluteYearlyEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 

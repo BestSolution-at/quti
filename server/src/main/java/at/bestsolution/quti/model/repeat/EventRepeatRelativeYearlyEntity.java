@@ -1,10 +1,10 @@
-package at.bestsolution.qutime.model.repeat;
+package at.bestsolution.quti.model.repeat;
 
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.List;
 
-import at.bestsolution.qutime.model.EventRepeatEntity;
+import at.bestsolution.quti.model.EventRepeatEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

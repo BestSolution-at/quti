@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -10,10 +10,10 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-import at.bestsolution.qutime.Utils;
-import at.bestsolution.qutime.Utils.Result;
-import at.bestsolution.qutime.handler.BaseHandler;
-import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.quti.Utils;
+import at.bestsolution.quti.Utils.Result;
+import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.model.EventEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.json.JsonObject;

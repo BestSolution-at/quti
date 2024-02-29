@@ -1,12 +1,12 @@
-package at.bestsolution.qutime.handler.calendar;
+package at.bestsolution.quti.handler.calendar;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import at.bestsolution.qutime.dto.CalendarDTO;
-import at.bestsolution.qutime.handler.BaseReadonlyHandler;
-import at.bestsolution.qutime.model.CalendarEntity;
+import at.bestsolution.quti.dto.CalendarDTO;
+import at.bestsolution.quti.handler.BaseReadonlyHandler;
+import at.bestsolution.quti.model.CalendarEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

@@ -1,12 +1,12 @@
-package at.bestsolution.qutime.handler.calendar;
+package at.bestsolution.quti.handler.calendar;
 
 import java.util.UUID;
 
 import org.hibernate.StatelessSession;
 
-import at.bestsolution.qutime.handler.BaseHandler;
-import at.bestsolution.qutime.handler.BaseHandlerTest;
-import at.bestsolution.qutime.model.CalendarEntity;
+import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.handler.BaseHandlerTest;
+import at.bestsolution.quti.model.CalendarEntity;
 import jakarta.inject.Inject;
 
 public abstract class CalendarHandlerTest<T extends BaseHandler> extends BaseHandlerTest<T> {

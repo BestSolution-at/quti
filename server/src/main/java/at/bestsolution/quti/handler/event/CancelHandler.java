@@ -1,14 +1,14 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import at.bestsolution.qutime.Utils.Result;
-import at.bestsolution.qutime.handler.BaseHandler;
-import at.bestsolution.qutime.handler.RepeatUtils;
-import at.bestsolution.qutime.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.Utils.Result;
+import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.handler.RepeatUtils;
+import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

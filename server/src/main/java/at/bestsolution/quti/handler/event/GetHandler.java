@@ -1,11 +1,11 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import java.time.ZoneId;
 import java.util.UUID;
 
-import at.bestsolution.qutime.dto.EventDTO;
-import at.bestsolution.qutime.handler.BaseReadonlyHandler;
-import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.quti.dto.EventDTO;
+import at.bestsolution.quti.handler.BaseReadonlyHandler;
+import at.bestsolution.quti.model.EventEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

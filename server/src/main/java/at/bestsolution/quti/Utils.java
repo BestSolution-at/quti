@@ -1,4 +1,4 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import java.io.StringReader;
 import java.time.LocalDate;

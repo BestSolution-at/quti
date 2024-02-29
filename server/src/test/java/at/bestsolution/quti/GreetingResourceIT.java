@@ -1,4 +1,4 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 

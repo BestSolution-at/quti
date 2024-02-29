@@ -7,7 +7,7 @@
   <version>${revision}</version>
   <properties>
     <revision>999-SNAPSHOT</revision>
-    
+
     <compiler-plugin.version>3.12.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -89,7 +89,7 @@
 						<param>PostgreSQL@16</param>
 					</dialects>
 					<packages>
-						<param>at.bestsolution.qutime.model</param>
+						<param>at.bestsolution.quti.model</param>
 					</packages>
 					<outputDirectory>${project.basedir}/src/database/sql-generated</outputDirectory>
 				</configuration>

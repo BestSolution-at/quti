@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler.calendar;
+package at.bestsolution.quti.handler.calendar;
 
 
 import java.time.LocalDate;
@@ -12,12 +12,12 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import at.bestsolution.qutime.dto.EventViewDTO;
-import at.bestsolution.qutime.handler.BaseReadonlyHandler;
-import at.bestsolution.qutime.handler.RepeatUtils;
-import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.EventReferenceEntity;
-import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.dto.EventViewDTO;
+import at.bestsolution.quti.handler.BaseReadonlyHandler;
+import at.bestsolution.quti.handler.RepeatUtils;
+import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.model.EventReferenceEntity;
+import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.handler;
+package at.bestsolution.quti.handler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

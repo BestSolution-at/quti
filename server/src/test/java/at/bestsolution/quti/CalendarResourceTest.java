@@ -1,4 +1,4 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;

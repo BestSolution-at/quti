@@ -1,14 +1,14 @@
-package at.bestsolution.qutime.handler.event;
+package at.bestsolution.quti.handler.event;
 
 import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.StatelessSession;
 
-import at.bestsolution.qutime.handler.BaseHandler;
-import at.bestsolution.qutime.handler.BaseHandlerTest;
-import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.EventModificationEntity;
+import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.handler.BaseHandlerTest;
+import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.model.EventModificationEntity;
 import jakarta.inject.Inject;
 
 public abstract class EventHandlerTest<T extends BaseHandler> extends BaseHandlerTest<T> {

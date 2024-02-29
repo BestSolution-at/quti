@@ -1,11 +1,11 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import java.net.URI;
 
-import at.bestsolution.qutime.handler.calendar.CreateHandler;
-import at.bestsolution.qutime.handler.calendar.GetHandler;
-import at.bestsolution.qutime.handler.calendar.UpdateHandler;
-import at.bestsolution.qutime.handler.calendar.ViewHandler;
+import at.bestsolution.quti.handler.calendar.CreateHandler;
+import at.bestsolution.quti.handler.calendar.GetHandler;
+import at.bestsolution.quti.handler.calendar.UpdateHandler;
+import at.bestsolution.quti.handler.calendar.ViewHandler;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

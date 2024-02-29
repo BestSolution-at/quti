@@ -1,4 +1,4 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,11 +8,11 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import at.bestsolution.qutime.model.CalendarEntity;
-import at.bestsolution.qutime.model.EventEntity;
-import at.bestsolution.qutime.model.EventReferenceEntity;
-import at.bestsolution.qutime.model.modification.EventModificationMovedEntity;
-import at.bestsolution.qutime.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.model.EventReferenceEntity;
+import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

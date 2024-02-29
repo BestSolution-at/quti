@@ -1,4 +1,4 @@
-package at.bestsolution.qutime.model;
+package at.bestsolution.quti.model;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

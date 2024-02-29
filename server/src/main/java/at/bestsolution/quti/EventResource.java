@@ -1,16 +1,16 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import java.net.URI;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
-import at.bestsolution.qutime.dto.EventMoveDTO;
-import at.bestsolution.qutime.dto.EventNewDTO;
-import at.bestsolution.qutime.handler.event.CancelHandler;
-import at.bestsolution.qutime.handler.event.CreateHandler;
-import at.bestsolution.qutime.handler.event.DeleteHandler;
-import at.bestsolution.qutime.handler.event.GetHandler;
-import at.bestsolution.qutime.handler.event.MoveHandler;
+import at.bestsolution.quti.dto.EventMoveDTO;
+import at.bestsolution.quti.dto.EventNewDTO;
+import at.bestsolution.quti.handler.event.CancelHandler;
+import at.bestsolution.quti.handler.event.CreateHandler;
+import at.bestsolution.quti.handler.event.DeleteHandler;
+import at.bestsolution.quti.handler.event.GetHandler;
+import at.bestsolution.quti.handler.event.MoveHandler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;

@@ -1,10 +1,10 @@
-package at.bestsolution.qutime.dto;
+package at.bestsolution.quti.dto;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import at.bestsolution.qutime.model.EventEntity;
+import at.bestsolution.quti.model.EventEntity;
 
 public record EventDTO(
 		String key,

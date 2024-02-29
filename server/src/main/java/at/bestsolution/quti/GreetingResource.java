@@ -1,4 +1,4 @@
-package at.bestsolution.qutime;
+package at.bestsolution.quti;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
