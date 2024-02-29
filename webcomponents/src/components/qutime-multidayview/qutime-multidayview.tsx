@@ -560,8 +560,23 @@ const FullDayEntry = (props: FullDayEntryProps) => {
     </svg>
   );
 
+  const part = event.type ? `event day-event ${event.type}` : 'event day-event';
+  const classes = {
+    event: true,
+    'day-event': true,
+  };
+
+  if (event.type) {
+    classes[event.type] = true;
+  }
+
   return (
-    <div class="day-event" tabIndex={0} style={{ top, bottom, left, right }}>
+    <div
+      part={part}
+      class={classes}
+      tabIndex={0}
+      style={{ top, bottom, left, right }}
+    >
       {/* Create a new stacking context so that we can use :after/:before */}
       <div class="day-event-text-container">
         {leadText && (
@@ -641,19 +656,22 @@ const TimeEventElement = (props: {
   const startTime = TIME_FORMAT.format(event.start.toDate(timezone));
   const endTime = TIME_FORMAT.format(event.end.toDate(timezone));
 
-  const part = event.type ? `time-event ${event.type}` : 'time-event';
+  const part = event.type
+    ? `event time-event ${event.type}`
+    : 'event time-event';
 
-  const styleClasses = {
+  const classes = {
+    event: true,
     'time-event': true,
   };
 
   if (event.type) {
-    styleClasses[event.type] = true;
+    classes[event.type] = true;
   }
 
   return (
     <div
-      class={styleClasses}
+      class={classes}
       part={part}
       tabIndex={0}
       style={{

@@ -3,7 +3,6 @@
   flex-direction: column;
   overflow: hidden;
 
-  --size-300: 24px;
   --border-width-thin: 1px;
   --border-width-thick: 4px;
 
@@ -18,9 +17,32 @@
   --color-gray-400: #b1b1b1;
 
   /* blues */
-  --color-blue-400: #147af3;
-  --color-blue-600: #0054b6;
-  --color-blue-700: #004491;
+  --color-blue-800: #147af3;
+  --color-blue-1100: #004491;
+  --color-red-800: #ea3829;
+  --color-red-1100: #930000;
+  --color-orange-800: #cb5d00;
+  --color-orange-1100: #7a2f00;
+  --color-yellow-800: #9b7800;
+  --color-yellow-1100: #5b4300;
+  --color-charteuse-800: #678800;
+  --color-charteuse-1100: #3a4d00;
+  --color-celery-800: #009112;
+  --color-celery-1100: #00530d;
+  --color-green-800: #008f5d;
+  --color-green-1100: #005132;
+  --color-seafoam-800: #008c87;
+  --color-seafoam-1100: #0c4f4c;
+  --color-cyan-800: #0086b4;
+  --color-cyan-1100: #004a73;
+  --color-indigo-800: #686df4;
+  --color-indigo-1100: #3236a8;
+  --color-purple-800: #9d57f4;
+  --color-purple-1100: #5d13b7;
+  --color-fuchsia-800: #cd3ace;
+  --color-fuchsia-1100: #800081;
+  --color-magenta-800: #de3d82;
+  --color-magenta-1100: #8e0045;
 
   /* stylelint-enablecolor-no-hex */
 
@@ -32,7 +54,7 @@
   /* header stuff */
   --header-column-border-color: var(--color-gray-200);
   --header-area-bottom-border-color: var(--color-gray-300);
-  --header-today-marker-border-color: var(--color-blue-400);
+  --header-today-marker-border-color: var(--color-blue-800);
 
   /* content stuff */
   --content-time-column-width: 7ch;
@@ -44,11 +66,35 @@
   --content-column-min-width: 15ch;
 
   /* event stuff */
-  --event-color-type-1-bg: var(--color-blue-400);
-  --event-color-type-1-fg: var(--color-blue-700);
+  --event-color-type-1-bg: var(--color-blue-800);
+  --event-color-type-1-fg: var(--color-blue-1100);
+  --event-color-type-2-bg: var(--color-red-800);
+  --event-color-type-2-fg: var(--color-red-1100);
+  --event-color-type-3-bg: var(--color-orange-800);
+  --event-color-type-3-fg: var(--color-orange-1100);
+  --event-color-type-4-bg: var(--color-yellow-800);
+  --event-color-type-4-fg: var(--color-yellow-1100);
+  --event-color-type-5-bg: var(--color-charteuse-800);
+  --event-color-type-5-fg: var(--color-charteuse-1100);
+  --event-color-type-6-bg: var(--color-celery-800);
+  --event-color-type-6-fg: var(--color-celery-1100);
+  --event-color-type-7-bg: var(--color-green-800);
+  --event-color-type-7-fg: var(--color-green-1100);
+  --event-color-type-8-bg: var(--color-seafoam-800);
+  --event-color-type-8-fg: var(--color-seafoam-1100);
+  --event-color-type-9-bg: var(--color-cyan-800);
+  --event-color-type-9-fg: var(--color-cyan-1100);
+  --event-color-type-10-bg: var(--color-indigo-800);
+  --event-color-type-10-fg: var(--color-indigo-1100);
+  --event-color-type-11-bg: var(--color-purple-800);
+  --event-color-type-11-fg: var(--color-purple-1100);
+  --event-color-type-12-bg: var(--color-fuchsia-800);
+  --event-color-type-12-fg: var(--color-fuchsia-1100);
+  --event-color-type-13-bg: var(--color-magenta-800);
+  --event-color-type-13-fg: var(--color-magenta-1100);
 
   /* fullday event stuff */
-  --full-day-event-height: 3ex;
+  --full-day-event-height: 1.2lh;
 
   border-width: var(--outline-border-width);
   border-style: solid;
@@ -129,7 +175,7 @@
 }
 
 .day-header-text-container.today .day-text-date {
-  color: var(--color-blue-700);
+  color: var(--color-blue-1100);
 }
 
 .day-text-week {
@@ -235,24 +281,91 @@
   flex-grow: 1;
 }
 
+.event {
+  --event-color-bg: var(--event-color-type-1-bg);
+  --event-color-fg: var(--event-color-type-1-fg);
+}
+
+.event.event.type-1 {
+  --event-color-bg: var(--event-color-type-1-bg);
+  --event-color-fg: var(--event-color-type-1-fg);
+}
+
+.event.event.type-2 {
+  --event-color-bg: var(--event-color-type-2-bg);
+  --event-color-fg: var(--event-color-type-2-fg);
+}
+
+.event.event.type-3 {
+  --event-color-bg: var(--event-color-type-3-bg);
+  --event-color-fg: var(--event-color-type-3-fg);
+}
+
+.event.event.type-4 {
+  --event-color-bg: var(--event-color-type-4-bg);
+  --event-color-fg: var(--event-color-type-4-fg);
+}
+
+.event.event.type-5 {
+  --event-color-bg: var(--event-color-type-5-bg);
+  --event-color-fg: var(--event-color-type-5-fg);
+}
+
+.event.event.type-6 {
+  --event-color-bg: var(--event-color-type-6-bg);
+  --event-color-fg: var(--event-color-type-6-fg);
+}
+
+.event.event.type-7 {
+  --event-color-bg: var(--event-color-type-7-bg);
+  --event-color-fg: var(--event-color-type-7-fg);
+}
+
+.event.event.type-8 {
+  --event-color-bg: var(--event-color-type-8-bg);
+  --event-color-fg: var(--event-color-type-8-fg);
+}
+
+.event.event.type-9 {
+  --event-color-bg: var(--event-color-type-9-bg);
+  --event-color-fg: var(--event-color-type-9-fg);
+}
+
+.event.event.type-10 {
+  --event-color-bg: var(--event-color-type-10-bg);
+  --event-color-fg: var(--event-color-type-10-fg);
+}
+
+.event.event.type-11 {
+  --event-color-bg: var(--event-color-type-11-bg);
+  --event-color-fg: var(--event-color-type-11-fg);
+}
+
+.event.event.type-12 {
+  --event-color-bg: var(--event-color-type-12-bg);
+  --event-color-fg: var(--event-color-type-12-fg);
+}
+
+.event.event.type-13 {
+  --event-color-bg: var(--event-color-type-13-bg);
+  --event-color-fg: var(--event-color-type-13-fg);
+}
+
 .time-event {
   display: flex;
   position: absolute;
   scroll-margin-top: 10px;
   scroll-margin-bottom: 10px;
   outline: none;
-
-  --event-color-bg: var(--event-color-type-1-bg);
-  --event-color-fg: var(--event-color-type-1-fg);
-
   color: var(--event-color-fg);
-  overflow: hidden;
+  overflow: clip;
 }
 
 .time-event-content {
   border-left: 4px solid var(--event-color-fg);
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
+  display: flex;
 }
 
 .time-event::before {
@@ -282,6 +395,7 @@
 
 .time-event .event-text-positioner {
   max-height: 100%;
+  max-width: 100%;
   position: sticky;
   top: 0;
   display: flex;
@@ -289,6 +403,7 @@
   font-size: 1em;
   line-height: 1em;
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .time-event:focus .event-text-positioner {
@@ -305,6 +420,7 @@
   column-gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+  overflow: hidden;
 }
 
 .time-event:focus .event-text {
@@ -328,10 +444,6 @@
   white-space: nowrap;
   padding-left: 10px;
   padding-right: 10px;
-
-  --event-color-bg: var(--event-color-type-1-bg);
-  --event-color-fg: var(--event-color-type-1-fg);
-
   color: var(--event-color-fg);
 }
 
@@ -339,7 +451,7 @@
   position: relative; /* We want a new stacking container */
   display: flex;
   flex-grow: 1;
-  align-items: baseline;
+  align-items: center;
 }
 
 .day-event-text {
