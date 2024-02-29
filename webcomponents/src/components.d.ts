@@ -8,7 +8,7 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Events, LocalDate } from "./components/multidayview/multidayview";
 export { Events, LocalDate } from "./components/multidayview/multidayview";
 export namespace Components {
-    interface QutimeMultidayview {
+    interface QutiMultidayview {
         "days": number;
         "events": Events | string;
         "hoursMax": number;
@@ -19,18 +19,18 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLQutimeMultidayviewElement extends Components.QutimeMultidayview, HTMLStencilElement {
+    interface HTMLQutiMultidayviewElement extends Components.QutiMultidayview, HTMLStencilElement {
     }
-    var HTMLQutimeMultidayviewElement: {
-        prototype: HTMLQutimeMultidayviewElement;
-        new (): HTMLQutimeMultidayviewElement;
+    var HTMLQutiMultidayviewElement: {
+        prototype: HTMLQutiMultidayviewElement;
+        new (): HTMLQutiMultidayviewElement;
     };
     interface HTMLElementTagNameMap {
-        "qutime-multidayview": HTMLQutimeMultidayviewElement;
+        "quti-multidayview": HTMLQutiMultidayviewElement;
     }
 }
 declare namespace LocalJSX {
-    interface QutimeMultidayview {
+    interface QutiMultidayview {
         "days"?: number;
         "events"?: Events | string;
         "hoursMax"?: number;
@@ -40,14 +40,14 @@ declare namespace LocalJSX {
         "workingHoursMin"?: number;
     }
     interface IntrinsicElements {
-        "qutime-multidayview": QutimeMultidayview;
+        "quti-multidayview": QutiMultidayview;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "qutime-multidayview": LocalJSX.QutimeMultidayview & JSXBase.HTMLAttributes<HTMLQutimeMultidayviewElement>;
+            "quti-multidayview": LocalJSX.QutiMultidayview & JSXBase.HTMLAttributes<HTMLQutiMultidayviewElement>;
         }
     }
 }
