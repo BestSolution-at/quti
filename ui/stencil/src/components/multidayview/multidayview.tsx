@@ -8,7 +8,6 @@ import {
   isToday,
   parseDate,
   parseDateTime,
-  parseDuration,
   parseTime,
   startOfMonth,
   startOfWeek,
@@ -139,7 +138,6 @@ function toDayLayoutEntry(
   totalDays: number,
   e: InternalEvent,
 ): LaneLayoutEntry<InternalEvent> {
-  parseDuration;
   const from = Math.max(
     0,
     Duration.between(start, toCalendarDate(e.start)).toDays(),
