@@ -17,10 +17,12 @@ import {
 } from '@internationalized/date';
 import {
   Component,
+  EventEmitter,
   Fragment,
   Host,
   Prop,
   State,
+  Event as StencilEvent,
   Watch,
   h,
 } from '@stencil/core';
@@ -42,7 +44,7 @@ export type LocalDatetime = string;
 
 export type LocalDates = readonly LocalDate[];
 
-export type Event = {
+export type QEvent = {
   readonly key: string;
   readonly start: LocalDatetime;
   readonly end: LocalDatetime;
@@ -51,7 +53,7 @@ export type Event = {
   readonly type?: string;
 };
 
-export type Events = readonly Event[];
+export type QEvents = readonly QEvent[];
 
 type InternalEvent = {
   readonly key: string;
@@ -60,6 +62,7 @@ type InternalEvent = {
   readonly subject: string;
   readonly fullday?: boolean;
   readonly type?: string;
+  readonly originalEvent: QEvent;
 };
 
 export type SCALE =
@@ -164,7 +167,7 @@ function defaultStartDate() {
   ).toString();
 }
 
-function isEvent(value: unknown): value is Event {
+function isEvent(value: unknown): value is QEvent {
   return (
     value !== undefined &&
     value !== null &&
@@ -181,7 +184,7 @@ function isEvent(value: unknown): value is Event {
   );
 }
 
-function eventsFromString(value: string): Events {
+function eventsFromString(value: string): QEvents {
   const result = JSON.parse(value);
 
   if (Array.isArray(result)) {
@@ -197,24 +200,45 @@ function eventsFromString(value: string): Events {
   shadow: true,
 })
 export class QuTimeMultidayView {
+  /**
+   * The start date - defaults to start of the current week
+   */
   @Prop()
   startDate: LocalDate = defaultStartDate();
 
+  /**
+   * The number of days to show - defaults to 7
+   */
   @Prop()
   days = 7;
 
+  /**
+   * Array of events to show - might be encoded as a JSON-Array
+   */
   @Prop()
-  events: Events | string = [];
+  events: QEvents | string = [];
 
+  /**
+   * Start of working hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 8
+   */
   @Prop()
   workingHoursMin = 8;
 
+  /**
+   * End of work hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 17
+   */
   @Prop()
   workingHoursMax = 17;
 
+  /**
+   * Start of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 0
+   */
   @Prop()
   hoursMin = 0;
 
+  /**
+   * End of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 24
+   */
   @Prop()
   hoursMax = 24;
 
@@ -226,6 +250,18 @@ export class QuTimeMultidayView {
   private internalEvents: InternalEvent[] = [];
   @State()
   private internalWorkhours: Range<number> = { min: 8, max: 17 };
+
+  /**
+   * Event emitted when an event entry has gained focus
+   */
+  @StencilEvent({ composed: true, bubbles: true })
+  private eventFocus: EventEmitter<QEvent>;
+
+  /**
+   * Event emitted when an event entry lost focus
+   */
+  @StencilEvent({ composed: true, bubbles: true })
+  private eventBlur: EventEmitter<QEvent>;
 
   private internalHours = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -299,6 +335,7 @@ export class QuTimeMultidayView {
       start: parseDateTime(e.start),
       end: parseDateTime(e.end),
       type: e.type,
+      originalEvent: e,
     }));
   }
 
@@ -393,6 +430,8 @@ export class QuTimeMultidayView {
                   <FullDayEvents
                     dates={this.internalDates}
                     layout={dayLayout}
+                    eventFocus={this.eventFocus}
+                    eventBlur={this.eventBlur}
                   ></FullDayEvents>
                 </Fragment>
               )}
@@ -421,6 +460,8 @@ export class QuTimeMultidayView {
                   date={d}
                   events={this.internalEvents}
                   hoursCount={this.internalHours.length}
+                  eventFocus={this.eventFocus}
+                  eventBlur={this.eventBlur}
                 />
               ))}
             </div>
@@ -466,6 +507,8 @@ const Header = (props: { date: CalendarDate }) => {
 type FullDayEventsProps = {
   dates: CalendarDate[];
   layout: LaneLayout<LaneLayoutEntry<InternalEvent>>;
+  eventFocus: EventEmitter<QEvent>;
+  eventBlur: EventEmitter<QEvent>;
 };
 
 const FullDayEvents = (props: FullDayEventsProps) => {
@@ -483,6 +526,8 @@ const FullDayEvents = (props: FullDayEventsProps) => {
           startDate={props.dates[0]}
           endDate={props.dates[props.dates.length - 1]}
           layoutEntry={e}
+          eventFocus={props.eventFocus}
+          eventBlur={props.eventBlur}
         ></FullDayEntry>
       ))}
     </div>
@@ -494,6 +539,8 @@ type FullDayEntryProps = {
   endDate: CalendarDate;
   maxLanes: number;
   layoutEntry: LaneLayoutEntry<InternalEvent>;
+  eventFocus: EventEmitter<QEvent>;
+  eventBlur: EventEmitter<QEvent>;
 };
 
 const FullDayEntry = (props: FullDayEntryProps) => {
@@ -568,12 +615,22 @@ const FullDayEntry = (props: FullDayEntryProps) => {
     classes[event.type] = true;
   }
 
+  const focused = () => {
+    props.eventFocus.emit(event.originalEvent);
+  };
+
+  const blur = () => {
+    props.eventBlur.emit(event.originalEvent);
+  };
+
   return (
     <div
       part={part}
       class={classes}
       tabIndex={0}
       style={{ top, bottom, left, right }}
+      onFocus={focused}
+      onBlur={blur}
     >
       {/* Create a new stacking context so that we can use :after/:before */}
       <div class="day-event-text-container">
@@ -600,6 +657,8 @@ type ContentColumnProps = {
   scale: SCALE;
   workhours: Range<number>;
   hoursCount: number;
+  eventFocus: EventEmitter<QEvent>;
+  eventBlur: EventEmitter<QEvent>;
 };
 
 const ContentColumn = (props: ContentColumnProps) => {
@@ -632,17 +691,26 @@ const ContentColumn = (props: ContentColumnProps) => {
           />
         ))}
         {layout.entries.map(entry => (
-          <TimeEventElement entry={entry} startShift={startShift} />
+          <TimeEventEntry
+            entry={entry}
+            startShift={startShift}
+            eventFocus={props.eventFocus}
+            eventBlur={props.eventBlur}
+          />
         ))}
       </div>
     </div>
   );
 };
 
-const TimeEventElement = (props: {
+type TimeEventEntryProps = {
   entry: LaneLayoutEntry<InternalEvent>;
   startShift: number;
-}) => {
+  eventFocus: EventEmitter<QEvent>;
+  eventBlur: EventEmitter<QEvent>;
+};
+
+const TimeEventEntry = (props: TimeEventEntryProps) => {
   const { entry } = props;
   const event = entry.data;
   const top = `calc(${entry.dimension.min - props.startShift}% + 2px)`;
@@ -667,11 +735,21 @@ const TimeEventElement = (props: {
     classes[event.type] = true;
   }
 
+  const focused = () => {
+    props.eventFocus.emit(event.originalEvent);
+  };
+
+  const blur = () => {
+    props.eventBlur.emit(event.originalEvent);
+  };
+
   return (
     <div
       class={classes}
       part={part}
       tabIndex={0}
+      onFocus={focused}
+      onBlur={blur}
       style={{
         left,
         right,

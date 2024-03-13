@@ -5,21 +5,58 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Events, LocalDate } from "./components/multidayview/multidayview";
-export { Events, LocalDate } from "./components/multidayview/multidayview";
+import { LocalDate, QEvent, QEvents } from "./components/multidayview/multidayview";
+export { LocalDate, QEvent, QEvents } from "./components/multidayview/multidayview";
 export namespace Components {
     interface QutiMultidayview {
+        /**
+          * The number of days to show - defaults to 7
+         */
         "days": number;
-        "events": Events | string;
+        /**
+          * Array of events to show - might be encoded as a JSON-Array
+         */
+        "events": QEvents | string;
+        /**
+          * End of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 24
+         */
         "hoursMax": number;
+        /**
+          * Start of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 0
+         */
         "hoursMin": number;
+        /**
+          * The start date - defaults to start of the current week
+         */
         "startDate": LocalDate;
+        /**
+          * End of work hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 17
+         */
         "workingHoursMax": number;
+        /**
+          * Start of working hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 8
+         */
         "workingHoursMin": number;
     }
 }
+export interface QutiMultidayviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLQutiMultidayviewElement;
+}
 declare global {
+    interface HTMLQutiMultidayviewElementEventMap {
+        "eventFocus": QEvent;
+        "eventBlur": QEvent;
+    }
     interface HTMLQutiMultidayviewElement extends Components.QutiMultidayview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLQutiMultidayviewElementEventMap>(type: K, listener: (this: HTMLQutiMultidayviewElement, ev: QutiMultidayviewCustomEvent<HTMLQutiMultidayviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLQutiMultidayviewElementEventMap>(type: K, listener: (this: HTMLQutiMultidayviewElement, ev: QutiMultidayviewCustomEvent<HTMLQutiMultidayviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLQutiMultidayviewElement: {
         prototype: HTMLQutiMultidayviewElement;
@@ -31,12 +68,41 @@ declare global {
 }
 declare namespace LocalJSX {
     interface QutiMultidayview {
+        /**
+          * The number of days to show - defaults to 7
+         */
         "days"?: number;
-        "events"?: Events | string;
+        /**
+          * Array of events to show - might be encoded as a JSON-Array
+         */
+        "events"?: QEvents | string;
+        /**
+          * End of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 24
+         */
         "hoursMax"?: number;
+        /**
+          * Start of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 0
+         */
         "hoursMin"?: number;
+        /**
+          * Event emitted when an event entry lost focus
+         */
+        "onEventBlur"?: (event: QutiMultidayviewCustomEvent<QEvent>) => void;
+        /**
+          * Event emitted when an event entry has gained focus
+         */
+        "onEventFocus"?: (event: QutiMultidayviewCustomEvent<QEvent>) => void;
+        /**
+          * The start date - defaults to start of the current week
+         */
         "startDate"?: LocalDate;
+        /**
+          * End of work hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 17
+         */
         "workingHoursMax"?: number;
+        /**
+          * Start of working hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 8
+         */
         "workingHoursMin"?: number;
     }
     interface IntrinsicElements {

@@ -37,10 +37,12 @@
       "
     >
       <quti-multidayview
+        id="day-viewer"
         start-date="2024-02-26"
         days="5"
         hours-min="6"
         hours-max="22"
+        onEventFocused="alert('Holllaaaa')"
         events='[
         {
           "key": "1",
@@ -94,5 +96,9 @@
       ]'
       ></qutime-multidayview>
     </div>
+    <script>
+      document.getElementById('day-viewer').addEventListener('eventFocus', (event) => console.log('Focus: ', event.detail));
+      document.getElementById('day-viewer').addEventListener('eventBlur', (event) => console.log('Blur: ', event.detail));
+    </script>
   </body>
 </html>
