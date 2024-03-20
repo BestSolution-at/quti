@@ -13,31 +13,31 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
-import at.bestsolution.quti.client.Calendar;
-import at.bestsolution.quti.client.Event;
-import at.bestsolution.quti.client.Events;
+import at.bestsolution.quti.client.CalendarService;
+import at.bestsolution.quti.client.EventService;
+import at.bestsolution.quti.client.EventsService;
 import at.bestsolution.quti.client.dto.CalendarDTO;
 import at.bestsolution.quti.client.dto.EventViewDTO;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewDTOImpl;
 import jakarta.json.Json;
 
-public class CalendarImpl implements Calendar {
+public class CalendarServiceImpl implements CalendarService {
 	private final String baseURI;
 	private final HttpClient client;
 
-	CalendarImpl(HttpClient client, String baseURI) {
+	CalendarServiceImpl(HttpClient client, String baseURI) {
 		this.client = client;
 		this.baseURI = baseURI;
 	}
 
 	@Override
-	public Events events() {
-		return new EventsImpl(client, String.format("%s/events",baseURI));
+	public EventsService events() {
+		return new EventsServiceImpl(client, String.format("%s/events",baseURI));
 	}
 
 	@Override
-	public Event event(String key) {
+	public EventService event(String key) {
 		return events().event(key);
 	}
 

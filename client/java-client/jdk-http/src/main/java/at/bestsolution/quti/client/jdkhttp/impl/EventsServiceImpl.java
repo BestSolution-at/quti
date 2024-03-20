@@ -8,24 +8,24 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.function.Function;
 
-import at.bestsolution.quti.client.Event;
-import at.bestsolution.quti.client.Events;
+import at.bestsolution.quti.client.EventService;
+import at.bestsolution.quti.client.EventsService;
 import at.bestsolution.quti.client.dto.EventNewDTO;
 import at.bestsolution.quti.client.dto.EventNewDTO.Builder;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventNewDTOImpl;
 
-public class EventsImpl implements Events {
+public class EventsServiceImpl implements EventsService {
     private final String baseURI;
     private final HttpClient client;
 
-    EventsImpl(HttpClient client, String baseURI) {
+    EventsServiceImpl(HttpClient client, String baseURI) {
         this.client = client;
         this.baseURI = baseURI;
     }
 
 	@Override
-	public Event event(String key) {
-		return new EventImpl(client, String.format("%s/%s", baseURI, key));
+	public EventService event(String key) {
+		return new EventServiceImpl(client, String.format("%s/%s", baseURI, key));
 	}
 
 	@Override

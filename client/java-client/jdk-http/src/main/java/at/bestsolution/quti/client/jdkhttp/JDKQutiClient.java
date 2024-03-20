@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import at.bestsolution.quti.client.Calendar;
-import at.bestsolution.quti.client.Calendars;
+import at.bestsolution.quti.client.CalendarService;
+import at.bestsolution.quti.client.CalendarsService;
 import at.bestsolution.quti.client.QutiClient;
 import at.bestsolution.quti.client.dto.CalendarNewDTO;
 import at.bestsolution.quti.client.dto.EventNewDTO;
 import at.bestsolution.quti.client.dto.BaseDTO.Builder;
-import at.bestsolution.quti.client.jdkhttp.impl.CalendarsImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.CalendarsServiceImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarNewDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventNewDTOImpl;
 
@@ -48,12 +48,12 @@ public class JDKQutiClient implements QutiClient {
     }
 
     @Override
-    public Calendars calendars() {
-        return new CalendarsImpl(HttpClient.newHttpClient(), baseURI.toString());
+    public CalendarsService calendars() {
+        return new CalendarsServiceImpl(HttpClient.newHttpClient(), baseURI.toString());
     }
 
     @Override
-    public Calendar calendar(String key) {
+    public CalendarService calendar(String key) {
         return calendars().calendar(key);
     }
 }

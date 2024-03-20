@@ -8,14 +8,14 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.client.Event;
+import at.bestsolution.quti.client.EventService;
 import jakarta.json.Json;
 
-public class EventImpl implements Event {
+public class EventServiceImpl implements EventService {
 	private final String baseURI;
 	private final HttpClient client;
 
-	EventImpl(HttpClient client, String baseURI) {
+	EventServiceImpl(HttpClient client, String baseURI) {
 		this.client = client;
 		this.baseURI = baseURI;
 		System.err.println("URI: " + this.baseURI);

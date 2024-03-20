@@ -8,24 +8,24 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.function.Function;
 
-import at.bestsolution.quti.client.Calendar;
-import at.bestsolution.quti.client.Calendars;
+import at.bestsolution.quti.client.CalendarService;
+import at.bestsolution.quti.client.CalendarsService;
 import at.bestsolution.quti.client.dto.CalendarNewDTO;
 import at.bestsolution.quti.client.dto.CalendarNewDTO.Builder;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarNewDTOImpl;
 
-public class CalendarsImpl implements Calendars {
+public class CalendarsServiceImpl implements CalendarsService {
     private final String baseURI;
     private final HttpClient client;
 
-    public CalendarsImpl(HttpClient client, String baseURI) {
+    public CalendarsServiceImpl(HttpClient client, String baseURI) {
         this.client = client;
         this.baseURI = baseURI;
     }
 
     @Override
-    public Calendar calendar(String key) {
-        return new CalendarImpl(client, String.format("%s/%s",baseURI,key));
+    public CalendarService calendar(String key) {
+        return new CalendarServiceImpl(client, String.format("%s/%s",baseURI,key));
     }
 
     @Override
