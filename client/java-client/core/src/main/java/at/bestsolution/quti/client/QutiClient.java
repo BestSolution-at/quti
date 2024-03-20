@@ -13,4 +13,5 @@ public interface QutiClient {
 
     public <T extends BaseDTO.Builder<?>> T builder(Class<T> clazz);
     public Calendars calendars();
+    public Calendar calendar(String key);
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import at.bestsolution.quti.client.Calendar;
 import at.bestsolution.quti.client.Calendars;
 import at.bestsolution.quti.client.QutiClient;
 import at.bestsolution.quti.client.dto.CalendarNewDTO;
@@ -49,5 +50,10 @@ public class JDKQutiClient implements QutiClient {
     @Override
     public Calendars calendars() {
         return new CalendarsImpl(HttpClient.newHttpClient(), baseURI.toString());
+    }
+
+    @Override
+    public Calendar calendar(String key) {
+        return calendars().calendar(key);
     }
 }

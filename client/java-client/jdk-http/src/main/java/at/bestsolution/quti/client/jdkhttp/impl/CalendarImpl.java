@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import at.bestsolution.quti.client.Calendar;
+import at.bestsolution.quti.client.Event;
 import at.bestsolution.quti.client.Events;
 import at.bestsolution.quti.client.dto.CalendarDTO;
 import at.bestsolution.quti.client.dto.EventViewDTO;
@@ -33,6 +34,11 @@ public class CalendarImpl implements Calendar {
 	@Override
 	public Events events() {
 		return new EventsImpl(client, String.format("%s/events",baseURI));
+	}
+
+	@Override
+	public Event event(String key) {
+		return events().event(key);
 	}
 
 	@Override
