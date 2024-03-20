@@ -8,6 +8,27 @@
 	<artifactId>client</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
+	<name>Quti Java Client Libs</name>
+	<description>Client library to access the calendar from an Java application</description>
+	<developers>
+		<developer>
+			<name>Quti Team</name>
+			<email>help@quti.dev</email>
+		</developer>
+	</developers>
+	<url>
+		https://quti.dev
+	</url>
+	<scm>
+		<url>https://github.com/BestSolution-at/quti.git</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>Apache-2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
 	<properties>
 		<revision>999-SNAPSHOT</revision>
 
