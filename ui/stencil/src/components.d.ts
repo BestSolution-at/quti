@@ -5,10 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { QMenuItem, QMenuSection } from "./components/contextmenu/contextmenu";
 import { LocalDate, QEvent, QEvents } from "./components/multidayview/multidayview";
+export { QMenuItem, QMenuSection } from "./components/contextmenu/contextmenu";
 export { LocalDate, QEvent, QEvents } from "./components/multidayview/multidayview";
 export namespace Components {
-    interface QutiMultidayview {
+    interface QutiContextMenu {
+        "items": QMenuItem[] | QMenuSection[];
+    }
+    interface QutiMultidayView {
         /**
           * The number of days to show - defaults to 7
          */
@@ -39,35 +44,45 @@ export namespace Components {
         "workingHoursMin": number;
     }
 }
-export interface QutiMultidayviewCustomEvent<T> extends CustomEvent<T> {
+export interface QutiMultidayViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLQutiMultidayviewElement;
+    target: HTMLQutiMultidayViewElement;
 }
 declare global {
-    interface HTMLQutiMultidayviewElementEventMap {
+    interface HTMLQutiContextMenuElement extends Components.QutiContextMenu, HTMLStencilElement {
+    }
+    var HTMLQutiContextMenuElement: {
+        prototype: HTMLQutiContextMenuElement;
+        new (): HTMLQutiContextMenuElement;
+    };
+    interface HTMLQutiMultidayViewElementEventMap {
         "eventFocus": QEvent;
         "eventBlur": QEvent;
     }
-    interface HTMLQutiMultidayviewElement extends Components.QutiMultidayview, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLQutiMultidayviewElementEventMap>(type: K, listener: (this: HTMLQutiMultidayviewElement, ev: QutiMultidayviewCustomEvent<HTMLQutiMultidayviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLQutiMultidayViewElement extends Components.QutiMultidayView, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLQutiMultidayViewElementEventMap>(type: K, listener: (this: HTMLQutiMultidayViewElement, ev: QutiMultidayViewCustomEvent<HTMLQutiMultidayViewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLQutiMultidayviewElementEventMap>(type: K, listener: (this: HTMLQutiMultidayviewElement, ev: QutiMultidayviewCustomEvent<HTMLQutiMultidayviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLQutiMultidayViewElementEventMap>(type: K, listener: (this: HTMLQutiMultidayViewElement, ev: QutiMultidayViewCustomEvent<HTMLQutiMultidayViewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLQutiMultidayviewElement: {
-        prototype: HTMLQutiMultidayviewElement;
-        new (): HTMLQutiMultidayviewElement;
+    var HTMLQutiMultidayViewElement: {
+        prototype: HTMLQutiMultidayViewElement;
+        new (): HTMLQutiMultidayViewElement;
     };
     interface HTMLElementTagNameMap {
-        "quti-multidayview": HTMLQutiMultidayviewElement;
+        "quti-context-menu": HTMLQutiContextMenuElement;
+        "quti-multiday-view": HTMLQutiMultidayViewElement;
     }
 }
 declare namespace LocalJSX {
-    interface QutiMultidayview {
+    interface QutiContextMenu {
+        "items"?: QMenuItem[] | QMenuSection[];
+    }
+    interface QutiMultidayView {
         /**
           * The number of days to show - defaults to 7
          */
@@ -87,11 +102,11 @@ declare namespace LocalJSX {
         /**
           * Event emitted when an event entry lost focus
          */
-        "onEventBlur"?: (event: QutiMultidayviewCustomEvent<QEvent>) => void;
+        "onEventBlur"?: (event: QutiMultidayViewCustomEvent<QEvent>) => void;
         /**
           * Event emitted when an event entry has gained focus
          */
-        "onEventFocus"?: (event: QutiMultidayviewCustomEvent<QEvent>) => void;
+        "onEventFocus"?: (event: QutiMultidayViewCustomEvent<QEvent>) => void;
         /**
           * The start date - defaults to start of the current week
          */
@@ -106,14 +121,16 @@ declare namespace LocalJSX {
         "workingHoursMin"?: number;
     }
     interface IntrinsicElements {
-        "quti-multidayview": QutiMultidayview;
+        "quti-context-menu": QutiContextMenu;
+        "quti-multiday-view": QutiMultidayView;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "quti-multidayview": LocalJSX.QutiMultidayview & JSXBase.HTMLAttributes<HTMLQutiMultidayviewElement>;
+            "quti-context-menu": LocalJSX.QutiContextMenu & JSXBase.HTMLAttributes<HTMLQutiContextMenuElement>;
+            "quti-multiday-view": LocalJSX.QutiMultidayView & JSXBase.HTMLAttributes<HTMLQutiMultidayViewElement>;
         }
     }
 }

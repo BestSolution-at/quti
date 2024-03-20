@@ -195,11 +195,11 @@ function eventsFromString(value: string): QEvents {
 }
 
 @Component({
-  tag: 'quti-multidayview',
+  tag: 'quti-multiday-view',
   styleUrl: 'multidayview.css',
   shadow: true,
 })
-export class QuTimeMultidayView {
+export class QutiMultidayView {
   /**
    * The start date - defaults to start of the current week
    */
