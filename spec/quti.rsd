@@ -1,0 +1,139 @@
+-- The day of a week
+enum DayOfWeek = 
+    MONDAY
+    | TUESDAY
+    | WEDNESDAY
+    | THURSDAY
+    | FRIDAY
+    | SATURDAY
+    | SUNDAY
+;
+
+
+enum Month =
+    JANUARY
+    | FEBRUARY
+    | MARCH
+    | APRIL
+    | MAY
+    | JUNE
+    | JULY
+    | AUGUST
+    | SEPTEMBER
+    | OCTOBER
+    | DECEMBER
+;
+
+scalar ZoneId;
+
+mixin CalendarData {
+    name: string  -- Name of the calendar
+    owner: string -- Owner of the calendar
+}
+
+record Calendar {
+    @id key: string     -- Unique identifier of the calendar
+    include CalendarData
+}
+
+record CalendarNew {
+    include CalendarData
+}
+
+mixin EventRepeatData {
+    interval: short
+    endDate: local-date
+    timeZone: ZoneId
+}
+
+record EventRepeatDaily {
+    include EventRepeatData
+}
+
+record EventRepeatWeekly {
+    include EventRepeatData
+    daysOfWeek: DayOfWeek[7]
+}
+
+record EventRepeatAbsoluteMonthly {
+    include EventRepeatData
+    dayOfMonth: short
+}
+
+record EventRepeatAbsoluteYearly {
+    include EventRepeatData
+    month: Month
+}
+
+record EventRepeatRelativeMonthly {
+    include EventRepeatData
+    daysOfWeek: DayOfWeek[7]
+}
+
+record EventRepeatRelativeYearly {
+    include EventRepeatData
+    daysOfWeek: DayOfWeek[7]
+    month: Month
+}
+
+union EventRepeat = 
+    EventRepeatDaily('daily')
+    | EventRepeatWeekly('weekly')
+    | EventRepeatAbsoluteMonthly('absolute-monthly')
+    | EventRepeatAbsoluteYearly('absolute-yearly')
+    | EventRepeatRelativeMonthly('relative-monthly')
+    | EventRepeatRelativeYearly('relative-yearly');
+
+mixin EventData {
+    title: string
+    description: string
+    start: zoned-date-time
+    end: zoned-date-time
+    fullday: boolean
+    repeat?: EventRepeat
+    tags: string[]
+    referencedCalendars: string[]
+}
+
+record EventNew {
+    include EventData
+}
+
+mixin EventViewData {
+    @id key: string
+    calendarKey: string
+    title: string
+    description: string
+    owner: string
+    status: enum ACCEPTED | CANCELED
+    start: zoned-date-time
+    end: zoned-date-time
+    tags: string[]
+    referencedCalendars: string[]
+}
+
+record SingleEventView {
+    include EventViewData
+}
+
+record SeriesMovedEventView {
+    include EventViewData
+    masterEventKey: string
+    originalStart: zoned-date-time
+    originalEnd: zoned-date-time
+}
+
+record SeriesEventView {
+    include EventViewData
+    masterEventKey: string
+}
+
+union EventView = 
+    SingleEventView 
+    | SeriesMovedEventView 
+    | SeriesEventView
+;
+
+service CalendarService {
+    
+}

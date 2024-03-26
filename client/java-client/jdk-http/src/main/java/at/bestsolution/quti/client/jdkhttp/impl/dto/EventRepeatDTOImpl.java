@@ -45,25 +45,27 @@ public class EventRepeatDTOImpl extends BaseDTOImpl implements EventRepeatDTO {
 		};
 	}
 
-    public static abstract class BuilderImpl<T extends EventRepeatDTO> implements Builder<T> {
+    public static abstract class BuilderImpl<T extends EventRepeatDTO> implements EventRepeatDTO.Builder {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 
-		public Builder<T> interval(short interval) {
+		public EventRepeatDTO.Builder interval(short interval) {
 			builder.add("interval", interval);
 			return this;
 		}
 
-		public Builder<T> endDate(LocalDate endDate) {
+		public EventRepeatDTO.Builder endDate(LocalDate endDate) {
 			if( endDate != null ) {
 				builder.add("endDate", endDate.toString() );	
 			}
 			return this;
 		}
 
-		public Builder<T> timeZone(ZoneId timeZone) {
+		public EventRepeatDTO.Builder timeZone(ZoneId timeZone) {
 			builder.add("timeZone", timeZone.toString() );
 			return this;
 		}
+
+
 	}
 
     public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDailyDTO {
@@ -76,6 +78,25 @@ public class EventRepeatDTOImpl extends BaseDTOImpl implements EventRepeatDTO {
 			public BuilderImpl() {
 				builder.add("@type", "daily");
 			}
+
+			@Override
+			public EventRepeatDailyDTO.Builder interval(short interval) {
+				super.interval(interval);
+				return this;
+			}
+
+			@Override
+			public EventRepeatDailyDTO.Builder endDate(LocalDate endDate) {
+				super.endDate(endDate);
+				return this;
+			}
+
+			@Override
+			public EventRepeatDailyDTO.Builder timeZone(ZoneId timeZone) {
+				super.timeZone(timeZone);
+				return this;
+			}
+
 			@Override
 			public EventRepeatDailyDTO build() {
 				return new EventRepeatDailyDTOImpl(builder.build());

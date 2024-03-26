@@ -39,7 +39,7 @@ public class JDKQutiClient implements QutiClient {
     }
 
     @Override
-    public <T extends Builder<?>> T builder(Class<T> clazz) {
+    public <T extends Builder> T builder(Class<T> clazz) {
         var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
 		if( builderConstructor != null ) {
 			return (T)builderConstructor.get();

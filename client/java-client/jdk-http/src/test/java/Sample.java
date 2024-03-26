@@ -5,12 +5,15 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import at.bestsolution.quti.client.dto.CalendarNewDTO;
 import at.bestsolution.quti.client.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 import at.bestsolution.quti.client.jdkhttp.JDKQutiClient;
 
 public class Sample {
     public static void main(String[] args) {
         var client = JDKQutiClient.create(URI.create("http://localhost:8080/api/calendar"));
+
+        var b = client.builder(CalendarNewDTO.Builder.class);
         
         var calendar = client.calendars().calendar("4640e34c-fd3d-4ee6-b83d-d5641d279ad7");
         /*var key = client.calendars().create( builder -> {

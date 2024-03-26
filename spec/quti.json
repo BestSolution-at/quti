@@ -1,0 +1,378 @@
+{
+  "@type": "RSDModel",
+  "elements": [
+    {
+      "@type": "EnumType",
+      "name": "DayOfWeek",
+      "entries": [
+        {
+          "@type": "EnumEntry",
+          "name": "MONDAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "TUESDAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "WEDNESDAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "THURSDAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "FRIDAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "SATURDAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "SUNDAY"
+        }
+      ]
+    },
+    {
+      "@type": "EnumType",
+      "name": "Month",
+      "entries": [
+        {
+          "@type": "EnumEntry",
+          "name": "JANUARY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "FEBRUARY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "MARCH"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "APRIL"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "MAY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "JUNE"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "JULY"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "AUGUST"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "SEPTEMBER"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "OCTOBER"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "DECEMBER"
+        }
+      ]
+    },
+    {
+      "@type": "MixinType",
+      "name": "CalendarData",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "name",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "owner",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "Calendar",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "CalendarNew",
+      "patchable": false,
+      "properties": []
+    },
+    {
+      "@type": "MixinType",
+      "name": "EventRepeatData",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "interval",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "short"
+        },
+        {
+          "@type": "Property",
+          "name": "endDate",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "local-date"
+        },
+        {
+          "@type": "Property",
+          "name": "timeZone",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventRepeatDaily",
+      "patchable": false,
+      "properties": []
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventRepeatWeekly",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "daysOfWeek",
+          "array": true,
+          "arrayMaxLength": 7,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "DayOfWeek"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventRepeatAbsoluteMonthly",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "dayOfMonth",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "short"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventRepeatAbsoluteYearly",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "month",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "Month"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventRepeatRelativeMonthly",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "daysOfWeek",
+          "array": true,
+          "arrayMaxLength": 7,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "DayOfWeek"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventRepeatRelativeYearly",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "daysOfWeek",
+          "array": true,
+          "arrayMaxLength": 7,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "DayOfWeek"
+        },
+        {
+          "@type": "Property",
+          "name": "month",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "Month"
+        }
+      ]
+    },
+    {
+      "@type": "UnionType",
+      "name": "EventRepeat",
+      "patchable": false,
+      "types": [
+        "EventRepeatDaily",
+        "EventRepeatWeekly",
+        "EventRepeatAbsoluteMonthly",
+        "EventRepeatAbsoluteYearly",
+        "EventRepeatRelativeMonthly",
+        "EventRepeatRelativeYearly"
+      ],
+      "descriminator": "@type",
+      "descriminatorAliases": {
+        "EventRepeatDaily": "daily",
+        "EventRepeatWeekly": "weekly",
+        "EventRepeatAbsoluteMonthly": "absolute-monthly",
+        "EventRepeatAbsoluteYearly": "absolute-yearly",
+        "EventRepeatRelativeMonthly": "relative-monthly",
+        "EventRepeatRelativeYearly": "relative-yearly"
+      }
+    },
+    {
+      "@type": "MixinType",
+      "name": "EventData",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "title",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "description",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "start",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "zoned-date-time"
+        },
+        {
+          "@type": "Property",
+          "name": "end",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "zoned-date-time"
+        },
+        {
+          "@type": "Property",
+          "name": "fullday",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "boolean"
+        },
+        {
+          "@type": "Property",
+          "name": "repeat",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "type": "EventRepeat"
+        },
+        {
+          "@type": "Property",
+          "name": "tags",
+          "array": true,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "referencedCalendars",
+          "array": true,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "Event",
+      "patchable": false,
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "test",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}

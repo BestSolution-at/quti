@@ -1,0 +1,15 @@
+{
+    "name": "Quti",
+    "generators": [
+        {
+            "name": "java-rest-client-api",
+            "targetFolder": "../client/java-client/core/src/main/java",
+            "rootPackageName": "at.bestsolution.quti.client",
+            "nativeTypeSubstitues": {
+                "ZoneId": "java.time.ZoneId",
+                "DayOfWeek": "java.time.DayOfWeek",
+                "Month": "java.time.Month"
+            }
+        }
+    ]
+}

@@ -11,7 +11,7 @@ public interface QutiClient {
         return ServiceLoader.load(QutiClientFactory.class).iterator().next().create(baseURL);
     }
 
-    public <T extends BaseDTO.Builder<?>> T builder(Class<T> clazz);
+    public <T extends BaseDTO.Builder> T builder(Class<T> clazz);
     public CalendarsService calendars();
     public CalendarService calendar(String key);
 }

@@ -96,10 +96,16 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
 			builder.add("fullday", fullday);
 			return this;
 		}
+
+		@Override
+		public Builder repeat(EventRepeatDTO repeat) {
+			builder.add("repeat", ((EventRepeatDTOImpl)repeat).data);
+			return this;
+		}
 		
-		public <T extends EventRepeatDTO.Builder<?>> Builder 
+		public <T extends EventRepeatDTO.Builder> Builder 
 			withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block) {
-			EventRepeatDTOImpl.Builder<?> b = null;
+			EventRepeatDTOImpl.Builder b = null;
 			if( clazz == EventRepeatDailyDTO.Builder.class ) {
 				b = new EventRepeatDailyDTOImpl.BuilderImpl();
 			} else if( clazz == EventRepeatWeeklyDTO.Builder.class ) {
