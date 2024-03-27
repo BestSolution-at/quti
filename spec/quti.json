@@ -86,6 +86,10 @@
       ]
     },
     {
+      "@type": "ScalarType",
+      "name": "ZoneId"
+    },
+    {
       "@type": "MixinType",
       "name": "CalendarData",
       "properties": [
@@ -96,6 +100,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "string"
         },
         {
@@ -105,6 +110,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "string"
         }
       ]
@@ -113,6 +119,9 @@
       "@type": "RecordType",
       "name": "Calendar",
       "patchable": false,
+      "mixins": [
+        "CalendarData"
+      ],
       "properties": [
         {
           "@type": "KeyProperty",
@@ -125,6 +134,9 @@
       "@type": "RecordType",
       "name": "CalendarNew",
       "patchable": false,
+      "mixins": [
+        "CalendarData"
+      ],
       "properties": []
     },
     {
@@ -138,6 +150,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "short"
         },
         {
@@ -147,6 +160,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "local-date"
         },
         {
@@ -156,7 +170,8 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
-          "type": "string"
+          "variant": "scalar",
+          "type": "ZoneId"
         }
       ]
     },
@@ -164,12 +179,18 @@
       "@type": "RecordType",
       "name": "EventRepeatDaily",
       "patchable": false,
+      "mixins": [
+        "EventRepeatData"
+      ],
       "properties": []
     },
     {
       "@type": "RecordType",
       "name": "EventRepeatWeekly",
       "patchable": false,
+      "mixins": [
+        "EventRepeatData"
+      ],
       "properties": [
         {
           "@type": "Property",
@@ -179,6 +200,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "enum",
           "type": "DayOfWeek"
         }
       ]
@@ -187,6 +209,9 @@
       "@type": "RecordType",
       "name": "EventRepeatAbsoluteMonthly",
       "patchable": false,
+      "mixins": [
+        "EventRepeatData"
+      ],
       "properties": [
         {
           "@type": "Property",
@@ -195,6 +220,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "short"
         }
       ]
@@ -203,6 +229,9 @@
       "@type": "RecordType",
       "name": "EventRepeatAbsoluteYearly",
       "patchable": false,
+      "mixins": [
+        "EventRepeatData"
+      ],
       "properties": [
         {
           "@type": "Property",
@@ -211,6 +240,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "enum",
           "type": "Month"
         }
       ]
@@ -219,6 +249,9 @@
       "@type": "RecordType",
       "name": "EventRepeatRelativeMonthly",
       "patchable": false,
+      "mixins": [
+        "EventRepeatData"
+      ],
       "properties": [
         {
           "@type": "Property",
@@ -228,6 +261,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "enum",
           "type": "DayOfWeek"
         }
       ]
@@ -236,6 +270,9 @@
       "@type": "RecordType",
       "name": "EventRepeatRelativeYearly",
       "patchable": false,
+      "mixins": [
+        "EventRepeatData"
+      ],
       "properties": [
         {
           "@type": "Property",
@@ -245,6 +282,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "enum",
           "type": "DayOfWeek"
         },
         {
@@ -254,6 +292,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "enum",
           "type": "Month"
         }
       ]
@@ -291,6 +330,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "string"
         },
         {
@@ -300,6 +340,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "string"
         },
         {
@@ -309,6 +350,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "zoned-date-time"
         },
         {
@@ -318,6 +360,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "zoned-date-time"
         },
         {
@@ -327,6 +370,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "boolean"
         },
         {
@@ -336,6 +380,7 @@
           "readonly": false,
           "optional": true,
           "nullable": false,
+          "variant": "union",
           "type": "EventRepeat"
         },
         {
@@ -345,6 +390,7 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "string"
         },
         {
@@ -354,25 +400,227 @@
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
           "type": "string"
         }
       ]
     },
     {
       "@type": "RecordType",
+      "name": "EventNew",
+      "patchable": false,
+      "mixins": [
+        "EventData"
+      ],
+      "properties": []
+    },
+    {
+      "@type": "RecordType",
       "name": "Event",
       "patchable": false,
+      "mixins": [
+        "EventData"
+      ],
       "properties": [
         {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "@type": "MixinType",
+      "name": "EventViewData",
+      "properties": [
+        {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string"
+        },
+        {
           "@type": "Property",
-          "name": "test",
+          "name": "calendarKey",
           "array": false,
           "readonly": false,
           "optional": false,
           "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "title",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "description",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "owner",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "status",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "inline-enum",
+          "type": {
+            "@type": "InlineEnumType",
+            "entries": [
+              {
+                "@type": "EnumEntry",
+                "name": "ACCEPTED"
+              },
+              {
+                "@type": "EnumEntry",
+                "name": "CANCELED"
+              }
+            ]
+          }
+        },
+        {
+          "@type": "Property",
+          "name": "start",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time"
+        },
+        {
+          "@type": "Property",
+          "name": "end",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time"
+        },
+        {
+          "@type": "Property",
+          "name": "tags",
+          "array": true,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "referencedCalendars",
+          "array": true,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
           "type": "string"
         }
       ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "SingleEventView",
+      "patchable": false,
+      "mixins": [
+        "EventViewData"
+      ],
+      "properties": []
+    },
+    {
+      "@type": "RecordType",
+      "name": "SeriesMovedEventView",
+      "patchable": false,
+      "mixins": [
+        "EventViewData"
+      ],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "masterEventKey",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        },
+        {
+          "@type": "Property",
+          "name": "originalStart",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time"
+        },
+        {
+          "@type": "Property",
+          "name": "originalEnd",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time"
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "SeriesEventView",
+      "patchable": false,
+      "mixins": [
+        "EventViewData"
+      ],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "masterEventKey",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "@type": "UnionType",
+      "name": "EventView",
+      "patchable": false,
+      "types": [
+        "SingleEventView",
+        "SeriesMovedEventView",
+        "SeriesEventView"
+      ],
+      "descriminator": "@type"
     }
   ]
 }

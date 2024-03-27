@@ -99,6 +99,11 @@ record EventNew {
     include EventData
 }
 
+record Event {
+    @id key: string     -- Unique identifier of the event
+    include EventData
+}
+
 mixin EventViewData {
     @id key: string
     calendarKey: string
@@ -134,6 +139,16 @@ union EventView =
     | SeriesEventView
 ;
 
-service CalendarService {
-    
+service Calendar {
+    operation create(calendar: CalendarNew): string;
+    operation eventView(start: local-date, end: local-date, timezone: ZoneId): EventView[];
+    operation get(key: string): Calendar;
+    operation update(key: string, @patch changes: Calendar);    
+}
+
+service Event {
+    operation get(calendar: string, key: string, timezone: ZoneId): Event;
+    operation create(calendar: string, event: EventNew): string;
+    operation update(calendar: string, key: string, @patch changes: Event);
+    operation delete(calendar: string, key: string);
 }
