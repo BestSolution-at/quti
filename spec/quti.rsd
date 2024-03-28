@@ -141,14 +141,16 @@ union EventView =
 
 service Calendar {
     operation create(calendar: CalendarNew): string;
-    operation eventView(start: local-date, end: local-date, timezone: ZoneId): EventView[];
+    
+    operation eventView(key: string, start: local-date, end: local-date, timezone: ZoneId): EventView[];
     operation get(key: string): Calendar;
     operation update(key: string, @patch changes: Calendar);    
 }
 
 service Event {
-    operation get(calendar: string, key: string, timezone: ZoneId): Event;
     operation create(calendar: string, event: EventNew): string;
+    
+    operation get(calendar: string, key: string, timezone: ZoneId): Event;
     operation update(calendar: string, key: string, @patch changes: Event);
     operation delete(calendar: string, key: string);
 }
