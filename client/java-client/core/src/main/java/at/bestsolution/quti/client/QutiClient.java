@@ -12,6 +12,5 @@ public interface QutiClient {
     }
 
     public <T extends BaseDTO.Builder> T builder(Class<T> clazz);
-    public CalendarsService calendars();
-    public CalendarService calendar(String key);
+    public <T extends BaseService> T service(Class<T> clazz);
 }

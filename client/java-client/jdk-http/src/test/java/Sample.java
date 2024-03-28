@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import at.bestsolution.quti.client.CalendarService;
+import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.dto.CalendarNewDTO;
 import at.bestsolution.quti.client.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 import at.bestsolution.quti.client.jdkhttp.JDKQutiClient;
@@ -15,16 +17,17 @@ public class Sample {
 
         var b = client.builder(CalendarNewDTO.Builder.class);
         
-        var calendar = client.calendars().calendar("4640e34c-fd3d-4ee6-b83d-d5641d279ad7");
-        /*var key = client.calendars().create( builder -> {
+        var calendarService = client.service(CalendarService.class);
+        var eventService = client.service(EventService.class);
+        /*var key = calendarService.create( builder -> {
             return builder
                 .name("Demo")
                 .owner("quti@quti.dev")
                 .build();
         });
-        System.err.println(key);
+        System.err.println(key);*/
         
-        var event = calendar.events().create(builder -> {
+        /*var event = eventService.create("bfb924f7-30d4-4c3b-85b3-868578f92fbf", builder -> {
             return builder
                 .title("Sample Event")
                 .description("A sample event")
@@ -38,10 +41,17 @@ public class Sample {
                         .build();
                 })
                 .build();
-        });
-        System.err.println(event);*/
+        });*/
+
+        /*eventService.move(
+            "bfb924f7-30d4-4c3b-85b3-868578f92fbf", 
+            "d5f45696-3dd2-4f90-af53-8f926a62fb62_2024-03-08", 
+            ZonedDateTime.parse("2024-03-08T08:00:00+01:00[Europe/Paris]"), 
+            ZonedDateTime.parse("2024-03-08T12:00:00+01:00[Europe/Paris]")
+        );*/
         
-        var events = calendar.eventView(
+        var events = calendarService.eventView(
+            "bfb924f7-30d4-4c3b-85b3-868578f92fbf",
             LocalDate.of(2024, 2, 1), 
             LocalDate.of(2024, 4, 29), 
             ZoneId.systemDefault()
