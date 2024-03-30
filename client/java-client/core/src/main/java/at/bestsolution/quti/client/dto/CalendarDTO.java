@@ -2,8 +2,17 @@
 package at.bestsolution.quti.client.dto;
 
 public interface CalendarDTO extends BaseDTO {
+    /**
+     * Unique identifier of the calendar
+     */
     public String key();
+    /**
+     * Name of the calendar
+     */
     public String name();
+    /**
+     * Owner of the calendar
+     */
     public String owner();
 
     public interface Builder extends BaseDTO.Builder {

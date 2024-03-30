@@ -6,13 +6,37 @@ import java.util.function.Function;
 import java.util.List;
 
 public interface EventNewDTO extends BaseDTO {
+    /**
+     * basic description
+     */
     public String title();
+    /**
+     * a more detailed description
+     */
     public String description();
+    /**
+     * start time
+     */
     public ZonedDateTime start();
+    /**
+     * end time
+     */
     public ZonedDateTime end();
+    /**
+     * mark it as a fullday event
+     */
     public boolean fullday();
+    /**
+     * the repeat pattern
+     */
     public EventRepeatDTO repeat();
+    /**
+     * a list of custom tags
+     */
     public List<String> tags();
+    /**
+     * other calendars this event is referenced in
+     */
     public List<String> referencedCalendars();
 
     public interface Builder extends BaseDTO.Builder {

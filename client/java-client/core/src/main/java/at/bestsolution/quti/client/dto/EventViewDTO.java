@@ -10,15 +10,45 @@ public interface EventViewDTO extends BaseDTO {
         CANCELED,
     }
 
+    /**
+     * unique identifier of the event
+     */
     public String key();
+    /**
+     * the calendar the event is located in
+     */
     public String calendarKey();
+    /**
+     * basic description
+     */
     public String title();
+    /**
+     * a more detailed description
+     */
     public String description();
+    /**
+     * owner of the event
+     */
     public String owner();
+    /**
+     * event status
+     */
     public Status status();
+    /**
+     * start time
+     */
     public ZonedDateTime start();
+    /**
+     * end time
+     */
     public ZonedDateTime end();
+    /**
+     * a list of custom tags
+     */
     public List<String> tags();
+    /**
+     * other calendars this event is referenced in
+     */
     public List<String> referencedCalendars();
 
     public interface Builder extends BaseDTO.Builder {
@@ -53,8 +83,17 @@ public interface EventViewDTO extends BaseDTO {
     }
 
     public interface SeriesMovedEventViewDTO extends EventViewDTO {
+        /**
+         * key of the original event
+         */
         public String masterEventKey();
+        /**
+         * the original start
+         */
         public ZonedDateTime originalStart();
+        /**
+         * the original end
+         */
         public ZonedDateTime originalEnd();
 
         public interface Builder extends EventViewDTO.Builder {
@@ -76,6 +115,9 @@ public interface EventViewDTO extends BaseDTO {
     }
 
     public interface SeriesEventViewDTO extends EventViewDTO {
+        /**
+         * key of the original event
+         */
         public String masterEventKey();
 
         public interface Builder extends EventViewDTO.Builder {

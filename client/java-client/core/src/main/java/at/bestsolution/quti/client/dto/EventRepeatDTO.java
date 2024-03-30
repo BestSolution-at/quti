@@ -8,8 +8,17 @@ import java.time.ZoneId;
 import java.util.List;
 
 public interface EventRepeatDTO extends BaseDTO {
+    /**
+     * Repeat interval
+     */
     public short interval();
+    /**
+     * End date of the repeat
+     */
     public LocalDate endDate();
+    /**
+     * Timezone in which the event repeats
+     */
     public ZoneId timeZone();
 
     public interface Builder extends BaseDTO.Builder {
@@ -30,6 +39,9 @@ public interface EventRepeatDTO extends BaseDTO {
     }
 
     public interface EventRepeatWeeklyDTO extends EventRepeatDTO {
+        /**
+         * the days in a week the event repeats
+         */
         public List<DayOfWeek> daysOfWeek();
 
         public interface Builder extends EventRepeatDTO.Builder {
@@ -42,6 +54,9 @@ public interface EventRepeatDTO extends BaseDTO {
     }
 
     public interface EventRepeatAbsoluteMonthlyDTO extends EventRepeatDTO {
+        /**
+         * the day of the month the event repeats
+         */
         public short dayOfMonth();
 
         public interface Builder extends EventRepeatDTO.Builder {
@@ -54,6 +69,9 @@ public interface EventRepeatDTO extends BaseDTO {
     }
 
     public interface EventRepeatAbsoluteYearlyDTO extends EventRepeatDTO {
+        /**
+         * the month of the year the event repeats
+         */
         public Month month();
 
         public interface Builder extends EventRepeatDTO.Builder {
@@ -66,6 +84,9 @@ public interface EventRepeatDTO extends BaseDTO {
     }
 
     public interface EventRepeatRelativeMonthlyDTO extends EventRepeatDTO {
+        /**
+         * selects the first day in a month
+         */
         public List<DayOfWeek> daysOfWeek();
 
         public interface Builder extends EventRepeatDTO.Builder {
@@ -78,7 +99,13 @@ public interface EventRepeatDTO extends BaseDTO {
     }
 
     public interface EventRepeatRelativeYearlyDTO extends EventRepeatDTO {
+        /**
+         * selects the first day in a month
+         */
         public List<DayOfWeek> daysOfWeek();
+        /**
+         * the month in a year
+         */
         public Month month();
 
         public interface Builder extends EventRepeatDTO.Builder {
