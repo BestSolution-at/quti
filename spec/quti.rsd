@@ -29,6 +29,7 @@ mixin CalendarData {
     owner: string -- Owner of the calendar
 }
 
+-- A calendar
 record Calendar {
     @id key: string     -- Unique identifier of the calendar
     include CalendarData
@@ -44,36 +45,43 @@ mixin EventRepeatData {
     timeZone: ZoneId -- Timezone in which the event repeats
 }
 
+-- Repeat an event daily - eg repeat every 2nd day
 record EventRepeatDaily {
     include EventRepeatData
 }
 
+-- Repeat an event weekly - eg repeat every Monday every seconda week
 record EventRepeatWeekly {
     include EventRepeatData
     daysOfWeek: DayOfWeek[7] -- the days in a week the event repeats
 }
 
+-- Repeat an event on a monthly interval - eg repeat twice a year on the 1st day (1st Januar, 1st July)
 record EventRepeatAbsoluteMonthly {
     include EventRepeatData
     dayOfMonth: short -- the day of the month the event repeats
 }
 
+-- Repeat an event on a yearly interval - eg repeat the event on the 1st May every year 
 record EventRepeatAbsoluteYearly {
     include EventRepeatData
     month: Month  -- the month of the year the event repeats
 }
 
+-- Repeat an event relative in a month - eg repeat the event every 2nd month on the first Monday
 record EventRepeatRelativeMonthly {
     include EventRepeatData
     daysOfWeek: DayOfWeek[7] -- selects the first day in a month
 }
 
+-- Repeat an event relative in a year - eg repeat the event every 2nd year on the first Tuesday in February
 record EventRepeatRelativeYearly {
     include EventRepeatData
     daysOfWeek: DayOfWeek[7] -- selects the first day in a month
     month: Month -- the month in a year
 }
 
+-- Repeat an event
 union EventRepeat = 
     EventRepeatDaily('daily')
     | EventRepeatWeekly('weekly')
@@ -93,10 +101,12 @@ mixin EventData {
     referencedCalendars: string[] -- other calendars this event is referenced in
 }
 
+-- New event data
 record EventNew {
     include EventData
 }
 
+-- An existing event
 record Event {
     @id key: string     -- Unique identifier of the event
     include EventData

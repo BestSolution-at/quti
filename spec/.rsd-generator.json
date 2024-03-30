@@ -2,7 +2,7 @@
     "name": "Quti",
     "generators": [
         {
-            "name": "java-rest-client-api",
+            "name": "java-client-api",
             "targetFolder": "../client/java-client/core/src/main/java",
             "rootPackageName": "at.bestsolution.quti.client",
             "nativeTypeSubstitues": {
