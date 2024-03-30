@@ -73,11 +73,6 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public String create(Function<Builder, CalendarNewDTO> factory) {
-		return create(factory.apply(new CalendarNewDTOImpl.BuilderImpl()));
-	}
-
-	@Override
 	public String create(CalendarNewDTO calendar) {
 		var request = HttpRequest.newBuilder()
 			.uri(URI.create(baseURI))

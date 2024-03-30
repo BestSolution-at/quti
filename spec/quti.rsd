@@ -144,13 +144,16 @@ service Calendar {
     
     operation eventView(key: string, start: local-date, end: local-date, timezone: ZoneId): EventView[];
     operation get(key: string): Calendar;
-    operation update(key: string, @patch changes: Calendar);    
+//    operation update(key: string, @patch changes: Calendar);    
 }
 
 service Event {
     operation create(calendar: string, event: EventNew): string;
     
-    operation get(calendar: string, key: string, timezone: ZoneId): Event;
-    operation update(calendar: string, key: string, @patch changes: Event);
+//    operation get(calendar: string, key: string, timezone: ZoneId): Event;
+//    operation update(calendar: string, key: string, @patch changes: Event);
     operation delete(calendar: string, key: string);
+
+    operation cancel(calendar: string, key: string);
+    operation move(calendar: string, key: string, start: zoned-date-time, end: zoned-date-time);
 }

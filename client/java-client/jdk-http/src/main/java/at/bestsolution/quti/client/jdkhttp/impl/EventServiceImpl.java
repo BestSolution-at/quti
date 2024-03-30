@@ -7,11 +7,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.ZonedDateTime;
-import java.util.function.Function;
 
 import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.dto.EventNewDTO;
-import at.bestsolution.quti.client.dto.EventNewDTO.Builder;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventNewDTOImpl;
 import jakarta.json.Json;
 
@@ -77,11 +75,6 @@ public class EventServiceImpl implements EventService {
 			throw new IllegalStateException(e);
 		}
     }
-
-	@Override
-	public String create(String calendarKey, Function<Builder, EventNewDTO> factory) {
-		return create( calendarKey, factory.apply(new EventNewDTOImpl.BuilderImpl()) );
-	}
 
 	@Override
 	public String create(String calendarKey, EventNewDTO newEvent) {
