@@ -1,9 +1,11 @@
 package at.bestsolution.quti;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
+import at.bestsolution.quti.Utils.ParseResult;
 import at.bestsolution.quti.dto.EventMoveDTO;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.handler.event.CancelHandler;
@@ -11,6 +13,7 @@ import at.bestsolution.quti.handler.event.CreateHandler;
 import at.bestsolution.quti.handler.event.DeleteHandler;
 import at.bestsolution.quti.handler.event.GetHandler;
 import at.bestsolution.quti.handler.event.MoveHandler;
+import at.bestsolution.quti.handler.event.UncancelHandler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -30,18 +33,21 @@ public class EventResource {
 	private final DeleteHandler deleteHandler;
 	private final MoveHandler moveHandler;
 	private final CancelHandler cancelHandler;
+	private final UncancelHandler uncancelHandler;
 
 	@Inject
 	public EventResource(GetHandler getHandler,
 		CreateHandler createHandler,
 		DeleteHandler deleteHandler,
 		MoveHandler moveHandler,
-		CancelHandler cancelHandler) {
+		CancelHandler cancelHandler,
+		UncancelHandler uncancelHandler) {
 		this.getHandler = getHandler;
 		this.createHandler = createHandler;
 		this.deleteHandler = deleteHandler;
 		this.moveHandler = moveHandler;
 		this.cancelHandler = cancelHandler;
+		this.uncancelHandler = uncancelHandler;
 	}
 
 	@GET
@@ -141,15 +147,13 @@ public class EventResource {
 	}
 
 	@Path("{key}/action/cancel")
+	@PUT
 	public Response cancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
 		var seriesSep = eventKey.indexOf('_');
-		if( seriesSep == -1 ) {
-			return Utils.badRequest("'%s' is not an event in a series", eventKey);
-		}
 
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 
 		if( parsedCalendarKey.response() != null ) {
 			return parsedCalendarKey.response();
@@ -162,6 +166,33 @@ public class EventResource {
 		}
 
 		var result = cancelHandler.cancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
+
+		if( result.isOk() ) {
+			return Response.noContent().build();
+		}
+
+		return Utils.toResponse(result);
+	}
+
+	@Path("{key}/action/uncancel")
+	@PUT
+	public Response uncancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
+		var seriesSep = eventKey.indexOf('_');
+
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+		if( parsedEventKey.response() != null ) {
+			return parsedEventKey.response();
+		}
+		if( parsedOriginalDate.response() != null ) {
+			return parsedOriginalDate.response();
+		}
+
+		var result = uncancelHandler.uncancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
 
 		if( result.isOk() ) {
 			return Response.noContent().build();

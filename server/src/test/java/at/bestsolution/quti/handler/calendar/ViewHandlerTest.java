@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
+import at.bestsolution.quti.dto.EventViewDTO.Status;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
@@ -197,7 +198,15 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 			LocalDate.parse("2024-01-09"),
 			ZoneId.of("Europe/Vienna"), ZoneId.of("Europe/Vienna"));
 		assertEquals(1, result.size());
+	}
 
-
+	@Test
+	public void testCancelSingle() {
+		var result = handler.view(basicCalendarKey,
+			LocalDate.parse("2020-01-10"),
+			LocalDate.parse("2020-01-10"),
+			ZoneId.of("Europe/Vienna"), ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+		assertEquals(Status.CANCELED, result.get(0).status);
 	}
 }

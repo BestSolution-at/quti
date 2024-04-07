@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import at.bestsolution.quti.model.CalendarEntity;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.EventReferenceEntity;
+import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import jakarta.inject.Inject;
@@ -30,6 +31,7 @@ public class BaseTest {
 	public static UUID handler_ownerlessCalendarKey;
 
 	public static UUID simpleEventKey;
+	public static UUID simpleEventCanceledKey;
 	public static UUID simpleSummerEventKey;
 	public static UUID repeatingDailyEndlessKey;
 
@@ -128,6 +130,7 @@ public class BaseTest {
 		em.flush();
 
 		createSimpleEvent(calendar);
+		createSimpleEventCanceledKey(calendar);
 		createSimpleSummerEvent(calendar);
 		createRepeatingDailyEndless(calendar);
 
@@ -147,6 +150,26 @@ public class BaseTest {
 		simpleEventKey = event.key;
 		simpleEvent = event;
 	}
+
+	private void createSimpleEventCanceledKey(CalendarEntity calendar) {
+		var event = new EventEntity();
+		event.calendar = calendar;
+		event.key = UUID.randomUUID();
+		event.title = "Simple Event";
+		event.description = "A simple none repeating event";
+		event.start = ZonedDateTime.parse("2020-01-10T07:00:00+01:00[Europe/Vienna]");
+		event.end = ZonedDateTime.parse("2020-01-10T13:00:00+01:00[Europe/Vienna]");
+		em.persist(event);
+
+		var mod = new EventModificationCanceledEntity();
+		mod.date = LocalDate.EPOCH;
+		mod.event = event;
+
+		em.persist(mod);
+
+		simpleEventCanceledKey = event.key;
+	}
+
 
 	private void createSimpleSummerEvent(CalendarEntity calendar) {
 		var event = new EventEntity();
@@ -199,6 +222,13 @@ public class BaseTest {
 			move.start = ZonedDateTime.parse("2024-05-10T10:00:00+02:00[Europe/Vienna]");
 			move.end = ZonedDateTime.parse("2024-05-10T12:00:00+02:00[Europe/Vienna]");
 			em.persist(move);
+		}
+
+		{
+			var cancel = new EventModificationCanceledEntity();
+			cancel.event = event;
+			cancel.date = LocalDate.parse("2024-05-09");
+			em.persist(cancel);
 		}
 
 		repeatingDailyEndlessKey = event.key;

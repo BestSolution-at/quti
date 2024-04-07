@@ -51,6 +51,7 @@ public class JDKQutiClient implements QutiClient {
         return new JDKQutiClient(baseURI);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Builder> T builder(Class<T> clazz) {
         var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
@@ -60,6 +61,7 @@ public class JDKQutiClient implements QutiClient {
 		throw new IllegalArgumentException(String.format("Unsupported build '%s'", clazz));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends BaseService> T service(Class<T> clazz) {
         var serviceConstructor = SERVICE_CREATOR_MAP.get(clazz);

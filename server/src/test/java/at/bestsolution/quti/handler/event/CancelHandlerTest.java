@@ -22,7 +22,18 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandler> {
 	}
 
 	@Test
-	public void testCancel() {
+	public void testSingleCancel() {
+		var result = handler.cancel(basicCalendarKey, simpleEventKey, null);
+		assertTrue(result.isOk());
+		var modifications = modifications(simpleEventKey);
+		assertEquals(1, modifications.stream()
+			.filter(m -> m instanceof EventModificationCanceledEntity)
+			.filter(m -> m.date.equals(LocalDate.EPOCH))
+			.count());
+	}
+
+	@Test
+	public void testSeriesCancel() {
 		var result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-01"));
 		assertTrue(result.isOk());
 		var modifications = modifications(repeatingDailyEndlessKey);
@@ -33,7 +44,7 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandler> {
 	}
 
 	@Test
-	public void testMultiCancel() {
+	public void testSeriesMultiCancel() {
 		var result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-02"));
 		assertTrue(result.isOk());
 		result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-02"));

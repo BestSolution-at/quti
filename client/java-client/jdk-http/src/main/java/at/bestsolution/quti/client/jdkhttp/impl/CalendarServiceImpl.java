@@ -12,13 +12,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.function.Function;
 
 import at.bestsolution.quti.client.CalendarService;
 import at.bestsolution.quti.client.dto.CalendarDTO;
 import at.bestsolution.quti.client.dto.CalendarNewDTO;
 import at.bestsolution.quti.client.dto.EventViewDTO;
-import at.bestsolution.quti.client.dto.CalendarNewDTO.Builder;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarNewDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewDTOImpl;

@@ -61,7 +61,12 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.end = event.end.withZoneSameInstant(resultZone);
 			result.tags = Objects.requireNonNullElse(event.tags, List.of());
 			result.referencedCalendars = event.references.stream().map( er -> er.calendar.key.toString()).toList();
+			result.status = isCanceled(event) ? Status.CANCELED : Status.ACCEPTED;
 			return result;
+		}
+
+		private static boolean isCanceled(EventEntity event) {
+			return (!event.modifications.isEmpty()) && event.modifications.stream().anyMatch( m -> m instanceof EventModificationCanceledEntity);
 		}
 	}
 
