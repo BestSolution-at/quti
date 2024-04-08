@@ -163,5 +163,6 @@ service Event {
     operation delete(calendar: string, key: string);
 
     operation cancel(calendar: string, key: string);
+    operation uncancel(calendar: string, key: string);
     operation move(calendar: string, key: string, start: zoned-date-time, end: zoned-date-time);
 }

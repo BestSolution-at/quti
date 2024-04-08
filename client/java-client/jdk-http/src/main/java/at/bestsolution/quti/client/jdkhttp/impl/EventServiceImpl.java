@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
 				.build();
 		try {
 			var response = this.client.send(request, BodyHandlers.ofString());
-			if( response.statusCode() != 204 & response.statusCode() != 201 ) {
+			if( response.statusCode() != 204 ) {
 				throw new IllegalStateException(String.format("Remote operation failed:\n%s", response.body()));
 			}
 		} catch (IOException | InterruptedException e) {
@@ -68,7 +68,23 @@ public class EventServiceImpl implements EventService {
 				.build();
 		try {
 			var response = this.client.send(request, BodyHandlers.ofString());
-			if( response.statusCode() != 204 & response.statusCode() != 201 ) {
+			if( response.statusCode() != 204 ) {
+				throw new IllegalStateException(String.format("Remote operation failed:\n%s", response.body()));
+			}
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+    }
+
+	@Override
+    public void uncancel(String calendarKey, String key) {
+        var request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("%s/%s/events/%s/action/uncancel",baseURI, calendarKey, key)))
+				.PUT(BodyPublishers.ofString(""))
+				.build();
+		try {
+			var response = this.client.send(request, BodyHandlers.ofString());
+			if( response.statusCode() != 204 ) {
 				throw new IllegalStateException(String.format("Remote operation failed:\n%s", response.body()));
 			}
 		} catch (IOException | InterruptedException e) {
