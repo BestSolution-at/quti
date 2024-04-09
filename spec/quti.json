@@ -101,7 +101,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "Name of the calendar"
         },
         {
           "@type": "Property",
@@ -111,7 +112,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "Owner of the calendar"
         }
       ]
     },
@@ -126,7 +128,8 @@
         {
           "@type": "KeyProperty",
           "name": "key",
-          "type": "string"
+          "type": "string",
+          "doc": "Unique identifier of the calendar"
         }
       ]
     },
@@ -151,7 +154,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "short"
+          "type": "short",
+          "doc": "Repeat interval"
         },
         {
           "@type": "Property",
@@ -161,7 +165,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "local-date"
+          "type": "local-date",
+          "doc": "End date of the repeat"
         },
         {
           "@type": "Property",
@@ -171,7 +176,8 @@
           "optional": false,
           "nullable": false,
           "variant": "scalar",
-          "type": "ZoneId"
+          "type": "ZoneId",
+          "doc": "Timezone in which the event repeats"
         }
       ]
     },
@@ -201,7 +207,8 @@
           "optional": false,
           "nullable": false,
           "variant": "enum",
-          "type": "DayOfWeek"
+          "type": "DayOfWeek",
+          "doc": "the days in a week the event repeats"
         }
       ]
     },
@@ -221,7 +228,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "short"
+          "type": "short",
+          "doc": "the day of the month the event repeats"
         }
       ]
     },
@@ -241,7 +249,8 @@
           "optional": false,
           "nullable": false,
           "variant": "enum",
-          "type": "Month"
+          "type": "Month",
+          "doc": "the month of the year the event repeats"
         }
       ]
     },
@@ -262,7 +271,8 @@
           "optional": false,
           "nullable": false,
           "variant": "enum",
-          "type": "DayOfWeek"
+          "type": "DayOfWeek",
+          "doc": "selects the first day in a month"
         }
       ]
     },
@@ -283,7 +293,8 @@
           "optional": false,
           "nullable": false,
           "variant": "enum",
-          "type": "DayOfWeek"
+          "type": "DayOfWeek",
+          "doc": "selects the first day in a month"
         },
         {
           "@type": "Property",
@@ -293,7 +304,8 @@
           "optional": false,
           "nullable": false,
           "variant": "enum",
-          "type": "Month"
+          "type": "Month",
+          "doc": "the month in a year"
         }
       ]
     },
@@ -331,7 +343,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "basic description"
         },
         {
           "@type": "Property",
@@ -341,7 +354,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "a more detailed description"
         },
         {
           "@type": "Property",
@@ -351,7 +365,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "zoned-date-time"
+          "type": "zoned-date-time",
+          "doc": "start time"
         },
         {
           "@type": "Property",
@@ -361,7 +376,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "zoned-date-time"
+          "type": "zoned-date-time",
+          "doc": "end time"
         },
         {
           "@type": "Property",
@@ -371,7 +387,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "boolean"
+          "type": "boolean",
+          "doc": "mark it as a fullday event"
         },
         {
           "@type": "Property",
@@ -381,7 +398,8 @@
           "optional": true,
           "nullable": false,
           "variant": "union",
-          "type": "EventRepeat"
+          "type": "EventRepeat",
+          "doc": "the repeat pattern"
         },
         {
           "@type": "Property",
@@ -391,7 +409,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "a list of custom tags"
         },
         {
           "@type": "Property",
@@ -401,7 +420,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "other calendars this event is referenced in"
         }
       ]
     },
@@ -425,7 +445,8 @@
         {
           "@type": "KeyProperty",
           "name": "key",
-          "type": "string"
+          "type": "string",
+          "doc": "Unique identifier of the event"
         }
       ]
     },
@@ -436,7 +457,8 @@
         {
           "@type": "KeyProperty",
           "name": "key",
-          "type": "string"
+          "type": "string",
+          "doc": "unique identifier of the event"
         },
         {
           "@type": "Property",
@@ -446,7 +468,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "the calendar the event is located in"
         },
         {
           "@type": "Property",
@@ -456,7 +479,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "basic description"
         },
         {
           "@type": "Property",
@@ -466,7 +490,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "a more detailed description"
         },
         {
           "@type": "Property",
@@ -476,7 +501,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "owner of the event"
         },
         {
           "@type": "Property",
@@ -498,7 +524,8 @@
                 "name": "CANCELED"
               }
             ]
-          }
+          },
+          "doc": "event status"
         },
         {
           "@type": "Property",
@@ -508,7 +535,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "zoned-date-time"
+          "type": "zoned-date-time",
+          "doc": "start time"
         },
         {
           "@type": "Property",
@@ -518,7 +546,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "zoned-date-time"
+          "type": "zoned-date-time",
+          "doc": "end time"
         },
         {
           "@type": "Property",
@@ -528,7 +557,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "a list of custom tags"
         },
         {
           "@type": "Property",
@@ -538,7 +568,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "other calendars this event is referenced in"
         }
       ]
     },
@@ -567,7 +598,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "key of the original event"
         },
         {
           "@type": "Property",
@@ -577,7 +609,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "zoned-date-time"
+          "type": "zoned-date-time",
+          "doc": "the original start"
         },
         {
           "@type": "Property",
@@ -587,7 +620,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "zoned-date-time"
+          "type": "zoned-date-time",
+          "doc": "the original end"
         }
       ]
     },
@@ -607,7 +641,8 @@
           "optional": false,
           "nullable": false,
           "variant": "builtin",
-          "type": "string"
+          "type": "string",
+          "doc": "key of the original event"
         }
       ]
     },
@@ -621,6 +656,272 @@
         "SeriesEventView"
       ],
       "descriminator": "@type"
+    }
+  ],
+  "services": [
+    {
+      "@type": "Service",
+      "name": "Calendar",
+      "operations": [
+        {
+          "@type": "Operation",
+          "name": "create",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "record",
+              "type": "CalendarNew"
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "builtin",
+            "type": "string"
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "eventView",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "start",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "local-date"
+            },
+            {
+              "@type": "Parameter",
+              "name": "end",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "local-date"
+            },
+            {
+              "@type": "Parameter",
+              "name": "timezone",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "scalar",
+              "type": "ZoneId"
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": true,
+            "variant": "union",
+            "type": "EventView"
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "get",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "Calendar"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "name": "Event",
+      "operations": [
+        {
+          "@type": "Operation",
+          "name": "create",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "event",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "record",
+              "type": "EventNew"
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "builtin",
+            "type": "string"
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "delete",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "@type": "Operation",
+          "name": "cancel",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "@type": "Operation",
+          "name": "uncancel",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "@type": "Operation",
+          "name": "move",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string"
+            },
+            {
+              "@type": "Parameter",
+              "name": "start",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "zoned-date-time"
+            },
+            {
+              "@type": "Parameter",
+              "name": "end",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "zoned-date-time"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
