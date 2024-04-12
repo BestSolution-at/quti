@@ -33,7 +33,8 @@
           "@type": "EnumEntry",
           "name": "SUNDAY"
         }
-      ]
+      ],
+      "doc": "days of the week"
     },
     {
       "@type": "EnumType",
@@ -83,7 +84,8 @@
           "@type": "EnumEntry",
           "name": "DECEMBER"
         }
-      ]
+      ],
+      "doc": "months of the year"
     },
     {
       "@type": "ScalarType",
@@ -662,10 +664,12 @@
     {
       "@type": "Service",
       "name": "Calendar",
+      "doc": "Service to create a calendar and query for its events",
       "operations": [
         {
           "@type": "Operation",
           "name": "create",
+          "doc": "create a new calendar\n",
           "parameters": [
             {
               "@type": "Parameter",
@@ -675,19 +679,22 @@
               "optional": false,
               "patch": false,
               "variant": "record",
-              "type": "CalendarNew"
+              "type": "CalendarNew",
+              "doc": ""
             }
           ],
           "resultType": {
             "@type": "ReturnType",
             "array": false,
             "variant": "builtin",
-            "type": "string"
+            "type": "string",
+            "doc": "@returns key of the new calendar"
           }
         },
         {
           "@type": "Operation",
           "name": "eventView",
+          "doc": "get a view of all events in a date range\n",
           "parameters": [
             {
               "@type": "Parameter",
@@ -697,7 +704,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -707,7 +715,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "local-date"
+              "type": "local-date",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -717,7 +726,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "local-date"
+              "type": "local-date",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -727,19 +737,22 @@
               "optional": false,
               "patch": false,
               "variant": "scalar",
-              "type": "ZoneId"
+              "type": "ZoneId",
+              "doc": ""
             }
           ],
           "resultType": {
             "@type": "ReturnType",
             "array": true,
             "variant": "union",
-            "type": "EventView"
+            "type": "EventView",
+            "doc": "@returns a list of events"
           }
         },
         {
           "@type": "Operation",
           "name": "get",
+          "doc": "get a calendar\n",
           "parameters": [
             {
               "@type": "Parameter",
@@ -749,14 +762,16 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             }
           ],
           "resultType": {
             "@type": "ReturnType",
             "array": false,
             "variant": "record",
-            "type": "Calendar"
+            "type": "Calendar",
+            "doc": "@returns the calendar"
           }
         }
       ]
@@ -764,10 +779,12 @@
     {
       "@type": "Service",
       "name": "Event",
+      "doc": "Service to create and modify events in a calendar",
       "operations": [
         {
           "@type": "Operation",
           "name": "create",
+          "doc": "create a new event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -777,7 +794,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -787,19 +805,22 @@
               "optional": false,
               "patch": false,
               "variant": "record",
-              "type": "EventNew"
+              "type": "EventNew",
+              "doc": ""
             }
           ],
           "resultType": {
             "@type": "ReturnType",
             "array": false,
             "variant": "builtin",
-            "type": "string"
+            "type": "string",
+            "doc": "@returns key of the new event"
           }
         },
         {
           "@type": "Operation",
           "name": "delete",
+          "doc": "delete an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -809,7 +830,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -819,13 +841,15 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             }
           ]
         },
         {
           "@type": "Operation",
           "name": "cancel",
+          "doc": "cancel an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -835,7 +859,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -845,13 +870,15 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             }
           ]
         },
         {
           "@type": "Operation",
           "name": "uncancel",
+          "doc": "uncancel an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -861,7 +888,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -871,13 +899,15 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             }
           ]
         },
         {
           "@type": "Operation",
           "name": "move",
+          "doc": "move a repeating event to a new time",
           "parameters": [
             {
               "@type": "Parameter",
@@ -887,7 +917,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -897,7 +928,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "string"
+              "type": "string",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -907,7 +939,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "zoned-date-time"
+              "type": "zoned-date-time",
+              "doc": ""
             },
             {
               "@type": "Parameter",
@@ -917,7 +950,8 @@
               "optional": false,
               "patch": false,
               "variant": "builtin",
-              "type": "zoned-date-time"
+              "type": "zoned-date-time",
+              "doc": ""
             }
           ]
         }

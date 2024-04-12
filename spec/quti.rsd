@@ -1,3 +1,4 @@
+-- days of the week
 enum DayOfWeek = 
     MONDAY
     | TUESDAY
@@ -8,6 +9,7 @@ enum DayOfWeek =
     | SUNDAY
 ;
 
+-- months of the year
 enum Month =
     JANUARY
     | FEBRUARY
@@ -22,8 +24,10 @@ enum Month =
     | DECEMBER
 ;
 
+-- represents a timezone eg "Europe/Vienna"
 scalar ZoneId;
 
+-- basic calendar data
 mixin CalendarData {
     name: string  -- Name of the calendar
     owner: string -- Owner of the calendar
@@ -31,14 +35,16 @@ mixin CalendarData {
 
 -- A calendar
 record Calendar {
-    @id key: string     -- Unique identifier of the calendar
+    @id key: string      -- Unique identifier of the calendar
     include CalendarData
 }
 
+-- A new calendar
 record CalendarNew {
     include CalendarData
 }
 
+-- Basic repeating data of an event
 mixin EventRepeatData {
     interval: short -- Repeat interval
     endDate: local-date -- End date of the repeat
@@ -90,6 +96,7 @@ union EventRepeat =
     | EventRepeatRelativeMonthly('relative-monthly')
     | EventRepeatRelativeYearly('relative-yearly');
 
+-- Basic event data
 mixin EventData {
     title: string -- basic description
     description: string -- a more detailed description
@@ -106,12 +113,13 @@ record EventNew {
     include EventData
 }
 
--- An existing event
+-- An event
 record Event {
     @id key: string     -- Unique identifier of the event
     include EventData
 }
 
+-- Basic data of a view of an event (eg a concrete instance of a repeating event)
 mixin EventViewData {
     @id key: string -- unique identifier of the event
     calendarKey: string -- the calendar the event is located in
@@ -125,10 +133,12 @@ mixin EventViewData {
     referencedCalendars: string[] -- other calendars this event is referenced in
 }
 
+-- a none repeating event
 record SingleEventView {
     include EventViewData
 }
 
+-- a series event moved to another timeframe
 record SeriesMovedEventView {
     include EventViewData
     masterEventKey: string -- key of the original event
@@ -136,33 +146,74 @@ record SeriesMovedEventView {
     originalEnd: zoned-date-time -- the original end
 }
 
+-- a series event
 record SeriesEventView {
     include EventViewData
     masterEventKey: string -- key of the original event
 }
 
+-- combination of possible views of events
 union EventView = 
     SingleEventView 
     | SeriesMovedEventView 
     | SeriesEventView
 ;
 
+-- Service to create a calendar and query for its events
 service Calendar {
+    -- create a new calendar
+    -- 
+    -- @param calendar - new calendar data
+    -- @returns key of the new calendar
     operation create(calendar: CalendarNew): string;
     
+    -- get a view of all events in a date range
+    -- 
+    -- @param key - the calendar key
+    -- @param start - the start date
+    -- @param end - the end date
+    -- @param timezone - the timezone the date is in
+    -- @returns a list of events
     operation eventView(key: string, start: local-date, end: local-date, timezone: ZoneId): EventView[];
+
+    -- get a calendar
+    -- 
+    -- @param key - the calendar key
+    -- @returns the calendar
     operation get(key: string): Calendar;
 //    operation update(key: string, @patch changes: Calendar);    
 }
 
+-- Service to create and modify events in a calendar
 service Event {
+    -- create a new event
+    -- @param calendar - key of the calendar owning the new event
+    -- @param event - the new event data
+    -- @returns key of the new event
     operation create(calendar: string, event: EventNew): string;
     
 //    operation get(calendar: string, key: string, timezone: ZoneId): Event;
 //    operation update(calendar: string, key: string, @patch changes: Event);
+    
+    -- delete an event
+    -- @param calendar - key of the calendar owning the event
+    -- @param key - key of the event
     operation delete(calendar: string, key: string);
 
+    -- cancel an event
+    -- @param calendar - key of the calendar owning the event
+    -- @param key - key of the event
     operation cancel(calendar: string, key: string);
+
+    -- uncancel an event
+    -- @param calendar - key of the calendar owning the event
+    -- @param key - key of the event
     operation uncancel(calendar: string, key: string);
+
+    -- move a repeating event to a new time
+    -- @param calendar - key of the the calendar owning the event
+    -- @param key - key of the event
+    -- @param start - new start of the event
+    -- @param end - new end of the event
     operation move(calendar: string, key: string, start: zoned-date-time, end: zoned-date-time);
 }
