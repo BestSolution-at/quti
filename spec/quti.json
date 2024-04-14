@@ -680,7 +680,7 @@
               "patch": false,
               "variant": "record",
               "type": "CalendarNew",
-              "doc": ""
+              "doc": "new calendar data"
             }
           ],
           "resultType": {
@@ -705,7 +705,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "the calendar key"
             },
             {
               "@type": "Parameter",
@@ -716,7 +716,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "local-date",
-              "doc": ""
+              "doc": "the start date"
             },
             {
               "@type": "Parameter",
@@ -727,7 +727,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "local-date",
-              "doc": ""
+              "doc": "the end date"
             },
             {
               "@type": "Parameter",
@@ -738,7 +738,7 @@
               "patch": false,
               "variant": "scalar",
               "type": "ZoneId",
-              "doc": ""
+              "doc": "the timezone the date is in"
             }
           ],
           "resultType": {
@@ -763,7 +763,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "the calendar key"
             }
           ],
           "resultType": {
@@ -795,7 +795,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the calendar owning the new event"
             },
             {
               "@type": "Parameter",
@@ -806,7 +806,7 @@
               "patch": false,
               "variant": "record",
               "type": "EventNew",
-              "doc": ""
+              "doc": "the new event data"
             }
           ],
           "resultType": {
@@ -831,7 +831,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the calendar owning the event"
             },
             {
               "@type": "Parameter",
@@ -842,7 +842,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the event"
             }
           ]
         },
@@ -860,7 +860,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the calendar owning the event"
             },
             {
               "@type": "Parameter",
@@ -871,7 +871,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the event"
             }
           ]
         },
@@ -889,7 +889,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the calendar owning the event"
             },
             {
               "@type": "Parameter",
@@ -900,7 +900,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the event"
             }
           ]
         },
@@ -918,7 +918,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the the calendar owning the event"
             },
             {
               "@type": "Parameter",
@@ -929,7 +929,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": ""
+              "doc": "key of the event"
             },
             {
               "@type": "Parameter",
@@ -940,7 +940,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "zoned-date-time",
-              "doc": ""
+              "doc": "new start of the event"
             },
             {
               "@type": "Parameter",
@@ -951,7 +951,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "zoned-date-time",
-              "doc": ""
+              "doc": "new end of the event"
             }
           ]
         }
