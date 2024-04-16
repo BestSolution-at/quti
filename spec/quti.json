@@ -90,7 +90,7 @@
     {
       "@type": "ScalarType",
       "name": "ZoneId",
-      "doc": "-- represents a timezone eg \"Europe/Vienna\""
+      "doc": "represents a timezone eg \"Europe/Vienna\""
     },
     {
       "@type": "MixinType",
@@ -119,7 +119,7 @@
           "doc": "Owner of the calendar"
         }
       ],
-      "doc": "-- basic calendar data"
+      "doc": "basic calendar data"
     },
     {
       "@type": "RecordType",
@@ -136,7 +136,7 @@
           "doc": "Unique identifier of the calendar"
         }
       ],
-      "doc": "-- A calendar"
+      "doc": "A calendar"
     },
     {
       "@type": "RecordType",
@@ -146,7 +146,7 @@
         "CalendarData"
       ],
       "properties": [],
-      "doc": "-- A new calendar"
+      "doc": "A new calendar"
     },
     {
       "@type": "MixinType",
@@ -186,7 +186,7 @@
           "doc": "Timezone in which the event repeats"
         }
       ],
-      "doc": "-- Basic repeating data of an event"
+      "doc": "Basic repeating data of an event"
     },
     {
       "@type": "RecordType",
@@ -196,7 +196,7 @@
         "EventRepeatData"
       ],
       "properties": [],
-      "doc": "-- Repeat an event daily - eg repeat every 2nd day"
+      "doc": "Repeat an event daily - eg repeat every 2nd day"
     },
     {
       "@type": "RecordType",
@@ -219,7 +219,7 @@
           "doc": "the days in a week the event repeats"
         }
       ],
-      "doc": "-- Repeat an event weekly - eg repeat every Monday every seconda week"
+      "doc": "Repeat an event weekly - eg repeat every Monday every seconda week"
     },
     {
       "@type": "RecordType",
@@ -241,7 +241,7 @@
           "doc": "the day of the month the event repeats"
         }
       ],
-      "doc": "-- Repeat an event on a monthly interval - eg repeat twice a year on the 1st day (1st Januar, 1st July)"
+      "doc": "Repeat an event on a monthly interval - eg repeat twice a year on the 1st day (1st Januar, 1st July)"
     },
     {
       "@type": "RecordType",
@@ -263,7 +263,7 @@
           "doc": "the month of the year the event repeats"
         }
       ],
-      "doc": "-- Repeat an event on a yearly interval - eg repeat the event on the 1st May every year "
+      "doc": "Repeat an event on a yearly interval - eg repeat the event on the 1st May every year "
     },
     {
       "@type": "RecordType",
@@ -286,7 +286,7 @@
           "doc": "selects the first day in a month"
         }
       ],
-      "doc": "-- Repeat an event relative in a month - eg repeat the event every 2nd month on the first Monday"
+      "doc": "Repeat an event relative in a month - eg repeat the event every 2nd month on the first Monday"
     },
     {
       "@type": "RecordType",
@@ -320,7 +320,7 @@
           "doc": "the month in a year"
         }
       ],
-      "doc": "-- Repeat an event relative in a year - eg repeat the event every 2nd year on the first Tuesday in February"
+      "doc": "Repeat an event relative in a year - eg repeat the event every 2nd year on the first Tuesday in February"
     },
     {
       "@type": "UnionType",
@@ -335,7 +335,7 @@
         "EventRepeatRelativeYearly"
       ],
       "descriminator": "@type",
-      "doc": "-- Repeat an event",
+      "doc": "Repeat an event",
       "descriminatorAliases": {
         "EventRepeatDaily": "daily",
         "EventRepeatWeekly": "weekly",
@@ -438,7 +438,7 @@
           "doc": "other calendars this event is referenced in"
         }
       ],
-      "doc": "-- Basic event data"
+      "doc": "Basic event data"
     },
     {
       "@type": "RecordType",
@@ -448,7 +448,7 @@
         "EventData"
       ],
       "properties": [],
-      "doc": "-- New event data"
+      "doc": "New event data"
     },
     {
       "@type": "RecordType",
@@ -465,7 +465,7 @@
           "doc": "Unique identifier of the event"
         }
       ],
-      "doc": "-- An event"
+      "doc": "An event"
     },
     {
       "@type": "MixinType",
@@ -589,7 +589,7 @@
           "doc": "other calendars this event is referenced in"
         }
       ],
-      "doc": "-- Basic data of a view of an event (eg a concrete instance of a repeating event)"
+      "doc": "Basic data of a view of an event (eg a concrete instance of a repeating event)"
     },
     {
       "@type": "RecordType",
@@ -599,7 +599,7 @@
         "EventViewData"
       ],
       "properties": [],
-      "doc": "-- a none repeating event"
+      "doc": "a none repeating event"
     },
     {
       "@type": "RecordType",
@@ -643,7 +643,7 @@
           "doc": "the original end"
         }
       ],
-      "doc": "-- a series event moved to another timeframe"
+      "doc": "a series event moved to another timeframe"
     },
     {
       "@type": "RecordType",
@@ -665,7 +665,7 @@
           "doc": "key of the original event"
         }
       ],
-      "doc": "-- a series event"
+      "doc": "a series event"
     },
     {
       "@type": "UnionType",
@@ -677,7 +677,7 @@
         "SeriesEventView"
       ],
       "descriminator": "@type",
-      "doc": "-- combination of possible views of events"
+      "doc": "combination of possible views of events"
     }
   ],
   "services": [
