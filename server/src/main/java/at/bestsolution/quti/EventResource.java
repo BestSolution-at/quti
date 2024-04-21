@@ -124,8 +124,8 @@ public class EventResource {
 		}
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 
 		if( parsedCalendarKey.response() != null ) {
 			return parsedCalendarKey.response();
@@ -151,9 +151,9 @@ public class EventResource {
 	public Response cancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
 		var seriesSep = eventKey.indexOf('_');
 
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
 		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 
 		if( parsedCalendarKey.response() != null ) {
 			return parsedCalendarKey.response();

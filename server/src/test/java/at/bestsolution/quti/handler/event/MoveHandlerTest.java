@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,21 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandler> {
 
 	public MoveHandlerTest(MoveHandler handler) {
 		super(handler);
+	}
+
+	@Test
+	public void moveSingle() {
+		var result = handler.move(
+			basicCalendarKey,
+			simpleEventKey,
+			null,
+			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
+		);
+		assertTrue(result.isOk());
+		var event = event(simpleEventKey);
+		assertEquals(ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]").withZoneSameInstant(ZoneOffset.UTC), event.start);
+		assertEquals(ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]").withZoneSameInstant(ZoneOffset.UTC), event.end);
 	}
 
 	@Test

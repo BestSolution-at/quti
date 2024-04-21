@@ -24,6 +24,29 @@ public class MoveHandler extends BaseHandler {
 
 	@Transactional
 	public Result<Void> move(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start, ZonedDateTime end) {
+		if( original == null ) {
+			return moveSingleEvent(calendarKey, eventKey, start, end);
+		}
+		return moveEventInSeries(calendarKey, eventKey, original, start, end);
+	}
+
+	private Result<Void> moveSingleEvent(UUID calendarKey, UUID eventKey, ZonedDateTime start, ZonedDateTime end) {
+		var em = em();
+
+		var event = EventUtils.event(em, calendarKey, eventKey);
+
+		if( event == null ) {
+			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+		}
+
+		event.start = start;
+		event.end = end;
+		em.persist(event);
+
+		return Result.OK;
+	}
+
+	private Result<Void> moveEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start, ZonedDateTime end) {
 		var em = em();
 
 		var event = EventUtils.event(em, calendarKey, eventKey);
