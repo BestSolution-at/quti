@@ -927,7 +927,7 @@
         {
           "@type": "Operation",
           "name": "move",
-          "doc": "move a repeating event to a new time",
+          "doc": "move an event to a new time",
           "parameters": [
             {
               "@type": "Parameter",
@@ -938,7 +938,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the the calendar owning the event"
+              "doc": "key of the calendar owning the event"
             },
             {
               "@type": "Parameter",
@@ -972,6 +972,46 @@
               "variant": "builtin",
               "type": "zoned-date-time",
               "doc": "new end of the event"
+            }
+          ]
+        },
+        {
+          "@type": "Operation",
+          "name": "endRepeat",
+          "doc": "end a repeating event",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the calendar owning the event"
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the event"
+            },
+            {
+              "@type": "Parameter",
+              "name": "end",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "local-date",
+              "doc": "the end of the series"
             }
           ]
         }

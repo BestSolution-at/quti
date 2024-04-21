@@ -210,10 +210,16 @@ service Event {
     -- @param key - key of the event
     operation uncancel(calendar: string, key: string);
 
-    -- move a repeating event to a new time
-    -- @param calendar - key of the the calendar owning the event
+    -- move an event to a new time
+    -- @param calendar - key of the calendar owning the event
     -- @param key - key of the event
     -- @param start - new start of the event
     -- @param end - new end of the event
     operation move(calendar: string, key: string, start: zoned-date-time, end: zoned-date-time);
+
+    -- end a repeating event
+    -- @param calendar - key of the calendar owning the event
+    -- @param key - key of the event
+    -- @param end - the end of the series
+    operation endRepeat(calendar: string, key: string, end: local-date);
 }

@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.client.EventService;
@@ -91,6 +92,22 @@ public class EventServiceImpl implements EventService {
 			throw new IllegalStateException(e);
 		}
     }
+
+	@Override
+	public void endRepeat(String calendarKey, String key, LocalDate end) {
+		var request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("%s/%s/events/%s/action/end-repeat",baseURI, calendarKey, key)))
+				.PUT(BodyPublishers.ofString(end.toString()))
+				.build();
+		try {
+			var response = this.client.send(request, BodyHandlers.ofString());
+			if( response.statusCode() != 204 ) {
+				throw new IllegalStateException(String.format("Remote operation failed:\n%s", response.body()));
+			}
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
 	@Override
 	public String create(String calendarKey, EventNewDTO newEvent) {

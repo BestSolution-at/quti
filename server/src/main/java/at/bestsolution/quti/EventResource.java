@@ -11,6 +11,7 @@ import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.handler.event.CancelHandler;
 import at.bestsolution.quti.handler.event.CreateHandler;
 import at.bestsolution.quti.handler.event.DeleteHandler;
+import at.bestsolution.quti.handler.event.EndRepeatingHandler;
 import at.bestsolution.quti.handler.event.GetHandler;
 import at.bestsolution.quti.handler.event.MoveHandler;
 import at.bestsolution.quti.handler.event.UncancelHandler;
@@ -34,6 +35,7 @@ public class EventResource {
 	private final MoveHandler moveHandler;
 	private final CancelHandler cancelHandler;
 	private final UncancelHandler uncancelHandler;
+	private final EndRepeatingHandler endRepeatHandler;
 
 	@Inject
 	public EventResource(GetHandler getHandler,
@@ -41,13 +43,15 @@ public class EventResource {
 		DeleteHandler deleteHandler,
 		MoveHandler moveHandler,
 		CancelHandler cancelHandler,
-		UncancelHandler uncancelHandler) {
+		UncancelHandler uncancelHandler,
+		EndRepeatingHandler endRepeatHandler) {
 		this.getHandler = getHandler;
 		this.createHandler = createHandler;
 		this.deleteHandler = deleteHandler;
 		this.moveHandler = moveHandler;
 		this.cancelHandler = cancelHandler;
 		this.uncancelHandler = uncancelHandler;
+		this.endRepeatHandler = endRepeatHandler;
 	}
 
 	@GET
@@ -115,13 +119,31 @@ public class EventResource {
 		return Utils.toResponse(result);
 	}
 
+	@Path("{key}/action/end-repeat")
+	@PUT
+	public Response endRepeat(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, LocalDate endDate) {
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
+
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+
+		if( parsedEventKey.response() != null ) {
+			return parsedEventKey.response();
+		}
+
+		var result = endRepeatHandler.endRepeat(parsedCalendarKey.value(), parsedEventKey.value(), endDate);
+		if( result.isOk() ) {
+			return Response.noContent().build();
+		}
+		return Utils.toResponse(result);
+	}
+
 	@Path("{key}/action/move")
 	@PUT
 	public Response move(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, EventMoveDTO dto) {
 		var seriesSep = eventKey.indexOf('_');
-		if( seriesSep == -1 ) {
-			return Utils.badRequest("'%s' is not an event in a series", eventKey);
-		}
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
