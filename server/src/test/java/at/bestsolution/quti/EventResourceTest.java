@@ -125,4 +125,15 @@ public class EventResourceTest extends BaseTest {
 				.extract()
 				.asString();
 	}
+
+	@Test
+	void testActionEndRepeating() {
+		given()
+		.header("Content-Type", "application/json")
+		.body("\"2024-01-10\"")
+			.put(String.format("/api/calendar/%s/events/%s/action/end-repeat", basicCalendarKey, repeatingDailyEndlessKey))
+			.then()
+			.statusCode(204)
+		;
+	}
 }

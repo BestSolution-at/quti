@@ -97,7 +97,8 @@ public class EventServiceImpl implements EventService {
 	public void endRepeat(String calendarKey, String key, LocalDate end) {
 		var request = HttpRequest.newBuilder()
 				.uri(URI.create(String.format("%s/%s/events/%s/action/end-repeat",baseURI, calendarKey, key)))
-				.PUT(BodyPublishers.ofString(end.toString()))
+				.header("Content-Type", "application/json")
+				.PUT(BodyPublishers.ofString(String.format("\"%s\"",end)))
 				.build();
 		try {
 			var response = this.client.send(request, BodyHandlers.ofString());
