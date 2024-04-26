@@ -14,6 +14,7 @@ public class RepeatUtilsTest {
 	public void testFromRepeatWeeklySimple() {
 		var results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY), 1,
 				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-31T23:59:00+01:00[Europe/Vienna]")).toList();
 		assertEquals(5, results.size());
 		assertEquals(LocalDate.parse("2024-01-01"), results.get(0));
@@ -23,6 +24,7 @@ public class RepeatUtilsTest {
 
 		results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY), 1,
 				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-29T23:59:00+01:00[Europe/Vienna]")).toList();
 		assertEquals(5, results.size());
 		assertEquals(LocalDate.parse("2024-01-01"), results.get(0));
@@ -31,6 +33,7 @@ public class RepeatUtilsTest {
 		});
 
 		results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY), 1,
+				ZonedDateTime.parse("2023-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2023-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2023-01-31T23:59:00+01:00[Europe/Vienna]")).toList();
 		assertEquals(5, results.size());
@@ -44,12 +47,14 @@ public class RepeatUtilsTest {
 	public void testFromRepeatWeeklyMulti() {
 		var results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), 1,
 				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-31T23:59:00+01:00[Europe/Vienna]")).toList();
 		assertEquals(10, results.size());
 		assertEquals(LocalDate.parse("2024-01-01"), results.get(0));
 		assertEquals(LocalDate.parse("2024-01-02"), results.get(1));
 
 		results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), 1,
+		ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-29T23:59:00+01:00[Europe/Vienna]")).toList();
 		assertEquals(9, results.size());
@@ -59,18 +64,28 @@ public class RepeatUtilsTest {
 	public void testFromRepeatBiweekly() {
 		var results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY), 2,
 				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-31T23:59:00+01:00[Europe/Vienna]")).toList();
-		System.err.println(results);
+
 		assertEquals(3, results.size());
 		assertEquals(LocalDate.parse("2024-01-01"), results.get(0));
 		results.forEach(r -> {
 			assertEquals(DayOfWeek.MONDAY, r.getDayOfWeek());
 		});
+
+		results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY), 2,
+				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-02T00:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-16T23:59:00+01:00[Europe/Vienna]")).toList();
+
+		assertEquals(1, results.size());
+		assertEquals(LocalDate.parse("2024-01-15"), results.get(0));
 	}
 
 	@Test
 	public void testFromRepeatBiweeklyMulti() {
 		var results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY), 2,
+				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-01T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-31T23:59:00+01:00[Europe/Vienna]")).toList();
 		System.err.println(results);
@@ -82,6 +97,7 @@ public class RepeatUtilsTest {
 	@Test
 	public void testFromRepeatWeeklyEmpty() {
 		var results = RepeatUtils.fromRepeatWeekly(List.of(DayOfWeek.MONDAY), 1,
+				ZonedDateTime.parse("2024-01-02T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-02T00:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-06T23:59:00+01:00[Europe/Vienna]")).toList();
 		assertEquals(0, results.size());

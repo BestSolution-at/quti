@@ -45,7 +45,7 @@ public class RepeatUtils {
 		if (entity.repeatPattern instanceof EventRepeatDailyEntity r) {
 			return fromRepeatDaily(r.interval, entity.start, boxStart, boxEnd);
 		} else if (entity.repeatPattern instanceof EventRepeatWeeklyEntity r) {
-			return fromRepeatWeekly(r.daysOfWeek, r.interval, boxStart, boxEnd);
+			return fromRepeatWeekly(r.daysOfWeek, r.interval, entity.start, boxStart, boxEnd);
 		} else if (entity.repeatPattern instanceof EventRepeatAbsoluteMonthlyEntity r) {
 			return fromRepeatAbsoluteMonthly(r, entity, boxStart, boxEnd);
 		} else if (entity.repeatPattern instanceof EventRepeatAbsoluteYearlyEntity r) {
@@ -78,11 +78,13 @@ public class RepeatUtils {
 		}
 
 	public static Stream<LocalDate> fromRepeatWeekly(List<DayOfWeek> daysOfWeek, int interval,
-			ZonedDateTime startDatetime, ZonedDateTime endDatetime) {
+		ZonedDateTime eventStart, ZonedDateTime startDatetime, ZonedDateTime endDatetime) {
 		List<LocalDate> dates = new ArrayList<>();
 
 		for (DayOfWeek day : daysOfWeek) {
 			var currentDate = startDatetime.with(TemporalAdjusters.nextOrSame(day));
+			var diff = eventStart.toLocalDate().until(currentDate.toLocalDate(), ChronoUnit.WEEKS);
+			currentDate = currentDate.plusWeeks(diff % interval);
 
 			while (currentDate.isBefore(endDatetime)) {
 				dates.add(currentDate.toLocalDate());
