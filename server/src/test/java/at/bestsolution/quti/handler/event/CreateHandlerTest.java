@@ -282,4 +282,40 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 		assertEquals(ZonedDateTime.parse("2020-01-15T23:59:59+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
 		assertEquals(List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY), ((EventRepeatWeeklyEntity)entity.repeatPattern).daysOfWeek);
 	}
+
+	@Test
+	public void testInvalidInterval() {
+		var repeat = EventRepeatWeeklyDTO.of((short)0, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var newEvent = new EventNewDTO(
+			"New event weekly with end",
+			"New event description weekly with end",
+			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"),
+			false,
+			repeat,
+			List.of(),
+			List.of()
+		);
+		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+
+		assertFalse(eventKey.isOk());
+	}
+
+	@Test
+	public void testInvalidWeek() {
+		var repeat = EventRepeatWeeklyDTO.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of());
+		var newEvent = new EventNewDTO(
+			"New event weekly with end",
+			"New event description weekly with end",
+			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"),
+			false,
+			repeat,
+			List.of(),
+			List.of()
+		);
+		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+
+		assertFalse(eventKey.isOk());
+	}
 }

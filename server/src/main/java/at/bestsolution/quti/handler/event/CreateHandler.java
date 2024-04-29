@@ -71,7 +71,14 @@ public class CreateHandler extends BaseHandler {
 		eventEntity.fullday = event.fullday();
 		eventEntity.tags = event.tags();
 
-		eventEntity.repeatPattern = event.repeat() == null ? null : createRepeatPattern(event, event.repeat());
+		if( event.repeat() != null ) {
+			var rv = createRepeatPattern(event, event.repeat());
+			if( ! rv.isOk() ) {
+				return rv.toAny();
+			}
+
+			eventEntity.repeatPattern = rv.value();
+		}
 
 		List<EventReferenceEntity> references = List.of();
 		if( event.referencedCalendars() != null && event.referencedCalendars().size() > 0 ) {
@@ -106,31 +113,37 @@ public class CreateHandler extends BaseHandler {
 		return Result.ok(eventEntity.key.toString());
 	}
 
-	private static EventRepeatEntity createRepeatPattern(EventNewDTO event, EventRepeatDTO repeat) {
+	private static Result<EventRepeatEntity> createRepeatPattern(EventNewDTO event, EventRepeatDTO repeat) {
+		if( repeat.interval <= 0 ) {
+			return Result.invalidContent("Interval must be greater than 0");
+		}
 		if( repeat instanceof EventRepeatDailyDTO ) {
-			return fillDefaults(new EventRepeatDailyEntity(), event);
+			return Result.ok(fillDefaults(new EventRepeatDailyEntity(), event));
 		} else if( repeat instanceof EventRepeatWeeklyDTO r ) {
+			if( r.daysOfWeek.isEmpty() ) {
+				return Result.invalidContent("Weekdays must not be empty");
+			}
 			var repeatPatternEntity = fillDefaults(new EventRepeatWeeklyEntity(), event);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek;
-			return repeatPatternEntity;
+			return Result.ok(repeatPatternEntity);
 		} else if( repeat instanceof EventRepeatAbsoluteMonthlyDTO r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteMonthlyEntity(), event);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth;
-			return repeatPatternEntity;
+			return Result.ok(repeatPatternEntity);
 		} else if( repeat instanceof EventRepeatAbsoluteYearlyDTO r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteYearlyEntity(), event);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth;
 			repeatPatternEntity.month = r.month;
-			return repeatPatternEntity;
+			return Result.ok(repeatPatternEntity);
 		} else if( repeat instanceof EventRepeatRelativeMonthlyDTO r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeMonthlyEntity(), event);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek;
-			return repeatPatternEntity;
+			return Result.ok(repeatPatternEntity);
 		} else if( repeat instanceof EventRepeatRelativeYearlyDTO r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeYearlyEntity(), event);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek;
 			repeatPatternEntity.month = r.month;
-			return repeatPatternEntity;
+			return Result.ok(repeatPatternEntity);
 		}
 
 		throw new IllegalStateException(String.format("Unknown repeat type %s",repeat.getClass()));
