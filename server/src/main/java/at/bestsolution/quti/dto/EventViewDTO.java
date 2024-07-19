@@ -6,9 +6,11 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
@@ -85,13 +87,22 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 				status = Status.CANCELED;
 			}
 
+			var description = movedEntity.event.modificationsAt(movedEntity.date)
+					.stream()
+					.filter(m -> m instanceof EventModificationGenericEntity)
+					.findFirst()
+					.map( m -> (EventModificationGenericEntity)m)
+					.map( m -> m.description)
+					.filter(Predicate.not(String::isBlank))
+					.orElse(movedEntity.event.description);
+
 			var result = new SeriesMovedEventViewDTO();
 			result.key = movedEntity.event.key.toString() + "_" + movedEntity.date;
 			result.calendarKey = movedEntity.event.calendar.key.toString();
 			result.owner = movedEntity.event.calendar.owner;
 			result.masterEventKey = movedEntity.event.key.toString();
 			result.title = movedEntity.event.title;
-			result.description = movedEntity.event.description;
+			result.description = description;
 			result.start = movedEntity.start.withZoneSameInstant(resultZone);
 			result.end = movedEntity.end.withZoneSameInstant(resultZone);
 			result.tags = Objects.requireNonNullElse(movedEntity.event.tags, List.of());
@@ -121,6 +132,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			var adjustedEnd = end.plusDays(dayDiff);
 
 			var status = Status.ACCEPTED;
+			var description = event.description;
 			if (!event.modifications.isEmpty()) {
 				var targetDate = adjustedStart.toLocalDate();
 				var modified = event.modificationsAt(targetDate)
@@ -136,6 +148,15 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 				if( canceled ) {
 					status = Status.CANCELED;
 				}
+
+				description = event.modificationsAt(targetDate)
+					.stream()
+					.filter(m -> m instanceof EventModificationGenericEntity)
+					.findFirst()
+					.map( m -> (EventModificationGenericEntity)m)
+					.map( m -> m.description)
+					.filter(Predicate.not(String::isBlank))
+					.orElse(description);
 			}
 
 			var result = new SeriesEventViewDTO();
@@ -144,7 +165,7 @@ public abstract class EventViewDTO implements Comparable<EventViewDTO> {
 			result.owner = event.calendar.owner;
 			result.masterEventKey = event.key.toString();
 			result.title = event.title;
-			result.description = event.description;
+			result.description = description;
 			result.start = adjustedStart.withZoneSameInstant(zone);
 			result.end = adjustedEnd.withZoneSameInstant(zone);
 			result.tags = Objects.requireNonNullElse(event.tags, List.of());

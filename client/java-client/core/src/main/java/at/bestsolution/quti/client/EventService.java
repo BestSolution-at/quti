@@ -13,4 +13,5 @@ public interface EventService extends BaseService {
     public void uncancel(String calendar,String key);
     public void move(String calendar,String key,ZonedDateTime start,ZonedDateTime end);
     public void endRepeat(String calendar,String key,LocalDate end);
+    public void description(String calendar,String key,String description);
 }

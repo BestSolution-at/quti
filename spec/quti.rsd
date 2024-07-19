@@ -222,4 +222,10 @@ service Event {
     -- @param key - key of the event
     -- @param end - the end of the series
     operation endRepeat(calendar: string, key: string, end: local-date);
+
+    -- set a description
+    -- @param calendar - key of the calendar owning the event
+    -- @param key - key of the event
+    -- @param description - the description
+    operation description(calendar: string, key: string, description: string);
 }

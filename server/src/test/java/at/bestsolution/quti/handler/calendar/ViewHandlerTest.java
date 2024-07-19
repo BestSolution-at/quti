@@ -10,15 +10,18 @@ import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.dto.EventViewDTO.Status;
+import at.bestsolution.quti.handler.event.SetDescriptionHandler;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
 public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
+	private SetDescriptionHandler descriptionHandler;
 
 	@Inject
-	public ViewHandlerTest(ViewHandler handler) {
+	public ViewHandlerTest(ViewHandler handler, SetDescriptionHandler descriptionHandler) {
 		super(handler);
+		this.descriptionHandler = descriptionHandler;
 	}
 
 	@Test
@@ -208,5 +211,31 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 			ZoneId.of("Europe/Vienna"), ZoneId.of("Europe/Vienna"));
 		assertEquals(1, result.size());
 		assertEquals(Status.CANCELED, result.get(0).status);
+	}
+
+	@Test
+	public void testCustomDescription() {
+			descriptionHandler.setDescription(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-01"), "A custom description");
+
+			var result = handler.view(
+				basicCalendarKey,
+				LocalDate.parse("2024-01-01"),
+				LocalDate.parse("2024-01-01"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+
+			assertEquals(1, result.size());
+			assertEquals(result.get(0).description, "A custom description");
+
+			var refResult = handler.view(
+				referenceCalendarKey,
+				LocalDate.parse("2024-01-01"),
+				LocalDate.parse("2024-01-01"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Z"));
+
+			assertEquals(1, refResult.size());
+			assertEquals(refResult.get(0).description, "A custom description");
+
 	}
 }

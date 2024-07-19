@@ -115,6 +115,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 					FROM
 						EventModificationMoved em
 					JOIN FETCH em.event
+					LEFT JOIN FETCH em.event.modifications
 					WHERE
 						em.event.calendar.key = :calendarKey
 					AND (
@@ -152,10 +153,32 @@ public class ViewHandler extends BaseReadonlyHandler {
 		query.setParameter("startDatetime", startDatetime);
 		query.setParameter("endDatetime", endDatetime);
 
-		return query.getResultList()
-				.stream()
-				.map(eventModification -> EventViewDTO.of(eventModification, resultZone))
-				.toList();
+		var result = query.getResultList()
+			.stream()
+			.map(eventModification -> EventViewDTO.of(eventModification, resultZone))
+			.toList();
+
+		// now fill the modifications
+		query = em().createQuery("""
+				FROM
+					EventModificationMoved em
+				JOIN FETCH em.event e
+				LEFT JOIN FETCH em.event.modifications
+				JOIN em.event.references r
+				WHERE
+					r.calendar.key = :calendarKey
+				AND (
+					em.start <= :endDatetime
+					AND
+					em.end >= :startDatetime
+				)
+				""", EventModificationMovedEntity.class);
+		query.setParameter("calendarKey", calendarKey);
+		query.setParameter("startDatetime", startDatetime);
+		query.setParameter("endDatetime", endDatetime);
+		query.getResultList();
+
+		return result;
 	}
 
 	private List<EventViewDTO> findSeriesEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime,
@@ -163,6 +186,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 		var query = em().createQuery("""
 					FROM
 							Event e
+					LEFT JOIN FETCH e.modifications
 					JOIN FETCH e.repeatPattern
 					WHERE
 							e.calendar.key = :calendarKey
@@ -187,6 +211,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 					FROM
 						EventReference er
 					JOIN FETCH er.event e
+					LEFT JOIN FETCH er.event.modifications
 					JOIN FETCH e.repeatPattern
 					WHERE
 						er.calendar.key = :calendarKey

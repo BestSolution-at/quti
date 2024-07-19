@@ -113,7 +113,6 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public String create(String calendarKey, EventNewDTO newEvent) {
 		var url = String.format("%s/%s/events",baseURI,calendarKey);
-		System.err.println(url);
 		var request = HttpRequest.newBuilder()
 				.uri(URI.create(url))
 				.header("Content-Type", "application/json")
@@ -129,5 +128,22 @@ public class EventServiceImpl implements EventService {
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	@Override
+	public void description(String calendarKey, String key, String description) {
+		var request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("%s/%s/events/%s/action/description",baseURI, calendarKey, key)))
+				.header("Content-Type", "application/json")
+				.PUT(BodyPublishers.ofString(String.format("\"%s\"",description)))
+				.build();
+		try {
+			var response = this.client.send(request, BodyHandlers.ofString());
+			if( response.statusCode() != 204 ) {
+				throw new IllegalStateException(String.format("Remote operation failed:\n%s", response.body()));
+			}
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}		
 	}
 }

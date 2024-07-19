@@ -89,8 +89,7 @@
     },
     {
       "@type": "ScalarType",
-      "name": "ZoneId",
-      "doc": "represents a timezone eg \"Europe/Vienna\""
+      "name": "ZoneId"
     },
     {
       "@type": "MixinType",
@@ -118,8 +117,7 @@
           "type": "string",
           "doc": "Owner of the calendar"
         }
-      ],
-      "doc": "basic calendar data"
+      ]
     },
     {
       "@type": "RecordType",
@@ -135,8 +133,7 @@
           "type": "string",
           "doc": "Unique identifier of the calendar"
         }
-      ],
-      "doc": "A calendar"
+      ]
     },
     {
       "@type": "RecordType",
@@ -145,8 +142,7 @@
       "mixins": [
         "CalendarData"
       ],
-      "properties": [],
-      "doc": "A new calendar"
+      "properties": []
     },
     {
       "@type": "MixinType",
@@ -185,8 +181,7 @@
           "type": "ZoneId",
           "doc": "Timezone in which the event repeats"
         }
-      ],
-      "doc": "Basic repeating data of an event"
+      ]
     },
     {
       "@type": "RecordType",
@@ -195,8 +190,7 @@
       "mixins": [
         "EventRepeatData"
       ],
-      "properties": [],
-      "doc": "Repeat an event daily - eg repeat every 2nd day"
+      "properties": []
     },
     {
       "@type": "RecordType",
@@ -218,8 +212,7 @@
           "type": "DayOfWeek",
           "doc": "the days in a week the event repeats"
         }
-      ],
-      "doc": "Repeat an event weekly - eg repeat every Monday every seconda week"
+      ]
     },
     {
       "@type": "RecordType",
@@ -240,8 +233,7 @@
           "type": "short",
           "doc": "the day of the month the event repeats"
         }
-      ],
-      "doc": "Repeat an event on a monthly interval - eg repeat twice a year on the 1st day (1st Januar, 1st July)"
+      ]
     },
     {
       "@type": "RecordType",
@@ -262,8 +254,7 @@
           "type": "Month",
           "doc": "the month of the year the event repeats"
         }
-      ],
-      "doc": "Repeat an event on a yearly interval - eg repeat the event on the 1st May every year "
+      ]
     },
     {
       "@type": "RecordType",
@@ -285,8 +276,7 @@
           "type": "DayOfWeek",
           "doc": "selects the first day in a month"
         }
-      ],
-      "doc": "Repeat an event relative in a month - eg repeat the event every 2nd month on the first Monday"
+      ]
     },
     {
       "@type": "RecordType",
@@ -319,8 +309,7 @@
           "type": "Month",
           "doc": "the month in a year"
         }
-      ],
-      "doc": "Repeat an event relative in a year - eg repeat the event every 2nd year on the first Tuesday in February"
+      ]
     },
     {
       "@type": "UnionType",
@@ -335,7 +324,6 @@
         "EventRepeatRelativeYearly"
       ],
       "descriminator": "@type",
-      "doc": "Repeat an event",
       "descriminatorAliases": {
         "EventRepeatDaily": "daily",
         "EventRepeatWeekly": "weekly",
@@ -437,8 +425,7 @@
           "type": "string",
           "doc": "other calendars this event is referenced in"
         }
-      ],
-      "doc": "Basic event data"
+      ]
     },
     {
       "@type": "RecordType",
@@ -447,8 +434,7 @@
       "mixins": [
         "EventData"
       ],
-      "properties": [],
-      "doc": "New event data"
+      "properties": []
     },
     {
       "@type": "RecordType",
@@ -464,8 +450,7 @@
           "type": "string",
           "doc": "Unique identifier of the event"
         }
-      ],
-      "doc": "An event"
+      ]
     },
     {
       "@type": "MixinType",
@@ -588,8 +573,7 @@
           "type": "string",
           "doc": "other calendars this event is referenced in"
         }
-      ],
-      "doc": "Basic data of a view of an event (eg a concrete instance of a repeating event)"
+      ]
     },
     {
       "@type": "RecordType",
@@ -598,8 +582,7 @@
       "mixins": [
         "EventViewData"
       ],
-      "properties": [],
-      "doc": "a none repeating event"
+      "properties": []
     },
     {
       "@type": "RecordType",
@@ -642,8 +625,7 @@
           "type": "zoned-date-time",
           "doc": "the original end"
         }
-      ],
-      "doc": "a series event moved to another timeframe"
+      ]
     },
     {
       "@type": "RecordType",
@@ -664,8 +646,7 @@
           "type": "string",
           "doc": "key of the original event"
         }
-      ],
-      "doc": "a series event"
+      ]
     },
     {
       "@type": "UnionType",
@@ -676,8 +657,7 @@
         "SeriesMovedEventView",
         "SeriesEventView"
       ],
-      "descriminator": "@type",
-      "doc": "combination of possible views of events"
+      "descriminator": "@type"
     }
   ],
   "services": [
@@ -1012,6 +992,46 @@
               "variant": "builtin",
               "type": "local-date",
               "doc": "the end of the series"
+            }
+          ]
+        },
+        {
+          "@type": "Operation",
+          "name": "description",
+          "doc": "set a description",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the calendar owning the event"
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the event"
+            },
+            {
+              "@type": "Parameter",
+              "name": "description",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "the description"
             }
           ]
         }

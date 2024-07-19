@@ -14,6 +14,7 @@ import at.bestsolution.quti.handler.event.DeleteHandler;
 import at.bestsolution.quti.handler.event.EndRepeatingHandler;
 import at.bestsolution.quti.handler.event.GetHandler;
 import at.bestsolution.quti.handler.event.MoveHandler;
+import at.bestsolution.quti.handler.event.SetDescriptionHandler;
 import at.bestsolution.quti.handler.event.UncancelHandler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -36,6 +37,7 @@ public class EventResource {
 	private final CancelHandler cancelHandler;
 	private final UncancelHandler uncancelHandler;
 	private final EndRepeatingHandler endRepeatHandler;
+	private final SetDescriptionHandler setDescriptionHandler;
 
 	@Inject
 	public EventResource(GetHandler getHandler,
@@ -44,7 +46,8 @@ public class EventResource {
 		MoveHandler moveHandler,
 		CancelHandler cancelHandler,
 		UncancelHandler uncancelHandler,
-		EndRepeatingHandler endRepeatHandler) {
+		EndRepeatingHandler endRepeatHandler,
+		SetDescriptionHandler setDescriptionHandler) {
 		this.getHandler = getHandler;
 		this.createHandler = createHandler;
 		this.deleteHandler = deleteHandler;
@@ -52,6 +55,7 @@ public class EventResource {
 		this.cancelHandler = cancelHandler;
 		this.uncancelHandler = uncancelHandler;
 		this.endRepeatHandler = endRepeatHandler;
+		this.setDescriptionHandler = setDescriptionHandler;
 	}
 
 	@GET
@@ -215,6 +219,34 @@ public class EventResource {
 		}
 
 		var result = uncancelHandler.uncancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
+
+		if( result.isOk() ) {
+			return Response.noContent().build();
+		}
+
+		return Utils.toResponse(result);
+	}
+
+	@Path("{key}/action/description")
+	@PUT
+	public Response description(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String description) {
+		var seriesSep = eventKey.indexOf('_');
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.response() != null ) {
+			return parsedCalendarKey.response();
+		}
+		if( parsedEventKey.response() != null ) {
+			return parsedEventKey.response();
+		}
+		if( parsedOriginalDate.response() != null ) {
+			return parsedOriginalDate.response();
+		}
+
+		var result = setDescriptionHandler.setDescription(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), description);
 
 		if( result.isOk() ) {
 			return Response.noContent().build();
