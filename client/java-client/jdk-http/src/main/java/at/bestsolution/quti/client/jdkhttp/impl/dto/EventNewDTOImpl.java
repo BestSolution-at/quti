@@ -2,6 +2,7 @@ package at.bestsolution.quti.client.jdkhttp.impl.dto;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 import at.bestsolution.quti.client.dto.EventNewDTO;
@@ -36,7 +37,7 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
 
     @Override
     public String description() {
-        return data.getString("description");
+        return data.getString("description", "");
     }
 
     @Override
@@ -78,7 +79,7 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
 		}
 		
 		public Builder description(String description) {
-			builder.add("description", description);
+			builder.add("description", Objects.toString(description, ""));
 			return this;
 		}
 		

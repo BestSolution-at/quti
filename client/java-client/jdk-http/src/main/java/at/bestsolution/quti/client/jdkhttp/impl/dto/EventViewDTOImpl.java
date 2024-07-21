@@ -26,7 +26,7 @@ public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewD
     }
 
     public String description() {
-        return data.getString("description");
+        return data.getString("description", "");
     }
 
     public String owner() {

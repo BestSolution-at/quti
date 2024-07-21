@@ -135,7 +135,7 @@ public class EventServiceImpl implements EventService {
 		var request = HttpRequest.newBuilder()
 				.uri(URI.create(String.format("%s/%s/events/%s/action/description",baseURI, calendarKey, key)))
 				.header("Content-Type", "application/json")
-				.PUT(BodyPublishers.ofString(String.format("\"%s\"",description)))
+				.PUT(BodyPublishers.ofString(description))
 				.build();
 		try {
 			var response = this.client.send(request, BodyHandlers.ofString());
