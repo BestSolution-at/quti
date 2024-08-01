@@ -141,7 +141,7 @@ public class EventResourceTest extends BaseTest {
 	void testActionDescription() {
 		given()
 		.header("Content-Type", "application/json")
-		.body("\"A custom description\"")
+		.body("A custom description")
 			.put(String.format("/api/calendar/%s/events/%s/action/description", basicCalendarKey, repeatingDailyEndlessKey+"_2024-01-01"))
 			.then()
 			.statusCode(204)
