@@ -1,0 +1,33 @@
+{
+  "name": "@bestsolution/quti",
+  "description": "a repo to start with atomico",
+  "meta": {
+    "id": "vite",
+    "title": "Started - Atomico + Vite(JS,JSX,TS,TSX)",
+    "description": "Hassle-free starter template, perfect for starting with Atomico",
+    "branch": "https://github.com/atomicojs/atomico/tree/2-started/"
+  },
+  "workspaces": [
+    "src/*"
+  ],
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "create:component": "scaff component-tsx src",
+    "prettier": "prettier src --write"
+  },
+  "dependencies": {
+    "@internationalized/date": "3.5.5",
+    "atomico": "latest"
+  },
+  "devDependencies": {
+    "@atomico/scaffold": "^2.9.5",
+    "@atomico/tsconfig": "^1.1.2",
+    "@atomico/vite": "^2.21.1",
+    "prettier": "^3.3.3",
+    "vite": "^5.4.8"
+  }
+}
