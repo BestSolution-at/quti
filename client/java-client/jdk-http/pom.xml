@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>at.bestsolution.quti</groupId>
 			<artifactId>client-core</artifactId>
-			<version>${revision}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.json</groupId>
