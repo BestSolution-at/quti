@@ -57,7 +57,7 @@ public class CalendarResource {
 	@POST
 	public Response create(CalendarNewDTO calendar) {
 		var key = createHandler.create(calendar);
-		return Response.created(URI.create("/api/calendar/" + key)).build();
+		return Response.created(URI.create("/api/calendar/" + key)).entity(key).build();
 	}
 
 	@PATCH

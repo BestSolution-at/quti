@@ -92,7 +92,7 @@ public class EventResource {
 		}
 		var result = this.createHandler.create(parsedCalendarKey.value(), event);
 		if( result.isOk() ) {
-			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).build();
+			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).entity(result.value()).build();
 		}
 		return Utils.toResponse(result);
 	}
