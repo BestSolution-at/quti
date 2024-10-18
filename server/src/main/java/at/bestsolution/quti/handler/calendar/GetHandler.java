@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import at.bestsolution.quti.dto.CalendarDTO;
+import at.bestsolution.quti.dto.CalendarDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
 import at.bestsolution.quti.model.CalendarEntity;
 import jakarta.inject.Inject;
@@ -29,7 +30,7 @@ public class GetHandler extends BaseReadonlyHandler {
 		Objects.requireNonNull(key, "key must not be null");
 		var result = getEnties(key);
 		if (result.size() == 1) {
-			return CalendarDTO.of(result.get(0));
+			return CalendarDTOUtil.of(result.get(0));
 		} else if (result.size() == 0) {
 			return null;
 		}

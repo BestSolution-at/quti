@@ -4,6 +4,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 import at.bestsolution.quti.dto.EventDTO;
+import at.bestsolution.quti.dto.EventDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
 import at.bestsolution.quti.model.EventEntity;
 import jakarta.inject.Inject;
@@ -25,7 +26,7 @@ public class GetHandler extends BaseReadonlyHandler {
 		query.setParameter("calendarKey", calendarKey);
 		var result = query.getResultList();
 		if (result.size() == 1) {
-			return EventDTO.of(result.get(0), zone);
+			return EventDTOUtil.of(result.get(0), zone);
 		} else if (result.size() == 0) {
 			return null;
 		}
