@@ -34,7 +34,7 @@
           "name": "SUNDAY"
         }
       ],
-      "doc": "days of the week"
+      "doc": " days of the week"
     },
     {
       "@type": "EnumType",
@@ -85,7 +85,7 @@
           "name": "DECEMBER"
         }
       ],
-      "doc": "months of the year"
+      "doc": " months of the year"
     },
     {
       "@type": "ScalarType",
@@ -353,7 +353,7 @@
           "name": "description",
           "array": false,
           "readonly": false,
-          "optional": false,
+          "optional": true,
           "nullable": false,
           "variant": "builtin",
           "type": "string",
@@ -657,19 +657,24 @@
         "SeriesMovedEventView",
         "SeriesEventView"
       ],
-      "descriminator": "@type"
+      "descriminator": "@type",
+      "descriminatorAliases": {
+        "SingleEventView": "single",
+        "SeriesMovedEventView": "series-moved",
+        "SeriesEventView": "series"
+      }
     }
   ],
   "services": [
     {
       "@type": "Service",
       "name": "Calendar",
-      "doc": "Service to create a calendar and query for its events",
+      "doc": " Service to create a calendar and query for its events",
       "operations": [
         {
           "@type": "Operation",
           "name": "create",
-          "doc": "create a new calendar\n",
+          "doc": " create a new calendar\n\nfoo Bar is eine dubar",
           "parameters": [
             {
               "@type": "Parameter",
@@ -688,13 +693,31 @@
             "array": false,
             "variant": "builtin",
             "type": "string",
-            "doc": "@returns key of the new calendar"
+            "doc": "key of the new calendar"
+          },
+          "errors": [
+            "InvalidContent"
+          ],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "",
+              "results": [
+                {
+                  "statusCode": 201
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidContent"
+                }
+              ]
+            }
           }
         },
         {
           "@type": "Operation",
-          "name": "eventView",
-          "doc": "get a view of all events in a date range\n",
+          "name": "get",
+          "doc": " get a calendar",
           "parameters": [
             {
               "@type": "Parameter",
@@ -705,7 +728,67 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "the calendar key"
+              "doc": "the calendar key",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "Calendar",
+            "doc": "the calendar"
+          },
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "eventView",
+          "doc": " get a view of all events in a date range",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "the calendar key",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -716,7 +799,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "local-date",
-              "doc": "the start date"
+              "doc": "the start date",
+              "meta": {
+                "rest": {
+                  "name": "from",
+                  "source": "query"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -727,7 +816,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "local-date",
-              "doc": "the end date"
+              "doc": "the end date",
+              "meta": {
+                "rest": {
+                  "name": "to",
+                  "source": "query"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -738,7 +833,30 @@
               "patch": false,
               "variant": "scalar",
               "type": "ZoneId",
-              "doc": "the timezone the date is in"
+              "doc": "the timezone the date is in",
+              "meta": {
+                "rest": {
+                  "name": "timezone",
+                  "source": "query"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "resultTimeZone",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "scalar",
+              "type": "ZoneId",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "timezone",
+                  "source": "header"
+                }
+              }
             }
           ],
           "resultType": {
@@ -746,45 +864,48 @@
             "array": true,
             "variant": "union",
             "type": "EventView",
-            "doc": "@returns a list of events"
-          }
-        },
-        {
-          "@type": "Operation",
-          "name": "get",
-          "doc": "get a calendar\n",
-          "parameters": [
-            {
-              "@type": "Parameter",
-              "name": "key",
-              "array": false,
-              "nullable": false,
-              "optional": false,
-              "patch": false,
-              "variant": "builtin",
-              "type": "string",
-              "doc": "the calendar key"
-            }
+            "doc": "a list of events"
+          },
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
           ],
-          "resultType": {
-            "@type": "ReturnType",
-            "array": false,
-            "variant": "record",
-            "type": "Calendar",
-            "doc": "@returns the calendar"
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "${key}/view",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
           }
         }
-      ]
+      ],
+      "meta": {
+        "rest": {
+          "path": "/api/calendar"
+        }
+      }
     },
     {
       "@type": "Service",
       "name": "Event",
-      "doc": "Service to create and modify events in a calendar",
+      "doc": " Service to create and modify events in a calendar",
       "operations": [
         {
           "@type": "Operation",
           "name": "create",
-          "doc": "create a new event",
+          "doc": " create a new event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -795,7 +916,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the new event"
+              "doc": "key of the calendar owning the new event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -814,13 +941,36 @@
             "array": false,
             "variant": "builtin",
             "type": "string",
-            "doc": "@returns key of the new event"
+            "doc": "key of the new event"
+          },
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "",
+              "results": [
+                {
+                  "statusCode": 201
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
           }
         },
         {
           "@type": "Operation",
           "name": "delete",
-          "doc": "delete an event",
+          "doc": " delete an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -831,7 +981,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the event"
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -842,14 +998,28 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the event"
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             }
-          ]
+          ],
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "DELETE",
+              "path": "${key}",
+              "results": []
+            }
+          }
         },
         {
           "@type": "Operation",
           "name": "cancel",
-          "doc": "cancel an event",
+          "doc": " cancel an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -860,7 +1030,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the event"
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -871,14 +1047,28 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the event"
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             }
-          ]
+          ],
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "${key}/action/cancel",
+              "results": []
+            }
+          }
         },
         {
           "@type": "Operation",
           "name": "uncancel",
-          "doc": "uncancel an event",
+          "doc": " uncancel an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -889,7 +1079,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the event"
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -900,14 +1096,28 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the event"
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             }
-          ]
+          ],
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "${key}/action/uncancel",
+              "results": []
+            }
+          }
         },
         {
           "@type": "Operation",
           "name": "move",
-          "doc": "move an event to a new time",
+          "doc": " move an event to a new time",
           "parameters": [
             {
               "@type": "Parameter",
@@ -918,7 +1128,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the event"
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -929,7 +1145,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the event"
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -953,12 +1175,20 @@
               "type": "zoned-date-time",
               "doc": "new end of the event"
             }
-          ]
+          ],
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "${key}/action/move",
+              "results": []
+            }
+          }
         },
         {
           "@type": "Operation",
           "name": "endRepeat",
-          "doc": "end a repeating event",
+          "doc": " end a repeating event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -969,7 +1199,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the event"
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -980,7 +1216,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the event"
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -993,12 +1235,20 @@
               "type": "local-date",
               "doc": "the end of the series"
             }
-          ]
+          ],
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "${key}/action/end-repeat",
+              "results": []
+            }
+          }
         },
         {
           "@type": "Operation",
           "name": "description",
-          "doc": "set a description",
+          "doc": " set a description",
           "parameters": [
             {
               "@type": "Parameter",
@@ -1033,9 +1283,29 @@
               "type": "string",
               "doc": "the description"
             }
-          ]
+          ],
+          "errors": []
         }
-      ]
+      ],
+      "meta": {
+        "rest": {
+          "path": "/api/calendar/${calendar}/events"
+        }
+      }
+    }
+  ],
+  "errors": [
+    {
+      "@type": "Error",
+      "name": "NotFound"
+    },
+    {
+      "@type": "Error",
+      "name": "InvalidContent"
+    },
+    {
+      "@type": "Error",
+      "name": "InvalidArgument"
     }
   ]
 }

@@ -10,7 +10,19 @@ import at.bestsolution.quti.client.dto.CalendarNewDTO;
 import at.bestsolution.quti.client.dto.EventViewDTO;
 
 public interface CalendarService extends BaseService {
-    public String create(CalendarNewDTO calendar);
-    public List<EventViewDTO> eventView(String key,LocalDate start,LocalDate end,ZoneId timezone);
-    public CalendarDTO get(String key);
+    public String create(CalendarNewDTO calendar)
+        throws InvalidContentException;
+
+    public CalendarDTO get(String key)
+        throws NotFoundException,
+            InvalidArgumentException;
+
+    public List<EventViewDTO> eventView(String key,LocalDate start,LocalDate end,ZoneId timezone)
+        throws NotFoundException,
+            InvalidArgumentException;
+
+    public List<EventViewDTO> eventView(String key,LocalDate start,LocalDate end,ZoneId timezone,ZoneId resultTimeZone)
+        throws NotFoundException,
+            InvalidArgumentException;
+
 }

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.Utils.ResultType;
 import at.bestsolution.quti.dto.EventNewDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatDailyDTO;
+import at.bestsolution.quti.dto.EventRepeatDTOUtil;
 import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
@@ -203,7 +203,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	@Test
 	public void testRepeatingDailyEndless() {
-		var repeat = EventRepeatDailyDTO.of((short)2, "Europe/Vienna", null);
+		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of((short)2, "Europe/Vienna", null);
 		var newEvent = new EventNewDTO(
 			"New event daily",
 			"New event description daily",
@@ -223,7 +223,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	@Test
 	public void testRepeatingDailyEnd() {
-		var repeat = EventRepeatDailyDTO.of((short)2, "Europe/Vienna", LocalDate.parse("2020-01-31"));
+		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of((short)2, "Europe/Vienna", LocalDate.parse("2020-01-31"));
 		var newEvent = new EventNewDTO(
 			"New event daily with end",
 			"New event description daily with end",
@@ -242,7 +242,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	@Test
 	public void testRepeatingWeeklyEndless() {
-		var repeat = EventRepeatWeeklyDTO.of((short)1, "Europe/Vienna", null, List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)1, "Europe/Vienna", null, List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
 		var newEvent = new EventNewDTO(
 			"New event weekly with end",
 			"New event description weekly with end",
@@ -264,7 +264,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	@Test
 	public void testRepeatingWeeklyEnd() {
-		var repeat = EventRepeatWeeklyDTO.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
 		var newEvent = new EventNewDTO(
 			"New event weekly with end",
 			"New event description weekly with end",
@@ -285,7 +285,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	@Test
 	public void testInvalidInterval() {
-		var repeat = EventRepeatWeeklyDTO.of((short)0, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)0, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
 		var newEvent = new EventNewDTO(
 			"New event weekly with end",
 			"New event description weekly with end",
@@ -303,7 +303,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	@Test
 	public void testInvalidWeek() {
-		var repeat = EventRepeatWeeklyDTO.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of());
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of());
 		var newEvent = new EventNewDTO(
 			"New event weekly with end",
 			"New event description weekly with end",

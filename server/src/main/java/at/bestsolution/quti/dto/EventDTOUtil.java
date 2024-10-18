@@ -14,6 +14,6 @@ public class EventDTOUtil {
 				event.end.withZoneSameInstant(zoneId),
 				event.fullday,
 				event.tags,
-				EventRepeatDTO.of(event.repeatPattern));
+				EventRepeatDTOUtil.of(event.repeatPattern));
 	}
 }

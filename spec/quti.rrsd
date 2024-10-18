@@ -1,0 +1,34 @@
+resource Calendar at '/api/calendar' {
+    POST create     at '' => {
+        201
+        422: InvalidContent
+    }
+    GET get         at '${key}' => {
+        200
+        404: NotFound
+        400: InvalidArgument
+    }
+    GET eventView   at '${key}/view'
+        header-param resultTimeZone as 'timezone'
+        query-param start as 'from'
+        query-param end as 'to'
+        query-param timezone => {
+            200
+            404: NotFound
+            400: InvalidArgument
+        }
+    // PATCH update
+}
+
+resource Event at '/api/calendar/${calendar}/events' {
+    POST create      at '' => {
+        201
+        404: NotFound
+        400: InvalidArgument
+    }
+    DELETE delete   at '${key}'
+    PUT endRepeat   at '${key}/action/end-repeat'
+    PUT move        at '${key}/action/move'
+    PUT cancel      at '${key}/action/cancel'
+    PUT uncancel    at '${key}/action/uncancel'
+}

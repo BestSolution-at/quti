@@ -7,11 +7,20 @@ import java.time.ZonedDateTime;
 import at.bestsolution.quti.client.dto.EventNewDTO;
 
 public interface EventService extends BaseService {
-    public String create(String calendar,EventNewDTO event);
+    public String create(String calendar,EventNewDTO event)
+        throws NotFoundException,
+            InvalidArgumentException;
+
     public void delete(String calendar,String key);
+
     public void cancel(String calendar,String key);
+
     public void uncancel(String calendar,String key);
+
     public void move(String calendar,String key,ZonedDateTime start,ZonedDateTime end);
+
     public void endRepeat(String calendar,String key,LocalDate end);
+
     public void description(String calendar,String key,String description);
+
 }

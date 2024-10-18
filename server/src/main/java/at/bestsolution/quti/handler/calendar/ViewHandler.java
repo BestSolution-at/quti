@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import at.bestsolution.quti.dto.EventViewDTO;
+import at.bestsolution.quti.dto.EventViewDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
 import at.bestsolution.quti.model.EventEntity;
@@ -54,7 +55,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 		result.addAll(findSeriesEvents(calendarKey, startDatetime, endDatetime, resultZone));
 		result.addAll(findSeriesReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
 
-		Collections.sort(result);
+		Collections.sort(result, EventViewDTOUtil::compare);
 
 		return result;
 	}
@@ -79,7 +80,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 
 		return query.getResultList()
 				.stream()
-				.map(event -> EventViewDTO.of(event, resultZone))
+				.map(event -> EventViewDTOUtil.of(event, resultZone))
 				.toList();
 	}
 
@@ -105,7 +106,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 
 		return query.getResultList()
 				.stream()
-				.map(eventReference -> EventViewDTO.of(eventReference.event, resultZone))
+				.map(eventReference -> EventViewDTOUtil.of(eventReference.event, resultZone))
 				.toList();
 	}
 
@@ -130,7 +131,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 
 		return query.getResultList()
 				.stream()
-				.map(eventModification -> EventViewDTO.of(eventModification, resultZone))
+				.map(eventModification -> EventViewDTOUtil.of(eventModification, resultZone))
 				.toList();
 	}
 
@@ -155,7 +156,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 
 		var result = query.getResultList()
 			.stream()
-			.map(eventModification -> EventViewDTO.of(eventModification, resultZone))
+			.map(eventModification -> EventViewDTOUtil.of(eventModification, resultZone))
 			.toList();
 
 		// now fill the modifications
@@ -234,7 +235,7 @@ public class ViewHandler extends BaseReadonlyHandler {
 	private static Stream<EventViewDTO> fromRepeat(EventEntity entity, ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 				return RepeatUtils.fromRepeat(entity, startDatetime, endDatetime)
-					.map( date -> EventViewDTO.of(entity, date, resultZone))
+					.map( date -> EventViewDTOUtil.of(entity, date, resultZone))
 					.filter(Objects::nonNull);
 	}
 }

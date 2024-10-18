@@ -10,13 +10,18 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
-import at.bestsolution.quti.client.dto.EventNewDTO;
+import at.bestsolution.quti.client.dto.EventDTO;
 import at.bestsolution.quti.client.dto.EventRepeatDTO;
 
-public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
+public class EventDTOImpl extends BaseDTOImpl implements EventDTO {
 
-    EventNewDTOImpl(JsonObject data) {
+    EventDTOImpl(JsonObject data) {
         super(data);
+    }
+
+    @Override
+    public String key() {
+        return DTOUtils.mapString(data, "key");
     }
 
     @Override
@@ -59,16 +64,27 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
         return DTOUtils.mapStrings(data, "referencedCalendars");
     }
 
-    public static EventNewDTO of(JsonObject data) {
-        return new EventNewDTOImpl(data);
+    public static EventDTO of(JsonObject data) {
+        return new EventDTOImpl(data);
     }
 
-    public static List<EventNewDTO> of(JsonArray data) {
-        return DTOUtils.mapObjects(data, EventNewDTOImpl::of);
+    public static List<EventDTO> of(JsonArray data) {
+        return DTOUtils.mapObjects(data, EventDTOImpl::of);
+    }
+
+    @Override
+    public String toString() {
+        return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
     }
 
     public static class BuilderImpl implements Builder {
         private JsonObjectBuilder $builder = Json.createObjectBuilder();
+
+        @Override
+        public Builder key(String key) {
+            $builder.add("key", key);
+            return this;
+        }
 
         @Override
         public Builder title(String title) {
@@ -139,8 +155,8 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
             return this;
         }
 
-        public EventNewDTO build() {
-            return new EventNewDTOImpl($builder.build());
+        public EventDTO build() {
+            return new EventDTOImpl($builder.build());
         }
     }
 }

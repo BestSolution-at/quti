@@ -1,0 +1,6 @@
+entity Calendar as 'Cal' prefixed-by 'C_' {
+    pk id: LONG
+    key: VARCHAR(255) as 'C_KEY'
+    name : VARCHAR(255) as 'C_NAME'
+    idx a (name, owner)
+}

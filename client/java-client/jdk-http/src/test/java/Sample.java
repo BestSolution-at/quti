@@ -18,7 +18,12 @@ public class Sample {
         var b = client.builder(CalendarNewDTO.Builder.class);
         
         var calendarService = client.service(CalendarService.class);
-        var eventService = client.service(EventService.class);
+        var calendar = calendarService.get("bf5a9b84-33ed-4ff8-9447-0a9e5cf5c24c");
+        var result = calendarService.eventView("bf5a9b84-33ed-4ff8-9447-0a9e5cf5c24c", LocalDate.parse("2024-09-01"), LocalDate.parse("2024-09-30"), ZoneId.systemDefault());
+
+        System.err.println(result);
+
+        // var eventService = client.service(EventService.class);
         /*var key = calendarService.create( builder -> {
             return builder
                 .name("Demo")
@@ -50,7 +55,7 @@ public class Sample {
             ZonedDateTime.parse("2024-03-08T12:00:00+01:00[Europe/Paris]")
         );*/
         
-        var events = calendarService.eventView(
+        /*var events = calendarService.eventView(
             "bfb924f7-30d4-4c3b-85b3-868578f92fbf",
             LocalDate.of(2024, 2, 1), 
             LocalDate.of(2024, 4, 29), 
@@ -58,6 +63,6 @@ public class Sample {
         );
         events.stream()
             .map( e -> String.format("%s %s - %s: %s", e.start().toLocalDate(), e.start().toLocalTime(), e.end().toLocalTime(), e.title()))
-            .forEach(System.err::println);
+            .forEach(System.err::println);*/
     }
 }

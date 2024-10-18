@@ -1,4 +1,4 @@
--- days of the week
+<< days of the week
 enum DayOfWeek = 
     MONDAY
     | TUESDAY
@@ -9,7 +9,7 @@ enum DayOfWeek =
     | SUNDAY
 ;
 
--- months of the year
+<< months of the year
 enum Month =
     JANUARY
     | FEBRUARY
@@ -24,70 +24,70 @@ enum Month =
     | DECEMBER
 ;
 
--- represents a timezone eg "Europe/Vienna"
+<< represents a timezone eg "Europe/Vienna"
 scalar ZoneId;
 
--- basic calendar data
+<< basic calendar data
 mixin CalendarData {
-    name: string  -- Name of the calendar
-    owner: string -- Owner of the calendar
+    name: string  << Name of the calendar
+    owner: string << Owner of the calendar
 }
 
--- A calendar
+<< A calendar
 record Calendar {
-    @id key: string      -- Unique identifier of the calendar
+    @id key: string      << Unique identifier of the calendar
     include CalendarData
 }
 
--- A new calendar
+<< A new calendar
 record CalendarNew {
     include CalendarData
 }
 
--- Basic repeating data of an event
+<< Basic repeating data of an event
 mixin EventRepeatData {
-    interval: short -- Repeat interval
-    endDate: local-date -- End date of the repeat
-    timeZone: ZoneId -- Timezone in which the event repeats
+    interval: short << Repeat interval
+    endDate: local-date << End date of the repeat
+    timeZone: ZoneId << Timezone in which the event repeats
 }
 
--- Repeat an event daily - eg repeat every 2nd day
+<< Repeat an event daily - eg repeat every 2nd day
 record EventRepeatDaily {
     include EventRepeatData
 }
 
--- Repeat an event weekly - eg repeat every Monday every seconda week
+<< Repeat an event weekly - eg repeat every Monday every seconda week
 record EventRepeatWeekly {
     include EventRepeatData
-    daysOfWeek: DayOfWeek[7] -- the days in a week the event repeats
+    daysOfWeek: DayOfWeek[7] << the days in a week the event repeats
 }
 
--- Repeat an event on a monthly interval - eg repeat twice a year on the 1st day (1st Januar, 1st July)
+<< Repeat an event on a monthly interval - eg repeat twice a year on the 1st day (1st Januar, 1st July)
 record EventRepeatAbsoluteMonthly {
     include EventRepeatData
-    dayOfMonth: short -- the day of the month the event repeats
+    dayOfMonth: short << the day of the month the event repeats
 }
 
--- Repeat an event on a yearly interval - eg repeat the event on the 1st May every year 
+<< Repeat an event on a yearly interval - eg repeat the event on the 1st May every year 
 record EventRepeatAbsoluteYearly {
     include EventRepeatData
-    month: Month  -- the month of the year the event repeats
+    month: Month  << the month of the year the event repeats
 }
 
--- Repeat an event relative in a month - eg repeat the event every 2nd month on the first Monday
+<< Repeat an event relative in a month - eg repeat the event every 2nd month on the first Monday
 record EventRepeatRelativeMonthly {
     include EventRepeatData
-    daysOfWeek: DayOfWeek[7] -- selects the first day in a month
+    daysOfWeek: DayOfWeek[7] << selects the first day in a month
 }
 
--- Repeat an event relative in a year - eg repeat the event every 2nd year on the first Tuesday in February
+<< Repeat an event relative in a year - eg repeat the event every 2nd year on the first Tuesday in February
 record EventRepeatRelativeYearly {
     include EventRepeatData
-    daysOfWeek: DayOfWeek[7] -- selects the first day in a month
-    month: Month -- the month in a year
+    daysOfWeek: DayOfWeek[7]    << selects the first day in a month
+    month: Month                << the month in a year
 }
 
--- Repeat an event
+<< Repeat an event
 union EventRepeat = 
     EventRepeatDaily('daily')
     | EventRepeatWeekly('weekly')
@@ -96,136 +96,186 @@ union EventRepeat =
     | EventRepeatRelativeMonthly('relative-monthly')
     | EventRepeatRelativeYearly('relative-yearly');
 
--- Basic event data
+<< Basic event data
 mixin EventData {
-    title: string -- basic description
-    description: string -- a more detailed description
-    start: zoned-date-time -- start time
-    end: zoned-date-time -- end time
-    fullday: boolean -- mark it as a fullday event
-    repeat?: EventRepeat -- the repeat pattern
-    tags: string[] -- a list of custom tags
-    referencedCalendars: string[] -- other calendars this event is referenced in
+    title: string                   << basic description
+    description?: string            << a more detailed description
+    start: zoned-date-time          << start time
+    end: zoned-date-time            << end time
+    fullday: boolean                << mark it as a fullday event
+    repeat?: EventRepeat            << the repeat pattern
+    tags: string[]                  << a list of custom tags
+    referencedCalendars: string[]   << other calendars this event is referenced in
 }
 
--- New event data
+<< New event data
 record EventNew {
     include EventData
 }
 
--- An event
+<< An event
 record Event {
-    @id key: string     -- Unique identifier of the event
+    @id key: string     << Unique identifier of the event
     include EventData
 }
 
--- Basic data of a view of an event (eg a concrete instance of a repeating event)
+<< Basic data of a view of an event (eg a concrete instance of a repeating event)
 mixin EventViewData {
-    @id key: string -- unique identifier of the event
-    calendarKey: string -- the calendar the event is located in
-    title: string  -- basic description
-    description: string -- a more detailed description
-    owner: string -- owner of the event
-    status: enum ACCEPTED | CANCELED -- event status
-    start: zoned-date-time -- start time
-    end: zoned-date-time -- end time
-    tags: string[] -- a list of custom tags
-    referencedCalendars: string[] -- other calendars this event is referenced in
+    @id key: string                     << unique identifier of the event
+    calendarKey: string                 << the calendar the event is located in
+    title: string                       << basic description
+    description: string                 << a more detailed description
+    owner: string                       << owner of the event
+    status: enum ACCEPTED | CANCELED    << event status
+    start: zoned-date-time              << start time
+    end: zoned-date-time                << end time
+    tags: string[]                      << a list of custom tags
+    referencedCalendars: string[]       << other calendars this event is referenced in
 }
 
--- a none repeating event
+<< a none repeating event
 record SingleEventView {
     include EventViewData
 }
 
--- a series event moved to another timeframe
+<< a series event moved to another timeframe
 record SeriesMovedEventView {
     include EventViewData
-    masterEventKey: string -- key of the original event
-    originalStart: zoned-date-time -- the original start
-    originalEnd: zoned-date-time -- the original end
+    masterEventKey: string          << key of the original event
+    originalStart: zoned-date-time  << the original start
+    originalEnd: zoned-date-time    << the original end
 }
 
--- a series event
+<< a series event
 record SeriesEventView {
     include EventViewData
-    masterEventKey: string -- key of the original event
+    masterEventKey: string          << key of the original event
 }
 
--- combination of possible views of events
+<< combination of possible views of events
 union EventView = 
-    SingleEventView 
-    | SeriesMovedEventView 
-    | SeriesEventView
+    SingleEventView("single") 
+    | SeriesMovedEventView("series-moved") 
+    | SeriesEventView("series")
 ;
 
--- Service to create a calendar and query for its events
-service Calendar {
-    -- create a new calendar
-    -- 
-    -- @param calendar - new calendar data
-    -- @returns key of the new calendar
-    operation create(calendar: CalendarNew): string;
-    
-    -- get a view of all events in a date range
-    -- 
-    -- @param key - the calendar key
-    -- @param start - the start date
-    -- @param end - the end date
-    -- @param timezone - the timezone the date is in
-    -- @returns a list of events
-    operation eventView(key: string, start: local-date, end: local-date, timezone: ZoneId): EventView[];
+error NotFound;
+error InvalidContent;
+error InvalidArgument;
 
-    -- get a calendar
-    -- 
-    -- @param key - the calendar key
-    -- @returns the calendar
-    operation get(key: string): Calendar;
-//    operation update(key: string, @patch changes: Calendar);    
+<< Service to create a calendar and query for its events
+service Calendar {
+    <*
+     * create a new calendar
+     *
+     * foo Bar is eine dubar
+     * 
+     * @param calendar - new calendar data
+     * @returns key of the new calendar
+     *>
+    operation create(calendar: CalendarNew): string
+        throws
+            InvalidContent;
+
+    <*
+     * get a calendar
+     * 
+     * @param key - the calendar key
+     * @returns the calendar
+     *>
+    operation get(key: string): Calendar
+        throws
+            NotFound        << if calendar with the given key is not found 
+            InvalidArgument << if the key is not an UUID
+        ;
+
+    <*
+     * get a view of all events in a date range
+     * 
+     * @param key - the calendar key
+     * @param start - the start date
+     * @param end - the end date
+     * @param timezone - the timezone the date is in
+     * @returns a list of events
+     *>
+    operation eventView(
+        key: string, 
+        start: local-date, 
+        end: local-date, 
+        timezone: ZoneId,
+        resultTimeZone?: ZoneId): EventView[] 
+        throws 
+            NotFound 
+            InvalidArgument;
+
+//    operation update(key: string, @patch changes: Calendar); 
+/*   */   
 }
 
--- Service to create and modify events in a calendar
+<< Service to create and modify events in a calendar
 service Event {
-    -- create a new event
-    -- @param calendar - key of the calendar owning the new event
-    -- @param event - the new event data
-    -- @returns key of the new event
-    operation create(calendar: string, event: EventNew): string;
+    <* 
+     * create a new event
+     *
+     * @param calendar - key of the calendar owning the new event
+     * @param event - the new event data
+     * @returns key of the new event
+     *>
+    operation create(calendar: string, event: EventNew): string
+        throws 
+            NotFound
+            InvalidArgument;
+
     
 //    operation get(calendar: string, key: string, timezone: ZoneId): Event;
 //    operation update(calendar: string, key: string, @patch changes: Event);
     
-    -- delete an event
-    -- @param calendar - key of the calendar owning the event
-    -- @param key - key of the event
+    <* 
+     * delete an event
+     * 
+     * @param calendar - key of the calendar owning the event
+     * @param key - key of the event
+     *>
     operation delete(calendar: string, key: string);
 
-    -- cancel an event
-    -- @param calendar - key of the calendar owning the event
-    -- @param key - key of the event
+    <* 
+     * cancel an event
+     *
+     * @param calendar - key of the calendar owning the event
+     * @param key - key of the event
+     *>
     operation cancel(calendar: string, key: string);
 
-    -- uncancel an event
-    -- @param calendar - key of the calendar owning the event
-    -- @param key - key of the event
+    <* 
+     * uncancel an event
+     * @param calendar - key of the calendar owning the event
+     * @param key - key of the event
+     *>
     operation uncancel(calendar: string, key: string);
 
-    -- move an event to a new time
-    -- @param calendar - key of the calendar owning the event
-    -- @param key - key of the event
-    -- @param start - new start of the event
-    -- @param end - new end of the event
+    <*
+     * move an event to a new time
+     *
+     * @param calendar - key of the calendar owning the event
+     * @param key - key of the event
+     * @param start - new start of the event
+     * @param end - new end of the event
+     *>
     operation move(calendar: string, key: string, start: zoned-date-time, end: zoned-date-time);
 
-    -- end a repeating event
-    -- @param calendar - key of the calendar owning the event
-    -- @param key - key of the event
-    -- @param end - the end of the series
+    <*
+     * end a repeating event
+     * @param calendar - key of the calendar owning the event
+     * @param key - key of the event
+     * @param end - the end of the series
+     *>
     operation endRepeat(calendar: string, key: string, end: local-date);
 
-    -- set a description
-    -- @param calendar - key of the calendar owning the event
-    -- @param key - key of the event
-    -- @param description - the description
+    <* 
+     * set a description
+     * @param calendar - key of the calendar owning the event
+     * @param key - key of the event
+     * @param description - the description
+     *>
     operation description(calendar: string, key: string, description: string);
 }
