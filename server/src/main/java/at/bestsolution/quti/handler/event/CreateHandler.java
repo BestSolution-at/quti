@@ -1,7 +1,6 @@
 package at.bestsolution.quti.handler.event;
 
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -50,7 +49,7 @@ public class CreateHandler extends BaseHandler {
 
 	private static <T extends EventRepeatEntity> T fillDefaults(T repeatEntity, EventNewDTO event) {
 		var r = event.repeat();
-		var recurrenceTimezone = ZoneId.of(r.timeZone);
+		var recurrenceTimezone = r.timeZone;
 		repeatEntity.interval = r.interval;
 		repeatEntity.startDate = ZonedDateTime.of(event.start().toLocalDate(), LocalTime.MIN, recurrenceTimezone);
 		repeatEntity.endDate = r.endDate == null ? null : Utils.atEndOfDay(ZonedDateTime.of(r.endDate, LocalTime.NOON, recurrenceTimezone));

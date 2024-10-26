@@ -2,6 +2,7 @@ package at.bestsolution.quti.dto;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
@@ -45,14 +46,14 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatDailyDTO();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
-			result.timeZone = entity.recurrenceTimezone.toString();
+			result.timeZone = entity.recurrenceTimezone;
 			return result;
 		}
 
 		public static EventRepeatDailyDTO of(short interval, String timeZone, LocalDate endDate) {
 			var rv = new EventRepeatDailyDTO();
 			rv.interval = interval;
-			rv.timeZone = timeZone;
+			rv.timeZone = ZoneId.of(timeZone);
 			rv.endDate = endDate;
 			return rv;
 		}
@@ -63,7 +64,7 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatWeeklyDTO();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
-			result.timeZone = entity.recurrenceTimezone.toString();
+			result.timeZone = entity.recurrenceTimezone;
 			result.daysOfWeek = entity.daysOfWeek;
 			return result;
 		}
@@ -72,7 +73,7 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatWeeklyDTO();
 			result.interval = interval;
 			result.endDate = endDate;
-			result.timeZone = timeZone;
+			result.timeZone = ZoneId.of(timeZone);
 			result.daysOfWeek = daysOfWeek;
 			return result;
 		}
@@ -83,7 +84,7 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatAbsoluteMonthlyDTO();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
-			result.timeZone = entity.recurrenceTimezone.toString();
+			result.timeZone = entity.recurrenceTimezone;
 			result.dayOfMonth = entity.dayOfMonth;
 			return result;
 		}
@@ -94,7 +95,7 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatAbsoluteYearlyDTO();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
-			result.timeZone = entity.recurrenceTimezone.toString();
+			result.timeZone = entity.recurrenceTimezone;
 			result.dayOfMonth = entity.dayOfMonth;
 			result.month = entity.month;
 			return result;
@@ -106,7 +107,7 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatRelativeMonthlyDTO();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
-			result.timeZone = entity.recurrenceTimezone.toString();
+			result.timeZone = entity.recurrenceTimezone;
 			result.daysOfWeek = entity.daysOfWeek;
 			return result;
 		}
@@ -117,7 +118,7 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			var result = new EventRepeatRelativeYearlyDTO();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
-			result.timeZone = entity.recurrenceTimezone.toString();
+			result.timeZone = entity.recurrenceTimezone;
 			result.daysOfWeek = entity.daysOfWeek;
 			result.month = entity.month;
 			return result;

@@ -3,6 +3,7 @@ package at.bestsolution.quti.dto;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.List;
 
 import jakarta.json.bind.annotation.JsonbSubtype;
@@ -19,7 +20,7 @@ import jakarta.json.bind.annotation.JsonbTypeInfo;
 public abstract class EventRepeatDTO {
 	public short interval;
 	public LocalDate endDate;
-	public String timeZone;
+	public ZoneId timeZone;
 
 	public static class EventRepeatDailyDTO extends EventRepeatDTO {
 		// nothing
