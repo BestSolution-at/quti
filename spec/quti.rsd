@@ -71,6 +71,7 @@ record EventRepeatAbsoluteMonthly {
 << Repeat an event on a yearly interval - eg repeat the event on the 1st May every year 
 record EventRepeatAbsoluteYearly {
     include EventRepeatData
+    dayOfMonth: short << the day of the month the event repeats
     month: Month  << the month of the year the event repeats
 }
 

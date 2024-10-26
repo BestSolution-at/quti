@@ -13,7 +13,9 @@ public class EventDTOUtil {
 				event.start.withZoneSameInstant(zoneId),
 				event.end.withZoneSameInstant(zoneId),
 				event.fullday,
+				EventRepeatDTOUtil.of(event.repeatPattern),
 				event.tags,
-				EventRepeatDTOUtil.of(event.repeatPattern));
+				event.references.stream().map( e -> e.calendar.key.toString()).toList()
+			);
 	}
 }

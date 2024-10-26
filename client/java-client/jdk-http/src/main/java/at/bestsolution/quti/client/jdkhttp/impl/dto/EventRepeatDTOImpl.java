@@ -191,6 +191,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         }
 
         @Override
+        public short dayOfMonth() {
+            return DTOUtils.mapShort(data, "dayOfMonth");
+        }
+
+        @Override
         public Month month() {
             return DTOUtils.mapLiteral(data, "month", Month::valueOf);
         }
@@ -212,6 +217,12 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
             @Override
             public EventRepeatAbsoluteYearlyDTO.Builder timeZone(ZoneId timeZone) {
                 return (EventRepeatAbsoluteYearlyDTO.Builder) super.timeZone(timeZone);
+            }
+
+            @Override
+            public EventRepeatAbsoluteYearlyDTO.Builder dayOfMonth(short dayOfMonth) {
+                $builder.add("dayOfMonth", dayOfMonth);
+                return this;
             }
 
             @Override

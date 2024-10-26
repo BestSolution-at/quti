@@ -217,7 +217,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 		assertNotNull(entity.repeatPattern);
 		assertInstanceOf(EventRepeatDailyEntity.class, entity.repeatPattern);
 		assertEquals(repeat.interval, entity.repeatPattern.interval);
-		assertEquals(ZoneId.of(repeat.timeZone), entity.repeatPattern.recurrenceTimezone);
+		assertEquals(repeat.timeZone, entity.repeatPattern.recurrenceTimezone);
 		assertNull(entity.repeatPattern.endDate);
 	}
 

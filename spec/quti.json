@@ -245,6 +245,17 @@
       "properties": [
         {
           "@type": "Property",
+          "name": "dayOfMonth",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "short",
+          "doc": "the day of the month the event repeats"
+        },
+        {
+          "@type": "Property",
           "name": "month",
           "array": false,
           "readonly": false,

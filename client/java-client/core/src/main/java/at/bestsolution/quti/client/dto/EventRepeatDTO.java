@@ -70,11 +70,16 @@ public interface EventRepeatDTO extends BaseDTO {
 
     public interface EventRepeatAbsoluteYearlyDTO extends EventRepeatDTO {
         /**
+         * the day of the month the event repeats
+         */
+        public short dayOfMonth();
+        /**
          * the month of the year the event repeats
          */
         public Month month();
 
         public interface Builder extends EventRepeatDTO.Builder {
+            public Builder dayOfMonth(short dayOfMonth);
             public Builder month(Month month);
             public Builder interval(short interval);
             public Builder endDate(LocalDate endDate);
