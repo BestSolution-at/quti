@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.dto.CalendarNewDTO;
+import at.bestsolution.quti.rest.dto.CalendarNewDTO;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 

@@ -5,13 +5,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import at.bestsolution.quti.dto.EventRepeatDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatDailyDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 import at.bestsolution.quti.model.EventRepeatEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatAbsoluteMonthlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatAbsoluteYearlyEntity;
@@ -19,6 +12,13 @@ import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatDailyDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 
 public class EventRepeatDTOUtil {
 public static EventRepeatDTO of(EventRepeatEntity entity) {

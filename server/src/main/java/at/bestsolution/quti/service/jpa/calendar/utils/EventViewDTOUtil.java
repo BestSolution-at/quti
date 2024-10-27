@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import at.bestsolution.quti.dto.EventViewDTO;
-import at.bestsolution.quti.dto.EventViewDTO.SeriesEventViewDTO;
-import at.bestsolution.quti.dto.EventViewDTO.SeriesMovedEventViewDTO;
-import at.bestsolution.quti.dto.EventViewDTO.SingleEventViewDTO;
-import at.bestsolution.quti.dto.EventViewDTO.Status;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.rest.dto.EventViewDTO;
+import at.bestsolution.quti.rest.dto.EventViewDTO.SeriesEventViewDTO;
+import at.bestsolution.quti.rest.dto.EventViewDTO.SeriesMovedEventViewDTO;
+import at.bestsolution.quti.rest.dto.EventViewDTO.SingleEventViewDTO;
+import at.bestsolution.quti.rest.dto.EventViewDTO.Status;
 
 public class EventViewDTOUtil {
 	public static EventViewDTO of(EventEntity event, ZoneId resultZone) {

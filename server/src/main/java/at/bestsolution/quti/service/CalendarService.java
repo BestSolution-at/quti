@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import at.bestsolution.quti.dto.CalendarDTO;
-import at.bestsolution.quti.dto.CalendarNewDTO;
-import at.bestsolution.quti.dto.EventViewDTO;
+import at.bestsolution.quti.rest.dto.CalendarDTO;
+import at.bestsolution.quti.rest.dto.CalendarNewDTO;
+import at.bestsolution.quti.rest.dto.EventViewDTO;
 
 public interface CalendarService {
 	public Result<CalendarDTO> get(String key);

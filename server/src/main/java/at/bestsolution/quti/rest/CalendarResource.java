@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.dto.CalendarNewDTO;
+import at.bestsolution.quti.rest.dto.CalendarNewDTO;
 import at.bestsolution.quti.service.CalendarService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

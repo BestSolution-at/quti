@@ -13,10 +13,10 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.dto.EventViewDTO;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.EventReferenceEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.rest.dto.EventViewDTO;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.dto.CalendarDTO;
 import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.rest.dto.CalendarDTO;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;

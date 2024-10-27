@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.dto.EventDTO;
-import at.bestsolution.quti.dto.EventNewDTO;
+import at.bestsolution.quti.rest.dto.EventDTO;
+import at.bestsolution.quti.rest.dto.EventNewDTO;
 
 public interface EventService {
 	public Result<EventDTO> get(String calendarKey, String eventKey, ZoneId zone);
