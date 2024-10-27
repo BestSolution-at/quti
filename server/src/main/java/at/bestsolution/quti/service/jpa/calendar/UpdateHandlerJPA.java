@@ -6,6 +6,7 @@ import java.util.Objects;
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.CalendarEntity;
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import jakarta.inject.Inject;
@@ -24,7 +25,7 @@ public class UpdateHandlerJPA extends BaseHandler implements CalendarService.Upd
 	}
 
 	@Transactional
-	public Result<Void> update(String key, String patch) {
+	public Result<Void> update(DTOBuilderFactory factory, String key, String patch) {
 		Objects.requireNonNull(key, "key must not be null");
 		Objects.requireNonNull(patch, "patch must not be null");
 

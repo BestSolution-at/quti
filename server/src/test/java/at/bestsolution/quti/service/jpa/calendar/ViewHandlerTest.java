@@ -27,24 +27,28 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testInvalidParams() {
 		assertThrows(NullPointerException.class, () -> handler.view(
+				builderFactory,
 				null,
 				null,
 				null,
 				null,
 				null));
 		assertThrows(NullPointerException.class, () -> handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				null,
 				null,
 				null,
 				null));
 		assertThrows(NullPointerException.class, () -> handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				null,
 				null,
 				null));
 		assertThrows(NullPointerException.class, () -> handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-03-01"),
@@ -52,6 +56,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 				null));
 
 		assertThrows(IllegalArgumentException.class, () -> handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-03"),
 				LocalDate.parse("2024-01-01"),
@@ -62,6 +67,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testOneDay() {
 		var result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-01"),
@@ -73,6 +79,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testViewDaily() {
 		var result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-03-01"),
@@ -87,6 +94,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 		assertEquals(LocalDate.parse("2024-01-31"), result.value().get(31).start.toLocalDate());
 
 		result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2025-02-01"),
 				LocalDate.parse("2025-03-01"),
@@ -100,6 +108,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testViewDailyRef() {
 		var result = handler.view(
+				builderFactory,
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-31"),
@@ -114,6 +123,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	void testViewDailyAboveDaylightSaving() {
 		var result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-03-25"),
 				LocalDate.parse("2024-04-05"),
@@ -126,6 +136,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testViewDailyCustResultTimezone() {
 		var result = handler.view(
+				builderFactory,
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-01-10"),
 				LocalDate.parse("2024-01-10"),
@@ -140,6 +151,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testDaylightSavingCustResultTimezone() {
 		var result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-03-25"),
 				LocalDate.parse("2024-04-05"),
@@ -153,6 +165,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testMoveEvents() {
 		var result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-05-04"),
 				LocalDate.parse("2024-05-06"),
@@ -161,6 +174,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 		assertEquals(3, result.value().size());
 
 		result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-05-07"),
 				LocalDate.parse("2024-05-09"),
@@ -172,6 +186,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testMoveRefEvents() {
 		var result = handler.view(
+				builderFactory,
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-05-04"),
 				LocalDate.parse("2024-05-06"),
@@ -180,6 +195,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 		assertEquals(3, result.value().size());
 
 		result = handler.view(
+				builderFactory,
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-05-07"),
 				LocalDate.parse("2024-05-09"),
@@ -191,6 +207,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testFulldaySimpleEvents() {
 		var result = handler.view(
+			builderFactory,
 			fulldayCalendarKey.toString(),
 			LocalDate.parse("2024-01-02"),
 			LocalDate.parse("2024-01-09"),
@@ -202,6 +219,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testCancelSingle() {
 		var result = handler.view(
+			builderFactory,
 			basicCalendarKey.toString(),
 			LocalDate.parse("2020-01-10"),
 			LocalDate.parse("2020-01-10"),
@@ -219,6 +237,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 				"A custom description");
 
 			var result = handler.view(
+				builderFactory,
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-01"),
@@ -229,6 +248,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 			assertEquals(result.value().get(0).description, "A custom description");
 
 			var refResult = handler.view(
+				builderFactory,
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-01"),

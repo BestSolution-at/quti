@@ -19,13 +19,13 @@ public class GetHandlerTest extends CalendarHandlerTest<GetHandlerJPA> {
 
 	@Test
 	public void testGet() {
-		var result = handler.get(basicCalendarKey.toString());
+		var result = handler.get(builderFactory, basicCalendarKey.toString());
 		assertTrue(result.isOk());
 		assertEquals(basicCalendarKey.toString(), result.value().key());
 	}
 
 	@Test
 	public void testFail() {
-		assertThrows(NullPointerException.class, () -> handler.get(null));
+		assertThrows(NullPointerException.class, () -> handler.get(builderFactory, null));
 	}
 }

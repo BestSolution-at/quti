@@ -9,11 +9,15 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.BaseTest;
-import at.bestsolution.quti.service.jpa.BaseHandler;
+import at.bestsolution.quti.rest.RestDTOBuilderFactory;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 public abstract class BaseHandlerTest<T extends BaseHandler> extends BaseTest {
 	public final T handler;
+
+	@Inject
+	public RestDTOBuilderFactory builderFactory;
 
 	public BaseHandlerTest(T handler) {
 		this.handler = handler;

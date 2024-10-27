@@ -6,6 +6,7 @@ import java.util.UUID;
 import at.bestsolution.quti.model.CalendarEntity;
 import at.bestsolution.quti.rest.dto.CalendarNewDTO;
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import jakarta.inject.Inject;
@@ -22,7 +23,7 @@ public class CreateHandlerJPA extends BaseHandler implements CalendarService.Cre
 	}
 
 	@Transactional
-	public Result<String> create(CalendarNewDTO calendar) {
+	public Result<String> create(DTOBuilderFactory factory, CalendarNewDTO calendar) {
 		Objects.requireNonNull(calendar.name(), "name must not be null");
 
 		CalendarEntity c = new CalendarEntity();

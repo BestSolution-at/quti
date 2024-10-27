@@ -23,7 +23,7 @@ public class CreateHandlerTest extends CalendarHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testCreate() {
-		var result = handler.create(new CalendarNewDTO("Test Handler", "info@quti.dev"));
+		var result = handler.create(builderFactory, new CalendarNewDTO("Test Handler", "info@quti.dev"));
 		assertTrue(result.isOk());
 		assertNotNull(result.value(), "Expected an UUID");
 		assertDoesNotThrow(() -> UUID.fromString(result.value()), "Result should have been an UUID");
@@ -31,6 +31,6 @@ public class CreateHandlerTest extends CalendarHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testFail() {
-		assertThrows(NullPointerException.class, () -> handler.create(null));
+		assertThrows(NullPointerException.class, () -> handler.create(builderFactory, null));
 	}
 }

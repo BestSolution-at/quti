@@ -35,7 +35,7 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 		var patch = Json.createPatchBuilder()
 				.replace("name", "My Updated Calendar")
 				.build();
-		assertTrue(handler.update(handler_ownerlessCalendarKey.toString(), toString(patch)).isOk());
+		assertTrue(handler.update(builderFactory, handler_ownerlessCalendarKey.toString(), toString(patch)).isOk());
 		assertEquals("My Updated Calendar", calendar(handler_ownerlessCalendarKey).name);
 	}
 
@@ -47,7 +47,7 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 				.build();
 		assertNull(calendar(handler_ownerlessCalendarKey).owner);
 
-		assertTrue(handler.update(handler_ownerlessCalendarKey.toString(), toString(patch)).isOk());
+		assertTrue(handler.update(builderFactory, handler_ownerlessCalendarKey.toString(), toString(patch)).isOk());
 
 		assertEquals("My Updated Calendar 2", calendar(handler_ownerlessCalendarKey).name);
 		assertEquals("testowner@bestsolution.at", calendar(handler_ownerlessCalendarKey).owner);
@@ -56,8 +56,8 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 	@Test
 	public void testFail() {
 		assertThrows(NullPointerException.class,
-				() -> handler.update(null, null));
+				() -> handler.update(builderFactory, null, null));
 		assertThrows(NullPointerException.class,
-				() -> handler.update(basicCalendarKey.toString(), null));
+				() -> handler.update(builderFactory, basicCalendarKey.toString(), null));
 	}
 }
