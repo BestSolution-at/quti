@@ -5,10 +5,13 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import org.jboss.logging.Logger;
+
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
-import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
+import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -16,14 +19,16 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class SetDescriptionHandler extends BaseHandler {
+public class CancelHandlerImpl extends BaseHandler implements EventService.CancelHandler {
+	private static final Logger LOG = Logger.getLogger(CancelHandlerImpl.class);
+
 	@Inject
-	public SetDescriptionHandler(EntityManager em) {
+	public CancelHandlerImpl(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public Result<Void> setDescription(String calendarKey, String eventKey, String description) {
+	public Result<Void> cancel(String calendarKey, String eventKey) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
@@ -41,27 +46,44 @@ public class SetDescriptionHandler extends BaseHandler {
 		}
 
 		if( parsedOriginalDate.value() == null ) {
-			return setDescriptionSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), description);
+			return cancelSingleEvent(parsedCalendarKey.value(), parsedEventKey.value());
 		}
-		return setDescriptionInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), description);
+		return cancelEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
 	}
 
-	private Result<Void> setDescriptionSingleEvent(UUID calendarKey, UUID eventKey, String description) {
+	private Result<Void> cancelSingleEvent(UUID calendarKey, UUID eventKey) {
+		LOG.debugf("Canceling single event '%'", eventKey);
 		var em = em();
 		var event = EventUtils.event(em, calendarKey, eventKey);
-		if( event == null ) {
-			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
-		}
+		var date = LocalDate.EPOCH;
 
-		event.description = description;
-		em.persist(event);
+		var entity = event.modifications.stream()
+			.filter(e -> e instanceof EventModificationCanceledEntity)
+			.map(e -> (EventModificationCanceledEntity)e)
+			.filter(e -> e.date.equals(date))
+			.findFirst()
+			.orElseGet( () -> new EventModificationCanceledEntity());
+
+		entity.date = date;
+		entity.event = event;
+
+		em.persist(entity);
 
 		return Result.OK;
 	}
 
-	private Result<Void> setDescriptionInSeries(UUID calendarKey, UUID eventKey, LocalDate original, String description) {
+	private Result<Void> cancelEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original) {
+		LOG.debugf("Canceling series event '%' on '%s'", eventKey, original);
+
 		var em = em();
 		var event = EventUtils.event(em, calendarKey, eventKey);
+
+		LOG.tracef("Found event: %", event);
+
+		if( event == null ) {
+			LOG.infof("Could not find an event '%s' in calendar '%s'", eventKey, calendarKey);
+			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+		}
 
 		var startDatetime = ZonedDateTime.of(original, LocalTime.MIN, event.repeatPattern.recurrenceTimezone);
 		var endDatetime = ZonedDateTime.of(original, LocalTime.MAX, event.repeatPattern.recurrenceTimezone);
@@ -71,15 +93,14 @@ public class SetDescriptionHandler extends BaseHandler {
 		}
 
 		var entity = event.modifications.stream()
-			.filter(e -> e instanceof EventModificationGenericEntity)
-			.map( e -> (EventModificationGenericEntity)e)
+			.filter(e -> e instanceof EventModificationCanceledEntity)
+			.map(e -> (EventModificationCanceledEntity)e)
 			.filter( e -> e.date.equals(original))
 			.findFirst()
-			.orElseGet( () -> new EventModificationGenericEntity());
+			.orElseGet( () -> new EventModificationCanceledEntity());
 
 		entity.date = original;
 		entity.event = event;
-		entity.description = description;
 
 		em.persist(entity);
 

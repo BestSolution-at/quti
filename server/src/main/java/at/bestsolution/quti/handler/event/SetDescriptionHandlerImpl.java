@@ -8,7 +8,8 @@ import java.util.UUID;
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
-import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -16,15 +17,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class MoveHandler extends BaseHandler {
-
+public class SetDescriptionHandlerImpl extends BaseHandler implements EventService.SetDescriptionHandler {
 	@Inject
-	public MoveHandler(EntityManager em) {
+	public SetDescriptionHandlerImpl(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public Result<Void> move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end) {
+	public Result<Void> setDescription(String calendarKey, String eventKey, String description) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
@@ -42,35 +42,27 @@ public class MoveHandler extends BaseHandler {
 		}
 
 		if( parsedOriginalDate.value() == null ) {
-			return moveSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), start, end);
+			return setDescriptionSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), description);
 		}
-		return moveEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), start, end);
+		return setDescriptionInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), description);
 	}
 
-	private Result<Void> moveSingleEvent(UUID calendarKey, UUID eventKey, ZonedDateTime start, ZonedDateTime end) {
+	private Result<Void> setDescriptionSingleEvent(UUID calendarKey, UUID eventKey, String description) {
 		var em = em();
-
 		var event = EventUtils.event(em, calendarKey, eventKey);
-
 		if( event == null ) {
 			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
 		}
 
-		event.start = start;
-		event.end = end;
+		event.description = description;
 		em.persist(event);
 
 		return Result.OK;
 	}
 
-	private Result<Void> moveEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start, ZonedDateTime end) {
+	private Result<Void> setDescriptionInSeries(UUID calendarKey, UUID eventKey, LocalDate original, String description) {
 		var em = em();
-
 		var event = EventUtils.event(em, calendarKey, eventKey);
-
-		if( event == null ) {
-			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
-		}
 
 		var startDatetime = ZonedDateTime.of(original, LocalTime.MIN, event.repeatPattern.recurrenceTimezone);
 		var endDatetime = ZonedDateTime.of(original, LocalTime.MAX, event.repeatPattern.recurrenceTimezone);
@@ -80,16 +72,15 @@ public class MoveHandler extends BaseHandler {
 		}
 
 		var entity = event.modifications.stream()
-			.filter(e -> e instanceof EventModificationMovedEntity)
-			.map(e -> (EventModificationMovedEntity)e)
+			.filter(e -> e instanceof EventModificationGenericEntity)
+			.map( e -> (EventModificationGenericEntity)e)
 			.filter( e -> e.date.equals(original))
 			.findFirst()
-			.orElseGet( () -> new EventModificationMovedEntity());
+			.orElseGet( () -> new EventModificationGenericEntity());
 
 		entity.date = original;
 		entity.event = event;
-		entity.start = start;
-		entity.end = end;
+		entity.description = description;
 
 		em.persist(entity);
 

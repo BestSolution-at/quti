@@ -8,6 +8,7 @@ import org.jboss.logging.Logger;
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -15,11 +16,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class UncancelHandler extends BaseHandler {
-private static final Logger LOG = Logger.getLogger(UncancelHandler.class);
+public class UncancelHandlerImpl extends BaseHandler implements EventService.UncancelHandler {
+private static final Logger LOG = Logger.getLogger(UncancelHandlerImpl.class);
 
 	@Inject
-	public UncancelHandler(EntityManager em) {
+	public UncancelHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

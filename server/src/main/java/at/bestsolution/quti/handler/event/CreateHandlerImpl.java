@@ -27,6 +27,7 @@ import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -34,10 +35,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandler extends BaseHandler {
+public class CreateHandlerImpl extends BaseHandler implements EventService.CreateHandler {
 
 	@Inject
-	public CreateHandler(EntityManager em) {
+	public CreateHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

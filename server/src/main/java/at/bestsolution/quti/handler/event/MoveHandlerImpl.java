@@ -5,12 +5,11 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import org.jboss.logging.Logger;
-
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
-import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -18,16 +17,15 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CancelHandler extends BaseHandler {
-	private static final Logger LOG = Logger.getLogger(CancelHandler.class);
+public class MoveHandlerImpl extends BaseHandler implements EventService.MoveHandler {
 
 	@Inject
-	public CancelHandler(EntityManager em) {
+	public MoveHandlerImpl(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public Result<Void> cancel(String calendarKey, String eventKey) {
+	public Result<Void> move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
@@ -45,42 +43,33 @@ public class CancelHandler extends BaseHandler {
 		}
 
 		if( parsedOriginalDate.value() == null ) {
-			return cancelSingleEvent(parsedCalendarKey.value(), parsedEventKey.value());
+			return moveSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), start, end);
 		}
-		return cancelEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
+		return moveEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), start, end);
 	}
 
-	private Result<Void> cancelSingleEvent(UUID calendarKey, UUID eventKey) {
-		LOG.debugf("Canceling single event '%'", eventKey);
+	private Result<Void> moveSingleEvent(UUID calendarKey, UUID eventKey, ZonedDateTime start, ZonedDateTime end) {
 		var em = em();
+
 		var event = EventUtils.event(em, calendarKey, eventKey);
-		var date = LocalDate.EPOCH;
 
-		var entity = event.modifications.stream()
-			.filter(e -> e instanceof EventModificationCanceledEntity)
-			.map(e -> (EventModificationCanceledEntity)e)
-			.filter(e -> e.date.equals(date))
-			.findFirst()
-			.orElseGet( () -> new EventModificationCanceledEntity());
+		if( event == null ) {
+			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+		}
 
-		entity.date = date;
-		entity.event = event;
-
-		em.persist(entity);
+		event.start = start;
+		event.end = end;
+		em.persist(event);
 
 		return Result.OK;
 	}
 
-	private Result<Void> cancelEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original) {
-		LOG.debugf("Canceling series event '%' on '%s'", eventKey, original);
-
+	private Result<Void> moveEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start, ZonedDateTime end) {
 		var em = em();
+
 		var event = EventUtils.event(em, calendarKey, eventKey);
 
-		LOG.tracef("Found event: %", event);
-
 		if( event == null ) {
-			LOG.infof("Could not find an event '%s' in calendar '%s'", eventKey, calendarKey);
 			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
 		}
 
@@ -92,14 +81,16 @@ public class CancelHandler extends BaseHandler {
 		}
 
 		var entity = event.modifications.stream()
-			.filter(e -> e instanceof EventModificationCanceledEntity)
-			.map(e -> (EventModificationCanceledEntity)e)
+			.filter(e -> e instanceof EventModificationMovedEntity)
+			.map(e -> (EventModificationMovedEntity)e)
 			.filter( e -> e.date.equals(original))
 			.findFirst()
-			.orElseGet( () -> new EventModificationCanceledEntity());
+			.orElseGet( () -> new EventModificationMovedEntity());
 
 		entity.date = original;
 		entity.event = event;
+		entity.start = start;
+		entity.end = end;
 
 		em.persist(entity);
 

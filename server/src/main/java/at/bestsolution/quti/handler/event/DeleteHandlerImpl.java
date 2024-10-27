@@ -2,6 +2,7 @@ package at.bestsolution.quti.handler.event;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -9,10 +10,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class DeleteHandler extends BaseHandler {
+public class DeleteHandlerImpl extends BaseHandler implements EventService.DeleteHandler {
 
 	@Inject
-	public DeleteHandler(EntityManager em) {
+	public DeleteHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

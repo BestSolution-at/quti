@@ -8,16 +8,17 @@ import at.bestsolution.quti.dto.EventDTO;
 import at.bestsolution.quti.dto.EventDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
 import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class GetHandler extends BaseReadonlyHandler {
+public class GetHandlerImpl extends BaseReadonlyHandler implements EventService.GetHandler {
 
 	@Inject
-	public GetHandler(EntityManager em) {
+	public GetHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

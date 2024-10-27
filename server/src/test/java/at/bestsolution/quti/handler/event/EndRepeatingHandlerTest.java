@@ -13,10 +13,10 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class EndRepeatingHandlerTest extends EventHandlerTest<EndRepeatingHandler> {
+public class EndRepeatingHandlerTest extends EventHandlerTest<EndRepeatingHandlerImpl> {
 
 	@Inject
-	public EndRepeatingHandlerTest(EndRepeatingHandler handler) {
+	public EndRepeatingHandlerTest(EndRepeatingHandlerImpl handler) {
 		super(handler);
 	}
 

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +13,9 @@ import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHandler> {
+public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHandlerImpl> {
 
-	public SetDescriptionHandlerTest(SetDescriptionHandler handler) {
+	public SetDescriptionHandlerTest(SetDescriptionHandlerImpl handler) {
 		super(handler);
 	}
 

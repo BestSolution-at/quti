@@ -6,14 +6,6 @@ import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.dto.EventDTO;
 import at.bestsolution.quti.dto.EventNewDTO;
-import at.bestsolution.quti.handler.event.CancelHandler;
-import at.bestsolution.quti.handler.event.CreateHandler;
-import at.bestsolution.quti.handler.event.DeleteHandler;
-import at.bestsolution.quti.handler.event.EndRepeatingHandler;
-import at.bestsolution.quti.handler.event.GetHandler;
-import at.bestsolution.quti.handler.event.MoveHandler;
-import at.bestsolution.quti.handler.event.SetDescriptionHandler;
-import at.bestsolution.quti.handler.event.UncancelHandler;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;

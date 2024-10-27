@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -13,9 +14,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class EndRepeatingHandler extends BaseHandler {
+public class EndRepeatingHandlerImpl extends BaseHandler implements EventService.EndRepeatingHandler {
 	@Inject
-	public EndRepeatingHandler(EntityManager em) {
+	public EndRepeatingHandlerImpl(EntityManager em) {
 		super(em);
 	}
 
