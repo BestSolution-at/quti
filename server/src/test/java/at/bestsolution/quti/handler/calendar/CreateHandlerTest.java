@@ -14,10 +14,10 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class CreateHandlerTest extends CalendarHandlerTest<CreateHandler> {
+public class CreateHandlerTest extends CalendarHandlerTest<CreateHandlerImpl> {
 
 	@Inject
-	public CreateHandlerTest(CreateHandler handler) {
+	public CreateHandlerTest(CreateHandlerImpl handler) {
 		super(handler);
 	}
 

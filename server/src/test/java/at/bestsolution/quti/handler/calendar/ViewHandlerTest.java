@@ -15,11 +15,11 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
+public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerImpl> {
 	private SetDescriptionHandler descriptionHandler;
 
 	@Inject
-	public ViewHandlerTest(ViewHandler handler, SetDescriptionHandler descriptionHandler) {
+	public ViewHandlerTest(ViewHandlerImpl handler, SetDescriptionHandler descriptionHandler) {
 		super(handler);
 		this.descriptionHandler = descriptionHandler;
 	}

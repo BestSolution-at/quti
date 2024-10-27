@@ -20,16 +20,17 @@ import at.bestsolution.quti.handler.RepeatUtils;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.EventReferenceEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class ViewHandler extends BaseReadonlyHandler {
+public class ViewHandlerImpl extends BaseReadonlyHandler implements CalendarService.ViewHandler {
 
 	@Inject
-	public ViewHandler(EntityManager em) {
+	public ViewHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

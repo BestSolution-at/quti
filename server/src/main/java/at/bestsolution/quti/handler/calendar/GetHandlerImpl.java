@@ -8,16 +8,17 @@ import at.bestsolution.quti.dto.CalendarDTO;
 import at.bestsolution.quti.dto.CalendarDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
 import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class GetHandler extends BaseReadonlyHandler {
+public class GetHandlerImpl extends BaseReadonlyHandler implements CalendarService.GetHandler {
 
 	@Inject
-	public GetHandler(EntityManager em) {
+	public GetHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

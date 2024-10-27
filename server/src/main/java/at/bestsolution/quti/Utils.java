@@ -67,16 +67,6 @@ public class Utils {
 		throw new IllegalStateException(String.format("Unable to convert %s to a response", result.type()));
 	}
 
-	/*public record ParseResult<T>(T value, Response response) {
-		public static <T> ParseResult<T> success(T value) {
-			return new ParseResult<>(value, null);
-		}
-
-		public static <T> ParseResult<T> fail(Response response) {
-			return new ParseResult<T>(null, response);
-		}
-	}*/
-
 	public static Result<LocalDate> parseLocalDate(String date, String paramName) {
 		try {
 			return Result.ok(LocalDate.parse(date));

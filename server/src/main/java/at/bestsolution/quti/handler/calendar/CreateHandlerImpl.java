@@ -6,6 +6,7 @@ import java.util.UUID;
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -13,10 +14,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandler extends BaseHandler {
+public class CreateHandlerImpl extends BaseHandler implements CalendarService.CreateHandler {
 
 	@Inject
-	public CreateHandler(EntityManager em) {
+	public CreateHandlerImpl(EntityManager em) {
 		super(em);
 	}
 

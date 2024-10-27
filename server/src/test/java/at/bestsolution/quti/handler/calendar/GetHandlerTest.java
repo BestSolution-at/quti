@@ -1,7 +1,6 @@
 package at.bestsolution.quti.handler.calendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,10 +10,10 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class GetHandlerTest extends CalendarHandlerTest<GetHandler> {
+public class GetHandlerTest extends CalendarHandlerTest<GetHandlerImpl> {
 
 	@Inject
-	public GetHandlerTest(GetHandler handler) {
+	public GetHandlerTest(GetHandlerImpl handler) {
 		super(handler);
 	}
 

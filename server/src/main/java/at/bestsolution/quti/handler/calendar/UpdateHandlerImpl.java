@@ -6,6 +6,7 @@ import java.util.Objects;
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -15,10 +16,10 @@ import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class UpdateHandler extends BaseHandler {
+public class UpdateHandlerImpl extends BaseHandler implements CalendarService.UpdateHandler {
 
 	@Inject
-	public UpdateHandler(EntityManager em) {
+	public UpdateHandlerImpl(EntityManager em) {
 		super(em);
 	}
 
