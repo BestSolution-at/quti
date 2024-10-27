@@ -1,6 +1,7 @@
 package at.bestsolution.quti.handler.event;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -20,13 +21,25 @@ public class UncancelHandlerTest extends EventHandlerTest<UncancelHandler> {
 	}
 
 	@Test
+	public void invalidCalendarKey() {
+		var result = handler.uncancel("abcd", simpleEventKey.toString());
+		assertFalse(result.isOk());
+	}
+
+	@Test
+	public void invalidEventKey() {
+		var result = handler.uncancel(basicCalendarKey.toString(), "abcd");
+		assertFalse(result.isOk());
+	}
+
+	@Test
 	public void uncancelSingle() {
 		var modifications = modifications(simpleEventCanceledKey);
 		assertEquals(1, modifications.stream()
 			.filter(m -> m instanceof EventModificationCanceledEntity)
 			.count());
 
-		var result = handler.uncancel(basicCalendarKey, simpleEventCanceledKey, null);
+		var result = handler.uncancel(basicCalendarKey.toString(), simpleEventCanceledKey.toString());
 		assertTrue(result.isOk());
 		modifications = modifications(simpleEventCanceledKey);
 		assertEquals(0, modifications.stream()
@@ -44,7 +57,10 @@ public class UncancelHandlerTest extends EventHandlerTest<UncancelHandler> {
 			.filter( m -> m.date.equals(date))
 			.count());
 
-		var result = handler.uncancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-05-09"));
+		var result = handler.uncancel(
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_2024-05-09"
+		);
 		assertTrue(result.isOk());
 		modifications = modifications(repeatingDailyEndlessKey);
 		assertEquals(0, modifications.stream()

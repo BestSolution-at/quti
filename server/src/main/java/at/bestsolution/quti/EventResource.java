@@ -133,22 +133,7 @@ public class EventResource {
 	@Path("{key}/action/uncancel")
 	@PUT
 	public Response uncancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
-		var seriesSep = eventKey.indexOf('_');
-
-		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		if( parsedCalendarKey.isNotOk() ) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-		if( parsedEventKey.isNotOk() ) {
-			return Utils.toResponse(parsedEventKey);
-		}
-		if( parsedOriginalDate.isNotOk() ) {
-			return Utils.toResponse(parsedOriginalDate);
-		}
-
-		var result = uncancelHandler.uncancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
+		var result = uncancelHandler.uncancel(calendarKey, eventKey);
 
 		if( result.isOk() ) {
 			return Response.noContent().build();

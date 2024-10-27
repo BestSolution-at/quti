@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.jboss.logging.Logger;
 
+import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
@@ -23,11 +24,27 @@ private static final Logger LOG = Logger.getLogger(UncancelHandler.class);
 	}
 
 	@Transactional
-	public Result<Void> uncancel(UUID calendarKey, UUID eventKey, LocalDate original) {
-		if( original == null ) {
-			return uncancelSingleEvent(calendarKey, eventKey);
+	public Result<Void> uncancel(String calendarKey, String eventKey) {
+		var seriesSep = eventKey.indexOf('_');
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.isNotOk() ) {
+			return parsedCalendarKey.toAny();
 		}
-		return uncancelEventInSeries(calendarKey, eventKey, original);
+		if( parsedEventKey.isNotOk() ) {
+			return parsedEventKey.toAny();
+		}
+		if( parsedOriginalDate.isNotOk() ) {
+			return parsedOriginalDate.toAny();
+		}
+
+		if( parsedOriginalDate.value() == null ) {
+			return uncancelSingleEvent(parsedCalendarKey.value(), parsedEventKey.value());
+		}
+		return uncancelEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
 	}
 
 	private Result<Void> uncancelSingleEvent(UUID calendarKey, UUID eventKey) {
