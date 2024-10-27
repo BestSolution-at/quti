@@ -6,9 +6,9 @@ import java.util.UUID;
 import org.jboss.logging.Logger;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

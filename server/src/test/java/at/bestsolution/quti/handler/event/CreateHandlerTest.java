@@ -15,11 +15,11 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.Utils.ResultType;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.dto.EventRepeatDTOUtil;
 import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest

@@ -1,11 +1,10 @@
 package at.bestsolution.quti.handler.event;
 
 import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.persistence.EntityManager;
 
 import java.util.UUID;
-
-import at.bestsolution.quti.Utils.Result;
 
 public class EventUtils {
 	public static Result<Void> validateEvent(EventEntity entity) {

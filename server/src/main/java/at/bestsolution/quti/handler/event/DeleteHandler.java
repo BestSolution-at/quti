@@ -1,8 +1,8 @@
 package at.bestsolution.quti.handler.event;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

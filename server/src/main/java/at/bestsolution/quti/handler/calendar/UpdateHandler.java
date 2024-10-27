@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.json.JsonValue;

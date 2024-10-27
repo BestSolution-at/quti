@@ -13,7 +13,6 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventViewDTO;
 import at.bestsolution.quti.dto.EventViewDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
@@ -21,6 +20,7 @@ import at.bestsolution.quti.handler.RepeatUtils;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.EventReferenceEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

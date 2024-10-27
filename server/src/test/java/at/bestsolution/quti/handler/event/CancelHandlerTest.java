@@ -8,8 +8,8 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.Utils.ResultType;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 

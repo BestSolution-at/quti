@@ -4,11 +4,11 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventDTO;
 import at.bestsolution.quti.dto.EventDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
 import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

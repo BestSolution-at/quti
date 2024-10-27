@@ -3,10 +3,10 @@ package at.bestsolution.quti.handler.calendar;
 import java.util.Objects;
 import java.util.UUID;
 
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

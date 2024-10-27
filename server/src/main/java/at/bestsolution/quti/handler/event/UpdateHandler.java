@@ -11,9 +11,9 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.json.JsonObject;

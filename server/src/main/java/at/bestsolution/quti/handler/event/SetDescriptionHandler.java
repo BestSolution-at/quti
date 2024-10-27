@@ -6,10 +6,10 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

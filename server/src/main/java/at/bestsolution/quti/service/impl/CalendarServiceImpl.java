@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.CalendarDTO;
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.dto.EventViewDTO;
@@ -13,6 +12,7 @@ import at.bestsolution.quti.handler.calendar.GetHandler;
 import at.bestsolution.quti.handler.calendar.UpdateHandler;
 import at.bestsolution.quti.handler.calendar.ViewHandler;
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 

@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.dto.EventRepeatDTO;
 import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
@@ -28,6 +27,7 @@ import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

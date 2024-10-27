@@ -9,6 +9,8 @@ import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.UUID;
 
+import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.Result.ResultType;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonPatch;
@@ -19,12 +21,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 public class Utils {
-	public enum ResultType {
-		OK,
-		NOT_FOUND,
-		INVALID_CONTENT,
-		INVALID_PARAMETER
-	}
 
 	@FunctionalInterface
 	public interface JsonPatchOperationHandler<T> {
@@ -51,64 +47,24 @@ public class Utils {
 		return getAsString("value", o);
 	}
 
-	public record Result<T>(ResultType type, T value, String message) {
-
-		public static Result<Void> OK = ok(null);
-
-		public Result<Void> toVoid() {
-			return new Result<Void>(type, null, message);
-		}
-
-		public <X> Result<X> toAny() {
-			if( ! isOk() ) {
-				return new Result<X>(type, null, message);
-			}
-			throw new UnsupportedOperationException("You can only convert a failure to any result");
-		}
-
-		public boolean isOk() {
-			return type == ResultType.OK;
-		}
-
-		public boolean isNotOk() {
-			return ! isOk();
-		}
-
-		public static <T> Result<T> ok(T value) {
-			return new Result<T>(ResultType.OK, value, null);
-		}
-
-		public static <T> Result<T> notFound(String message, Object... args) {
-			return new Result<T>(ResultType.NOT_FOUND, null, String.format(message, args));
-		}
-
-		public static <T> Result<T> invalidContent(String message, Object... args) {
-			return new Result<T>(ResultType.INVALID_CONTENT, null, String.format(message, args));
-		}
-
-		public static <T> Result<T> invalidParameter(String message, Object... args) {
-			return new Result<T>(ResultType.INVALID_PARAMETER, null, String.format(message, args));
-		}
-	}
-
 	public static void throwAsException(Result<?> result) {
 		if( result.isOk() ) {
 			return;
 		}
-		if( result.type == ResultType.INVALID_CONTENT ) {
+		if( result.type() == ResultType.INVALID_CONTENT ) {
 			throw new WebApplicationException(result.message(), Status.NOT_FOUND);
-		} else if( result.type == ResultType.NOT_FOUND || result.type == ResultType.INVALID_PARAMETER ) {
+		} else if( result.type() == ResultType.NOT_FOUND || result.type() == ResultType.INVALID_PARAMETER ) {
 			throw new WebApplicationException(result.message(), Status.BAD_REQUEST);
 		}
 	}
 
 	public static Response toResponse(Result<?> result) {
-		if (result.type == ResultType.NOT_FOUND) {
-			return notFound(result.message);
-		} else if (result.type == ResultType.INVALID_CONTENT || result.type == ResultType.INVALID_PARAMETER) {
-			return badRequest(result.message);
+		if (result.type() == ResultType.NOT_FOUND) {
+			return notFound(result.message());
+		} else if (result.type() == ResultType.INVALID_CONTENT || result.type() == ResultType.INVALID_PARAMETER) {
+			return badRequest(result.message());
 		}
-		throw new IllegalStateException(String.format("Unable to convert %s to a response", result.type));
+		throw new IllegalStateException(String.format("Unable to convert %s to a response", result.type()));
 	}
 
 	/*public record ParseResult<T>(T value, Response response) {

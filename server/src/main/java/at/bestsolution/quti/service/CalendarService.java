@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.CalendarDTO;
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.dto.EventViewDTO;

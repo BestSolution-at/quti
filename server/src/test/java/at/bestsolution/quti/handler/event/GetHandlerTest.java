@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.Utils.ResultType;
+import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
