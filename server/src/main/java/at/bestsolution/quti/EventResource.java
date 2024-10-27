@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
-import at.bestsolution.quti.Utils.ParseResult;
+import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventMoveDTO;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.handler.event.CancelHandler;
@@ -67,11 +67,11 @@ public class EventResource {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if (parsedCalendarKey.response() != null) {
-			return parsedCalendarKey.response();
+		if (parsedCalendarKey.isNotOk()) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
-		if (parsedEventKey.response() != null) {
-			return parsedEventKey.response();
+		if (parsedEventKey.isNotOk()) {
+			return Utils.toResponse(parsedEventKey);
 		}
 
 		var event = getHandler.get(parsedCalendarKey.value(), parsedEventKey.value(),
@@ -87,8 +87,8 @@ public class EventResource {
 	@POST
 	public Response create(@PathParam("calendar") String calendarKey, EventNewDTO event) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
 		var result = this.createHandler.create(parsedCalendarKey.value(), event);
 		if( result.isOk() ) {
@@ -108,12 +108,12 @@ public class EventResource {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
 
-		if( parsedEventKey.response() != null ) {
-			return parsedEventKey.response();
+		if( parsedEventKey.isNotOk() ) {
+			return Utils.toResponse(parsedEventKey);
 		}
 
 		var result = deleteHandler.delete(parsedCalendarKey.value(), parsedEventKey.value());
@@ -129,12 +129,12 @@ public class EventResource {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
 
-		if( parsedEventKey.response() != null ) {
-			return parsedEventKey.response();
+		if( parsedEventKey.isNotOk() ) {
+			return Utils.toResponse(parsedEventKey);
 		}
 
 		var result = endRepeatHandler.endRepeat(parsedCalendarKey.value(), parsedEventKey.value(), endDate);
@@ -151,16 +151,16 @@ public class EventResource {
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
-		if( parsedEventKey.response() != null ) {
-			return parsedEventKey.response();
+		if( parsedEventKey.isNotOk() ) {
+			return Utils.toResponse(parsedEventKey);
 		}
-		if( parsedOriginalDate.response() != null ) {
-			return parsedOriginalDate.response();
+		if( parsedOriginalDate.isNotOk() ) {
+			return Utils.toResponse(parsedOriginalDate);
 		}
 
 		var result = moveHandler.move(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), dto.start(), dto.end());
@@ -179,16 +179,16 @@ public class EventResource {
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
-		if( parsedEventKey.response() != null ) {
-			return parsedEventKey.response();
+		if( parsedEventKey.isNotOk() ) {
+			return Utils.toResponse(parsedEventKey);
 		}
-		if( parsedOriginalDate.response() != null ) {
-			return parsedOriginalDate.response();
+		if( parsedOriginalDate.isNotOk() ) {
+			return Utils.toResponse(parsedOriginalDate);
 		}
 
 		var result = cancelHandler.cancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
@@ -206,16 +206,16 @@ public class EventResource {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
-		if( parsedEventKey.response() != null ) {
-			return parsedEventKey.response();
+		if( parsedEventKey.isNotOk() ) {
+			return Utils.toResponse(parsedEventKey);
 		}
-		if( parsedOriginalDate.response() != null ) {
-			return parsedOriginalDate.response();
+		if( parsedOriginalDate.isNotOk() ) {
+			return Utils.toResponse(parsedOriginalDate);
 		}
 
 		var result = uncancelHandler.uncancel(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
@@ -234,16 +234,16 @@ public class EventResource {
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? new ParseResult<LocalDate>(null, null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
 
-		if( parsedCalendarKey.response() != null ) {
-			return parsedCalendarKey.response();
+		if( parsedCalendarKey.isNotOk() ) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
-		if( parsedEventKey.response() != null ) {
-			return parsedEventKey.response();
+		if( parsedEventKey.isNotOk() ) {
+			return Utils.toResponse(parsedEventKey);
 		}
-		if( parsedOriginalDate.response() != null ) {
-			return parsedOriginalDate.response();
+		if( parsedOriginalDate.isNotOk() ) {
+			return Utils.toResponse(parsedOriginalDate);
 		}
 
 		var result = setDescriptionHandler.setDescription(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), description);

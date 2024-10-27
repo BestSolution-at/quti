@@ -22,7 +22,8 @@ public class Utils {
 	public enum ResultType {
 		OK,
 		NOT_FOUND,
-		INVALID_CONTENT
+		INVALID_CONTENT,
+		INVALID_PARAMETER
 	}
 
 	@FunctionalInterface
@@ -69,6 +70,10 @@ public class Utils {
 			return type == ResultType.OK;
 		}
 
+		public boolean isNotOk() {
+			return ! isOk();
+		}
+
 		public static <T> Result<T> ok(T value) {
 			return new Result<T>(ResultType.OK, value, null);
 		}
@@ -80,6 +85,10 @@ public class Utils {
 		public static <T> Result<T> invalidContent(String message, Object... args) {
 			return new Result<T>(ResultType.INVALID_CONTENT, null, String.format(message, args));
 		}
+
+		public static <T> Result<T> invalidParameter(String message, Object... args) {
+			return new Result<T>(ResultType.INVALID_PARAMETER, null, String.format(message, args));
+		}
 	}
 
 	public static void throwAsException(Result<?> result) {
@@ -88,21 +97,21 @@ public class Utils {
 		}
 		if( result.type == ResultType.INVALID_CONTENT ) {
 			throw new WebApplicationException(result.message(), Status.NOT_FOUND);
-		} else if( result.type == ResultType.NOT_FOUND ) {
-			throw new WebApplicationException(result.message(), 422);
+		} else if( result.type == ResultType.NOT_FOUND || result.type == ResultType.INVALID_PARAMETER ) {
+			throw new WebApplicationException(result.message(), Status.BAD_REQUEST);
 		}
 	}
 
 	public static Response toResponse(Result<?> result) {
 		if (result.type == ResultType.NOT_FOUND) {
 			return notFound(result.message);
-		} else if (result.type == ResultType.INVALID_CONTENT) {
+		} else if (result.type == ResultType.INVALID_CONTENT || result.type == ResultType.INVALID_PARAMETER) {
 			return badRequest(result.message);
 		}
 		throw new IllegalStateException(String.format("Unable to convert %s to a response", result.type));
 	}
 
-	public record ParseResult<T>(T value, Response response) {
+	/*public record ParseResult<T>(T value, Response response) {
 		public static <T> ParseResult<T> success(T value) {
 			return new ParseResult<>(value, null);
 		}
@@ -110,38 +119,38 @@ public class Utils {
 		public static <T> ParseResult<T> fail(Response response) {
 			return new ParseResult<T>(null, response);
 		}
-	}
+	}*/
 
-	public static ParseResult<LocalDate> parseLocalDate(String date, String paramName) {
+	public static Result<LocalDate> parseLocalDate(String date, String paramName) {
 		try {
-			return ParseResult.success(LocalDate.parse(date));
+			return Result.ok(LocalDate.parse(date));
 		} catch (Throwable t) {
-			return ParseResult.fail(badRequest("'%s' in %s is not a valid ISO-Date", date, paramName));
+			return Result.invalidParameter("'%s' in %s is not a valid ISO-Date", date, paramName);
 		}
 	}
 
-	public static ParseResult<ZoneId> parseZone(String zone, String paramName) {
+	public static Result<ZoneId> parseZone(String zone, String paramName) {
 		try {
-			return ParseResult.success(ZoneId.of(zone));
+			return Result.ok(ZoneId.of(zone));
 		} catch (Throwable t) {
-			return ParseResult.fail(badRequest("'%s' in %s is not a valid timezone", zone, paramName));
+			return Result.invalidParameter("'%s' in %s is not a valid timezone", zone, paramName);
 		}
 	}
 
-	public static ParseResult<UUID> parseUUID(String uuid, String paramName) {
+	public static Result<UUID> parseUUID(String uuid, String paramName) {
 		try {
-			return ParseResult.success(UUID.fromString(uuid));
+			return Result.ok(UUID.fromString(uuid));
 		} catch (IllegalArgumentException e) {
-			return ParseResult.fail(badRequest("'%s' in %s is not a valid UUID", uuid, paramName));
+			return Result.invalidParameter("'%s' in %s is not a valid UUID", uuid, paramName);
 		}
 	}
 
-	public static ParseResult<JsonPatch> parseJsonPatch(String jsonPatch, String paramName) {
+	public static Result<JsonPatch> parseJsonPatch(String jsonPatch, String paramName) {
 		try {
 			var patchArray = Json.createReader(new StringReader(jsonPatch)).readArray();
-			return ParseResult.success(Json.createPatchBuilder(patchArray).build());
+			return Result.ok(Json.createPatchBuilder(patchArray).build());
 		} catch (Throwable t) {
-			return ParseResult.fail(badRequest("Provided data in '%s' is not a JSON-Patch", paramName));
+			return Result.invalidContent("Provided data in '%s' is not a JSON-Patch", paramName);
 		}
 	}
 
@@ -150,7 +159,7 @@ public class Utils {
 	}
 
 	public static Response unprocessableContent(String errorText, Object... data) {
-		return createErrorResponse(422, String.format(errorText, data));
+		return createErrorResponse(Status.BAD_REQUEST.getStatusCode(), String.format(errorText, data));
 	}
 
 	public static Response badRequest(String errorText, Object... data) {

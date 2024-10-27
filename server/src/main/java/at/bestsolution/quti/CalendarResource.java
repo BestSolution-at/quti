@@ -43,8 +43,8 @@ public class CalendarResource {
 	@Path("{key}")
 	public Response get(@PathParam("key") String key) {
 		var parsedKey = Utils.parseUUID(key, "key");
-		if (parsedKey.response() != null) {
-			return parsedKey.response();
+		if (parsedKey.isNotOk()) {
+			return Utils.toResponse(parsedKey);
 		}
 
 		var calendar = getHandler.get(parsedKey.value());
@@ -66,11 +66,11 @@ public class CalendarResource {
 		var parsedKey = Utils.parseUUID(key, "key");
 		var parsedPatch = Utils.parseJsonPatch(patch, "patch");
 
-		if (parsedKey.response() != null) {
-			return parsedKey.response();
+		if (parsedKey.isNotOk()) {
+			return Utils.toResponse(parsedKey);
 		}
-		if (parsedPatch.response() != null) {
-			return parsedPatch.response();
+		if (parsedPatch.isNotOk()) {
+			return Utils.toResponse(parsedPatch);
 		}
 
 		var result = updateHandler.update(parsedKey.value(), parsedPatch.value());
@@ -96,20 +96,20 @@ public class CalendarResource {
 		var parsedResultTimeZone = resultTimeZone == null ? parsedZone
 				: Utils.parseZone(resultTimeZone, "header parameter 'timezone'");
 
-		if (parsedCalendarKey.response() != null) {
-			return parsedCalendarKey.response();
+		if (parsedCalendarKey.isNotOk()) {
+			return Utils.toResponse(parsedCalendarKey);
 		}
-		if (parsedFrom.response() != null) {
-			return parsedFrom.response();
+		if (parsedFrom.isNotOk()) {
+			return Utils.toResponse(parsedFrom);
 		}
-		if (parsedTo.response() != null) {
-			return parsedTo.response();
+		if (parsedTo.isNotOk()) {
+			return Utils.toResponse(parsedTo);
 		}
-		if (parsedZone.response() != null) {
-			return parsedZone.response();
+		if (parsedZone.isNotOk()) {
+			return Utils.toResponse(parsedZone);
 		}
-		if (parsedResultTimeZone.response() != null) {
-			return parsedResultTimeZone.response();
+		if (parsedResultTimeZone.isNotOk()) {
+			return Utils.toResponse(parsedResultTimeZone);
 		}
 
 		return Response.ok(
