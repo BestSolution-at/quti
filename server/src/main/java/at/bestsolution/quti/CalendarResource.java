@@ -62,17 +62,7 @@ public class CalendarResource {
 	@PATCH
 	@Path("{key}")
 	public Response update(@PathParam("key") String key, String patch) {
-		var parsedKey = Utils.parseUUID(key, "key");
-		var parsedPatch = Utils.parseJsonPatch(patch, "patch");
-
-		if (parsedKey.isNotOk()) {
-			return Utils.toResponse(parsedKey);
-		}
-		if (parsedPatch.isNotOk()) {
-			return Utils.toResponse(parsedPatch);
-		}
-
-		var result = updateHandler.update(parsedKey.value(), parsedPatch.value());
+		var result = updateHandler.update(key, patch);
 		if (result.isOk()) {
 			return Response.ok().build();
 		}

@@ -5,11 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.StringWriter;
+
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
+import jakarta.json.JsonPatch;
 
 @QuarkusTest
 public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandler> {
@@ -19,12 +22,20 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandler> {
 		super(handler);
 	}
 
+	private static String toString(JsonPatch patch) {
+		var w = new StringWriter();
+		var writer = Json.createWriter(w);
+		writer.writeArray(patch.toJsonArray());
+		writer.close();
+		return w.toString();
+	}
+
 	@Test
 	public void testUpdateName() {
 		var patch = Json.createPatchBuilder()
 				.replace("name", "My Updated Calendar")
 				.build();
-		assertTrue(handler.update(handler_ownerlessCalendarKey, patch).isOk());
+		assertTrue(handler.update(handler_ownerlessCalendarKey.toString(), toString(patch)).isOk());
 		assertEquals("My Updated Calendar", calendar(handler_ownerlessCalendarKey).name);
 	}
 
@@ -36,7 +47,7 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandler> {
 				.build();
 		assertNull(calendar(handler_ownerlessCalendarKey).owner);
 
-		assertTrue(handler.update(handler_ownerlessCalendarKey, patch).isOk());
+		assertTrue(handler.update(handler_ownerlessCalendarKey.toString(), toString(patch)).isOk());
 
 		assertEquals("My Updated Calendar 2", calendar(handler_ownerlessCalendarKey).name);
 		assertEquals("testowner@bestsolution.at", calendar(handler_ownerlessCalendarKey).owner);
@@ -47,6 +58,6 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandler> {
 		assertThrows(NullPointerException.class,
 				() -> handler.update(null, null));
 		assertThrows(NullPointerException.class,
-				() -> handler.update(basicCalendarKey, null));
+				() -> handler.update(basicCalendarKey.toString(), null));
 	}
 }

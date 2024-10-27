@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.CalendarEntity;
@@ -24,17 +25,27 @@ public class UpdateHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public Result<Void> update(UUID key, JsonPatch patch) {
+	public Result<Void> update(String key, String patch) {
 		Objects.requireNonNull(key, "key must not be null");
 		Objects.requireNonNull(patch, "patch must not be null");
 
+		var parsedKey = Utils.parseUUID(key, "key");
+		var parsedPatch = Utils.parseJsonPatch(patch, "patch");
+
+		if (parsedKey.isNotOk()) {
+			return parsedKey.toAny();
+		}
+		if (parsedPatch.isNotOk()) {
+			return parsedPatch.toAny();
+		}
+
 		var query = em().createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
-		query.setParameter("key", key);
+		query.setParameter("key", parsedKey.value());
 
 		try {
 			var entity = query.getSingleResult();
 			var updateRunnables = new ArrayList<Runnable>();
-			for (JsonValue e : patch.toJsonArray()) {
+			for (JsonValue e : parsedPatch.value().toJsonArray()) {
 				var op = e.asJsonObject();
 				var operation = op.getString("op");
 				var path = op.getString("path");
