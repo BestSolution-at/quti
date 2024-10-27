@@ -1,6 +1,7 @@
 package at.bestsolution.quti;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.handler.calendar.CreateHandler;
@@ -73,41 +74,22 @@ public class CalendarResource {
 	@Path("{key}/view")
 	public Response views(
 			@PathParam("key") String key,
-			@QueryParam("from") String from,
-			@QueryParam("to") String to,
+			@QueryParam("from") LocalDate from,
+			@QueryParam("to") LocalDate to,
 			@QueryParam("timezone") String timezone,
 			@HeaderParam("timezone") String resultTimeZone) {
 
-		var parsedCalendarKey = Utils.parseUUID(key, "request path");
-		var parsedFrom = Utils.parseLocalDate(from, "query parameter 'from'");
-		var parsedTo = Utils.parseLocalDate(to, "query parameter 'to'");
-		var parsedZone = Utils.parseZone(timezone, "query parameter 'timezone'");
-		var parsedResultTimeZone = resultTimeZone == null ? parsedZone
-				: Utils.parseZone(resultTimeZone, "header parameter 'timezone'");
+		var result = viewHandler.view(
+					key,
+					from,
+					to,
+					timezone,
+					resultTimeZone);
 
-		if (parsedCalendarKey.isNotOk()) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-		if (parsedFrom.isNotOk()) {
-			return Utils.toResponse(parsedFrom);
-		}
-		if (parsedTo.isNotOk()) {
-			return Utils.toResponse(parsedTo);
-		}
-		if (parsedZone.isNotOk()) {
-			return Utils.toResponse(parsedZone);
-		}
-		if (parsedResultTimeZone.isNotOk()) {
-			return Utils.toResponse(parsedResultTimeZone);
+		if( result.isOk() ) {
+			return Response.ok(result.value()).build();
 		}
 
-		return Response.ok(
-				viewHandler.view(
-						parsedCalendarKey.value(),
-						parsedFrom.value(),
-						parsedTo.value(),
-						parsedZone.value(),
-						parsedResultTimeZone.value()))
-				.build();
+		return Utils.toResponse(result);
 	}
 }

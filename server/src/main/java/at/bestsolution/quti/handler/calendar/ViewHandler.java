@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import at.bestsolution.quti.Utils;
+import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventViewDTO;
 import at.bestsolution.quti.dto.EventViewDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
@@ -31,33 +33,47 @@ public class ViewHandler extends BaseReadonlyHandler {
 		super(em);
 	}
 
-	public List<EventViewDTO> view(UUID calendarKey, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultZone) {
+	public Result<List<EventViewDTO>> view(String calendarKey, LocalDate start, LocalDate end, String timezone, String resultZone) {
 		Objects.requireNonNull(calendarKey, "calendarKey must not be null");
 		Objects.requireNonNull(start, "start must not be null");
 		Objects.requireNonNull(end, "end must not be null");
 		Objects.requireNonNull(timezone, "timezone must not be null");
-		Objects.requireNonNull(resultZone, "resultZone must not be null");
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "request path");
+		var parsedTimezone = Utils.parseZone(timezone, "query parameter 'timezone'");
+		var parsedResultZone = resultZone == null ? parsedTimezone
+				: Utils.parseZone(resultZone, "header parameter 'timezone'");
+
+		if (parsedCalendarKey.isNotOk()) {
+			return parsedCalendarKey.toAny();
+		}
+		if (parsedTimezone.isNotOk()) {
+			return parsedTimezone.toAny();
+		}
+		if (parsedResultZone.isNotOk()) {
+			return parsedResultZone.toAny();
+		}
 
 		if (start.isAfter(end)) {
 			throw new IllegalArgumentException(String.format("start-date '%s' must not be past end-date '%s'", start, end));
 		}
 
-		var startDatetime = ZonedDateTime.of(start, LocalTime.MIN, timezone);
-		var endDatetime = ZonedDateTime.of(end, LocalTime.MAX, timezone);
+		var startDatetime = ZonedDateTime.of(start, LocalTime.MIN, parsedTimezone.value());
+		var endDatetime = ZonedDateTime.of(end, LocalTime.MAX, parsedTimezone.value());
 
 		var result = new ArrayList<EventViewDTO>();
-		result.addAll(findOneTimeEvents(calendarKey, startDatetime, endDatetime, resultZone));
-		result.addAll(findOneTimeReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
+		result.addAll(findOneTimeEvents(parsedCalendarKey.value(), startDatetime, endDatetime, parsedResultZone.value()));
+		result.addAll(findOneTimeReferencedEvents(parsedCalendarKey.value(), startDatetime, endDatetime, parsedResultZone.value()));
 
-		result.addAll(findMovedSeriesEvents(calendarKey, startDatetime, endDatetime, resultZone));
-		result.addAll(findMovedSeriesReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
+		result.addAll(findMovedSeriesEvents(parsedCalendarKey.value(), startDatetime, endDatetime, parsedResultZone.value()));
+		result.addAll(findMovedSeriesReferencedEvents(parsedCalendarKey.value(), startDatetime, endDatetime, parsedResultZone.value()));
 
-		result.addAll(findSeriesEvents(calendarKey, startDatetime, endDatetime, resultZone));
-		result.addAll(findSeriesReferencedEvents(calendarKey, startDatetime, endDatetime, resultZone));
+		result.addAll(findSeriesEvents(parsedCalendarKey.value(), startDatetime, endDatetime, parsedResultZone.value()));
+		result.addAll(findSeriesReferencedEvents(parsedCalendarKey.value(), startDatetime, endDatetime, parsedResultZone.value()));
 
 		Collections.sort(result, EventViewDTOUtil::compare);
 
-		return result;
+		return Result.ok(result);
 	}
 
 	private List<EventViewDTO> findOneTimeEvents(UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime,
