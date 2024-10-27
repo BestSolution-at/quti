@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.quti.Utils;
+import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.CalendarDTO;
 import at.bestsolution.quti.dto.CalendarDTOUtil;
 import at.bestsolution.quti.handler.BaseReadonlyHandler;
@@ -26,13 +28,17 @@ public class GetHandler extends BaseReadonlyHandler {
 		return query.getResultList();
 	}
 
-	public CalendarDTO get(UUID key) {
-		Objects.requireNonNull(key, "key must not be null");
-		var result = getEnties(key);
+	public Result<CalendarDTO> get(String key) {
+		var parsedKey = Utils.parseUUID(key, "key");
+		if (parsedKey.isNotOk()) {
+			return parsedKey.toAny();
+		}
+
+		var result = getEnties(parsedKey.value());
 		if (result.size() == 1) {
-			return CalendarDTOUtil.of(result.get(0));
+			return Result.ok(CalendarDTOUtil.of(result.get(0)));
 		} else if (result.size() == 0) {
-			return null;
+			return Result.notFound("Could not find calendar with '%s'", key);
 		}
 		throw new IllegalStateException(String.format("Multiple calendars for '%s' are found", key));
 	}

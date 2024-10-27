@@ -3,7 +3,6 @@ package at.bestsolution.quti;
 import java.net.URI;
 import java.time.LocalDate;
 
-import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventMoveDTO;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.handler.event.CancelHandler;

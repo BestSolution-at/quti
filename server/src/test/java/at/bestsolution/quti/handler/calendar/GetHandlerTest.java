@@ -3,6 +3,7 @@ package at.bestsolution.quti.handler.calendar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +20,9 @@ public class GetHandlerTest extends CalendarHandlerTest<GetHandler> {
 
 	@Test
 	public void testGet() {
-		var result = handler.get(basicCalendarKey);
-		assertNotNull(result);
-		assertEquals(basicCalendarKey.toString(), result.key());
+		var result = handler.get(basicCalendarKey.toString());
+		assertTrue(result.isOk());
+		assertEquals(basicCalendarKey.toString(), result.value().key());
 	}
 
 	@Test

@@ -42,16 +42,12 @@ public class CalendarResource {
 	@GET
 	@Path("{key}")
 	public Response get(@PathParam("key") String key) {
-		var parsedKey = Utils.parseUUID(key, "key");
-		if (parsedKey.isNotOk()) {
-			return Utils.toResponse(parsedKey);
-		}
+		var result = getHandler.get(key);
 
-		var calendar = getHandler.get(parsedKey.value());
-		if (calendar == null) {
-			return Utils.notFound(String.format("Could not find calendar with '%s'", key));
+		if (result.isOk()) {
+			return Response.ok(result.value()).build();
 		}
-		return Response.ok(calendar).build();
+		return Utils.toResponse(result);
 	}
 
 	@POST
