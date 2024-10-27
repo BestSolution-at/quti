@@ -44,10 +44,18 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandler> {
 	}
 
 	@Test
-	public void invalidRepatEventKey() {
+	public void invalidRepeatEventKey() {
 		var result = handler.move(
 			basicCalendarKey.toString(),
 			"abcd_2024-01-11",
+			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
+		);
+		assertFalse(result.isOk());
+
+		result = handler.move(
+			basicCalendarKey.toString(),
+			simpleEventKey + "_abcd",
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
 			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
 		);

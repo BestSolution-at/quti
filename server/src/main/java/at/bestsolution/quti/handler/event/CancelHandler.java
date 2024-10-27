@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.jboss.logging.Logger;
 
+import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
@@ -26,11 +27,27 @@ public class CancelHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public Result<Void> cancel(UUID calendarKey, UUID eventKey, LocalDate original) {
-		if( original == null ) {
-			return cancelSingleEvent(calendarKey, eventKey);
+	public Result<Void> cancel(String calendarKey, String eventKey) {
+		var seriesSep = eventKey.indexOf('_');
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.isNotOk() ) {
+			return parsedCalendarKey.toAny();
 		}
-		return cancelEventInSeries(calendarKey, eventKey, original);
+		if( parsedEventKey.isNotOk() ) {
+			return parsedEventKey.toAny();
+		}
+		if( parsedOriginalDate.isNotOk() ) {
+			return parsedOriginalDate.toAny();
+		}
+
+		if( parsedOriginalDate.value() == null ) {
+			return cancelSingleEvent(parsedCalendarKey.value(), parsedEventKey.value());
+		}
+		return cancelEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
 	}
 
 	private Result<Void> cancelSingleEvent(UUID calendarKey, UUID eventKey) {

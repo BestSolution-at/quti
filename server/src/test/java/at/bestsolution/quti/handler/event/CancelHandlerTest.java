@@ -22,8 +22,22 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandler> {
 	}
 
 	@Test
+	public void invalidCalendarKey() {
+		var result = handler.cancel("abcd", simpleEventKey.toString());
+		assertFalse(result.isOk());
+	}
+
+	@Test
+	public void invalidEventKey() {
+		var result = handler.cancel(basicCalendarKey.toString(), "abcd");
+		assertFalse(result.isOk());
+	}
+
+	@Test
 	public void testSingleCancel() {
-		var result = handler.cancel(basicCalendarKey, simpleEventKey, null);
+		var result = handler.cancel(
+			basicCalendarKey.toString(),
+			simpleEventKey.toString());
 		assertTrue(result.isOk());
 		var modifications = modifications(simpleEventKey);
 		assertEquals(1, modifications.stream()
@@ -34,7 +48,9 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandler> {
 
 	@Test
 	public void testSeriesCancel() {
-		var result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-01"));
+		var result = handler.cancel(
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString() + "_2024-01-01");
 		assertTrue(result.isOk());
 		var modifications = modifications(repeatingDailyEndlessKey);
 		assertEquals(1, modifications.stream()
@@ -45,9 +61,14 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandler> {
 
 	@Test
 	public void testSeriesMultiCancel() {
-		var result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-02"));
+		var result = handler.cancel(
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_2024-01-02");
 		assertTrue(result.isOk());
-		result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-02"));
+
+		result = handler.cancel(
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_2024-01-02");
 		assertTrue(result.isOk());
 		var modifications = modifications(repeatingDailyEndlessKey);
 		assertEquals(1, modifications.stream()
@@ -58,7 +79,9 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandler> {
 
 	@Test
 	public void testInvalidDate() {
-		var result = handler.cancel(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2023-12-31"));
+		var result = handler.cancel(
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_2023-12-31");
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
