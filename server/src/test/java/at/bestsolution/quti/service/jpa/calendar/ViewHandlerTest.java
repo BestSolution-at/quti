@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.rest.dto.EventViewDTO.Status;
+import at.bestsolution.quti.service.dto.EventViewDTO.Status;
 import at.bestsolution.quti.service.jpa.event.SetDescriptionHandlerJPA;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;

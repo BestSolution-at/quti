@@ -15,7 +15,7 @@ import at.bestsolution.quti.rest.dto.EventViewDTO;
 import at.bestsolution.quti.rest.dto.EventViewDTO.SeriesEventViewDTO;
 import at.bestsolution.quti.rest.dto.EventViewDTO.SeriesMovedEventViewDTO;
 import at.bestsolution.quti.rest.dto.EventViewDTO.SingleEventViewDTO;
-import at.bestsolution.quti.rest.dto.EventViewDTO.Status;
+import at.bestsolution.quti.service.dto.EventViewDTO.Status;
 
 public class EventViewDTOUtil {
 	public static EventViewDTO of(EventEntity event, ZoneId resultZone) {

@@ -3,5 +3,5 @@ package at.bestsolution.quti.rest.dto;
 
 public record CalendarNewDTO(
     String name,
-    String owner) {
+    String owner) implements at.bestsolution.quti.service.dto.CalendarNewDTO {
 }

@@ -13,5 +13,5 @@ public record EventDTO(
     boolean fullday,
     EventRepeatDTO repeat,
     List<String> tags,
-    List<String> referencedCalendars) {
+    List<String> referencedCalendars) implements at.bestsolution.quti.service.dto.EventDTO {
 }

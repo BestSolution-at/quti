@@ -18,33 +18,73 @@ import jakarta.json.bind.annotation.JsonbTypeInfo;
     @JsonbSubtype(alias = "relative-monthly", type = EventRepeatDTO.EventRepeatRelativeMonthlyDTO.class),
     @JsonbSubtype(alias = "relative-yearly", type = EventRepeatDTO.EventRepeatRelativeYearlyDTO.class),
 })
-public abstract class EventRepeatDTO {
+public abstract class EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO {
     public short interval;
     public LocalDate endDate;
     public ZoneId timeZone;
 
-    public static class EventRepeatDailyDTO extends EventRepeatDTO {
+    public short interval() {
+        return this.interval;
     }
 
-    public static class EventRepeatWeeklyDTO extends EventRepeatDTO {
+    public LocalDate endDate() {
+        return this.endDate;
+    }
+
+    public ZoneId timeZone() {
+        return this.timeZone;
+    }
+
+    public static class EventRepeatDailyDTO extends EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatDailyDTO {
+    }
+
+    public static class EventRepeatWeeklyDTO extends EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatWeeklyDTO {
         public List<DayOfWeek> daysOfWeek;
+
+        public List<DayOfWeek> daysOfWeek() {
+            return this.daysOfWeek;
+        }
     }
 
-    public static class EventRepeatAbsoluteMonthlyDTO extends EventRepeatDTO {
+    public static class EventRepeatAbsoluteMonthlyDTO extends EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO {
         public short dayOfMonth;
+
+        public short dayOfMonth() {
+            return this.dayOfMonth;
+        }
     }
 
-    public static class EventRepeatAbsoluteYearlyDTO extends EventRepeatDTO {
+    public static class EventRepeatAbsoluteYearlyDTO extends EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO {
         public short dayOfMonth;
         public Month month;
+
+        public short dayOfMonth() {
+            return this.dayOfMonth;
+        }
+
+        public Month month() {
+            return this.month;
+        }
     }
 
-    public static class EventRepeatRelativeMonthlyDTO extends EventRepeatDTO {
+    public static class EventRepeatRelativeMonthlyDTO extends EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO {
         public List<DayOfWeek> daysOfWeek;
+
+        public List<DayOfWeek> daysOfWeek() {
+            return this.daysOfWeek;
+        }
     }
 
-    public static class EventRepeatRelativeYearlyDTO extends EventRepeatDTO {
+    public static class EventRepeatRelativeYearlyDTO extends EventRepeatDTO implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO {
         public List<DayOfWeek> daysOfWeek;
         public Month month;
+
+        public List<DayOfWeek> daysOfWeek() {
+            return this.daysOfWeek;
+        }
+
+        public Month month() {
+            return this.month;
+        }
     }
 }

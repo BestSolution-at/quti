@@ -12,12 +12,7 @@ import jakarta.json.bind.annotation.JsonbTypeInfo;
     @JsonbSubtype(alias = "series-moved", type = EventViewDTO.SeriesMovedEventViewDTO.class),
     @JsonbSubtype(alias = "series", type = EventViewDTO.SeriesEventViewDTO.class),
 })
-public abstract class EventViewDTO {
-    public enum Status {
-        ACCEPTED,
-        CANCELED,
-    }
-
+public abstract class EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO {
     public String key;
     public String calendarKey;
     public String title;
@@ -29,16 +24,72 @@ public abstract class EventViewDTO {
     public List<String> tags;
     public List<String> referencedCalendars;
 
-    public static class SingleEventViewDTO extends EventViewDTO {
+    public String key() {
+        return this.key;
     }
 
-    public static class SeriesMovedEventViewDTO extends EventViewDTO {
+    public String calendarKey() {
+        return this.calendarKey;
+    }
+
+    public String title() {
+        return this.title;
+    }
+
+    public String description() {
+        return this.description;
+    }
+
+    public String owner() {
+        return this.owner;
+    }
+
+    public Status status() {
+        return this.status;
+    }
+
+    public ZonedDateTime start() {
+        return this.start;
+    }
+
+    public ZonedDateTime end() {
+        return this.end;
+    }
+
+    public List<String> tags() {
+        return this.tags;
+    }
+
+    public List<String> referencedCalendars() {
+        return this.referencedCalendars;
+    }
+
+    public static class SingleEventViewDTO extends EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO {
+    }
+
+    public static class SeriesMovedEventViewDTO extends EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO {
         public String masterEventKey;
         public ZonedDateTime originalStart;
         public ZonedDateTime originalEnd;
+
+        public String masterEventKey() {
+            return this.masterEventKey;
+        }
+
+        public ZonedDateTime originalStart() {
+            return this.originalStart;
+        }
+
+        public ZonedDateTime originalEnd() {
+            return this.originalEnd;
+        }
     }
 
-    public static class SeriesEventViewDTO extends EventViewDTO {
+    public static class SeriesEventViewDTO extends EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO {
         public String masterEventKey;
+
+        public String masterEventKey() {
+            return this.masterEventKey;
+        }
     }
 }
