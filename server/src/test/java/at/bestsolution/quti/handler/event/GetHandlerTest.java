@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ public class GetHandlerTest extends EventHandlerTest<GetHandler> {
 
 	@Test
 	public void testEuropeVienna() {
-		var result = handler.get(basicCalendarKey.toString(), simpleEventKey.toString(), "Europe/Vienna");
+		var result = handler.get(basicCalendarKey.toString(), simpleEventKey.toString(), ZoneId.of("Europe/Vienna"));
 		assertTrue(result.isOk());
 		assertNotNull(result.value());
 		assertEquals("2024-01-10T07:00+01:00[Europe/Vienna]", result.value().start().toString());
@@ -51,7 +52,7 @@ public class GetHandlerTest extends EventHandlerTest<GetHandler> {
 
 	@Test
 	public void testUSWestcoast() {
-		var result = handler.get(basicCalendarKey.toString(), simpleEventKey.toString(), "America/Los_Angeles");
+		var result = handler.get(basicCalendarKey.toString(), simpleEventKey.toString(), ZoneId.of("America/Los_Angeles"));
 		assertTrue(result.isOk());
 		assertNotNull(result.value());
 		assertEquals("2024-01-09T22:00-08:00[America/Los_Angeles]", result.value().start().toString());

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
@@ -54,8 +55,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-03"),
 				LocalDate.parse("2024-01-01"),
-				"Europe/Vienna",
-				"Europe/Vienna"));
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna")));
 	}
 
 	@Test
@@ -64,8 +65,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-01"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		assertEquals(1, result.value().size());
 	}
 
@@ -75,8 +76,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-03-01"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		// 1 Simple
 		// 31 Repeating Jan
 		// 29 Repeating Feb
@@ -89,8 +90,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2025-02-01"),
 				LocalDate.parse("2025-03-01"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		assertEquals(29, result.value().size());
 		assertEquals(LocalDate.parse("2025-02-01"), result.value().get(0).start.toLocalDate());
 		assertEquals(LocalDate.parse("2025-03-01"), result.value().get(28).start.toLocalDate());
@@ -102,8 +103,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-31"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		// 31 Repeating + 1 Simple
 		assertEquals(32, result.value().size());
 		assertEquals(LocalDate.parse("2024-01-01"), result.value().get(0).start.toLocalDate());
@@ -116,8 +117,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-03-25"),
 				LocalDate.parse("2024-04-05"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		// 6 in March + 5 April
 		assertEquals(12, result.value().size());
 	}
@@ -128,8 +129,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-01-10"),
 				LocalDate.parse("2024-01-10"),
-				"Europe/Vienna",
-				"Z");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Z"));
 		// 31 Repeating + 1 Simple
 		assertEquals(2, result.value().size());
 		assertEquals(ZonedDateTime.parse("2024-01-10T06:00Z"), result.value().get(0).start);
@@ -142,8 +143,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-03-25"),
 				LocalDate.parse("2024-04-05"),
-				"Europe/Vienna",
-				"Z");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Z"));
 		assertEquals(12, result.value().size());
 		assertEquals(ZonedDateTime.parse("2024-03-25T12:00Z"), result.value().get(0).start);
 		assertEquals(ZonedDateTime.parse("2024-04-05T11:00Z"), result.value().get(11).start);
@@ -155,16 +156,16 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-05-04"),
 				LocalDate.parse("2024-05-06"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		assertEquals(3, result.value().size());
 
 		result = handler.view(
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-05-07"),
 				LocalDate.parse("2024-05-09"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		assertEquals(2, result.value().size());
 	}
 
@@ -174,16 +175,16 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-05-04"),
 				LocalDate.parse("2024-05-06"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		assertEquals(3, result.value().size());
 
 		result = handler.view(
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-05-07"),
 				LocalDate.parse("2024-05-09"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 		assertEquals(2, result.value().size());
 	}
 
@@ -193,8 +194,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 			fulldayCalendarKey.toString(),
 			LocalDate.parse("2024-01-02"),
 			LocalDate.parse("2024-01-09"),
-			"Europe/Vienna",
-			"Europe/Vienna");
+			ZoneId.of("Europe/Vienna"),
+			ZoneId.of("Europe/Vienna"));
 		assertEquals(1, result.value().size());
 	}
 
@@ -204,8 +205,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 			basicCalendarKey.toString(),
 			LocalDate.parse("2020-01-10"),
 			LocalDate.parse("2020-01-10"),
-			"Europe/Vienna",
-			"Europe/Vienna");
+			ZoneId.of("Europe/Vienna"),
+			ZoneId.of("Europe/Vienna"));
 		assertEquals(1, result.value().size());
 		assertEquals(Status.CANCELED, result.value().get(0).status);
 	}
@@ -221,8 +222,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				basicCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-01"),
-				"Europe/Vienna",
-				"Europe/Vienna");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
 
 			assertEquals(1, result.value().size());
 			assertEquals(result.value().get(0).description, "A custom description");
@@ -231,8 +232,8 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 				referenceCalendarKey.toString(),
 				LocalDate.parse("2024-01-01"),
 				LocalDate.parse("2024-01-01"),
-				"Europe/Vienna",
-				"Z");
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Z"));
 
 			assertEquals(1, refResult.value().size());
 			assertEquals(refResult.value().get(0).description, "A custom description");

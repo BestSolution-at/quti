@@ -2,6 +2,7 @@ package at.bestsolution.quti;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import at.bestsolution.quti.dto.EventMoveDTO;
 import at.bestsolution.quti.dto.EventNewDTO;
@@ -60,7 +61,7 @@ public class EventResource {
 	public Response get(
 			@PathParam("calendar") String calendarKey,
 			@PathParam("key") String eventKey,
-			@HeaderParam("timezone") String zone) {
+			@HeaderParam("timezone") ZoneId zone) {
 
 		var event = getHandler.get(calendarKey, eventKey, zone);
 		if (event.isOk()) {

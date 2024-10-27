@@ -2,6 +2,7 @@ package at.bestsolution.quti;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.handler.calendar.CreateHandler;
@@ -76,8 +77,8 @@ public class CalendarResource {
 			@PathParam("key") String key,
 			@QueryParam("from") LocalDate from,
 			@QueryParam("to") LocalDate to,
-			@QueryParam("timezone") String timezone,
-			@HeaderParam("timezone") String resultTimeZone) {
+			@QueryParam("timezone") ZoneId timezone,
+			@HeaderParam("timezone") ZoneId resultTimeZone) {
 
 		var result = viewHandler.view(
 					key,
