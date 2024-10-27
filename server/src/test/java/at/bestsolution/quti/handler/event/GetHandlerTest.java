@@ -60,21 +60,21 @@ public class GetHandlerTest extends EventHandlerTest<GetHandler> {
 
 	@Test
 	public void testNotFoundEventKey() {
-		var result = handler.get(basicCalendarKey.toString(), UUID.randomUUID().toString(), "America/Los_Angeles");
+		var result = handler.get(basicCalendarKey.toString(), UUID.randomUUID().toString(), null);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
 
 	@Test
 	public void testNotFoundCalendarKey() {
-		var result = handler.get(UUID.randomUUID().toString(), simpleEventKey.toString(), "America/Los_Angeles");
+		var result = handler.get(UUID.randomUUID().toString(), simpleEventKey.toString(), null);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
 
 	@Test
 	public void testCalendarEventMismatch() {
-		var result = handler.get(basicCalendarKey.toString(), referenceCalendarKey.toString(), "America/Los_Angeles");
+		var result = handler.get(referenceCalendarKey.toString(), simpleEventKey.toString(), null);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
