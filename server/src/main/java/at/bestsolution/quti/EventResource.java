@@ -145,23 +145,7 @@ public class EventResource {
 	@Path("{key}/action/description")
 	@PUT
 	public Response description(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String description) {
-		var seriesSep = eventKey.indexOf('_');
-
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
-
-		if( parsedCalendarKey.isNotOk() ) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-		if( parsedEventKey.isNotOk() ) {
-			return Utils.toResponse(parsedEventKey);
-		}
-		if( parsedOriginalDate.isNotOk() ) {
-			return Utils.toResponse(parsedOriginalDate);
-		}
-
-		var result = setDescriptionHandler.setDescription(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), description);
+		var result = setDescriptionHandler.setDescription(calendarKey, eventKey, description);
 
 		if( result.isOk() ) {
 			return Response.noContent().build();

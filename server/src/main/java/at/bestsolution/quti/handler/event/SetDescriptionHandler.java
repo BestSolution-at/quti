@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
@@ -22,11 +23,27 @@ public class SetDescriptionHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public Result<Void> setDescription(UUID calendarKey, UUID eventKey, LocalDate original, String description) {
-		if( original == null ) {
-			return setDescriptionSingleEvent(calendarKey, eventKey, description);
+	public Result<Void> setDescription(String calendarKey, String eventKey, String description) {
+		var seriesSep = eventKey.indexOf('_');
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.isNotOk() ) {
+			return parsedCalendarKey.toAny();
 		}
-		return setDescriptionInSeries(calendarKey, eventKey, original, description);
+		if( parsedEventKey.isNotOk() ) {
+			return parsedEventKey.toAny();
+		}
+		if( parsedOriginalDate.isNotOk() ) {
+			return parsedOriginalDate.toAny();
+		}
+
+		if( parsedOriginalDate.value() == null ) {
+			return setDescriptionSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), description);
+		}
+		return setDescriptionInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), description);
 	}
 
 	private Result<Void> setDescriptionSingleEvent(UUID calendarKey, UUID eventKey, String description) {

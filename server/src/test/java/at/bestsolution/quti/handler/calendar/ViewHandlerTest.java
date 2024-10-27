@@ -215,7 +215,10 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandler> {
 
 	@Test
 	public void testCustomDescription() {
-			descriptionHandler.setDescription(basicCalendarKey, repeatingDailyEndlessKey, LocalDate.parse("2024-01-01"), "A custom description");
+			descriptionHandler.setDescription(
+				basicCalendarKey.toString(),
+				repeatingDailyEndlessKey.toString()+"_2024-01-01",
+				"A custom description");
 
 			var result = handler.view(
 				basicCalendarKey,
