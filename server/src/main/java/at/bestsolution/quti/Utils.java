@@ -97,7 +97,7 @@ public class Utils {
 		if (result.type == ResultType.NOT_FOUND) {
 			return notFound(result.message);
 		} else if (result.type == ResultType.INVALID_CONTENT) {
-			return unprocessableContent(result.message);
+			return badRequest(result.message);
 		}
 		throw new IllegalStateException(String.format("Unable to convert %s to a response", result.type));
 	}

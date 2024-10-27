@@ -98,7 +98,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", ownerlessCalendarKey))
 				.then()
-				.statusCode(422);
+				.statusCode(400);
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
-				.statusCode(422);
+				.statusCode(400);
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
-				.statusCode(422);
+				.statusCode(400);
 	}
 
 	@Test
