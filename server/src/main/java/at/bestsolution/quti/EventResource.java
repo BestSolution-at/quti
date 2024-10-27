@@ -86,11 +86,7 @@ public class EventResource {
 
 	@POST
 	public Response create(@PathParam("calendar") String calendarKey, EventNewDTO event) {
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		if( parsedCalendarKey.isNotOk() ) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-		var result = this.createHandler.create(parsedCalendarKey.value(), event);
+		var result = this.createHandler.create(calendarKey, event);
 		if( result.isOk() ) {
 			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).entity(result.value()).build();
 		}

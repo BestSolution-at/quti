@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import at.bestsolution.quti.Utils.ResultType;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.dto.EventRepeatDTOUtil;
-import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
 import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
 import io.quarkus.test.junit.QuarkusTest;
@@ -29,6 +28,23 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 
 	public CreateHandlerTest(CreateHandler handler) {
 		super(handler);
+	}
+
+	@Test
+	public void invalidCalendarKey() {
+		var newEvent = new EventNewDTO(
+			"New event",
+			"New event description",
+			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"),
+			false,
+			null,
+			List.of(),
+			List.of());
+
+		var result = handler.create("abcd", newEvent);
+		assertFalse(result.isOk());
+		assertEquals(result.type(), ResultType.INVALID_PARAMETER);
 	}
 
 	@Test
@@ -43,7 +59,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of());
 
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertEquals(ownerlessCalendarKey, entity.calendar.key);
@@ -66,7 +82,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of("tag-1","tag-2"),
 			List.of());
 
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertEquals(ownerlessCalendarKey, entity.calendar.key);
@@ -91,7 +107,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of());
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.INVALID_CONTENT, result.type());
 	}
@@ -108,7 +124,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of());
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.INVALID_CONTENT, result.type());
 	}
@@ -126,7 +142,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of()
 		);
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.INVALID_CONTENT, result.type());
 	}
@@ -143,7 +159,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of());
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.INVALID_CONTENT, result.type());
 	}
@@ -160,7 +176,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of());
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertFalse(result.isOk());
 		assertEquals(ResultType.INVALID_CONTENT, result.type());
 	}
@@ -177,7 +193,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of(writeableReferenceCalendarKey.toString()));
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertTrue(result.isOk());
 		var eventEntity = event(UUID.fromString(result.value()));
 
@@ -197,7 +213,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of(writeableReferenceCalendarKey.toString(), UUID.randomUUID().toString()));
 
-		var result = handler.create(ownerlessCalendarKey, newEvent);
+		var result = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		assertFalse(result.isOk());
 	}
 
@@ -211,7 +227,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"),
 			false,
 			repeat, List.of(), List.of());
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertNotNull(entity.repeatPattern);
@@ -233,7 +249,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			repeat,
 			List.of(),
 			List.of());
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatDailyEntity.class, entity.repeatPattern);
@@ -253,7 +269,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of()
 		);
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
@@ -275,7 +291,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of()
 		);
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
@@ -296,7 +312,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of()
 		);
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 
 		assertFalse(eventKey.isOk());
 	}
@@ -314,7 +330,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandler> {
 			List.of(),
 			List.of()
 		);
-		var eventKey = handler.create(ownerlessCalendarKey, newEvent);
+		var eventKey = handler.create(ownerlessCalendarKey.toString(), newEvent);
 
 		assertFalse(eventKey.isOk());
 	}

@@ -58,10 +58,14 @@ public class CreateHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public Result<String> create(UUID calendarKey, EventNewDTO event) {
+	public Result<String> create(String calendarKey, EventNewDTO event) {
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		if( parsedCalendarKey.isNotOk() ) {
+			return parsedCalendarKey.toAny();
+		}
 		var em = em();
 		var eventEntity = new EventEntity();
-		eventEntity.calendar = calendar(calendarKey);
+		eventEntity.calendar = calendar(parsedCalendarKey.value());
 		eventEntity.key = UUID.randomUUID();
 		eventEntity.title = event.title();
 		eventEntity.description = event.description();
