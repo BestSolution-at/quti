@@ -3,6 +3,7 @@ package at.bestsolution.quti.handler.calendar;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
@@ -23,8 +24,9 @@ public class CreateHandlerTest extends CalendarHandlerTest<CreateHandler> {
 	@Test
 	public void testCreate() {
 		var result = handler.create(new CalendarNewDTO("Test Handler", "info@quti.dev"));
-		assertNotNull(result, "Expected an UUID");
-		assertDoesNotThrow(() -> UUID.fromString(result), "Result should have been an UUID");
+		assertTrue(result.isOk());
+		assertNotNull(result.value(), "Expected an UUID");
+		assertDoesNotThrow(() -> UUID.fromString(result.value()), "Result should have been an UUID");
 	}
 
 	@Test

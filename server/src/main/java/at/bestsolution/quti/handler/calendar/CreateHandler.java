@@ -3,6 +3,7 @@ package at.bestsolution.quti.handler.calendar;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.CalendarNewDTO;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.model.CalendarEntity;
@@ -20,7 +21,7 @@ public class CreateHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public String create(CalendarNewDTO calendar) {
+	public Result<String> create(CalendarNewDTO calendar) {
 		Objects.requireNonNull(calendar.name(), "name must not be null");
 
 		CalendarEntity c = new CalendarEntity();
@@ -28,6 +29,6 @@ public class CreateHandler extends BaseHandler {
 		c.owner = calendar.owner();
 		c.key = UUID.randomUUID();
 		em().persist(c);
-		return c.key.toString();
+		return Result.ok(c.key.toString());
 	}
 }
