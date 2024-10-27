@@ -1,4 +1,4 @@
-package at.bestsolution.quti.converter;
+package at.bestsolution.quti.rest.converter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

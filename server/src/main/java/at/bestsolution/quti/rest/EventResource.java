@@ -1,9 +1,10 @@
-package at.bestsolution.quti;
+package at.bestsolution.quti.rest;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.dto.EventMoveDTO;
 import at.bestsolution.quti.dto.EventNewDTO;
 import at.bestsolution.quti.service.EventService;
