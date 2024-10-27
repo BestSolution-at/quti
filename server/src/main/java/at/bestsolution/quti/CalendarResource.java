@@ -5,10 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.dto.CalendarNewDTO;
-import at.bestsolution.quti.handler.calendar.CreateHandler;
-import at.bestsolution.quti.handler.calendar.GetHandler;
-import at.bestsolution.quti.handler.calendar.UpdateHandler;
-import at.bestsolution.quti.handler.calendar.ViewHandler;
+import at.bestsolution.quti.service.CalendarService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -26,25 +23,17 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/calendar")
 @Produces(MediaType.APPLICATION_JSON)
 public class CalendarResource {
-
-	private final GetHandler getHandler;
-	private final CreateHandler createHandler;
-	private final UpdateHandler updateHandler;
-	private final ViewHandler viewHandler;
+	private final CalendarService service;
 
 	@Inject
-	public CalendarResource(GetHandler getHandler, CreateHandler createHandler, UpdateHandler updateHandler,
-			ViewHandler viewHandler) {
-		this.getHandler = getHandler;
-		this.createHandler = createHandler;
-		this.updateHandler = updateHandler;
-		this.viewHandler = viewHandler;
+	public CalendarResource(CalendarService service) {
+		this.service = service;
 	}
 
 	@GET
 	@Path("{key}")
 	public Response get(@PathParam("key") String key) {
-		var result = getHandler.get(key);
+		var result = service.get(key);
 
 		if (result.isOk()) {
 			return Response.ok(result.value()).build();
@@ -54,7 +43,7 @@ public class CalendarResource {
 
 	@POST
 	public Response create(CalendarNewDTO calendar) {
-		var result = createHandler.create(calendar);
+		var result = service.create(calendar);
 		if( result.isOk() ) {
 			return Response.created(URI.create("/api/calendar/" + result.value())).entity(result.value()).build();
 		}
@@ -64,7 +53,7 @@ public class CalendarResource {
 	@PATCH
 	@Path("{key}")
 	public Response update(@PathParam("key") String key, String patch) {
-		var result = updateHandler.update(key, patch);
+		var result = service.update(key, patch);
 		if (result.isOk()) {
 			return Response.ok().build();
 		}
@@ -80,7 +69,7 @@ public class CalendarResource {
 			@QueryParam("timezone") ZoneId timezone,
 			@HeaderParam("timezone") ZoneId resultTimeZone) {
 
-		var result = viewHandler.view(
+		var result = service.view(
 					key,
 					from,
 					to,
