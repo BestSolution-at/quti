@@ -5,11 +5,11 @@ import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.dto.EventDTO;
-import at.bestsolution.quti.dto.EventDTOUtil;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
+import at.bestsolution.quti.service.jpa.event.utils.EventDTOUtil;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

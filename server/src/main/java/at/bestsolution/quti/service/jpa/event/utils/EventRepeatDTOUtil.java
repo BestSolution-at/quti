@@ -1,10 +1,11 @@
-package at.bestsolution.quti.dto;
+package at.bestsolution.quti.service.jpa.event.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+import at.bestsolution.quti.dto.EventRepeatDTO;
 import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
 import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO;
 import at.bestsolution.quti.dto.EventRepeatDTO.EventRepeatDailyDTO;

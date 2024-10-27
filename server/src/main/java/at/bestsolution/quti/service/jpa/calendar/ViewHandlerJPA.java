@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.dto.EventViewDTO;
-import at.bestsolution.quti.dto.EventViewDTOUtil;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.EventReferenceEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
@@ -22,6 +21,7 @@ import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
+import at.bestsolution.quti.service.jpa.calendar.utils.EventViewDTOUtil;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;

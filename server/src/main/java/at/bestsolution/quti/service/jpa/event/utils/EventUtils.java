@@ -1,4 +1,4 @@
-package at.bestsolution.quti.service.jpa.event;
+package at.bestsolution.quti.service.jpa.event.utils;
 
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.service.Result;

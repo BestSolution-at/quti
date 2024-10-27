@@ -1,5 +1,6 @@
-package at.bestsolution.quti.dto;
+package at.bestsolution.quti.service.jpa.calendar.utils;
 
+import at.bestsolution.quti.dto.CalendarDTO;
 import at.bestsolution.quti.model.CalendarEntity;
 
 public class CalendarDTOUtil {

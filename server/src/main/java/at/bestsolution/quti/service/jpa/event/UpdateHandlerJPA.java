@@ -14,6 +14,7 @@ import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
+import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.json.JsonObject;

@@ -1,4 +1,4 @@
-package at.bestsolution.quti.dto;
+package at.bestsolution.quti.service.jpa.calendar.utils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import at.bestsolution.quti.dto.EventViewDTO;
 import at.bestsolution.quti.dto.EventViewDTO.SeriesEventViewDTO;
 import at.bestsolution.quti.dto.EventViewDTO.SeriesMovedEventViewDTO;
 import at.bestsolution.quti.dto.EventViewDTO.SingleEventViewDTO;

@@ -1,4 +1,4 @@
-package at.bestsolution.quti.service.jpa.calendar;
+package at.bestsolution.quti.service.jpa.calendar.utils;
 
 import java.util.UUID;
 
