@@ -2,8 +2,6 @@ package at.bestsolution.quti;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.dto.EventMoveDTO;
@@ -66,11 +64,11 @@ public class EventResource {
 			@HeaderParam("timezone") String zone) {
 
 		var event = getHandler.get(calendarKey, eventKey, zone);
-		if (event == null) {
-			return Utils.notFound(String.format("Could not find event with '%s'", eventKey));
+		if (event.isOk()) {
+			return Response.ok(event.value()).build();
 		}
 
-		return Response.ok(event).build();
+		return Utils.toResponse(event);
 	}
 
 
@@ -91,18 +89,7 @@ public class EventResource {
 	@Path("{key}")
 	@DELETE
 	public Response delete(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
-
-		if( parsedCalendarKey.isNotOk() ) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-
-		if( parsedEventKey.isNotOk() ) {
-			return Utils.toResponse(parsedEventKey);
-		}
-
-		var result = deleteHandler.delete(parsedCalendarKey.value(), parsedEventKey.value());
+		var result = deleteHandler.delete(calendarKey, eventKey);
 		if( result.isOk() ) {
 			return Response.noContent().build();
 		}
