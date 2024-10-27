@@ -3,7 +3,6 @@ package at.bestsolution.quti.handler.event;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.Utils.Result;
@@ -21,10 +20,21 @@ public class EndRepeatingHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public Result<Void> endRepeat(UUID calendarKey, UUID eventKey, LocalDate endDate) {
+	public Result<Void> endRepeat(String calendarKey, String eventKey, LocalDate endDate) {
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
+
+		if( parsedCalendarKey.isNotOk() ) {
+			return parsedCalendarKey.toAny();
+		}
+
+		if( parsedEventKey.isNotOk() ) {
+			return parsedEventKey.toAny();
+		}
+
 		var em = em();
 
-		var event = EventUtils.event(em, calendarKey, eventKey);
+		var event = EventUtils.event(em, parsedCalendarKey.value(), parsedEventKey.value());
 
 		if( event == null ) {
 			return Result.notFound("No event with key '%s' was found in calendar '%s'", eventKey, calendarKey);

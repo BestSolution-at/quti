@@ -99,18 +99,7 @@ public class EventResource {
 	@Path("{key}/action/end-repeat")
 	@PUT
 	public Response endRepeat(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, LocalDate endDate) {
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
-
-		if( parsedCalendarKey.isNotOk() ) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-
-		if( parsedEventKey.isNotOk() ) {
-			return Utils.toResponse(parsedEventKey);
-		}
-
-		var result = endRepeatHandler.endRepeat(parsedCalendarKey.value(), parsedEventKey.value(), endDate);
+		var result = endRepeatHandler.endRepeat(calendarKey, eventKey, endDate);
 		if( result.isOk() ) {
 			return Response.noContent().build();
 		}
