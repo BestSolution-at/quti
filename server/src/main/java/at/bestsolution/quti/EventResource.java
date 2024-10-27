@@ -109,23 +109,7 @@ public class EventResource {
 	@Path("{key}/action/move")
 	@PUT
 	public Response move(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, EventMoveDTO dto) {
-		var seriesSep = eventKey.indexOf('_');
-
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
-
-		if( parsedCalendarKey.isNotOk() ) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-		if( parsedEventKey.isNotOk() ) {
-			return Utils.toResponse(parsedEventKey);
-		}
-		if( parsedOriginalDate.isNotOk() ) {
-			return Utils.toResponse(parsedOriginalDate);
-		}
-
-		var result = moveHandler.move(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), dto.start(), dto.end());
+		var result = moveHandler.move(calendarKey, eventKey, dto.start(), dto.end());
 
 		if( result.isOk() ) {
 			return Response.noContent().build();

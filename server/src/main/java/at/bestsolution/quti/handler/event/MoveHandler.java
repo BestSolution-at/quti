@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.Utils.Result;
 import at.bestsolution.quti.handler.BaseHandler;
 import at.bestsolution.quti.handler.RepeatUtils;
@@ -23,11 +24,27 @@ public class MoveHandler extends BaseHandler {
 	}
 
 	@Transactional
-	public Result<Void> move(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start, ZonedDateTime end) {
-		if( original == null ) {
-			return moveSingleEvent(calendarKey, eventKey, start, end);
+	public Result<Void> move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end) {
+		var seriesSep = eventKey.indexOf('_');
+
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path") : Utils.parseUUID(eventKey.substring(0,seriesSep), "in path");
+		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null) : Utils.parseLocalDate(eventKey.substring(seriesSep+1), "in path");
+
+		if( parsedCalendarKey.isNotOk() ) {
+			return parsedCalendarKey.toAny();
 		}
-		return moveEventInSeries(calendarKey, eventKey, original, start, end);
+		if( parsedEventKey.isNotOk() ) {
+			return parsedEventKey.toAny();
+		}
+		if( parsedOriginalDate.isNotOk() ) {
+			return parsedOriginalDate.toAny();
+		}
+
+		if( parsedOriginalDate.value() == null ) {
+			return moveSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), start, end);
+		}
+		return moveEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), start, end);
 	}
 
 	private Result<Void> moveSingleEvent(UUID calendarKey, UUID eventKey, ZonedDateTime start, ZonedDateTime end) {

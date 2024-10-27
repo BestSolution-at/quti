@@ -22,11 +22,43 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandler> {
 	}
 
 	@Test
+	public void invalidCalendarKey() {
+		var result = handler.move(
+			"abcd",
+			simpleEventKey.toString(),
+			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
+		);
+		assertFalse(result.isOk());
+	}
+
+	@Test
+	public void invalidEventKey() {
+		var result = handler.move(
+			basicCalendarKey.toString(),
+			"abcd",
+			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
+		);
+		assertFalse(result.isOk());
+	}
+
+	@Test
+	public void invalidRepatEventKey() {
+		var result = handler.move(
+			basicCalendarKey.toString(),
+			"abcd_2024-01-11",
+			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
+			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
+		);
+		assertFalse(result.isOk());
+	}
+
+	@Test
 	public void moveSingle() {
 		var result = handler.move(
-			basicCalendarKey,
-			simpleEventKey,
-			null,
+			basicCalendarKey.toString(),
+			simpleEventKey.toString(),
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
 			ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")
 		);
@@ -39,9 +71,8 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandler> {
 	@Test
 	public void testMove() {
 		var result = handler.move(
-			basicCalendarKey,
-			repeatingDailyEndlessKey,
-			LocalDate.parse("2024-01-01"),
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_"+"2024-01-01",
 			ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]"),
 			ZonedDateTime.parse("2024-01-01T19:00:00+01:00[Europe/Vienna]"));
 		assertTrue(result.isOk());
@@ -55,17 +86,15 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandler> {
 	@Test
 	public void testMoveMulti() {
 		var result = handler.move(
-			basicCalendarKey,
-			repeatingDailyEndlessKey,
-			LocalDate.parse("2024-01-01"),
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]"),
 			ZonedDateTime.parse("2024-01-01T19:00:00+01:00[Europe/Vienna]"));
 		assertTrue(result.isOk());
 
 		result = handler.move(
-			basicCalendarKey,
-			repeatingDailyEndlessKey,
-			LocalDate.parse("2024-01-01"),
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			ZonedDateTime.parse("2024-01-01T18:00:00+01:00[Europe/Vienna]"),
 			ZonedDateTime.parse("2024-01-01T20:00:00+01:00[Europe/Vienna]"));
 		assertTrue(result.isOk());
@@ -80,9 +109,8 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandler> {
 	@Test
 	public void testInvalidDate() {
 		var result = handler.move(
-			basicCalendarKey,
-			repeatingDailyEndlessKey,
-			LocalDate.parse("2023-12-31"),
+			basicCalendarKey.toString(),
+			repeatingDailyEndlessKey+"_2023-12-31",
 			ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]"),
 		ZonedDateTime.parse("2024-01-01T19:00:00+01:00[Europe/Vienna]"));
 		assertFalse(result.isOk());
