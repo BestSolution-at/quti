@@ -27,10 +27,10 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class ViewHandlerImpl extends BaseReadonlyHandler implements CalendarService.ViewHandler {
+public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarService.ViewHandler {
 
 	@Inject
-	public ViewHandlerImpl(EntityManager em) {
+	public ViewHandlerJPA(EntityManager em) {
 		super(em);
 	}
 

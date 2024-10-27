@@ -15,10 +15,10 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class GetHandlerImpl extends BaseReadonlyHandler implements EventService.GetHandler {
+public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.GetHandler {
 
 	@Inject
-	public GetHandlerImpl(EntityManager em) {
+	public GetHandlerJPA(EntityManager em) {
 		super(em);
 	}
 

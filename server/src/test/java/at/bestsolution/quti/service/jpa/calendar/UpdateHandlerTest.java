@@ -15,10 +15,10 @@ import jakarta.json.Json;
 import jakarta.json.JsonPatch;
 
 @QuarkusTest
-public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerImpl> {
+public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 
 	@Inject
-	public UpdateHandlerTest(UpdateHandlerImpl handler) {
+	public UpdateHandlerTest(UpdateHandlerJPA handler) {
 		super(handler);
 	}
 

@@ -24,18 +24,18 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 
 @Singleton
-public class UpdateHandlerImpl extends BaseHandler {
+public class UpdateHandlerJPA extends BaseHandler {
 	private static Map<String, BiFunction<EventEntity, JsonObject, Result<Runnable>>> REPLACE_OPS = new HashMap<>();
 
 	static {
-		REPLACE_OPS.put("title", UpdateHandlerImpl::handleTitleUpdate);
-		REPLACE_OPS.put("description", UpdateHandlerImpl::handleDescriptionUpdate);
-		REPLACE_OPS.put("start", UpdateHandlerImpl::handleStartUpdate);
-		REPLACE_OPS.put("end", UpdateHandlerImpl::handleEndUpdate);
+		REPLACE_OPS.put("title", UpdateHandlerJPA::handleTitleUpdate);
+		REPLACE_OPS.put("description", UpdateHandlerJPA::handleDescriptionUpdate);
+		REPLACE_OPS.put("start", UpdateHandlerJPA::handleStartUpdate);
+		REPLACE_OPS.put("end", UpdateHandlerJPA::handleEndUpdate);
 	}
 
 	@Inject
-	public UpdateHandlerImpl(EntityManager em) {
+	public UpdateHandlerJPA(EntityManager em) {
 		super(em);
 	}
 

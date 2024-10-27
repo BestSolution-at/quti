@@ -10,16 +10,16 @@ import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.dto.EventViewDTO.Status;
-import at.bestsolution.quti.service.jpa.event.SetDescriptionHandlerImpl;
+import at.bestsolution.quti.service.jpa.event.SetDescriptionHandlerJPA;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerImpl> {
-	private SetDescriptionHandlerImpl descriptionHandler;
+public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
+	private SetDescriptionHandlerJPA descriptionHandler;
 
 	@Inject
-	public ViewHandlerTest(ViewHandlerImpl handler, SetDescriptionHandlerImpl descriptionHandler) {
+	public ViewHandlerTest(ViewHandlerJPA handler, SetDescriptionHandlerJPA descriptionHandler) {
 		super(handler);
 		this.descriptionHandler = descriptionHandler;
 	}

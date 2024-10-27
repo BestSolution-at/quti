@@ -23,9 +23,9 @@ import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class CreateHandlerTest extends EventHandlerTest<CreateHandlerImpl> {
+public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
-	public CreateHandlerTest(CreateHandlerImpl handler) {
+	public CreateHandlerTest(CreateHandlerJPA handler) {
 		super(handler);
 	}
 

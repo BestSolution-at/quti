@@ -1,5 +1,9 @@
 package at.bestsolution.quti.service.jpa.event;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
@@ -10,15 +14,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class DeleteHandlerImpl extends BaseHandler implements EventService.DeleteHandler {
-
+public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.EndRepeatingHandler {
 	@Inject
-	public DeleteHandlerImpl(EntityManager em) {
+	public EndRepeatingHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public Result<Void> delete(String calendarKey, String eventKey) {
+	public Result<Void> endRepeat(String calendarKey, String eventKey, LocalDate endDate) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
@@ -31,16 +34,29 @@ public class DeleteHandlerImpl extends BaseHandler implements EventService.Delet
 		}
 
 		var em = em();
+
 		var event = EventUtils.event(em, parsedCalendarKey.value(), parsedEventKey.value());
+
 		if( event == null ) {
 			return Result.notFound("No event with key '%s' was found in calendar '%s'", eventKey, calendarKey);
+		} else if( event.repeatPattern == null ) {
+			return Result.invalidContent("%s is not a repeating event", eventKey);
 		}
-		event.modifications.forEach(em::remove);
-		event.references.forEach(em::remove);
-		if( event.repeatPattern != null ) {
-			em.remove(event.repeatPattern);
+
+		var endDatetime = Utils.atEndOfDay(ZonedDateTime.of(endDate, LocalTime.NOON, event.repeatPattern.recurrenceTimezone));
+
+		if( endDatetime.isBefore(event.repeatPattern.startDate) ) {
+			return Result.invalidContent(
+				"Repeating end '%s' of '%s' is before the repeat start '%s'",
+				endDatetime.toLocalDate(),
+				eventKey,
+				event.repeatPattern.startDate.toLocalDate()
+			);
 		}
-		em.remove(event);
+		event.repeatPattern.endDate = endDatetime;
+
+		em.persist(event);
+
 		return Result.OK;
 	}
 }

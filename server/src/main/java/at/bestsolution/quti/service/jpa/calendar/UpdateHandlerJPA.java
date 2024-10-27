@@ -16,10 +16,10 @@ import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class UpdateHandlerImpl extends BaseHandler implements CalendarService.UpdateHandler {
+public class UpdateHandlerJPA extends BaseHandler implements CalendarService.UpdateHandler {
 
 	@Inject
-	public UpdateHandlerImpl(EntityManager em) {
+	public UpdateHandlerJPA(EntityManager em) {
 		super(em);
 	}
 

@@ -12,9 +12,9 @@ import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class DeleteHandlerTest extends EventHandlerTest<DeleteHandlerImpl> {
+public class DeleteHandlerTest extends EventHandlerTest<DeleteHandlerJPA> {
 
-	public DeleteHandlerTest(DeleteHandlerImpl handler) {
+	public DeleteHandlerTest(DeleteHandlerJPA handler) {
 		super(handler);
 	}
 

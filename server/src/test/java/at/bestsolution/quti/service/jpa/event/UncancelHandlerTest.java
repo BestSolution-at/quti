@@ -13,10 +13,10 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
 @QuarkusTest
-public class UncancelHandlerTest extends EventHandlerTest<UncancelHandlerImpl> {
+public class UncancelHandlerTest extends EventHandlerTest<UncancelHandlerJPA> {
 
 	@Inject
-	public UncancelHandlerTest(UncancelHandlerImpl handler) {
+	public UncancelHandlerTest(UncancelHandlerJPA handler) {
 		super(handler);
 	}
 

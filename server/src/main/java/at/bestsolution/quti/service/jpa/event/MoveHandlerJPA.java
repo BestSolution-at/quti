@@ -17,10 +17,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class MoveHandlerImpl extends BaseHandler implements EventService.MoveHandler {
+public class MoveHandlerJPA extends BaseHandler implements EventService.MoveHandler {
 
 	@Inject
-	public MoveHandlerImpl(EntityManager em) {
+	public MoveHandlerJPA(EntityManager em) {
 		super(em);
 	}
 

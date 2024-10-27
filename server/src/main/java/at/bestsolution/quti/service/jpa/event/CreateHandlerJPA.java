@@ -35,10 +35,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandlerImpl extends BaseHandler implements EventService.CreateHandler {
+public class CreateHandlerJPA extends BaseHandler implements EventService.CreateHandler {
 
 	@Inject
-	public CreateHandlerImpl(EntityManager em) {
+	public CreateHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
