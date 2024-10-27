@@ -64,18 +64,8 @@ public class EventResource {
 			@PathParam("calendar") String calendarKey,
 			@PathParam("key") String eventKey,
 			@HeaderParam("timezone") String zone) {
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if (parsedCalendarKey.isNotOk()) {
-			return Utils.toResponse(parsedCalendarKey);
-		}
-		if (parsedEventKey.isNotOk()) {
-			return Utils.toResponse(parsedEventKey);
-		}
-
-		var event = getHandler.get(parsedCalendarKey.value(), parsedEventKey.value(),
-				zone == null ? ZoneOffset.UTC : ZoneId.of(zone));
+		var event = getHandler.get(calendarKey, eventKey, zone);
 		if (event == null) {
 			return Utils.notFound(String.format("Could not find event with '%s'", eventKey));
 		}
