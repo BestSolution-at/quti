@@ -1270,7 +1270,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the calendar owning the event"
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -1281,7 +1287,13 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "key of the event"
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             },
             {
               "@type": "Parameter",
@@ -1295,7 +1307,14 @@
               "doc": "the description"
             }
           ],
-          "errors": []
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "${key}/action/description",
+              "results": []
+            }
+          }
         }
       ],
       "meta": {

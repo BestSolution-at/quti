@@ -31,4 +31,5 @@ resource Event at '/api/calendar/${calendar}/events' {
     PUT move        at '${key}/action/move'
     PUT cancel      at '${key}/action/cancel'
     PUT uncancel    at '${key}/action/uncancel'
+    PUT description at '${key}/action/description'
 }

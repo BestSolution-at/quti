@@ -49,6 +49,7 @@ public class Main {
             eventId+"_2024-01-03", 
             ZonedDateTime.parse("2024-01-03T15:00:00+01:00[Europe/Vienna]"), 
             ZonedDateTime.parse("2024-01-03T17:00:00+01:00[Europe/Vienna]"));
+        eventService.description(calendarId, eventId+"_2024-01-04", "Something special");
         
         var events = calendarService.eventView(
             calendarId, 
@@ -57,7 +58,7 @@ public class Main {
             ZoneId.of("Europe/Vienna"));
         
         events.forEach( e -> {
-            System.err.println(e.title() + ":" + e.start() + " - " + e.end() + " - " + e.status());
+            System.err.println(e.title() + ": " + e.start() + " - " + e.end() + " - " + e.status() + " - " + e.description());
         });
         System.err.println("========");
         eventService.uncancel(calendarId, eventId+"_2024-01-02");
@@ -68,7 +69,7 @@ public class Main {
             ZoneId.of("Europe/Vienna"));
         
         events.forEach( e -> {
-            System.err.println(e.title() + ":" + e.start() + " - " + e.end() + " - " + e.status());
+            System.err.println(e.title() + ":" + e.start() + " - " + e.end() + " - " + e.status() + " - " + e.description());
         });
     }
 }

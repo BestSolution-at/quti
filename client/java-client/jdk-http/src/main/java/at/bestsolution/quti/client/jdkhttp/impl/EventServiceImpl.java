@@ -221,14 +221,19 @@ public class EventServiceImpl implements EventService {
         Objects.requireNonNull(key, "key must not be null");
         Objects.requireNonNull(description, "description must not be null");
 
-        var $path = "%s/api/calendar/%s/events/".formatted(
+        var $path = "%s/api/calendar/%s/events/%s/action/description".formatted(
             this.baseURI,
-            calendar
+            calendar,
+            key
         );
+
+        var $body = BodyPublishers.ofString(description.toString());
 
         var $uri = URI.create($path);
         var $request = HttpRequest.newBuilder()
                 .uri($uri)
+                .header("Content-Type", "application/json")
+                .PUT($body)
                 .build();
 
         try {
