@@ -5,7 +5,7 @@ import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.rest.dto.EventDTO;
+import at.bestsolution.quti.rest.dto.EventDTOImpl;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
@@ -22,7 +22,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.G
 		super(em);
 	}
 
-	public Result<EventDTO> get(String calendarKey, String eventKey, ZoneId zone) {
+	public Result<EventDTOImpl> get(String calendarKey, String eventKey, ZoneId zone) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 

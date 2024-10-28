@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
-import at.bestsolution.quti.rest.dto.EventNewDTO;
+import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.Result.ResultType;
 import at.bestsolution.quti.service.jpa.event.utils.EventRepeatDTOUtil;
 import io.quarkus.test.junit.QuarkusTest;
@@ -31,7 +31,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void invalidCalendarKey() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -48,7 +48,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testSingleCreate() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -71,7 +71,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testCreateWithTags() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event with tags",
 			"New event with tags description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -96,7 +96,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testNullStart() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event",
 			"New event description",
 			null,
@@ -113,7 +113,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testNullEnd() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -130,7 +130,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testNullTitle() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			null,
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -148,7 +148,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testEmptyTitle() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -165,7 +165,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testBlankTitle() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"    ",
 			"New event description",
 			ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"),
@@ -182,7 +182,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testWithReferences() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"Event referenced",
 			"New referenced event description",
 			ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"),
@@ -202,7 +202,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testWithInvalidReferences() {
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"Event referenced",
 			"New referenced event description",
 			ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"),
@@ -219,7 +219,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testRepeatingDailyEndless() {
 		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of((short)2, "Europe/Vienna", null);
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event daily",
 			"New event description daily",
 			ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"),
@@ -239,7 +239,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testRepeatingDailyEnd() {
 		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of((short)2, "Europe/Vienna", LocalDate.parse("2020-01-31"));
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event daily with end",
 			"New event description daily with end",
 			ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"),
@@ -258,7 +258,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testRepeatingWeeklyEndless() {
 		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)1, "Europe/Vienna", null, List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event weekly with end",
 			"New event description weekly with end",
 			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
@@ -280,7 +280,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testRepeatingWeeklyEnd() {
 		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event weekly with end",
 			"New event description weekly with end",
 			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
@@ -301,7 +301,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testInvalidInterval() {
 		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)0, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event weekly with end",
 			"New event description weekly with end",
 			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),
@@ -319,7 +319,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testInvalidWeek() {
 		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of((short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of());
-		var newEvent = new EventNewDTO(
+		var newEvent = new EventNewDTOImpl(
 			"New event weekly with end",
 			"New event description weekly with end",
 			ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"),

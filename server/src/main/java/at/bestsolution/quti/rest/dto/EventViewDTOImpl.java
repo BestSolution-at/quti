@@ -8,11 +8,11 @@ import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
 @JsonbTypeInfo({
-    @JsonbSubtype(alias = "single", type = EventViewDTO.SingleEventViewDTO.class),
-    @JsonbSubtype(alias = "series-moved", type = EventViewDTO.SeriesMovedEventViewDTO.class),
-    @JsonbSubtype(alias = "series", type = EventViewDTO.SeriesEventViewDTO.class),
+    @JsonbSubtype(alias = "single", type = EventViewDTOImpl.SingleEventViewDTOImpl.class),
+    @JsonbSubtype(alias = "series-moved", type = EventViewDTOImpl.SeriesMovedEventViewDTOImpl.class),
+    @JsonbSubtype(alias = "series", type = EventViewDTOImpl.SeriesEventViewDTOImpl.class),
 })
-public abstract class EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO {
+public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO {
     public String key;
     public String calendarKey;
     public String title;
@@ -64,10 +64,10 @@ public abstract class EventViewDTO implements at.bestsolution.quti.service.dto.E
         return this.referencedCalendars;
     }
 
-    public static class SingleEventViewDTO extends EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO {
+    public static class SingleEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO {
     }
 
-    public static class SeriesMovedEventViewDTO extends EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO {
+    public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO {
         public String masterEventKey;
         public ZonedDateTime originalStart;
         public ZonedDateTime originalEnd;
@@ -85,7 +85,7 @@ public abstract class EventViewDTO implements at.bestsolution.quti.service.dto.E
         }
     }
 
-    public static class SeriesEventViewDTO extends EventViewDTO implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO {
+    public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO {
         public String masterEventKey;
 
         public String masterEventKey() {

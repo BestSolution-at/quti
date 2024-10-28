@@ -11,26 +11,26 @@ import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.rest.dto.EventViewDTO;
-import at.bestsolution.quti.rest.dto.EventViewDTO.SeriesEventViewDTO;
-import at.bestsolution.quti.rest.dto.EventViewDTO.SeriesMovedEventViewDTO;
-import at.bestsolution.quti.rest.dto.EventViewDTO.SingleEventViewDTO;
+import at.bestsolution.quti.rest.dto.EventViewDTOImpl;
+import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesEventViewDTOImpl;
+import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesMovedEventViewDTOImpl;
+import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SingleEventViewDTOImpl;
 import at.bestsolution.quti.service.dto.EventViewDTO.Status;
 
 public class EventViewDTOUtil {
-	public static EventViewDTO of(EventEntity event, ZoneId resultZone) {
+	public static EventViewDTOImpl of(EventEntity event, ZoneId resultZone) {
 		return SingleEventViewDTOUtil.of(event, resultZone);
 	}
 
-	public static EventViewDTO of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+	public static EventViewDTOImpl of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
 		return SeriesMovedEventViewDTOUtil.of(movedEntity, resultZone);
 	}
 
-	public static EventViewDTO of(EventEntity event, LocalDate date, ZoneId zone) {
+	public static EventViewDTOImpl of(EventEntity event, LocalDate date, ZoneId zone) {
 		return SeriesEventViewDTOUtil.of(event, date, zone);
 	}
 
-	public static int compare(EventViewDTO a, EventViewDTO b) {
+	public static int compare(EventViewDTOImpl a, EventViewDTOImpl b) {
 		var result = a.start.compareTo(b.start);
 		if (result == 0) {
 			result = a.end.compareTo(b.end);
@@ -43,8 +43,8 @@ public class EventViewDTOUtil {
 	}
 
 	public class SingleEventViewDTOUtil {
-		public static SingleEventViewDTO of(EventEntity event, ZoneId resultZone) {
-			var result = new SingleEventViewDTO();
+		public static SingleEventViewDTOImpl of(EventEntity event, ZoneId resultZone) {
+			var result = new SingleEventViewDTOImpl();
 			result.key = event.key.toString();
 			result.calendarKey = event.calendar.key.toString();
 			result.owner = event.calendar.owner;
@@ -64,7 +64,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesMovedEventViewDTOUtil {
-		public static SeriesMovedEventViewDTO of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+		public static SeriesMovedEventViewDTOImpl of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
 			var status = Status.ACCEPTED;
 
 			var canceled = movedEntity.event.modificationsAt(movedEntity.date)
@@ -83,7 +83,7 @@ public class EventViewDTOUtil {
 					.filter(Predicate.not(String::isBlank))
 					.orElse(movedEntity.event.description);
 
-			var result = new SeriesMovedEventViewDTO();
+			var result = new SeriesMovedEventViewDTOImpl();
 			result.key = movedEntity.event.key.toString() + "_" + movedEntity.date;
 			result.calendarKey = movedEntity.event.calendar.key.toString();
 			result.owner = movedEntity.event.calendar.owner;
@@ -108,7 +108,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesEventViewDTOUtil {
-		public static SeriesEventViewDTO of(EventEntity event, LocalDate date, ZoneId zone) {
+		public static SeriesEventViewDTOImpl of(EventEntity event, LocalDate date, ZoneId zone) {
 			var start = event.start.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var end = event.end.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var dayDiff = ChronoUnit.DAYS.between(start.toLocalDate(), date);
@@ -144,7 +144,7 @@ public class EventViewDTOUtil {
 					.orElse(description);
 			}
 
-			var result = new SeriesEventViewDTO();
+			var result = new SeriesEventViewDTOImpl();
 			result.key = event.key.toString() + "_" + date;
 			result.calendarKey = event.calendar.key.toString();
 			result.owner = event.calendar.owner;

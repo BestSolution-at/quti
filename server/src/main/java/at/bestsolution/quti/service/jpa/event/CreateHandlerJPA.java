@@ -17,14 +17,14 @@ import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
-import at.bestsolution.quti.rest.dto.EventNewDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatDailyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
+import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatDailyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -49,7 +49,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 			.getSingleResult();
 	}
 
-	private static <T extends EventRepeatEntity> T fillDefaults(T repeatEntity, EventNewDTO event) {
+	private static <T extends EventRepeatEntity> T fillDefaults(T repeatEntity, EventNewDTOImpl event) {
 		var r = event.repeat();
 		var recurrenceTimezone = r.timeZone;
 		repeatEntity.interval = r.interval;
@@ -60,7 +60,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 	}
 
 	@Transactional
-	public Result<String> create(String calendarKey, EventNewDTO event) {
+	public Result<String> create(String calendarKey, EventNewDTOImpl event) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		if( parsedCalendarKey.isNotOk() ) {
 			return parsedCalendarKey.toAny();
@@ -118,33 +118,33 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 		return Result.ok(eventEntity.key.toString());
 	}
 
-	private static Result<EventRepeatEntity> createRepeatPattern(EventNewDTO event, EventRepeatDTO repeat) {
+	private static Result<EventRepeatEntity> createRepeatPattern(EventNewDTOImpl event, EventRepeatDTOImpl repeat) {
 		if( repeat.interval <= 0 ) {
 			return Result.invalidContent("Interval must be greater than 0");
 		}
-		if( repeat instanceof EventRepeatDailyDTO ) {
+		if( repeat instanceof EventRepeatDailyDTOImpl ) {
 			return Result.ok(fillDefaults(new EventRepeatDailyEntity(), event));
-		} else if( repeat instanceof EventRepeatWeeklyDTO r ) {
+		} else if( repeat instanceof EventRepeatWeeklyDTOImpl r ) {
 			if( r.daysOfWeek.isEmpty() ) {
 				return Result.invalidContent("Weekdays must not be empty");
 			}
 			var repeatPatternEntity = fillDefaults(new EventRepeatWeeklyEntity(), event);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek;
 			return Result.ok(repeatPatternEntity);
-		} else if( repeat instanceof EventRepeatAbsoluteMonthlyDTO r ) {
+		} else if( repeat instanceof EventRepeatAbsoluteMonthlyDTOImpl r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteMonthlyEntity(), event);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth;
 			return Result.ok(repeatPatternEntity);
-		} else if( repeat instanceof EventRepeatAbsoluteYearlyDTO r ) {
+		} else if( repeat instanceof EventRepeatAbsoluteYearlyDTOImpl r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteYearlyEntity(), event);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth;
 			repeatPatternEntity.month = r.month;
 			return Result.ok(repeatPatternEntity);
-		} else if( repeat instanceof EventRepeatRelativeMonthlyDTO r ) {
+		} else if( repeat instanceof EventRepeatRelativeMonthlyDTOImpl r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeMonthlyEntity(), event);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek;
 			return Result.ok(repeatPatternEntity);
-		} else if( repeat instanceof EventRepeatRelativeYearlyDTO r ) {
+		} else if( repeat instanceof EventRepeatRelativeYearlyDTOImpl r ) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeYearlyEntity(), event);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek;
 			repeatPatternEntity.month = r.month;

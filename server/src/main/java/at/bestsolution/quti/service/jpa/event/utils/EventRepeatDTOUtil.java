@@ -12,16 +12,16 @@ import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatDailyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO;
-import at.bestsolution.quti.rest.dto.EventRepeatDTO.EventRepeatWeeklyDTO;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatDailyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl;
+import at.bestsolution.quti.rest.dto.EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl;
 
 public class EventRepeatDTOUtil {
-public static EventRepeatDTO of(EventRepeatEntity entity) {
+public static EventRepeatDTOImpl of(EventRepeatEntity entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -43,16 +43,16 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 	}
 
 	public class EventRepeatDailyDTOUtil {
-		public static EventRepeatDailyDTO of(EventRepeatDailyEntity entity) {
-			var result = new EventRepeatDailyDTO();
+		public static EventRepeatDailyDTOImpl of(EventRepeatDailyEntity entity) {
+			var result = new EventRepeatDailyDTOImpl();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone;
 			return result;
 		}
 
-		public static EventRepeatDailyDTO of(short interval, String timeZone, LocalDate endDate) {
-			var rv = new EventRepeatDailyDTO();
+		public static EventRepeatDailyDTOImpl of(short interval, String timeZone, LocalDate endDate) {
+			var rv = new EventRepeatDailyDTOImpl();
 			rv.interval = interval;
 			rv.timeZone = ZoneId.of(timeZone);
 			rv.endDate = endDate;
@@ -61,8 +61,8 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 	}
 
 	public class EventRepeatWeeklyDTOUtil {
-		public static EventRepeatWeeklyDTO of(EventRepeatWeeklyEntity entity) {
-			var result = new EventRepeatWeeklyDTO();
+		public static EventRepeatWeeklyDTOImpl of(EventRepeatWeeklyEntity entity) {
+			var result = new EventRepeatWeeklyDTOImpl();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone;
@@ -70,8 +70,8 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 			return result;
 		}
 
-		public static EventRepeatWeeklyDTO of(short interval, String timeZone, LocalDate endDate, List<DayOfWeek> daysOfWeek) {
-			var result = new EventRepeatWeeklyDTO();
+		public static EventRepeatWeeklyDTOImpl of(short interval, String timeZone, LocalDate endDate, List<DayOfWeek> daysOfWeek) {
+			var result = new EventRepeatWeeklyDTOImpl();
 			result.interval = interval;
 			result.endDate = endDate;
 			result.timeZone = ZoneId.of(timeZone);
@@ -81,8 +81,8 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 	}
 
 	public class EventRepeatAbsoluteMonthlyDTOUtil {
-		public static EventRepeatAbsoluteMonthlyDTO of(EventRepeatAbsoluteMonthlyEntity entity) {
-			var result = new EventRepeatAbsoluteMonthlyDTO();
+		public static EventRepeatAbsoluteMonthlyDTOImpl of(EventRepeatAbsoluteMonthlyEntity entity) {
+			var result = new EventRepeatAbsoluteMonthlyDTOImpl();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone;
@@ -92,8 +92,8 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 	}
 
 	public class EventRepeatAbsoluteYearlyDTOUtil {
-		public static EventRepeatAbsoluteYearlyDTO of(EventRepeatAbsoluteYearlyEntity entity) {
-			var result = new EventRepeatAbsoluteYearlyDTO();
+		public static EventRepeatAbsoluteYearlyDTOImpl of(EventRepeatAbsoluteYearlyEntity entity) {
+			var result = new EventRepeatAbsoluteYearlyDTOImpl();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone;
@@ -104,8 +104,8 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 	}
 
 	public class EventRepeatRelativeMonthlyDTOUtil {
-		public static EventRepeatRelativeMonthlyDTO of(EventRepeatRelativeMonthlyEntity entity) {
-			var result = new EventRepeatRelativeMonthlyDTO();
+		public static EventRepeatRelativeMonthlyDTOImpl of(EventRepeatRelativeMonthlyEntity entity) {
+			var result = new EventRepeatRelativeMonthlyDTOImpl();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone;
@@ -115,8 +115,8 @@ public static EventRepeatDTO of(EventRepeatEntity entity) {
 	}
 
 	public class EventRepeatRelativeYearlyDTOUtil {
-		public static EventRepeatRelativeYearlyDTO of(EventRepeatRelativeYearlyEntity entity) {
-			var result = new EventRepeatRelativeYearlyDTO();
+		public static EventRepeatRelativeYearlyDTOImpl of(EventRepeatRelativeYearlyEntity entity) {
+			var result = new EventRepeatRelativeYearlyDTOImpl();
 			result.interval = entity.interval;
 			result.endDate = entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate() : null;
 			result.timeZone = entity.recurrenceTimezone;

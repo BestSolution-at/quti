@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.rest.dto.CalendarNewDTO;
+import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
 import at.bestsolution.quti.service.CalendarService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -43,7 +43,7 @@ public class CalendarResource {
 	}
 
 	@POST
-	public Response create(CalendarNewDTO calendar) {
+	public Response create(CalendarNewDTOImpl calendar) {
 		var result = service.create(calendar);
 		if( result.isOk() ) {
 			return Response.created(URI.create("/api/calendar/" + result.value())).entity(result.value()).build();

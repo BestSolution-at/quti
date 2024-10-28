@@ -3,11 +3,11 @@ package at.bestsolution.quti.service.jpa.event.utils;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.rest.dto.EventDTO;
+import at.bestsolution.quti.rest.dto.EventDTOImpl;
 
 public class EventDTOUtil {
-	public static EventDTO of(EventEntity event, ZoneId zoneId) {
-		return new EventDTO(
+	public static EventDTOImpl of(EventEntity event, ZoneId zoneId) {
+		return new EventDTOImpl(
 				event.key.toString(),
 				event.title,
 				event.description,

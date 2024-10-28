@@ -4,13 +4,13 @@ package at.bestsolution.quti.rest.dto;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-public record EventNewDTO(
+public record EventNewDTOImpl(
     String title,
     String description,
     ZonedDateTime start,
     ZonedDateTime end,
     boolean fullday,
-    EventRepeatDTO repeat,
+    EventRepeatDTOImpl repeat,
     List<String> tags,
     List<String> referencedCalendars) implements at.bestsolution.quti.service.dto.EventNewDTO {
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.rest.dto.CalendarNewDTO;
+import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
@@ -23,7 +23,7 @@ public class CreateHandlerTest extends CalendarHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testCreate() {
-		var result = handler.create(builderFactory, new CalendarNewDTO("Test Handler", "info@quti.dev"));
+		var result = handler.create(builderFactory, new CalendarNewDTOImpl("Test Handler", "info@quti.dev"));
 		assertTrue(result.isOk());
 		assertNotNull(result.value(), "Expected an UUID");
 		assertDoesNotThrow(() -> UUID.fromString(result.value()), "Result should have been an UUID");

@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.rest.dto.EventDTO;
-import at.bestsolution.quti.rest.dto.EventNewDTO;
+import at.bestsolution.quti.rest.dto.EventDTOImpl;
+import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import jakarta.inject.Inject;
@@ -42,12 +42,12 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Result<EventDTO> get(String calendarKey, String eventKey, ZoneId zone) {
+	public Result<EventDTOImpl> get(String calendarKey, String eventKey, ZoneId zone) {
 		return getHandler.get(calendarKey, eventKey, zone);
 	}
 
 	@Override
-	public Result<String> create(String calendarKey, EventNewDTO event) {
+	public Result<String> create(String calendarKey, EventNewDTOImpl event) {
 		return createHandler.create(calendarKey, event);
 	}
 

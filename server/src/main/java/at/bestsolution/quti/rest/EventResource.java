@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.rest.dto.EventMoveDTO;
-import at.bestsolution.quti.rest.dto.EventNewDTO;
+import at.bestsolution.quti.rest.dto.EventMoveDTOImpl;
+import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.EventService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -46,7 +46,7 @@ public class EventResource {
 
 
 	@POST
-	public Response create(@PathParam("calendar") String calendarKey, EventNewDTO event) {
+	public Response create(@PathParam("calendar") String calendarKey, EventNewDTOImpl event) {
 		var result = this.service.create(calendarKey, event);
 		if( result.isOk() ) {
 			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).entity(result.value()).build();
@@ -81,7 +81,7 @@ public class EventResource {
 
 	@Path("{key}/action/move")
 	@PUT
-	public Response move(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, EventMoveDTO dto) {
+	public Response move(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, EventMoveDTOImpl dto) {
 		var result = service.move(calendarKey, eventKey, dto.start(), dto.end());
 
 		if( result.isOk() ) {
