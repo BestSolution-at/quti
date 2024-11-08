@@ -22,6 +22,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body("{ \"name\": \"demo\" }")
 				.post("/api/calendar")
 				.then()
+				.body(notNullValue())
 				.statusCode(201)
 				.header("Location", notNullValue());
 	}
@@ -62,7 +63,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
-				.statusCode(200);
+				.statusCode(204);
 
 		given()
 				.get(String.format("/api/calendar/%s", basicCalendarKey))
@@ -81,7 +82,7 @@ public class CalendarResourceTest extends BaseTest {
 				.body(patch)
 				.patch(String.format("/api/calendar/%s", ownerlessCalendarKey))
 				.then()
-				.statusCode(200);
+				.statusCode(204);
 		given()
 				.get("/api/calendar/" + ownerlessCalendarKey)
 				.then()

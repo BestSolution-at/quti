@@ -1,6 +1,5 @@
 package at.bestsolution.quti.rest;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -25,10 +24,12 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CalendarResource {
 	private final CalendarService service;
+	private final CalendarResourceResponseBuilder responseBuilder;
 
 	@Inject
-	public CalendarResource(CalendarService service) {
+	public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder) {
 		this.service = service;
+		this.responseBuilder = responseBuilder;
 	}
 
 	@GET
@@ -37,7 +38,7 @@ public class CalendarResource {
 		var result = service.get(key);
 
 		if (result.isOk()) {
-			return Response.ok(result.value()).build();
+			return responseBuilder.get(result.value()).build();
 		}
 		return Utils.toResponse(result);
 	}
@@ -46,7 +47,7 @@ public class CalendarResource {
 	public Response create(CalendarNewDTOImpl calendar) {
 		var result = service.create(calendar);
 		if( result.isOk() ) {
-			return Response.created(URI.create("/api/calendar/" + result.value())).entity(result.value()).build();
+			return responseBuilder.create(result.value()).build();
 		}
 		return Utils.toResponse(result);
 	}
@@ -56,7 +57,7 @@ public class CalendarResource {
 	public Response update(@PathParam("key") String key, String patch) {
 		var result = service.update(key, patch);
 		if (result.isOk()) {
-			return Response.ok().build();
+			return responseBuilder.update().build();
 		}
 		return Utils.toResponse(result);
 	}
@@ -78,7 +79,7 @@ public class CalendarResource {
 					resultTimeZone);
 
 		if( result.isOk() ) {
-			return Response.ok(result.value()).build();
+			return responseBuilder.views(result.value()).build();
 		}
 
 		return Utils.toResponse(result);

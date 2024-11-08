@@ -23,10 +23,12 @@ import jakarta.ws.rs.core.Response;
 public class EventResource {
 
 	private final EventService service;
+	private final EventResourceResponseBuilder responseBuilder;
 
 	@Inject
-	public EventResource(EventService service) {
+	public EventResource(EventService service, EventResourceResponseBuilder responseBuilder) {
 		this.service = service;
+		this.responseBuilder = responseBuilder;
 	}
 
 	@GET
@@ -38,7 +40,7 @@ public class EventResource {
 
 		var event = service.get(calendarKey, eventKey, zone);
 		if (event.isOk()) {
-			return Response.ok(event.value()).build();
+			return responseBuilder.get(event.value()).build();
 		}
 
 		return Utils.toResponse(event);
@@ -49,14 +51,14 @@ public class EventResource {
 	public Response create(@PathParam("calendar") String calendarKey, EventNewDTOImpl event) {
 		var result = this.service.create(calendarKey, event);
 		if( result.isOk() ) {
-			return Response.created(URI.create("/api/calendar/" + calendarKey + "/events/"+result.value())).entity(result.value()).build();
+			return responseBuilder.create(calendarKey, result.value()).build();
 		}
 		return Utils.toResponse(result);
 	}
 
 	@PATCH
 	public Response update(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String patch) {
-		return Response.ok().build();
+		return responseBuilder.update().build();
 	}
 
 	@Path("{key}")
@@ -64,7 +66,7 @@ public class EventResource {
 	public Response delete(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
 		var result = service.delete(calendarKey, eventKey);
 		if( result.isOk() ) {
-			return Response.noContent().build();
+			return responseBuilder.delete().build();
 		}
 		return Utils.toResponse(result);
 	}
@@ -74,7 +76,7 @@ public class EventResource {
 	public Response endRepeat(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, LocalDate endDate) {
 		var result = service.endRepeat(calendarKey, eventKey, endDate);
 		if( result.isOk() ) {
-			return Response.noContent().build();
+			return responseBuilder.endRepeat().build();
 		}
 		return Utils.toResponse(result);
 	}
@@ -85,7 +87,7 @@ public class EventResource {
 		var result = service.move(calendarKey, eventKey, dto.start(), dto.end());
 
 		if( result.isOk() ) {
-			return Response.noContent().build();
+			return responseBuilder.move().build();
 		}
 
 		return Utils.toResponse(result);
@@ -97,7 +99,7 @@ public class EventResource {
 		var result = service.cancel(calendarKey, eventKey);
 
 		if( result.isOk() ) {
-			return Response.noContent().build();
+			return responseBuilder.cancel().build();
 		}
 
 		return Utils.toResponse(result);
@@ -109,7 +111,7 @@ public class EventResource {
 		var result = service.uncancel(calendarKey, eventKey);
 
 		if( result.isOk() ) {
-			return Response.noContent().build();
+			return responseBuilder.uncancel().build();
 		}
 
 		return Utils.toResponse(result);
@@ -121,7 +123,7 @@ public class EventResource {
 		var result = service.setDescription(calendarKey, eventKey, description);
 
 		if( result.isOk() ) {
-			return Response.noContent().build();
+			return responseBuilder.description().build();
 		}
 
 		return Utils.toResponse(result);
