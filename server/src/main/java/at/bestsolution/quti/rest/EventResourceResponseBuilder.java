@@ -1,5 +1,7 @@
 package at.bestsolution.quti.rest;
 
+import java.net.URI;
+
 import at.bestsolution.quti.rest.dto.EventDTOImpl;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
@@ -12,7 +14,9 @@ public class EventResourceResponseBuilder {
 	}
 
 	public ResponseBuilder create(String calendarKey, String result) {
-		return Response.status(201).entity(result);
+		return Response.status(201)
+			.location(URI.create("/api/calendar/" + calendarKey + "/events/"+result))
+			.entity(result);
 	}
 
 	public ResponseBuilder update() {
