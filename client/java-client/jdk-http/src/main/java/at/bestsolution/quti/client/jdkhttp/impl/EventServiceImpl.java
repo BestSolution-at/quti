@@ -196,7 +196,7 @@ public class EventServiceImpl implements EventService {
             key
         );
 
-        var $body = BodyPublishers.ofString(end.toString());
+        var $body = BodyPublishers.ofString(String.format("\"%s\"",end));
 
         var $uri = URI.create($path);
         var $request = HttpRequest.newBuilder()
@@ -227,7 +227,7 @@ public class EventServiceImpl implements EventService {
             key
         );
 
-        var $body = BodyPublishers.ofString(description.toString());
+        var $body = BodyPublishers.ofString(String.format("\"%s\"",description));
 
         var $uri = URI.create($path);
         var $request = HttpRequest.newBuilder()
