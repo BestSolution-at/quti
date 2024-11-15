@@ -26,7 +26,7 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
 
     @Override
     public LocalDate endDate() {
-        return DTOUtils.mapLocalDate(data, "endDate");
+        return DTOUtils.mapLocalDate(data, "endDate", null);
     }
 
     @Override

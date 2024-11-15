@@ -47,7 +47,7 @@ record CalendarNew {
 << Basic repeating data of an event
 mixin EventRepeatData {
     interval: short << Repeat interval
-    endDate: local-date << End date of the repeat
+    endDate?: local-date << End date of the repeat
     timeZone: ZoneId << Timezone in which the event repeats
 }
 
@@ -102,7 +102,7 @@ mixin EventData {
     title: string                   << basic description
     description?: string            << a more detailed description
     start: zoned-date-time          << start time
-    end: zoned-date-time            << end time
+    end: zoned-date-time           << end time
     fullday: boolean                << mark it as a fullday event
     repeat?: EventRepeat            << the repeat pattern
     tags: string[]                  << a list of custom tags

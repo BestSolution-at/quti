@@ -164,7 +164,7 @@
           "name": "endDate",
           "array": false,
           "readonly": false,
-          "optional": false,
+          "optional": true,
           "nullable": false,
           "variant": "builtin",
           "type": "local-date",
