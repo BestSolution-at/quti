@@ -62,9 +62,10 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
 
         @Override
         public Builder endDate(LocalDate endDate) {
-            if( endDate != null ) {
-                $builder.add("endDate", endDate.toString());
+            if( endDate == null ) {
+                return this;
             }
+            $builder.add("endDate", endDate.toString());
             return this;
         }
 

@@ -78,6 +78,9 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
 
         @Override
         public Builder description(String description) {
+            if( description == null ) {
+                return this;
+            }
             $builder.add("description", description);
             return this;
         }
@@ -102,6 +105,9 @@ public class EventNewDTOImpl extends BaseDTOImpl implements EventNewDTO {
 
         @Override
         public Builder repeat(EventRepeatDTO repeat) {
+            if( repeat == null ) {
+                return this;
+            }
             $builder.add("repeat", ((BaseDTOImpl)repeat).data);
             return this;
         }
