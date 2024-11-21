@@ -24,6 +24,30 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
     public List<String> tags;
     public List<String> referencedCalendars;
 
+    public EventViewDTOImpl() {}
+    public EventViewDTOImpl(
+        String key,
+        String calendarKey,
+        String title,
+        String description,
+        String owner,
+        Status status,
+        ZonedDateTime start,
+        ZonedDateTime end,
+        List<String> tags,
+        List<String> referencedCalendars) {
+        this.key = key;
+        this.calendarKey = calendarKey;
+        this.title = title;
+        this.description = description;
+        this.owner = owner;
+        this.status = status;
+        this.start = start;
+        this.end = end;
+        this.tags = tags;
+        this.referencedCalendars = referencedCalendars;
+    }
+
     public String key() {
         return this.key;
     }
@@ -64,13 +88,83 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         return this.referencedCalendars;
     }
 
+    public static EventViewDTOImpl of(at.bestsolution.quti.service.dto.EventViewDTO source) {
+        if(source instanceof EventViewDTOImpl) {
+            return (EventViewDTOImpl)source;
+        }
+        if(source instanceof SingleEventViewDTO t) {
+            return SingleEventViewDTOImpl.of(t);
+        }
+        if(source instanceof SeriesMovedEventViewDTO t) {
+            return SeriesMovedEventViewDTOImpl.of(t);
+        }
+        if(source instanceof SeriesEventViewDTO t) {
+            return SeriesEventViewDTOImpl.of(t);
+        }
+        throw new IllegalStateException();
+    }
+
     public static class SingleEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO {
+
+        public SingleEventViewDTOImpl() {}
+        public SingleEventViewDTOImpl(
+            String key,
+            String calendarKey,
+            String title,
+            String description,
+            String owner,
+            Status status,
+            ZonedDateTime start,
+            ZonedDateTime end,
+            List<String> tags,
+            List<String> referencedCalendars) {
+            super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
+        }
+
+        public static SingleEventViewDTOImpl of(SingleEventViewDTO source) {
+            if(source instanceof SingleEventViewDTOImpl) {
+                return (SingleEventViewDTOImpl)source;
+            }
+            return new SingleEventViewDTOImpl(
+                source.key(),
+                source.calendarKey(),
+                source.title(),
+                source.description(),
+                source.owner(),
+                source.status(),
+                source.start(),
+                source.end(),
+                source.tags(),
+                source.referencedCalendars()
+            );
+        }
     }
 
     public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO {
         public String masterEventKey;
         public ZonedDateTime originalStart;
         public ZonedDateTime originalEnd;
+
+        public SeriesMovedEventViewDTOImpl() {}
+        public SeriesMovedEventViewDTOImpl(
+            String key,
+            String calendarKey,
+            String title,
+            String description,
+            String owner,
+            Status status,
+            ZonedDateTime start,
+            ZonedDateTime end,
+            List<String> tags,
+            List<String> referencedCalendars,
+            String masterEventKey,
+            ZonedDateTime originalStart,
+            ZonedDateTime originalEnd) {
+            super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
+            this.masterEventKey = masterEventKey;
+            this.originalStart = originalStart;
+            this.originalEnd = originalEnd;
+        }
 
         public String masterEventKey() {
             return this.masterEventKey;
@@ -83,13 +177,70 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         public ZonedDateTime originalEnd() {
             return this.originalEnd;
         }
+
+        public static SeriesMovedEventViewDTOImpl of(SeriesMovedEventViewDTO source) {
+            if(source instanceof SeriesMovedEventViewDTOImpl) {
+                return (SeriesMovedEventViewDTOImpl)source;
+            }
+            return new SeriesMovedEventViewDTOImpl(
+                source.key(),
+                source.calendarKey(),
+                source.title(),
+                source.description(),
+                source.owner(),
+                source.status(),
+                source.start(),
+                source.end(),
+                source.tags(),
+                source.referencedCalendars(),
+                source.masterEventKey(),
+                source.originalStart(),
+                source.originalEnd()
+            );
+        }
     }
 
     public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO {
         public String masterEventKey;
 
+        public SeriesEventViewDTOImpl() {}
+        public SeriesEventViewDTOImpl(
+            String key,
+            String calendarKey,
+            String title,
+            String description,
+            String owner,
+            Status status,
+            ZonedDateTime start,
+            ZonedDateTime end,
+            List<String> tags,
+            List<String> referencedCalendars,
+            String masterEventKey) {
+            super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
+            this.masterEventKey = masterEventKey;
+        }
+
         public String masterEventKey() {
             return this.masterEventKey;
+        }
+
+        public static SeriesEventViewDTOImpl of(SeriesEventViewDTO source) {
+            if(source instanceof SeriesEventViewDTOImpl) {
+                return (SeriesEventViewDTOImpl)source;
+            }
+            return new SeriesEventViewDTOImpl(
+                source.key(),
+                source.calendarKey(),
+                source.title(),
+                source.description(),
+                source.owner(),
+                source.status(),
+                source.start(),
+                source.end(),
+                source.tags(),
+                source.referencedCalendars(),
+                source.masterEventKey()
+            );
         }
     }
 }

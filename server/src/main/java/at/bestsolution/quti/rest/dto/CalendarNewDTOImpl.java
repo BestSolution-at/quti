@@ -4,4 +4,13 @@ package at.bestsolution.quti.rest.dto;
 public record CalendarNewDTOImpl(
     String name,
     String owner) implements at.bestsolution.quti.service.dto.CalendarNewDTO {
-}
+
+public static CalendarNewDTOImpl of(at.bestsolution.quti.service.dto.CalendarNewDTO source) {
+    if(source instanceof CalendarNewDTOImpl) {
+        return (CalendarNewDTOImpl)source;
+    }
+    return new CalendarNewDTOImpl(
+        source.name(),
+        source.owner()
+    );
+}}
