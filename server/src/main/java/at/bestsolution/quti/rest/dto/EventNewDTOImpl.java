@@ -2,7 +2,11 @@
 package at.bestsolution.quti.rest.dto;
 
 import java.time.ZonedDateTime;
+import java.util.function.Function;
 import java.util.List;
+
+import at.bestsolution.quti.service.dto.EventNewDTO;
+import at.bestsolution.quti.service.dto.EventRepeatDTO;
 
 public record EventNewDTOImpl(
     String title,
@@ -12,9 +16,9 @@ public record EventNewDTOImpl(
     boolean fullday,
     EventRepeatDTOImpl repeat,
     List<String> tags,
-    List<String> referencedCalendars) implements at.bestsolution.quti.service.dto.EventNewDTO {
+    List<String> referencedCalendars) implements EventNewDTO {
 
-    public static EventNewDTOImpl of(at.bestsolution.quti.service.dto.EventNewDTO source) {
+    public static EventNewDTOImpl of(EventNewDTO source) {
         if(source instanceof EventNewDTOImpl) {
             return (EventNewDTOImpl)source;
         }
@@ -28,4 +32,59 @@ public record EventNewDTOImpl(
             source.tags(),
             source.referencedCalendars()
         );
-    }}
+    }
+    public static class BuilderImpl implements Builder {
+        String title;
+        String description;
+        ZonedDateTime start;
+        ZonedDateTime end;
+        boolean fullday;
+        EventRepeatDTOImpl repeat;
+        List<String> tags;
+        List<String> referencedCalendars;
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+        public Builder start(ZonedDateTime start) {
+            this.start = start;
+            return this;
+        }
+        public Builder end(ZonedDateTime end) {
+            this.end = end;
+            return this;
+        }
+        public Builder fullday(boolean fullday) {
+            this.fullday = fullday;
+            return this;
+        }
+        public Builder repeat(at.bestsolution.quti.service.dto.EventRepeatDTO repeat) {
+            this.repeat = EventRepeatDTOImpl.of(repeat);
+            return this;
+        }
+        public Builder tags(List<String> tags) {
+            this.tags = tags;
+            return this;
+        }
+        public Builder referencedCalendars(List<String> referencedCalendars) {
+            this.referencedCalendars = referencedCalendars;
+            return this;
+        }
+        public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block) {
+            return this;
+        }
+
+        public at.bestsolution.quti.service.dto.EventNewDTO build() {
+            return new EventNewDTOImpl(title, description, start, end, fullday, repeat, tags, referencedCalendars);
+        }
+    }
+
+    public static Builder builder() {
+        return new BuilderImpl();
+    }
+}

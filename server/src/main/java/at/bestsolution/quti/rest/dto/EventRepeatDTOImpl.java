@@ -10,6 +10,8 @@ import java.util.List;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
+import at.bestsolution.quti.service.dto.EventRepeatDTO;
+
 @JsonbTypeInfo({
     @JsonbSubtype(alias = "daily", type = EventRepeatDTOImpl.EventRepeatDailyDTOImpl.class),
     @JsonbSubtype(alias = "weekly", type = EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.class),
@@ -70,7 +72,26 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         throw new IllegalStateException();
     }
 
-    public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatDailyDTO {
+    public static abstract class BuilderImpl implements Builder {
+        short interval;
+        LocalDate endDate;
+        ZoneId timeZone;
+
+        public Builder interval(short interval) {
+            this.interval = interval;
+            return this;
+        }
+        public Builder endDate(LocalDate endDate) {
+            this.endDate = endDate;
+            return this;
+        }
+        public Builder timeZone(ZoneId timeZone) {
+            this.timeZone = timeZone;
+            return this;
+        }
+    }
+
+    public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatDailyDTO {
 
         public EventRepeatDailyDTOImpl() {}
         public EventRepeatDailyDTOImpl(
@@ -90,9 +111,31 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 source.timeZone()
             );
         }
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatDailyDTO.Builder {
+            @Override
+            public EventRepeatDailyDTO.Builder interval(short interval) {
+                return (EventRepeatDailyDTO.Builder) super.interval(interval);
+            }
+            @Override
+            public EventRepeatDailyDTO.Builder endDate(LocalDate endDate) {
+                return (EventRepeatDailyDTO.Builder) super.endDate(endDate);
+            }
+            @Override
+            public EventRepeatDailyDTO.Builder timeZone(ZoneId timeZone) {
+                return (EventRepeatDailyDTO.Builder) super.timeZone(timeZone);
+            }
+            public EventRepeatDailyDTO build() {
+                return new EventRepeatDailyDTOImpl(
+                    this.interval,
+                    this.endDate,
+                    this.timeZone
+                );
+            }
+        }
     }
 
-    public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatWeeklyDTO {
+    public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatWeeklyDTO {
         public List<DayOfWeek> daysOfWeek;
 
         public EventRepeatWeeklyDTOImpl() {}
@@ -120,9 +163,37 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 source.daysOfWeek()
             );
         }
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatWeeklyDTO.Builder {
+            List<DayOfWeek> daysOfWeek;
+            @Override
+            public EventRepeatWeeklyDTO.Builder interval(short interval) {
+                return (EventRepeatWeeklyDTO.Builder) super.interval(interval);
+            }
+            @Override
+            public EventRepeatWeeklyDTO.Builder endDate(LocalDate endDate) {
+                return (EventRepeatWeeklyDTO.Builder) super.endDate(endDate);
+            }
+            @Override
+            public EventRepeatWeeklyDTO.Builder timeZone(ZoneId timeZone) {
+                return (EventRepeatWeeklyDTO.Builder) super.timeZone(timeZone);
+            }
+            public EventRepeatWeeklyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+                this.daysOfWeek = daysOfWeek;
+                return this;
+            }
+            public EventRepeatWeeklyDTO build() {
+                return new EventRepeatWeeklyDTOImpl(
+                    this.interval,
+                    this.endDate,
+                    this.timeZone,
+                    this.daysOfWeek
+                );
+            }
+        }
     }
 
-    public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO {
+    public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO {
         public short dayOfMonth;
 
         public EventRepeatAbsoluteMonthlyDTOImpl() {}
@@ -150,9 +221,37 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 source.dayOfMonth()
             );
         }
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder {
+            short dayOfMonth;
+            @Override
+            public EventRepeatAbsoluteMonthlyDTO.Builder interval(short interval) {
+                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.interval(interval);
+            }
+            @Override
+            public EventRepeatAbsoluteMonthlyDTO.Builder endDate(LocalDate endDate) {
+                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.endDate(endDate);
+            }
+            @Override
+            public EventRepeatAbsoluteMonthlyDTO.Builder timeZone(ZoneId timeZone) {
+                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.timeZone(timeZone);
+            }
+            public EventRepeatAbsoluteMonthlyDTO.Builder dayOfMonth(short dayOfMonth) {
+                this.dayOfMonth = dayOfMonth;
+                return this;
+            }
+            public EventRepeatAbsoluteMonthlyDTO build() {
+                return new EventRepeatAbsoluteMonthlyDTOImpl(
+                    this.interval,
+                    this.endDate,
+                    this.timeZone,
+                    this.dayOfMonth
+                );
+            }
+        }
     }
 
-    public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatAbsoluteYearlyDTO {
+    public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatAbsoluteYearlyDTO {
         public short dayOfMonth;
         public Month month;
 
@@ -188,9 +287,43 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 source.month()
             );
         }
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.Builder {
+            short dayOfMonth;
+            Month month;
+            @Override
+            public EventRepeatAbsoluteYearlyDTO.Builder interval(short interval) {
+                return (EventRepeatAbsoluteYearlyDTO.Builder) super.interval(interval);
+            }
+            @Override
+            public EventRepeatAbsoluteYearlyDTO.Builder endDate(LocalDate endDate) {
+                return (EventRepeatAbsoluteYearlyDTO.Builder) super.endDate(endDate);
+            }
+            @Override
+            public EventRepeatAbsoluteYearlyDTO.Builder timeZone(ZoneId timeZone) {
+                return (EventRepeatAbsoluteYearlyDTO.Builder) super.timeZone(timeZone);
+            }
+            public EventRepeatAbsoluteYearlyDTO.Builder dayOfMonth(short dayOfMonth) {
+                this.dayOfMonth = dayOfMonth;
+                return this;
+            }
+            public EventRepeatAbsoluteYearlyDTO.Builder month(Month month) {
+                this.month = month;
+                return this;
+            }
+            public EventRepeatAbsoluteYearlyDTO build() {
+                return new EventRepeatAbsoluteYearlyDTOImpl(
+                    this.interval,
+                    this.endDate,
+                    this.timeZone,
+                    this.dayOfMonth,
+                    this.month
+                );
+            }
+        }
     }
 
-    public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatRelativeMonthlyDTO {
+    public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatRelativeMonthlyDTO {
         public List<DayOfWeek> daysOfWeek;
 
         public EventRepeatRelativeMonthlyDTOImpl() {}
@@ -218,9 +351,37 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 source.daysOfWeek()
             );
         }
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatRelativeMonthlyDTO.Builder {
+            List<DayOfWeek> daysOfWeek;
+            @Override
+            public EventRepeatRelativeMonthlyDTO.Builder interval(short interval) {
+                return (EventRepeatRelativeMonthlyDTO.Builder) super.interval(interval);
+            }
+            @Override
+            public EventRepeatRelativeMonthlyDTO.Builder endDate(LocalDate endDate) {
+                return (EventRepeatRelativeMonthlyDTO.Builder) super.endDate(endDate);
+            }
+            @Override
+            public EventRepeatRelativeMonthlyDTO.Builder timeZone(ZoneId timeZone) {
+                return (EventRepeatRelativeMonthlyDTO.Builder) super.timeZone(timeZone);
+            }
+            public EventRepeatRelativeMonthlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+                this.daysOfWeek = daysOfWeek;
+                return this;
+            }
+            public EventRepeatRelativeMonthlyDTO build() {
+                return new EventRepeatRelativeMonthlyDTOImpl(
+                    this.interval,
+                    this.endDate,
+                    this.timeZone,
+                    this.daysOfWeek
+                );
+            }
+        }
     }
 
-    public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO.EventRepeatRelativeYearlyDTO {
+    public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatRelativeYearlyDTO {
         public List<DayOfWeek> daysOfWeek;
         public Month month;
 
@@ -255,6 +416,40 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 source.daysOfWeek(),
                 source.month()
             );
+        }
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatRelativeYearlyDTO.Builder {
+            List<DayOfWeek> daysOfWeek;
+            Month month;
+            @Override
+            public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
+                return (EventRepeatRelativeYearlyDTO.Builder) super.interval(interval);
+            }
+            @Override
+            public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
+                return (EventRepeatRelativeYearlyDTO.Builder) super.endDate(endDate);
+            }
+            @Override
+            public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
+                return (EventRepeatRelativeYearlyDTO.Builder) super.timeZone(timeZone);
+            }
+            public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+                this.daysOfWeek = daysOfWeek;
+                return this;
+            }
+            public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
+                this.month = month;
+                return this;
+            }
+            public EventRepeatRelativeYearlyDTO build() {
+                return new EventRepeatRelativeYearlyDTOImpl(
+                    this.interval,
+                    this.endDate,
+                    this.timeZone,
+                    this.daysOfWeek,
+                    this.month
+                );
+            }
         }
     }
 }

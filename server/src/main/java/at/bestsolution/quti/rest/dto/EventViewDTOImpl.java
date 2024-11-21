@@ -7,6 +7,8 @@ import java.util.List;
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
+import at.bestsolution.quti.service.dto.EventViewDTO;
+
 @JsonbTypeInfo({
     @JsonbSubtype(alias = "single", type = EventViewDTOImpl.SingleEventViewDTOImpl.class),
     @JsonbSubtype(alias = "series-moved", type = EventViewDTOImpl.SeriesMovedEventViewDTOImpl.class),
@@ -104,7 +106,61 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         throw new IllegalStateException();
     }
 
-    public static class SingleEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO {
+    public static abstract class BuilderImpl implements Builder {
+        String key;
+        String calendarKey;
+        String title;
+        String description;
+        String owner;
+        Status status;
+        ZonedDateTime start;
+        ZonedDateTime end;
+        List<String> tags;
+        List<String> referencedCalendars;
+
+        public Builder key(String key) {
+            this.key = key;
+            return this;
+        }
+        public Builder calendarKey(String calendarKey) {
+            this.calendarKey = calendarKey;
+            return this;
+        }
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+        public Builder owner(String owner) {
+            this.owner = owner;
+            return this;
+        }
+        public Builder status(Status status) {
+            this.status = status;
+            return this;
+        }
+        public Builder start(ZonedDateTime start) {
+            this.start = start;
+            return this;
+        }
+        public Builder end(ZonedDateTime end) {
+            this.end = end;
+            return this;
+        }
+        public Builder tags(List<String> tags) {
+            this.tags = tags;
+            return this;
+        }
+        public Builder referencedCalendars(List<String> referencedCalendars) {
+            this.referencedCalendars = referencedCalendars;
+            return this;
+        }
+    }
+
+    public static class SingleEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SingleEventViewDTO {
 
         public SingleEventViewDTOImpl() {}
         public SingleEventViewDTOImpl(
@@ -138,9 +194,66 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
                 source.referencedCalendars()
             );
         }
+
+        public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements EventViewDTO.SingleEventViewDTO.Builder {
+            @Override
+            public SingleEventViewDTO.Builder key(String key) {
+                return (SingleEventViewDTO.Builder) super.key(key);
+            }
+            @Override
+            public SingleEventViewDTO.Builder calendarKey(String calendarKey) {
+                return (SingleEventViewDTO.Builder) super.calendarKey(calendarKey);
+            }
+            @Override
+            public SingleEventViewDTO.Builder title(String title) {
+                return (SingleEventViewDTO.Builder) super.title(title);
+            }
+            @Override
+            public SingleEventViewDTO.Builder description(String description) {
+                return (SingleEventViewDTO.Builder) super.description(description);
+            }
+            @Override
+            public SingleEventViewDTO.Builder owner(String owner) {
+                return (SingleEventViewDTO.Builder) super.owner(owner);
+            }
+            @Override
+            public SingleEventViewDTO.Builder status(Status status) {
+                return (SingleEventViewDTO.Builder) super.status(status);
+            }
+            @Override
+            public SingleEventViewDTO.Builder start(ZonedDateTime start) {
+                return (SingleEventViewDTO.Builder) super.start(start);
+            }
+            @Override
+            public SingleEventViewDTO.Builder end(ZonedDateTime end) {
+                return (SingleEventViewDTO.Builder) super.end(end);
+            }
+            @Override
+            public SingleEventViewDTO.Builder tags(List<String> tags) {
+                return (SingleEventViewDTO.Builder) super.tags(tags);
+            }
+            @Override
+            public SingleEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+                return (SingleEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
+            }
+            public SingleEventViewDTO build() {
+                return new SingleEventViewDTOImpl(
+                    this.key,
+                    this.calendarKey,
+                    this.title,
+                    this.description,
+                    this.owner,
+                    this.status,
+                    this.start,
+                    this.end,
+                    this.tags,
+                    this.referencedCalendars
+                );
+            }
+        }
     }
 
-    public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO {
+    public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SeriesMovedEventViewDTO {
         public String masterEventKey;
         public ZonedDateTime originalStart;
         public ZonedDateTime originalEnd;
@@ -198,9 +311,84 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
                 source.originalEnd()
             );
         }
+
+        public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements EventViewDTO.SeriesMovedEventViewDTO.Builder {
+            String masterEventKey;
+            ZonedDateTime originalStart;
+            ZonedDateTime originalEnd;
+            @Override
+            public SeriesMovedEventViewDTO.Builder key(String key) {
+                return (SeriesMovedEventViewDTO.Builder) super.key(key);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder calendarKey(String calendarKey) {
+                return (SeriesMovedEventViewDTO.Builder) super.calendarKey(calendarKey);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder title(String title) {
+                return (SeriesMovedEventViewDTO.Builder) super.title(title);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder description(String description) {
+                return (SeriesMovedEventViewDTO.Builder) super.description(description);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder owner(String owner) {
+                return (SeriesMovedEventViewDTO.Builder) super.owner(owner);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder status(Status status) {
+                return (SeriesMovedEventViewDTO.Builder) super.status(status);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder start(ZonedDateTime start) {
+                return (SeriesMovedEventViewDTO.Builder) super.start(start);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder end(ZonedDateTime end) {
+                return (SeriesMovedEventViewDTO.Builder) super.end(end);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder tags(List<String> tags) {
+                return (SeriesMovedEventViewDTO.Builder) super.tags(tags);
+            }
+            @Override
+            public SeriesMovedEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+                return (SeriesMovedEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
+            }
+            public SeriesMovedEventViewDTO.Builder masterEventKey(String masterEventKey) {
+                this.masterEventKey = masterEventKey;
+                return this;
+            }
+            public SeriesMovedEventViewDTO.Builder originalStart(ZonedDateTime originalStart) {
+                this.originalStart = originalStart;
+                return this;
+            }
+            public SeriesMovedEventViewDTO.Builder originalEnd(ZonedDateTime originalEnd) {
+                this.originalEnd = originalEnd;
+                return this;
+            }
+            public SeriesMovedEventViewDTO build() {
+                return new SeriesMovedEventViewDTOImpl(
+                    this.key,
+                    this.calendarKey,
+                    this.title,
+                    this.description,
+                    this.owner,
+                    this.status,
+                    this.start,
+                    this.end,
+                    this.tags,
+                    this.referencedCalendars,
+                    this.masterEventKey,
+                    this.originalStart,
+                    this.originalEnd
+                );
+            }
+        }
     }
 
-    public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO {
+    public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SeriesEventViewDTO {
         public String masterEventKey;
 
         public SeriesEventViewDTOImpl() {}
@@ -241,6 +429,69 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
                 source.referencedCalendars(),
                 source.masterEventKey()
             );
+        }
+
+        public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements EventViewDTO.SeriesEventViewDTO.Builder {
+            String masterEventKey;
+            @Override
+            public SeriesEventViewDTO.Builder key(String key) {
+                return (SeriesEventViewDTO.Builder) super.key(key);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder calendarKey(String calendarKey) {
+                return (SeriesEventViewDTO.Builder) super.calendarKey(calendarKey);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder title(String title) {
+                return (SeriesEventViewDTO.Builder) super.title(title);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder description(String description) {
+                return (SeriesEventViewDTO.Builder) super.description(description);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder owner(String owner) {
+                return (SeriesEventViewDTO.Builder) super.owner(owner);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder status(Status status) {
+                return (SeriesEventViewDTO.Builder) super.status(status);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder start(ZonedDateTime start) {
+                return (SeriesEventViewDTO.Builder) super.start(start);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder end(ZonedDateTime end) {
+                return (SeriesEventViewDTO.Builder) super.end(end);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder tags(List<String> tags) {
+                return (SeriesEventViewDTO.Builder) super.tags(tags);
+            }
+            @Override
+            public SeriesEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+                return (SeriesEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
+            }
+            public SeriesEventViewDTO.Builder masterEventKey(String masterEventKey) {
+                this.masterEventKey = masterEventKey;
+                return this;
+            }
+            public SeriesEventViewDTO build() {
+                return new SeriesEventViewDTOImpl(
+                    this.key,
+                    this.calendarKey,
+                    this.title,
+                    this.description,
+                    this.owner,
+                    this.status,
+                    this.start,
+                    this.end,
+                    this.tags,
+                    this.referencedCalendars,
+                    this.masterEventKey
+                );
+            }
         }
     }
 }

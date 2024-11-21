@@ -3,14 +3,16 @@ package at.bestsolution.quti.rest.dto;
 
 import java.util.List;
 
+import at.bestsolution.quti.service.dto.EventViewFilterDTO;
+
 public record EventViewFilterDTOImpl(
     String owner,
     String title,
     String description,
     boolean fullday,
-    List<String> tags) implements at.bestsolution.quti.service.dto.EventViewFilterDTO {
+    List<String> tags) implements EventViewFilterDTO {
 
-    public static EventViewFilterDTOImpl of(at.bestsolution.quti.service.dto.EventViewFilterDTO source) {
+    public static EventViewFilterDTOImpl of(EventViewFilterDTO source) {
         if(source instanceof EventViewFilterDTOImpl) {
             return (EventViewFilterDTOImpl)source;
         }
@@ -21,4 +23,41 @@ public record EventViewFilterDTOImpl(
             source.fullday(),
             source.tags()
         );
-    }}
+    }
+    public static class BuilderImpl implements Builder {
+        String owner;
+        String title;
+        String description;
+        boolean fullday;
+        List<String> tags;
+
+        public Builder owner(String owner) {
+            this.owner = owner;
+            return this;
+        }
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+        public Builder fullday(boolean fullday) {
+            this.fullday = fullday;
+            return this;
+        }
+        public Builder tags(List<String> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        public at.bestsolution.quti.service.dto.EventViewFilterDTO build() {
+            return new EventViewFilterDTOImpl(owner, title, description, fullday, tags);
+        }
+    }
+
+    public static Builder builder() {
+        return new BuilderImpl();
+    }
+}
