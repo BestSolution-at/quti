@@ -83,6 +83,23 @@ public record EventDTOImpl(
             return this;
         }
         public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block) {
+            EventRepeatDTOImpl.Builder b;
+            if( clazz == EventRepeatDTO.EventRepeatDailyDTO.Builder.class ) {
+                b = new EventRepeatDTOImpl.EventRepeatDailyDTOImpl.BuilderImpl();
+            } else if( clazz == EventRepeatDTO.EventRepeatWeeklyDTO.Builder.class ) {
+                b = new EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.BuilderImpl();
+            } else if( clazz == EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder.class ) {
+                b = new EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl();
+            } else if( clazz == EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.Builder.class ) {
+                b = new EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl.BuilderImpl();
+            } else if( clazz == EventRepeatDTO.EventRepeatRelativeMonthlyDTO.Builder.class ) {
+                b = new EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl.BuilderImpl();
+            } else if( clazz == EventRepeatDTO.EventRepeatRelativeYearlyDTO.Builder.class ) {
+                b = new EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl.BuilderImpl();
+            } else {
+                throw new IllegalArgumentException();
+            }
+            this.repeat = (EventRepeatDTOImpl)block.apply(clazz.cast(b));
             return this;
         }
 
