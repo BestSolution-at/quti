@@ -17,6 +17,7 @@ import at.bestsolution.quti.client.dto.EventDTO;
 import at.bestsolution.quti.client.dto.EventNewDTO;
 import at.bestsolution.quti.client.dto.EventRepeatDTO;
 import at.bestsolution.quti.client.dto.EventViewDTO;
+import at.bestsolution.quti.client.dto.EventViewFilterDTO;
 import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.jdkhttp.impl.CalendarServiceImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarDTOImpl;
@@ -25,6 +26,7 @@ import at.bestsolution.quti.client.jdkhttp.impl.dto.EventDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventNewDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewFilterDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.EventServiceImpl;
 import at.bestsolution.quti.client.QutiClient;
 
@@ -37,6 +39,7 @@ public class JDKQutiClient implements QutiClient {
         registerBuilderCreator(CalendarNewDTO.Builder.class, CalendarNewDTOImpl.BuilderImpl::new);
         registerBuilderCreator(EventNewDTO.Builder.class, EventNewDTOImpl.BuilderImpl::new);
         registerBuilderCreator(EventDTO.Builder.class, EventDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventViewFilterDTO.Builder.class, EventViewFilterDTOImpl.BuilderImpl::new);
         registerBuilderCreator(EventRepeatDTO.EventRepeatDailyDTO.Builder.class, EventRepeatDTOImpl.EventRepeatDailyDTOImpl.BuilderImpl::new);
         registerBuilderCreator(EventRepeatDTO.EventRepeatWeeklyDTO.Builder.class, EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.BuilderImpl::new);
         registerBuilderCreator(EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder.class, EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl::new);

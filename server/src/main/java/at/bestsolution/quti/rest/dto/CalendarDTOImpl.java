@@ -6,13 +6,13 @@ public record CalendarDTOImpl(
     String name,
     String owner) implements at.bestsolution.quti.service.dto.CalendarDTO {
 
-public static CalendarDTOImpl of(at.bestsolution.quti.service.dto.CalendarDTO source) {
-    if(source instanceof CalendarDTOImpl) {
-        return (CalendarDTOImpl)source;
-    }
-    return new CalendarDTOImpl(
-        source.key(),
-        source.name(),
-        source.owner()
-    );
-}}
+    public static CalendarDTOImpl of(at.bestsolution.quti.service.dto.CalendarDTO source) {
+        if(source instanceof CalendarDTOImpl) {
+            return (CalendarDTOImpl)source;
+        }
+        return new CalendarDTOImpl(
+            source.key(),
+            source.name(),
+            source.owner()
+        );
+    }}

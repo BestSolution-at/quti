@@ -674,6 +674,69 @@
         "SeriesMovedEventView": "series-moved",
         "SeriesEventView": "series"
       }
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventViewFilter",
+      "patchable": false,
+      "mixins": [],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "owner",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "title",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "description",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "fullday",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "boolean",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "tags",
+          "array": true,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        }
+      ]
     }
   ],
   "services": [

@@ -14,18 +14,18 @@ public record EventNewDTOImpl(
     List<String> tags,
     List<String> referencedCalendars) implements at.bestsolution.quti.service.dto.EventNewDTO {
 
-public static EventNewDTOImpl of(at.bestsolution.quti.service.dto.EventNewDTO source) {
-    if(source instanceof EventNewDTOImpl) {
-        return (EventNewDTOImpl)source;
-    }
-    return new EventNewDTOImpl(
-        source.title(),
-        source.description(),
-        source.start(),
-        source.end(),
-        source.fullday(),
-        EventRepeatDTOImpl.of(source.repeat()),
-        source.tags(),
-        source.referencedCalendars()
-    );
-}}
+    public static EventNewDTOImpl of(at.bestsolution.quti.service.dto.EventNewDTO source) {
+        if(source instanceof EventNewDTOImpl) {
+            return (EventNewDTOImpl)source;
+        }
+        return new EventNewDTOImpl(
+            source.title(),
+            source.description(),
+            source.start(),
+            source.end(),
+            source.fullday(),
+            EventRepeatDTOImpl.of(source.repeat()),
+            source.tags(),
+            source.referencedCalendars()
+        );
+    }}

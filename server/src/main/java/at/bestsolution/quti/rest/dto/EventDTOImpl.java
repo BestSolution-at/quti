@@ -15,19 +15,19 @@ public record EventDTOImpl(
     List<String> tags,
     List<String> referencedCalendars) implements at.bestsolution.quti.service.dto.EventDTO {
 
-public static EventDTOImpl of(at.bestsolution.quti.service.dto.EventDTO source) {
-    if(source instanceof EventDTOImpl) {
-        return (EventDTOImpl)source;
-    }
-    return new EventDTOImpl(
-        source.key(),
-        source.title(),
-        source.description(),
-        source.start(),
-        source.end(),
-        source.fullday(),
-        EventRepeatDTOImpl.of(source.repeat()),
-        source.tags(),
-        source.referencedCalendars()
-    );
-}}
+    public static EventDTOImpl of(at.bestsolution.quti.service.dto.EventDTO source) {
+        if(source instanceof EventDTOImpl) {
+            return (EventDTOImpl)source;
+        }
+        return new EventDTOImpl(
+            source.key(),
+            source.title(),
+            source.description(),
+            source.start(),
+            source.end(),
+            source.fullday(),
+            EventRepeatDTOImpl.of(source.repeat()),
+            source.tags(),
+            source.referencedCalendars()
+        );
+    }}

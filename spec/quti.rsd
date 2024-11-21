@@ -160,6 +160,15 @@ union EventView =
     | SeriesEventView("series")
 ;
 
+<< filter to apply when querying Calendar#eventView
+record EventViewFilter {
+    owner?: string
+    title?: string
+    description?: string
+    fullday?: boolean
+    tags?: string[]
+}
+
 error NotFound;
 error InvalidContent;
 error InvalidArgument;
