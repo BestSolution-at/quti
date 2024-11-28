@@ -157,7 +157,7 @@ public class EventDTOImpl extends BaseDTOImpl implements EventDTO {
             } else {
                 throw new IllegalArgumentException();
             }
-            $builder.add("repeat", ((EventRepeatDTOImpl)block.apply((T) b)).data);
+            $builder.add("repeat", ((EventRepeatDTOImpl)block.apply(clazz.cast(b))).data);
             return this;
         }
 
