@@ -21,19 +21,20 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 
 	@Test
 	public void invalidCalendarKey() {
-		var result = handler.setDescription("abcd", simpleEventKey.toString(), "Abcd");
+		var result = handler.setDescription(builderFactory, "abcd", simpleEventKey.toString(), "Abcd");
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void invalidEventKey() {
-		var result = handler.setDescription(basicCalendarKey.toString(), "abcd", "Acbd");
+		var result = handler.setDescription(builderFactory, basicCalendarKey.toString(), "abcd", "Acbd");
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void setDescriptionSingle() {
 		var result = handler.setDescription(
+			builderFactory,
 			basicCalendarKey.toString(),
 			simpleEventKey.toString(),
 			"A custom description");
@@ -46,6 +47,7 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 	@Test
 	public void setDescriptionRepeat() {
 		var result = handler.setDescription(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			"A custom description");
@@ -69,12 +71,14 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 	@Test
 	public void setDescriptionRepeatMulti() {
 		var result = handler.setDescription(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			"A custom description");
 		assertTrue(result.isOk());
 
 		handler.setDescription(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			"Another custom description");
@@ -97,6 +101,7 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 	@Test
 	public void invalidDate() {
 		var result = handler.setDescription(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2023-12-31",
 			"A custom description");

@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -26,7 +27,7 @@ private static final Logger LOG = Logger.getLogger(UncancelHandlerJPA.class);
 	}
 
 	@Transactional
-	public Result<Void> uncancel(String calendarKey, String eventKey) {
+	public Result<Void> uncancel(DTOBuilderFactory factory, String calendarKey, String eventKey) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");

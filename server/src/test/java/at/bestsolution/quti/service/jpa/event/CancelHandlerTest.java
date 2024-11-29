@@ -23,19 +23,20 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandlerJPA> {
 
 	@Test
 	public void invalidCalendarKey() {
-		var result = handler.cancel("abcd", simpleEventKey.toString());
+		var result = handler.cancel(builderFactory, "abcd", simpleEventKey.toString());
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void invalidEventKey() {
-		var result = handler.cancel(basicCalendarKey.toString(), "abcd");
+		var result = handler.cancel(builderFactory, basicCalendarKey.toString(), "abcd");
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void testSingleCancel() {
 		var result = handler.cancel(
+			builderFactory,
 			basicCalendarKey.toString(),
 			simpleEventKey.toString());
 		assertTrue(result.isOk());
@@ -49,6 +50,7 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandlerJPA> {
 	@Test
 	public void testSeriesCancel() {
 		var result = handler.cancel(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString() + "_2024-01-01");
 		assertTrue(result.isOk());
@@ -62,11 +64,13 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandlerJPA> {
 	@Test
 	public void testSeriesMultiCancel() {
 		var result = handler.cancel(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-02");
 		assertTrue(result.isOk());
 
 		result = handler.cancel(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-02");
 		assertTrue(result.isOk());
@@ -80,6 +84,7 @@ public class CancelHandlerTest extends EventHandlerTest<CancelHandlerJPA> {
 	@Test
 	public void testInvalidDate() {
 		var result = handler.cancel(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2023-12-31");
 		assertFalse(result.isOk());

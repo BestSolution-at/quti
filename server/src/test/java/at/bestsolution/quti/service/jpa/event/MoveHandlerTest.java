@@ -24,6 +24,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void invalidCalendarKey() {
 		var result = handler.move(
+			builderFactory,
 			"abcd",
 			simpleEventKey.toString(),
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
@@ -35,6 +36,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void invalidEventKey() {
 		var result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			"abcd",
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
@@ -46,6 +48,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void invalidRepeatEventKey() {
 		var result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			"abcd_2024-01-11",
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
@@ -54,6 +57,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 		assertFalse(result.isOk());
 
 		result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			simpleEventKey + "_abcd",
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
@@ -65,6 +69,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void moveSingle() {
 		var result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			simpleEventKey.toString(),
 			ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
@@ -79,6 +84,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void testMove() {
 		var result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_"+"2024-01-01",
 			ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]"),
@@ -94,6 +100,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void testMoveMulti() {
 		var result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]"),
@@ -101,6 +108,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 		assertTrue(result.isOk());
 
 		result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-01-01",
 			ZonedDateTime.parse("2024-01-01T18:00:00+01:00[Europe/Vienna]"),
@@ -117,6 +125,7 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 	@Test
 	public void testInvalidDate() {
 		var result = handler.move(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey+"_2023-12-31",
 			ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]"),

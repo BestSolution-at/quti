@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
+import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -25,7 +26,7 @@ public class SetDescriptionHandlerJPA extends BaseHandler implements EventServic
 	}
 
 	@Transactional
-	public Result<Void> setDescription(String calendarKey, String eventKey, String description) {
+	public Result<Void> setDescription(DTOBuilderFactory factory, String calendarKey, String eventKey, String description) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");

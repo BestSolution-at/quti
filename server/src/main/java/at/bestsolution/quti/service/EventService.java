@@ -18,35 +18,35 @@ public interface EventService {
 	public Result<Void> setDescription(String calendarKey, String eventKey, String description);
 
 	public interface CancelHandler {
-		public Result<Void> cancel(String calendarKey, String eventKey);
+		public Result<Void> cancel(DTOBuilderFactory factory, String calendarKey, String eventKey);
 	}
 
 	public interface CreateHandler {
-		public Result<String> create(String calendarKey, EventNewDTOImpl event);
+		public Result<String> create(DTOBuilderFactory factory, String calendarKey, EventNewDTOImpl event);
 	}
 
 	public interface DeleteHandler {
-		public Result<Void> delete(String calendarKey, String eventKey);
+		public Result<Void> delete(DTOBuilderFactory factory, String calendarKey, String eventKey);
 	}
 
 	public interface EndRepeatingHandler {
-		public Result<Void> endRepeat(String calendarKey, String eventKey, LocalDate endDate);
+		public Result<Void> endRepeat(DTOBuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate);
 	}
 
 	public interface GetHandler {
-		public Result<EventDTOImpl> get(String calendarKey, String eventKey, ZoneId zone);
+		public Result<EventDTOImpl> get(DTOBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone);
 	}
 
 	public interface MoveHandler {
-		public Result<Void> move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end);
+		public Result<Void> move(DTOBuilderFactory factory, String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end);
 	}
 
 	public interface SetDescriptionHandler {
-		public Result<Void> setDescription(String calendarKey, String eventKey, String description);
+		public Result<Void> setDescription(DTOBuilderFactory factory, String calendarKey, String eventKey, String description);
 	}
 
 	public interface UncancelHandler {
-		public Result<Void> uncancel(String calendarKey, String eventKey);
+		public Result<Void> uncancel(DTOBuilderFactory factory, String calendarKey, String eventKey);
 	}
 
 }

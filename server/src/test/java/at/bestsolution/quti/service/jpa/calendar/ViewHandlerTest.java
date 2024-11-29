@@ -232,6 +232,7 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 	@Test
 	public void testCustomDescription() {
 			descriptionHandler.setDescription(
+				builderFactory,
 				basicCalendarKey.toString(),
 				repeatingDailyEndlessKey.toString()+"_2024-01-01",
 				"A custom description");

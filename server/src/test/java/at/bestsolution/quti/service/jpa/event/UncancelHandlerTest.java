@@ -22,13 +22,13 @@ public class UncancelHandlerTest extends EventHandlerTest<UncancelHandlerJPA> {
 
 	@Test
 	public void invalidCalendarKey() {
-		var result = handler.uncancel("abcd", simpleEventKey.toString());
+		var result = handler.uncancel(builderFactory, "abcd", simpleEventKey.toString());
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void invalidEventKey() {
-		var result = handler.uncancel(basicCalendarKey.toString(), "abcd");
+		var result = handler.uncancel(builderFactory, basicCalendarKey.toString(), "abcd");
 		assertFalse(result.isOk());
 	}
 
@@ -39,7 +39,7 @@ public class UncancelHandlerTest extends EventHandlerTest<UncancelHandlerJPA> {
 			.filter(m -> m instanceof EventModificationCanceledEntity)
 			.count());
 
-		var result = handler.uncancel(basicCalendarKey.toString(), simpleEventCanceledKey.toString());
+		var result = handler.uncancel(builderFactory, basicCalendarKey.toString(), simpleEventCanceledKey.toString());
 		assertTrue(result.isOk());
 		modifications = modifications(simpleEventCanceledKey);
 		assertEquals(0, modifications.stream()
@@ -58,6 +58,7 @@ public class UncancelHandlerTest extends EventHandlerTest<UncancelHandlerJPA> {
 			.count());
 
 		var result = handler.uncancel(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString()+"_2024-05-09"
 		);

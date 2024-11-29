@@ -22,13 +22,13 @@ public class EndRepeatingHandlerTest extends EventHandlerTest<EndRepeatingHandle
 
 	@Test
 	public void invalidCalendarKey() {
-		var result = handler.endRepeat("abcd", simpleEventKey.toString(), null);
+		var result = handler.endRepeat(builderFactory, "abcd", simpleEventKey.toString(), null);
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void invalidEventKey() {
-		var result = handler.endRepeat(basicCalendarKey.toString(), "abcd", null);
+		var result = handler.endRepeat(builderFactory, basicCalendarKey.toString(), "abcd", null);
 		assertFalse(result.isOk());
 	}
 
@@ -36,6 +36,7 @@ public class EndRepeatingHandlerTest extends EventHandlerTest<EndRepeatingHandle
 	public void endRepeating() {
 		var newEnd = LocalDate.parse("2024-01-10");
 		var result = handler.endRepeat(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString(),
 			newEnd
@@ -52,6 +53,7 @@ public class EndRepeatingHandlerTest extends EventHandlerTest<EndRepeatingHandle
 	@Test
 	public void invalidEnd() {
 		var result = handler.endRepeat(
+			builderFactory,
 			basicCalendarKey.toString(),
 			repeatingDailyEndlessKey.toString(),
 			LocalDate.parse("2023-12-31")

@@ -20,40 +20,40 @@ public class DeleteHandlerTest extends EventHandlerTest<DeleteHandlerJPA> {
 
 	@Test
 	public void invalidCalendarKey() {
-		var result = handler.delete("abcd", simpleEventKey.toString());
+		var result = handler.delete(builderFactory, "abcd", simpleEventKey.toString());
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void invalidEventKey() {
-		var result = handler.delete(basicCalendarKey.toString(), "abcd");
+		var result = handler.delete(builderFactory, basicCalendarKey.toString(), "abcd");
 		assertFalse(result.isOk());
 	}
 
 	@Test
 	public void testNotFoundEventKey() {
-		var result = handler.delete(basicCalendarKey.toString(), UUID.randomUUID().toString());
+		var result = handler.delete(builderFactory, basicCalendarKey.toString(), UUID.randomUUID().toString());
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
 
 	@Test
 	public void testNotFoundCalendarKey() {
-		var result = handler.delete(UUID.randomUUID().toString(), simpleEventKey.toString());
+		var result = handler.delete(builderFactory, UUID.randomUUID().toString(), simpleEventKey.toString());
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
 
 	@Test
 	public void testCalendarEventMismatch() {
-		var result = handler.delete(referenceCalendarKey.toString(), simpleEventKey.toString());
+		var result = handler.delete(builderFactory, referenceCalendarKey.toString(), simpleEventKey.toString());
 		assertFalse(result.isOk());
 		assertEquals(ResultType.NOT_FOUND, result.type());
 	}
 
 	@Test
 	public void success() {
-		var result = handler.delete(basicCalendarKey.toString(), simpleEventKey.toString());
+		var result = handler.delete(builderFactory, basicCalendarKey.toString(), simpleEventKey.toString());
 		assertTrue(result.isOk());
 	}
 }

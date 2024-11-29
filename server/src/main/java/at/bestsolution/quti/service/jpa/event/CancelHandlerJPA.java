@@ -9,6 +9,7 @@ import org.jboss.logging.Logger;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -29,7 +30,7 @@ public class CancelHandlerJPA extends BaseHandler implements EventService.Cancel
 	}
 
 	@Transactional
-	public Result<Void> cancel(String calendarKey, String eventKey) {
+	public Result<Void> cancel(DTOBuilderFactory factory, String calendarKey, String eventKey) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");

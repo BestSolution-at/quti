@@ -1,6 +1,7 @@
 package at.bestsolution.quti.service.jpa.event;
 
 import at.bestsolution.quti.Utils;
+import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -19,7 +20,7 @@ public class DeleteHandlerJPA extends BaseHandler implements EventService.Delete
 	}
 
 	@Transactional
-	public Result<Void> delete(String calendarKey, String eventKey) {
+	public Result<Void> delete(DTOBuilderFactory factory, String calendarKey, String eventKey) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
