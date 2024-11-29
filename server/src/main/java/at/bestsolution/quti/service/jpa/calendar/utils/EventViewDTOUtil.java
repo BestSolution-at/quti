@@ -11,24 +11,26 @@ import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesEventViewDTOImpl;
 import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesMovedEventViewDTOImpl;
 import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SingleEventViewDTOImpl;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.dto.EventViewDTO;
+import at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO;
+import at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO;
+import at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.Status;
 
 public class EventViewDTOUtil {
 	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
-		return SingleEventViewDTOUtil.of(event, resultZone);
+		return SingleEventViewDTOUtil.of(factory, event, resultZone);
 	}
 
 	public static EventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity, ZoneId resultZone) {
-		return SeriesMovedEventViewDTOUtil.of(movedEntity, resultZone);
+		return SeriesMovedEventViewDTOUtil.of(factory, movedEntity, resultZone);
 	}
 
 	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
-		return SeriesEventViewDTOUtil.of(event, date, zone);
+		return SeriesEventViewDTOUtil.of(factory, event, date, zone);
 	}
 
 	public static int compare(EventViewDTO a, EventViewDTO b) {
@@ -44,7 +46,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SingleEventViewDTOUtil {
-		public static SingleEventViewDTOImpl of(EventEntity event, ZoneId resultZone) {
+		public static SingleEventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
 			var result = new SingleEventViewDTOImpl();
 			result.key = event.key.toString();
 			result.calendarKey = event.calendar.key.toString();
@@ -65,7 +67,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesMovedEventViewDTOUtil {
-		public static SeriesMovedEventViewDTOImpl of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+		public static SeriesMovedEventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity, ZoneId resultZone) {
 			var status = Status.ACCEPTED;
 
 			var canceled = movedEntity.event.modificationsAt(movedEntity.date)
@@ -109,7 +111,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesEventViewDTOUtil {
-		public static SeriesEventViewDTOImpl of(EventEntity event, LocalDate date, ZoneId zone) {
+		public static SeriesEventViewDTO of(DTOBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
 			var start = event.start.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var end = event.end.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var dayDiff = ChronoUnit.DAYS.between(start.toLocalDate(), date);
@@ -145,19 +147,20 @@ public class EventViewDTOUtil {
 					.orElse(description);
 			}
 
-			var result = new SeriesEventViewDTOImpl();
-			result.key = event.key.toString() + "_" + date;
-			result.calendarKey = event.calendar.key.toString();
-			result.owner = event.calendar.owner;
-			result.masterEventKey = event.key.toString();
-			result.title = event.title;
-			result.description = description;
-			result.start = adjustedStart.withZoneSameInstant(zone);
-			result.end = adjustedEnd.withZoneSameInstant(zone);
-			result.tags = Objects.requireNonNullElse(event.tags, List.of());
-			result.referencedCalendars = event.references.stream().map( er -> er.calendar.key.toString()).toList();
-			result.status = status;
-			return result;
+			var b = factory.builder(SeriesEventViewDTO.Builder.class);
+			return b
+				.key(event.key.toString() + "_" + date)
+				.calendarKey(event.calendar.key.toString())
+				.owner(event.calendar.owner)
+				.masterEventKey(event.key.toString())
+				.title(event.title)
+				.description(description)
+				.start(adjustedStart.withZoneSameInstant(zone))
+				.end(adjustedEnd.withZoneSameInstant(zone))
+				.tags(Objects.requireNonNullElse(event.tags, List.of()))
+				.referencedCalendars(event.references.stream().map( er -> er.calendar.key.toString()).toList())
+				.status(status)
+				.build();
 		}
 	}
 }

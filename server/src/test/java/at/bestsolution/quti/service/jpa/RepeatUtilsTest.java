@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.service.jpa.RepeatUtils;
-
 public class RepeatUtilsTest {
 @Test
 	public void testFromRepeatWeeklySimple() {
