@@ -5,10 +5,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.rest.RestDTOBuilderFactory;
-import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.dto.EventDTO;
+import at.bestsolution.quti.service.dto.EventNewDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Result<String> create(String calendarKey, EventNewDTOImpl event) {
+	public Result<String> create(String calendarKey, EventNewDTO event) {
 		return createHandler.create(this.builderFactory, calendarKey, event);
 	}
 

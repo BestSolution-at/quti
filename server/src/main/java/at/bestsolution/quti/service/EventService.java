@@ -4,13 +4,12 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.dto.EventDTO;
 import at.bestsolution.quti.service.dto.EventNewDTO;
 
 public interface EventService {
 	public Result<EventDTO> get(String calendarKey, String eventKey, ZoneId zone);
-	public Result<String> create(String calendarKey, EventNewDTOImpl event);
+	public Result<String> create(String calendarKey, EventNewDTO event);
 	public Result<Void> delete(String calendarKey, String eventKey);
 	public Result<Void> endRepeat(String calendarKey, String eventKey, LocalDate endDate);
 	public Result<Void> move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end);
