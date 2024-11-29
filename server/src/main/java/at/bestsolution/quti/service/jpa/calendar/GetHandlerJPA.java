@@ -37,7 +37,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements CalendarServic
 
 		var result = getEnties(parsedKey.value());
 		if (result.size() == 1) {
-			return Result.ok(CalendarDTOUtil.of(result.get(0)));
+			return Result.ok(CalendarDTOUtil.of(factory, result.get(0)));
 		} else if (result.size() == 0) {
 			return Result.notFound("Could not find calendar with '%s'", key);
 		}

@@ -5,12 +5,11 @@ import java.time.ZoneId;
 import java.util.List;
 
 import at.bestsolution.quti.rest.RestDTOBuilderFactory;
-import at.bestsolution.quti.rest.dto.CalendarDTOImpl;
-import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
-import at.bestsolution.quti.rest.dto.EventViewDTOImpl;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.dto.CalendarDTO;
+import at.bestsolution.quti.service.dto.CalendarNewDTO;
+import at.bestsolution.quti.service.dto.EventViewDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -44,7 +43,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<String> create(CalendarNewDTOImpl calendar) {
+	public Result<String> create(CalendarNewDTO calendar) {
 		return createHandler.create(builderFactory, calendar);
 	}
 
@@ -54,7 +53,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<List<EventViewDTOImpl>> view(String calendarKey, LocalDate start, LocalDate end, ZoneId timezone,
+	public Result<List<EventViewDTO>> view(String calendarKey, LocalDate start, LocalDate end, ZoneId timezone,
 			ZoneId resultZone) {
 		return viewHandler.view(builderFactory, calendarKey, start, end, timezone, resultZone);
 	}

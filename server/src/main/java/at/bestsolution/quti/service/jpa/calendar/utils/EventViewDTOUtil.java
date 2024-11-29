@@ -11,31 +11,32 @@ import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.rest.dto.EventViewDTOImpl;
 import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesEventViewDTOImpl;
 import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesMovedEventViewDTOImpl;
 import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SingleEventViewDTOImpl;
+import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.dto.EventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.Status;
 
 public class EventViewDTOUtil {
-	public static EventViewDTOImpl of(EventEntity event, ZoneId resultZone) {
+	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
 		return SingleEventViewDTOUtil.of(event, resultZone);
 	}
 
-	public static EventViewDTOImpl of(EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+	public static EventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity, ZoneId resultZone) {
 		return SeriesMovedEventViewDTOUtil.of(movedEntity, resultZone);
 	}
 
-	public static EventViewDTOImpl of(EventEntity event, LocalDate date, ZoneId zone) {
+	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
 		return SeriesEventViewDTOUtil.of(event, date, zone);
 	}
 
-	public static int compare(EventViewDTOImpl a, EventViewDTOImpl b) {
-		var result = a.start.compareTo(b.start);
+	public static int compare(EventViewDTO a, EventViewDTO b) {
+		var result = a.start().compareTo(b.start());
 		if (result == 0) {
-			result = a.end.compareTo(b.end);
+			result = a.end().compareTo(b.end());
 			if (result == 0) {
-				result = a.key.compareTo(b.key);
+				result = a.key().compareTo(b.key());
 			}
 		}
 
