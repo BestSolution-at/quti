@@ -1,6 +1,5 @@
 package at.bestsolution.quti.rest;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 

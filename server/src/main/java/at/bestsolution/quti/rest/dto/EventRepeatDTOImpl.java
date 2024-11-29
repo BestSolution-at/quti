@@ -133,6 +133,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 );
             }
         }
+
+        public static EventRepeatDTO.EventRepeatDailyDTO.Builder builder() {
+            return new BuilderImpl();
+        }
     }
 
     public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatWeeklyDTO {
@@ -191,6 +195,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 );
             }
         }
+
+        public static EventRepeatDTO.EventRepeatWeeklyDTO.Builder builder() {
+            return new BuilderImpl();
+        }
     }
 
     public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO {
@@ -248,6 +256,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                     this.dayOfMonth
                 );
             }
+        }
+
+        public static EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder builder() {
+            return new BuilderImpl();
         }
     }
 
@@ -321,6 +333,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                 );
             }
         }
+
+        public static EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.Builder builder() {
+            return new BuilderImpl();
+        }
     }
 
     public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatRelativeMonthlyDTO {
@@ -378,6 +394,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                     this.daysOfWeek
                 );
             }
+        }
+
+        public static EventRepeatDTO.EventRepeatRelativeMonthlyDTO.Builder builder() {
+            return new BuilderImpl();
         }
     }
 
@@ -450,6 +470,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
                     this.month
                 );
             }
+        }
+
+        public static EventRepeatDTO.EventRepeatRelativeYearlyDTO.Builder builder() {
+            return new BuilderImpl();
         }
     }
 }

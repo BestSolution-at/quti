@@ -251,6 +251,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
                 );
             }
         }
+
+        public static EventViewDTO.SingleEventViewDTO.Builder builder() {
+            return new BuilderImpl();
+        }
     }
 
     public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SeriesMovedEventViewDTO {
@@ -386,6 +390,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
                 );
             }
         }
+
+        public static EventViewDTO.SeriesMovedEventViewDTO.Builder builder() {
+            return new BuilderImpl();
+        }
     }
 
     public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SeriesEventViewDTO {
@@ -492,6 +500,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
                     this.masterEventKey
                 );
             }
+        }
+
+        public static EventViewDTO.SeriesEventViewDTO.Builder builder() {
+            return new BuilderImpl();
         }
     }
 }
