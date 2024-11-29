@@ -3,6 +3,7 @@ package at.bestsolution.quti.rest;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 import java.util.UUID;
 
@@ -13,6 +14,23 @@ import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 public class EventResourceTest extends BaseTest {
+	@Test
+	void testCreate() {
+		given()
+			.header("Content-Type", "application/json")
+			.body("""
+					{
+						"title": "Sample",
+						"start": "2024-01-01T06:00:00Z",
+						"end": "2024-01-10T12:00:00Z"
+					}
+					""")
+			.post("/api/calendar/{calendarKey}/events", basicCalendarKey)
+			.then()
+			.body(notNullValue())
+			.statusCode(201)
+			.header("Location", notNullValue());
+	}
 
 	@Test
 	void testGet() {

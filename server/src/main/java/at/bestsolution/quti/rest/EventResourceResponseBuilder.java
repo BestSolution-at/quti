@@ -14,9 +14,7 @@ public class EventResourceResponseBuilder {
 	}
 
 	public ResponseBuilder create(String calendarKey, String result) {
-		return Response.status(201)
-			.location(URI.create("/api/calendar/" + calendarKey + "/events/"+result))
-			.entity(result);
+		return Response.status(201).entity(result);
 	}
 
 	public ResponseBuilder update() {
