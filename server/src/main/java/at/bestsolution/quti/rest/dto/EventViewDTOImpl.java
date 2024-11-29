@@ -91,7 +91,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
     }
 
     public static EventViewDTOImpl of(at.bestsolution.quti.service.dto.EventViewDTO source) {
-        if(source instanceof EventViewDTOImpl) {
+        if(source == null) {
+            return null;
+        }
+        else if(source instanceof EventViewDTOImpl) {
             return (EventViewDTOImpl)source;
         }
         if(source instanceof SingleEventViewDTO t) {
@@ -103,7 +106,7 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         if(source instanceof SeriesEventViewDTO t) {
             return SeriesEventViewDTOImpl.of(t);
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("Unsupported type '%s'".formatted(source));
     }
 
     public static abstract class BuilderImpl implements Builder {
@@ -178,7 +181,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         }
 
         public static SingleEventViewDTOImpl of(SingleEventViewDTO source) {
-            if(source instanceof SingleEventViewDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof SingleEventViewDTOImpl) {
                 return (SingleEventViewDTOImpl)source;
             }
             return new SingleEventViewDTOImpl(
@@ -296,7 +302,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         }
 
         public static SeriesMovedEventViewDTOImpl of(SeriesMovedEventViewDTO source) {
-            if(source instanceof SeriesMovedEventViewDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof SeriesMovedEventViewDTOImpl) {
                 return (SeriesMovedEventViewDTOImpl)source;
             }
             return new SeriesMovedEventViewDTOImpl(
@@ -421,7 +430,10 @@ public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.d
         }
 
         public static SeriesEventViewDTOImpl of(SeriesEventViewDTO source) {
-            if(source instanceof SeriesEventViewDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof SeriesEventViewDTOImpl) {
                 return (SeriesEventViewDTOImpl)source;
             }
             return new SeriesEventViewDTOImpl(

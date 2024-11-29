@@ -2,14 +2,14 @@ package at.bestsolution.quti.rest;
 
 import java.net.URI;
 
-import at.bestsolution.quti.rest.dto.EventDTOImpl;
+import at.bestsolution.quti.service.dto.EventDTO;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 @Singleton
 public class EventResourceResponseBuilder {
-	public ResponseBuilder get(EventDTOImpl result) {
+	public ResponseBuilder get(EventDTO result) {
 		return Response.status(200).entity(result);
 	}
 

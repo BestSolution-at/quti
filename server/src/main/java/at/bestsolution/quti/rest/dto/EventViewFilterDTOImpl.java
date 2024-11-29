@@ -13,7 +13,10 @@ public record EventViewFilterDTOImpl(
     List<String> tags) implements EventViewFilterDTO {
 
     public static EventViewFilterDTOImpl of(EventViewFilterDTO source) {
-        if(source instanceof EventViewFilterDTOImpl) {
+        if(source == null) {
+            return null;
+        }
+        else if(source instanceof EventViewFilterDTOImpl) {
             return (EventViewFilterDTOImpl)source;
         }
         return new EventViewFilterDTOImpl(

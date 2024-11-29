@@ -9,6 +9,7 @@ import at.bestsolution.quti.rest.dto.EventDTOImpl;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.dto.EventDTO;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventDTOUtil;
 import jakarta.inject.Inject;
@@ -23,7 +24,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.G
 		super(em);
 	}
 
-	public Result<EventDTOImpl> get(DTOBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
+	public Result<EventDTO> get(DTOBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
@@ -40,7 +41,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.G
 		query.setParameter("calendarKey", parsedCalendarKey.value());
 		var result = query.getResultList();
 		if (result.size() == 1) {
-			return Result.ok(EventDTOUtil.of(result.get(0), zone == null ? ZoneOffset.UTC : zone));
+			return Result.ok(EventDTOUtil.of(factory, result.get(0), zone == null ? ZoneOffset.UTC : zone));
 		} else if (result.size() == 0) {
 			return Result.notFound("Could not find event with '%s' in calendar '%s'", eventKey, calendarKey);
 		}

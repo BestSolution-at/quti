@@ -9,7 +9,10 @@ public record CalendarDTOImpl(
     String owner) implements CalendarDTO {
 
     public static CalendarDTOImpl of(CalendarDTO source) {
-        if(source instanceof CalendarDTOImpl) {
+        if(source == null) {
+            return null;
+        }
+        else if(source instanceof CalendarDTOImpl) {
             return (CalendarDTOImpl)source;
         }
         return new CalendarDTOImpl(

@@ -20,7 +20,10 @@ public record EventDTOImpl(
     List<String> referencedCalendars) implements EventDTO {
 
     public static EventDTOImpl of(EventDTO source) {
-        if(source instanceof EventDTOImpl) {
+        if(source == null) {
+            return null;
+        }
+        else if(source instanceof EventDTOImpl) {
             return (EventDTOImpl)source;
         }
         return new EventDTOImpl(

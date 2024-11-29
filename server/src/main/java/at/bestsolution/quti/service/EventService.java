@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.rest.dto.EventDTOImpl;
 import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
+import at.bestsolution.quti.service.dto.EventDTO;
+import at.bestsolution.quti.service.dto.EventNewDTO;
 
 public interface EventService {
-	public Result<EventDTOImpl> get(String calendarKey, String eventKey, ZoneId zone);
+	public Result<EventDTO> get(String calendarKey, String eventKey, ZoneId zone);
 	public Result<String> create(String calendarKey, EventNewDTOImpl event);
 	public Result<Void> delete(String calendarKey, String eventKey);
 	public Result<Void> endRepeat(String calendarKey, String eventKey, LocalDate endDate);
@@ -22,7 +23,7 @@ public interface EventService {
 	}
 
 	public interface CreateHandler {
-		public Result<String> create(DTOBuilderFactory factory, String calendarKey, EventNewDTOImpl event);
+		public Result<String> create(DTOBuilderFactory factory, String calendarKey, EventNewDTO event);
 	}
 
 	public interface DeleteHandler {
@@ -34,7 +35,7 @@ public interface EventService {
 	}
 
 	public interface GetHandler {
-		public Result<EventDTOImpl> get(DTOBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone);
+		public Result<EventDTO> get(DTOBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone);
 	}
 
 	public interface MoveHandler {

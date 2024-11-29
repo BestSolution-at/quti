@@ -48,7 +48,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
     }
 
     public static EventRepeatDTOImpl of(at.bestsolution.quti.service.dto.EventRepeatDTO source) {
-        if(source instanceof EventRepeatDTOImpl) {
+        if(source == null) {
+            return null;
+        }
+        else if(source instanceof EventRepeatDTOImpl) {
             return (EventRepeatDTOImpl)source;
         }
         if(source instanceof EventRepeatDailyDTO t) {
@@ -69,7 +72,7 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         if(source instanceof EventRepeatRelativeYearlyDTO t) {
             return EventRepeatRelativeYearlyDTOImpl.of(t);
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("Unsupported type '%s'".formatted(source));
     }
 
     public static abstract class BuilderImpl implements Builder {
@@ -102,7 +105,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         }
 
         public static EventRepeatDailyDTOImpl of(EventRepeatDailyDTO source) {
-            if(source instanceof EventRepeatDailyDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof EventRepeatDailyDTOImpl) {
                 return (EventRepeatDailyDTOImpl)source;
             }
             return new EventRepeatDailyDTOImpl(
@@ -157,7 +163,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         }
 
         public static EventRepeatWeeklyDTOImpl of(EventRepeatWeeklyDTO source) {
-            if(source instanceof EventRepeatWeeklyDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof EventRepeatWeeklyDTOImpl) {
                 return (EventRepeatWeeklyDTOImpl)source;
             }
             return new EventRepeatWeeklyDTOImpl(
@@ -219,7 +228,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         }
 
         public static EventRepeatAbsoluteMonthlyDTOImpl of(EventRepeatAbsoluteMonthlyDTO source) {
-            if(source instanceof EventRepeatAbsoluteMonthlyDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof EventRepeatAbsoluteMonthlyDTOImpl) {
                 return (EventRepeatAbsoluteMonthlyDTOImpl)source;
             }
             return new EventRepeatAbsoluteMonthlyDTOImpl(
@@ -288,7 +300,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         }
 
         public static EventRepeatAbsoluteYearlyDTOImpl of(EventRepeatAbsoluteYearlyDTO source) {
-            if(source instanceof EventRepeatAbsoluteYearlyDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof EventRepeatAbsoluteYearlyDTOImpl) {
                 return (EventRepeatAbsoluteYearlyDTOImpl)source;
             }
             return new EventRepeatAbsoluteYearlyDTOImpl(
@@ -357,7 +372,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         }
 
         public static EventRepeatRelativeMonthlyDTOImpl of(EventRepeatRelativeMonthlyDTO source) {
-            if(source instanceof EventRepeatRelativeMonthlyDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof EventRepeatRelativeMonthlyDTOImpl) {
                 return (EventRepeatRelativeMonthlyDTOImpl)source;
             }
             return new EventRepeatRelativeMonthlyDTOImpl(
@@ -426,7 +444,10 @@ public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service
         }
 
         public static EventRepeatRelativeYearlyDTOImpl of(EventRepeatRelativeYearlyDTO source) {
-            if(source instanceof EventRepeatRelativeYearlyDTOImpl) {
+            if(source == null) {
+                return null;
+            }
+            else if(source instanceof EventRepeatRelativeYearlyDTOImpl) {
                 return (EventRepeatRelativeYearlyDTOImpl)source;
             }
             return new EventRepeatRelativeYearlyDTOImpl(

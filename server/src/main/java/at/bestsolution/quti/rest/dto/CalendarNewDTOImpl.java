@@ -8,7 +8,10 @@ public record CalendarNewDTOImpl(
     String owner) implements CalendarNewDTO {
 
     public static CalendarNewDTOImpl of(CalendarNewDTO source) {
-        if(source instanceof CalendarNewDTOImpl) {
+        if(source == null) {
+            return null;
+        }
+        else if(source instanceof CalendarNewDTOImpl) {
             return (CalendarNewDTOImpl)source;
         }
         return new CalendarNewDTOImpl(
