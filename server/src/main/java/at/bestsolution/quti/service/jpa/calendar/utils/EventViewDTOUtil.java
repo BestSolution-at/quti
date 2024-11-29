@@ -11,8 +11,6 @@ import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SeriesMovedEventViewDTOImpl;
-import at.bestsolution.quti.rest.dto.EventViewDTOImpl.SingleEventViewDTOImpl;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.dto.EventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO;
@@ -47,18 +45,19 @@ public class EventViewDTOUtil {
 
 	public class SingleEventViewDTOUtil {
 		public static SingleEventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
-			var result = new SingleEventViewDTOImpl();
-			result.key = event.key.toString();
-			result.calendarKey = event.calendar.key.toString();
-			result.owner = event.calendar.owner;
-			result.title = event.title;
-			result.description = event.description;
-			result.start = event.start.withZoneSameInstant(resultZone);
-			result.end = event.end.withZoneSameInstant(resultZone);
-			result.tags = Objects.requireNonNullElse(event.tags, List.of());
-			result.referencedCalendars = event.references.stream().map( er -> er.calendar.key.toString()).toList();
-			result.status = isCanceled(event) ? Status.CANCELED : Status.ACCEPTED;
-			return result;
+			var b = factory.builder(SingleEventViewDTO.Builder.class);
+			return b
+				.key(event.key.toString())
+				.calendarKey(event.calendar.key.toString())
+				.owner(event.calendar.owner)
+				.title(event.title)
+				.description(event.description)
+				.start(event.start.withZoneSameInstant(resultZone))
+				.end(event.end.withZoneSameInstant(resultZone))
+				.tags(Objects.requireNonNullElse(event.tags, List.of()))
+				.referencedCalendars(event.references.stream().map( er -> er.calendar.key.toString()).toList())
+				.status(isCanceled(event) ? Status.CANCELED : Status.ACCEPTED)
+				.build();
 		}
 
 		private static boolean isCanceled(EventEntity event) {
@@ -86,27 +85,27 @@ public class EventViewDTOUtil {
 					.filter(Predicate.not(String::isBlank))
 					.orElse(movedEntity.event.description);
 
-			var result = new SeriesMovedEventViewDTOImpl();
-			result.key = movedEntity.event.key.toString() + "_" + movedEntity.date;
-			result.calendarKey = movedEntity.event.calendar.key.toString();
-			result.owner = movedEntity.event.calendar.owner;
-			result.masterEventKey = movedEntity.event.key.toString();
-			result.title = movedEntity.event.title;
-			result.description = description;
-			result.start = movedEntity.start.withZoneSameInstant(resultZone);
-			result.end = movedEntity.end.withZoneSameInstant(resultZone);
-			result.tags = Objects.requireNonNullElse(movedEntity.event.tags, List.of());
-			result.referencedCalendars = movedEntity.event.references.stream().map( er -> er.calendar.key.toString()).toList();
+			var b = factory.builder(SeriesMovedEventViewDTO.Builder.class);
 
-			result.originalStart = movedEntity.event.start
+			return b
+				.key(movedEntity.event.key.toString() + "_" + movedEntity.date)
+				.calendarKey(movedEntity.event.calendar.key.toString())
+				.owner(movedEntity.event.calendar.owner)
+				.masterEventKey(movedEntity.event.key.toString())
+				.title(movedEntity.event.title)
+				.description(description)
+				.start(movedEntity.start.withZoneSameInstant(resultZone))
+				.end(movedEntity.end.withZoneSameInstant(resultZone))
+				.tags(Objects.requireNonNullElse(movedEntity.event.tags, List.of()))
+				.referencedCalendars(movedEntity.event.references.stream().map( er -> er.calendar.key.toString()).toList())
+				.originalStart(movedEntity.event.start
 					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
-					.withZoneSameInstant(resultZone);
-			result.originalEnd = movedEntity.event.end
+					.withZoneSameInstant(resultZone))
+				.originalEnd(movedEntity.event.end
 					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
-					.withZoneSameInstant(resultZone);
-			result.status = status;
-
-			return result;
+					.withZoneSameInstant(resultZone))
+				.status(status)
+				.build();
 		}
 	}
 
