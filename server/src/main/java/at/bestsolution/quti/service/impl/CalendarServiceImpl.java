@@ -10,6 +10,7 @@ import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
 import at.bestsolution.quti.rest.dto.EventViewDTOImpl;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.dto.CalendarDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -38,7 +39,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<CalendarDTOImpl> get(String key) {
+	public Result<CalendarDTO> get(String key) {
 		return getHandler.get(builderFactory, key);
 	}
 
