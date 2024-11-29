@@ -15,7 +15,7 @@ public interface EventService {
 	public Result<Void> move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end);
 	public Result<Void> cancel(String calendarKey, String eventKey);
 	public Result<Void> uncancel(String calendarKey, String eventKey);
-	public Result<Void> setDescription(String calendarKey, String eventKey, String description);
+	public Result<Void> description(String calendarKey, String eventKey, String description);
 
 	public interface CancelHandler {
 		public Result<Void> cancel(DTOBuilderFactory factory, String calendarKey, String eventKey);

@@ -53,7 +53,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<List<EventViewDTO>> view(String calendarKey, LocalDate start, LocalDate end, ZoneId timezone,
+	public Result<List<EventViewDTO>> eventView(String calendarKey, LocalDate start, LocalDate end, ZoneId timezone,
 			ZoneId resultZone) {
 		return viewHandler.view(builderFactory, calendarKey, start, end, timezone, resultZone);
 	}

@@ -82,7 +82,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Result<Void> setDescription(String calendarKey, String eventKey, String description) {
+	public Result<Void> description(String calendarKey, String eventKey, String description) {
 		return setDescriptionHandler.setDescription(this.builderFactory, calendarKey, eventKey, description);
 	}
 

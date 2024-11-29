@@ -119,7 +119,7 @@ public class EventResource {
 	@Path("{key}/action/description")
 	@PUT
 	public Response description(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String description) {
-		var result = service.setDescription(calendarKey, eventKey, description);
+		var result = service.description(calendarKey, eventKey, description);
 
 		if( result.isOk() ) {
 			return responseBuilder.description().build();

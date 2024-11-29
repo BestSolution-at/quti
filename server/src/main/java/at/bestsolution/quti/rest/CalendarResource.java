@@ -64,14 +64,14 @@ public class CalendarResource {
 
 	@GET
 	@Path("{key}/view")
-	public Response views(
+	public Response eventView(
 			@PathParam("key") String key,
 			@QueryParam("from") LocalDate from,
 			@QueryParam("to") LocalDate to,
 			@QueryParam("timezone") ZoneId timezone,
 			@HeaderParam("timezone") ZoneId resultTimeZone) {
 
-		var result = service.view(
+		var result = service.eventView(
 					key,
 					from,
 					to,

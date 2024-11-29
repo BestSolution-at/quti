@@ -12,7 +12,7 @@ public interface CalendarService {
 	public Result<CalendarDTO> get(String key);
 	public Result<String> create(CalendarNewDTO calendar);
 	public Result<Void> update(String key, String patch);
-	public Result<List<EventViewDTO>> view(String calendarKey, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultZone);
+	public Result<List<EventViewDTO>> eventView(String calendarKey, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultZone);
 
 	public interface CreateHandler {
 		public Result<String> create(DTOBuilderFactory factory, CalendarNewDTO calendar);
