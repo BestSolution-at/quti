@@ -22,7 +22,7 @@ public class CalendarResourceResponseBuilder {
 		return Response.status(204);
 	}
 
-	public ResponseBuilder views(List<EventViewDTO> result) {
+	public ResponseBuilder eventView(List<EventViewDTO> result) {
 		return Response.status(200).entity(result);
 	}
 }

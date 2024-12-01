@@ -78,7 +78,7 @@ public class CalendarResource {
 					resultTimeZone);
 
 		if( result.isOk() ) {
-			return responseBuilder.views(result.value()).build();
+			return responseBuilder.eventView(result.value()).build();
 		}
 
 		return RestUtils.toResponse(result);
