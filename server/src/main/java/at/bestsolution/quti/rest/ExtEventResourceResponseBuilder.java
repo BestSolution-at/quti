@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 @Priority(1)
 public class ExtEventResourceResponseBuilder extends EventResourceResponseBuilder {
 	@Override
-	public ResponseBuilder create(String calendarKey, String result) {
+	public ResponseBuilder create(String result, String calendarKey) {
 		return super.create(calendarKey, result)
 			.location(URI.create("/api/calendar/" + calendarKey + "/events/"+result));
 	}

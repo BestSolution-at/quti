@@ -49,7 +49,7 @@ public class EventResource {
 	public Response create(@PathParam("calendar") String calendarKey, EventNewDTOImpl event) {
 		var result = this.service.create(calendarKey, event);
 		if( result.isOk() ) {
-			return responseBuilder.create(calendarKey, result.value()).build();
+			return responseBuilder.create(result.value(), calendarKey).build();
 		}
 		return RestUtils.toResponse(result);
 	}
