@@ -3,7 +3,6 @@ package at.bestsolution.quti.rest;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.rest.dto.EventMoveDTOImpl;
 import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.EventService;
@@ -42,7 +41,7 @@ public class EventResource {
 			return responseBuilder.get(event.value()).build();
 		}
 
-		return Utils.toResponse(event);
+		return RestUtils.toResponse(event);
 	}
 
 
@@ -52,7 +51,7 @@ public class EventResource {
 		if( result.isOk() ) {
 			return responseBuilder.create(calendarKey, result.value()).build();
 		}
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@PATCH
@@ -67,7 +66,7 @@ public class EventResource {
 		if( result.isOk() ) {
 			return responseBuilder.delete().build();
 		}
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@Path("{key}/action/end-repeat")
@@ -77,7 +76,7 @@ public class EventResource {
 		if( result.isOk() ) {
 			return responseBuilder.endRepeat().build();
 		}
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@Path("{key}/action/move")
@@ -89,7 +88,7 @@ public class EventResource {
 			return responseBuilder.move().build();
 		}
 
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@Path("{key}/action/cancel")
@@ -101,7 +100,7 @@ public class EventResource {
 			return responseBuilder.cancel().build();
 		}
 
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@Path("{key}/action/uncancel")
@@ -113,7 +112,7 @@ public class EventResource {
 			return responseBuilder.uncancel().build();
 		}
 
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@Path("{key}/action/description")
@@ -125,6 +124,6 @@ public class EventResource {
 			return responseBuilder.description().build();
 		}
 
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 }

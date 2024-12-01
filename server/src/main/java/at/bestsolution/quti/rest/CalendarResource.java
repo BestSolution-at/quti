@@ -3,7 +3,6 @@ package at.bestsolution.quti.rest;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
 import at.bestsolution.quti.service.CalendarService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -40,7 +39,7 @@ public class CalendarResource {
 		if (result.isOk()) {
 			return responseBuilder.get(result.value()).build();
 		}
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@POST
@@ -49,7 +48,7 @@ public class CalendarResource {
 		if( result.isOk() ) {
 			return responseBuilder.create(result.value()).build();
 		}
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@PATCH
@@ -59,7 +58,7 @@ public class CalendarResource {
 		if (result.isOk()) {
 			return responseBuilder.update().build();
 		}
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 
 	@GET
@@ -82,6 +81,6 @@ public class CalendarResource {
 			return responseBuilder.views(result.value()).build();
 		}
 
-		return Utils.toResponse(result);
+		return RestUtils.toResponse(result);
 	}
 }
