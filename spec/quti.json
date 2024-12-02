@@ -1043,6 +1043,91 @@
         },
         {
           "@type": "Operation",
+          "name": "get",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "timezone",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "scalar",
+              "type": "ZoneId",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "timezone",
+                  "source": "header"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "Event",
+            "doc": ""
+          },
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 401,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
           "name": "delete",
           "doc": " delete an event",
           "parameters": [

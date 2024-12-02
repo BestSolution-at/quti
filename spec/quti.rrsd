@@ -21,7 +21,13 @@ resource Calendar at '/api/calendar' {
 }
 
 resource Event at '/api/calendar/${calendar}/events' {
-    POST create      at '' => {
+    GET get         at '${key}'
+        header-param timezone => {
+        200
+        401: NotFound
+        400: InvalidArgument
+    }
+    POST create     at '' => {
         201
         404: NotFound
         400: InvalidArgument

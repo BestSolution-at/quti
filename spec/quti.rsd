@@ -237,7 +237,7 @@ service Event {
             InvalidArgument;
 
     
-//    operation get(calendar: string, key: string, timezone: ZoneId): Event;
+    operation get(calendar: string, key: string, timezone: ZoneId): Event;
 //    operation update(calendar: string, key: string, @patch changes: Event);
     
     <* 

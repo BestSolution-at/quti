@@ -3,13 +3,17 @@ package at.bestsolution.quti.client;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.time.ZoneId;
 
+import at.bestsolution.quti.client.dto.EventDTO;
 import at.bestsolution.quti.client.dto.EventNewDTO;
 
 public interface EventService extends BaseService {
     public String create(String calendar,EventNewDTO event)
         throws NotFoundException,
             InvalidArgumentException;
+
+    public EventDTO get(String calendar,String key,ZoneId timezone);
 
     public void delete(String calendar,String key);
 

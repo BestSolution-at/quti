@@ -9,14 +9,18 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.util.Map;
 import java.util.Objects;
 
 import jakarta.json.Json;
 
+import at.bestsolution.quti.client.dto.EventDTO;
 import at.bestsolution.quti.client.dto.EventNewDTO;
 import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.InvalidArgumentException;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.DTOUtils;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventDTOImpl;
 import at.bestsolution.quti.client.NotFoundException;
 
 public class EventServiceImpl implements EventService {
@@ -53,6 +57,44 @@ public class EventServiceImpl implements EventService {
             if ($response.statusCode() == 201 ) {
                 return ServiceUtils.mapString($response);
             } else if ($response.statusCode() == 404 ) {
+                throw new NotFoundException(ServiceUtils.mapString($response), null);
+            } else if ($response.statusCode() == 400 ) {
+                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+            }
+            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+        } catch (IOException | InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public EventDTO get(String calendar, String key, ZoneId timezone) {
+        Objects.requireNonNull(calendar, "calendar must not be null");
+        Objects.requireNonNull(key, "key must not be null");
+        Objects.requireNonNull(timezone, "timezone must not be null");
+
+        var $path = "%s/api/calendar/%s/events/%s".formatted(
+            this.baseURI,
+            calendar,
+            key
+        );
+
+        var $headerParams = Map.of(
+            "timezone",Objects.toString(timezone)
+        );
+        var $headers = ServiceUtils.toHeaders($headerParams);
+
+        var $uri = URI.create($path);
+        var $request = HttpRequest.newBuilder()
+                .uri($uri)
+                .headers($headers)
+                .GET()
+                .build();
+
+        try {
+            var $response = this.client.send($request, BodyHandlers.ofString());
+            if ($response.statusCode() == 200 ) {
+                return ServiceUtils.mapObject($response, EventDTOImpl::of);
+            } else if ($response.statusCode() == 401 ) {
                 throw new NotFoundException(ServiceUtils.mapString($response), null);
             } else if ($response.statusCode() == 400 ) {
                 throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
