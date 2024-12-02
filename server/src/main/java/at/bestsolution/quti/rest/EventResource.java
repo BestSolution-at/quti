@@ -105,7 +105,8 @@ public class EventResource {
 			return responseBuilder.move(
 				calendarKey,
 				eventKey,
-				dto
+				dto.start(),
+				dto.end()
 			).build();
 		}
 

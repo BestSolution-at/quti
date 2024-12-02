@@ -2,8 +2,8 @@ package at.bestsolution.quti.rest;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.rest.dto.EventMoveDTOImpl;
 import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.dto.EventDTO;
 import jakarta.inject.Singleton;
@@ -32,7 +32,7 @@ public class EventResourceResponseBuilder {
 		return Response.status(204);
 	}
 
-	public ResponseBuilder move(String calendarKey, String eventKey, EventMoveDTOImpl dto) {
+	public ResponseBuilder move(String calendarKey, String eventKey, ZonedDateTime start, ZonedDateTime end) {
 		return Response.status(204);
 	}
 
