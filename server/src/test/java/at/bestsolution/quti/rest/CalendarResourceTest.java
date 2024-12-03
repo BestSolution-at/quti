@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.BaseTest;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.json.Json;
 
 @QuarkusTest
 public class CalendarResourceTest extends BaseTest {
@@ -56,11 +55,13 @@ public class CalendarResourceTest extends BaseTest {
 
 	@Test
 	void testUpdateName() {
-		var patch = Json.createPatchBuilder()
-				.replace("name", "My Updated Calendar")
-				.build().toString();
 		given()
-				.body(patch)
+				.body("""
+					{
+						"name": "My Updated Calendar"
+					}
+					""")
+				.header("Content-Type", "application/json")
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
 				.statusCode(204);
@@ -74,12 +75,13 @@ public class CalendarResourceTest extends BaseTest {
 
 	@Test
 	void testAddOwner() {
-		var patch = Json.createPatchBuilder()
-				.add("owner", "testowner@bestsolution.at")
-				.build()
-				.toString();
 		given()
-				.body(patch)
+				.body("""
+						{
+							"owner": "testowner@bestsolution.at"
+						}
+						""")
+				.header("Content-Type", "application/json")
 				.patch(String.format("/api/calendar/%s", ownerlessCalendarKey))
 				.then()
 				.statusCode(204);
@@ -91,26 +93,14 @@ public class CalendarResourceTest extends BaseTest {
 	}
 
 	@Test
-	void testAddUnknownProperty() {
-		var patch = Json.createPatchBuilder()
-				.add("unknown", "Hello World")
-				.build()
-				.toString();
-		given()
-				.body(patch)
-				.patch(String.format("/api/calendar/%s", ownerlessCalendarKey))
-				.then()
-				.statusCode(400);
-	}
-
-	@Test
 	void testAddOwnerExisting() {
-		var patch = Json.createPatchBuilder()
-				.add("owner", "newowner@bestsolution.at")
-				.build()
-				.toString();
 		given()
-				.body(patch)
+				.body("""
+						{
+							"owner": "newowner@bestsolution.at"
+						}
+						""")
+				.header("Content-Type", "application/json")
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
 				.statusCode(400);
@@ -118,12 +108,13 @@ public class CalendarResourceTest extends BaseTest {
 
 	@Test
 	void testReplaceOwnerExisting() {
-		var patch = Json.createPatchBuilder()
-				.replace("owner", "newowner@bestsolution.at")
-				.build()
-				.toString();
 		given()
-				.body(patch)
+				.body("""
+						{
+							"owner": "newowner@bestsolution.at"
+						}
+						""")
+				.header("Content-Type", "application/json")
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
 				.statusCode(400);

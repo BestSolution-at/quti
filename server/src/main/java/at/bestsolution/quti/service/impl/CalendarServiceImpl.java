@@ -48,7 +48,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<Void> update(String key, String patch) {
+	public Result<Void> update(String key, CalendarDTO.Patch patch) {
 		return updateHandler.update(builderFactory, key, patch);
 	}
 

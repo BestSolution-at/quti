@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
+import at.bestsolution.quti.rest.dto.CalendarPatchDTOImpl;
 import at.bestsolution.quti.service.CalendarService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -27,33 +28,32 @@ public class CalendarResource {
 
 	@Inject
 	public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder) {
-		this.service = service;
-		this.responseBuilder = responseBuilder;
+			this.service = service;
+			this.responseBuilder = responseBuilder;
 	}
 
 	@GET
 	@Path("{key}")
 	public Response get(@PathParam("key") String key) {
-		var result = service.get(key);
-
-		if (result.isOk()) {
-			return responseBuilder.get(result.value(), key).build();
-		}
-		return RestUtils.toResponse(result);
+			var result = service.get(key);
+			if (result.isOk()) {
+					return responseBuilder.get(result.value(),key).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
 	@POST
 	public Response create(CalendarNewDTOImpl calendar) {
-		var result = service.create(calendar);
-		if( result.isOk() ) {
-			return responseBuilder.create(result.value(), calendar).build();
-		}
-		return RestUtils.toResponse(result);
+			var result = service.create(calendar);
+			if (result.isOk()) {
+					return responseBuilder.create(result.value(),calendar).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
 	@PATCH
 	@Path("{key}")
-	public Response update(@PathParam("key") String key, String patch) {
+	public Response update(@PathParam("key") String key, CalendarPatchDTOImpl patch) {
 		var result = service.update(key, patch);
 		if (result.isOk()) {
 			return responseBuilder.update(key, patch).build();
@@ -65,28 +65,14 @@ public class CalendarResource {
 	@Path("{key}/view")
 	public Response eventView(
 			@PathParam("key") String key,
-			@QueryParam("from") LocalDate from,
-			@QueryParam("to") LocalDate to,
+			@QueryParam("from") LocalDate start,
+			@QueryParam("to") LocalDate end,
 			@QueryParam("timezone") ZoneId timezone,
 			@HeaderParam("timezone") ZoneId resultTimeZone) {
-
-		var result = service.eventView(
-					key,
-					from,
-					to,
-					timezone,
-					resultTimeZone);
-
-		if( result.isOk() ) {
-			return responseBuilder.eventView(
-				result.value(),
-				key,
-				from,
-				to,
-				timezone,
-				resultTimeZone).build();
-		}
-
-		return RestUtils.toResponse(result);
+			var result = service.eventView(key, start, end, timezone, resultTimeZone);
+			if (result.isOk()) {
+					return responseBuilder.eventView(result.value(),key, start, end, timezone, resultTimeZone).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 }

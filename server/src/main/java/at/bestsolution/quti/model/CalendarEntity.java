@@ -43,4 +43,20 @@ public class CalendarEntity {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "calendar", orphanRemoval = true)
 	public List<EventReferenceEntity> eventReferences;
+
+	public String name() {
+		return this.name;
+	}
+
+	public void name(String name) {
+		this.name = name;
+	}
+
+	public String owner() {
+		return this.owner;
+	}
+
+	public void owner(String owner) {
+		this.owner = owner;
+	}
 }

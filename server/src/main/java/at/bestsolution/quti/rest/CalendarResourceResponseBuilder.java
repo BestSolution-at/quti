@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
+import at.bestsolution.quti.rest.dto.CalendarPatchDTOImpl;
 import at.bestsolution.quti.service.dto.CalendarDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO;
 import jakarta.inject.Singleton;
@@ -21,7 +22,7 @@ public class CalendarResourceResponseBuilder {
 		return Response.status(201).entity(result);
 	}
 
-	public ResponseBuilder update(String key, String patch) {
+	public ResponseBuilder update(String key, CalendarPatchDTOImpl patch) {
 		return Response.status(204);
 	}
 

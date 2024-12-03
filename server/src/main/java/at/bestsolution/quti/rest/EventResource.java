@@ -32,33 +32,27 @@ public class EventResource {
 	@GET
 	@Path("{key}")
 	public Response get(
-			@PathParam("calendar") String calendarKey,
-			@PathParam("key") String eventKey,
-			@HeaderParam("timezone") ZoneId zone) {
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key,
+			@HeaderParam("timezone") ZoneId timezone) {
+			var result = service.get(calendar, key, timezone);
 
-		var event = service.get(calendarKey, eventKey, zone);
-		if (event.isOk()) {
-			return responseBuilder.get(
-				event.value(),
-				calendarKey,
-				eventKey,
-				zone).build();
-		}
-
-		return RestUtils.toResponse(event);
+			if (result.isOk()) {
+					return responseBuilder.get(result.value(),calendar, key, timezone).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
-
 	@POST
-	public Response create(@PathParam("calendar") String calendarKey, EventNewDTOImpl event) {
-		var result = this.service.create(calendarKey, event);
-		if( result.isOk() ) {
-			return responseBuilder.create(
-				result.value(),
-				calendarKey,
-				event).build();
-		}
-		return RestUtils.toResponse(result);
+	public Response create(
+			@PathParam("calendar") String calendar,
+			EventNewDTOImpl event) {
+			var result = service.create(calendar, event);
+
+			if (result.isOk()) {
+					return responseBuilder.create(result.value(),calendar, event).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
 	@PATCH
@@ -70,92 +64,84 @@ public class EventResource {
 		).build();
 	}
 
-	@Path("{key}")
 	@DELETE
-	public Response delete(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
-		var result = service.delete(calendarKey, eventKey);
-		if( result.isOk() ) {
-			return responseBuilder.delete(
-				calendarKey,
-				eventKey
-			).build();
-		}
-		return RestUtils.toResponse(result);
+	@Path("{key}")
+	public Response delete(
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key) {
+			var result = service.delete(calendar, key);
+
+			if (result.isOk()) {
+					return responseBuilder.delete(calendar, key).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
+	@PUT
 	@Path("{key}/action/end-repeat")
-	@PUT
-	public Response endRepeat(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, LocalDate endDate) {
-		var result = service.endRepeat(calendarKey, eventKey, endDate);
-		if( result.isOk() ) {
-			return responseBuilder.endRepeat(
-				calendarKey,
-				eventKey,
-				endDate).build();
-		}
-		return RestUtils.toResponse(result);
+	public Response endRepeat(
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key,
+			LocalDate end) {
+			var result = service.endRepeat(calendar, key, end);
+
+			if (result.isOk()) {
+					return responseBuilder.endRepeat(calendar, key, end).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
+	@PUT
 	@Path("{key}/action/move")
-	@PUT
-	public Response move(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, EventMoveDTOImpl dto) {
-		var result = service.move(calendarKey, eventKey, dto.start(), dto.end());
+	public Response move(
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key,
+			EventMoveDTOImpl dto) {
+			var result = service.move(calendar, key, dto.start(), dto.end());
 
-		if( result.isOk() ) {
-			return responseBuilder.move(
-				calendarKey,
-				eventKey,
-				dto.start(),
-				dto.end()
-			).build();
-		}
-
-		return RestUtils.toResponse(result);
+			if (result.isOk()) {
+					return responseBuilder.move(calendar, key, dto.start(), dto.end()).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
+	@PUT
 	@Path("{key}/action/cancel")
-	@PUT
-	public Response cancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
-		var result = service.cancel(calendarKey, eventKey);
+	public Response cancel(
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key) {
+			var result = service.cancel(calendar, key);
 
-		if( result.isOk() ) {
-			return responseBuilder.cancel(
-				calendarKey,
-				eventKey
-			).build();
-		}
-
-		return RestUtils.toResponse(result);
+			if (result.isOk()) {
+					return responseBuilder.cancel(calendar, key).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
+	@PUT
 	@Path("{key}/action/uncancel")
-	@PUT
-	public Response uncancel(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey) {
-		var result = service.uncancel(calendarKey, eventKey);
+	public Response uncancel(
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key) {
+			var result = service.uncancel(calendar, key);
 
-		if( result.isOk() ) {
-			return responseBuilder.uncancel(
-				calendarKey,
-				eventKey
-			).build();
-		}
-
-		return RestUtils.toResponse(result);
+			if (result.isOk()) {
+					return responseBuilder.uncancel(calendar, key).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 
-	@Path("{key}/action/description")
 	@PUT
-	public Response description(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String description) {
-		var result = service.description(calendarKey, eventKey, description);
+	@Path("{key}/action/description")
+	public Response description(
+			@PathParam("calendar") String calendar,
+			@PathParam("key") String key,
+			String description) {
+			var result = service.description(calendar, key, description);
 
-		if( result.isOk() ) {
-			return responseBuilder.description(
-				calendarKey,
-				eventKey,
-				description
-			).build();
-		}
-
-		return RestUtils.toResponse(result);
+			if (result.isOk()) {
+					return responseBuilder.description(calendar, key, description).build();
+			}
+			return RestUtils.toResponse(result);
 	}
 }
