@@ -33,7 +33,8 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 
 	@Test
 	public void testUpdateName() {
-		var patch = new CalendarPatchDTOImpl(handler_ownerlessCalendarKey.toString(), "My Updated Calendar", null);
+		var patch = new CalendarPatchDTOImpl(handler_ownerlessCalendarKey.toString());
+		patch.setName("My Updated Calendar");
 
 		assertTrue(handler.update(builderFactory, handler_ownerlessCalendarKey.toString(), patch).isOk());
 		assertEquals("My Updated Calendar", calendar(handler_ownerlessCalendarKey).name);
@@ -41,7 +42,10 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 
 	@Test
 	public void testUpdateMulti() {
-		var patch = new CalendarPatchDTOImpl(handler_ownerlessCalendarKey.toString(), "My Updated Calendar 2", "testowner@bestsolution.at");
+		var patch = new CalendarPatchDTOImpl(handler_ownerlessCalendarKey.toString());
+		patch.setName("My Updated Calendar 2");
+		patch.setOwner("testowner@bestsolution.at");
+
 		assertNull(calendar(handler_ownerlessCalendarKey).owner);
 
 		assertTrue(handler.update(builderFactory, handler_ownerlessCalendarKey.toString(), patch).isOk());

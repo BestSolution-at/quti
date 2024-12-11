@@ -23,22 +23,35 @@ public interface CalendarDTO extends BaseDTO {
         public Builder owner(String owner);
         public CalendarDTO build();
     }
+    public interface Patch {
+        public enum Props {
+            NAME,
+            OWNER,
+        }
 
-		public interface Patch {
-			public String key();
-			public String name();
-			public String owner();
+        public boolean isSet(Props prop);
 
-			public static void ifName(Patch dto, Consumer<String> consumer) {
-				if( dto.name() != null ) {
-					consumer.accept(dto.name());
-				}
-			}
-
-			public static void ifOwner(Patch dto, Consumer<String> consumer) {
-				if( dto.owner() != null ) {
-					consumer.accept(dto.owner());
-				}
-			}
-		}
+        /**
+         * Unique identifier of the calendar
+         */
+        public String key();
+        /**
+         * Name of the calendar
+         */
+        public String name();
+        /**
+         * Owner of the calendar
+         */
+        public String owner();
+        public static void ifName(Patch dto, Consumer<String> consumer) {
+            if( dto.isSet(Props.NAME) ) {
+                consumer.accept(dto.name());
+            }
+        }
+        public static void ifOwner(Patch dto, Consumer<String> consumer) {
+            if( dto.isSet(Props.OWNER) ) {
+                consumer.accept(dto.owner());
+            }
+        }
+    }
 }

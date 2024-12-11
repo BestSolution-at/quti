@@ -2,6 +2,8 @@
 package at.bestsolution.quti.client.dto;
 
 public interface BaseDTO {
+    public static record Nillable<T>(T value) {}
+
     public interface Builder {
         public BaseDTO build();
     }

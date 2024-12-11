@@ -28,7 +28,7 @@ public class CalendarDTOImpl extends BaseDTOImpl implements CalendarDTO {
 
     @Override
     public String owner() {
-        return DTOUtils.mapString(data, "owner");
+        return DTOUtils.mapString(data, "owner", null);
     }
 
     public static CalendarDTO of(JsonObject data) {
@@ -61,6 +61,9 @@ public class CalendarDTOImpl extends BaseDTOImpl implements CalendarDTO {
 
         @Override
         public Builder owner(String owner) {
+            if( owner == null ) {
+                return this;
+            }
             $builder.add("owner", owner);
             return this;
         }

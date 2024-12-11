@@ -2,6 +2,7 @@
 package at.bestsolution.quti.service.dto;
 
 import java.time.ZonedDateTime;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.List;
 
@@ -55,5 +56,73 @@ public interface EventDTO extends BaseDTO {
         public Builder referencedCalendars(List<String> referencedCalendars);
         public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block);
         public EventDTO build();
+    }
+    public interface Patch {
+        public enum Props {
+            TITLE,
+            DESCRIPTION,
+            START,
+            END,
+            FULLDAY,
+            REPEAT,
+            TAGS,
+            REFERENCEDCALENDARS,
+        }
+
+        public boolean isSet(Props prop);
+
+        /**
+         * Unique identifier of the event
+         */
+        public String key();
+        /**
+         * basic description
+         */
+        public String title();
+        /**
+         * a more detailed description
+         */
+        public String description();
+        /**
+         * start time
+         */
+        public ZonedDateTime start();
+        /**
+         * end time
+         */
+        public ZonedDateTime end();
+        /**
+         * mark it as a fullday event
+         */
+        public boolean fullday();
+        /**
+         * the repeat pattern
+         */
+        public EventRepeatDTO repeat();
+        public static void ifTitle(Patch dto, Consumer<String> consumer) {
+            if( dto.isSet(Props.TITLE) ) {
+                consumer.accept(dto.title());
+            }
+        }
+        public static void ifDescription(Patch dto, Consumer<String> consumer) {
+            if( dto.isSet(Props.DESCRIPTION) ) {
+                consumer.accept(dto.description());
+            }
+        }
+        public static void ifStart(Patch dto, Consumer<ZonedDateTime> consumer) {
+            if( dto.isSet(Props.START) ) {
+                consumer.accept(dto.start());
+            }
+        }
+        public static void ifEnd(Patch dto, Consumer<ZonedDateTime> consumer) {
+            if( dto.isSet(Props.END) ) {
+                consumer.accept(dto.end());
+            }
+        }
+        public static void ifFullday(Patch dto, Consumer<Boolean> consumer) {
+            if( dto.isSet(Props.FULLDAY) ) {
+                consumer.accept(dto.fullday());
+            }
+        }
     }
 }
