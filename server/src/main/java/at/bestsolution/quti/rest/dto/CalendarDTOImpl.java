@@ -3,10 +3,22 @@ package at.bestsolution.quti.rest.dto;
 
 import at.bestsolution.quti.service.dto.CalendarDTO;
 
-public record CalendarDTOImpl(
-    String key,
-    String name,
-    String owner) implements CalendarDTO {
+public class CalendarDTOImpl implements CalendarDTO {
+    public String key;
+    public String name;
+    public String owner;
+
+    public String key() {
+        return this.key;
+    }
+
+    public String name() {
+        return this.name;
+    }
+
+    public String owner() {
+        return this.owner;
+    }
 
     public static CalendarDTOImpl of(CalendarDTO source) {
         if(source == null) {
@@ -15,16 +27,16 @@ public record CalendarDTOImpl(
         else if(source instanceof CalendarDTOImpl) {
             return (CalendarDTOImpl)source;
         }
-        return new CalendarDTOImpl(
-            source.key(),
-            source.name(),
-            source.owner()
-        );
+        var rv = new CalendarDTOImpl();
+        rv.key = source.key();
+        rv.name = source.name();
+        rv.owner = source.owner();
+        return rv;
     }
     public static class BuilderImpl implements Builder {
-        String key;
-        String name;
-        String owner;
+        public String key;
+        public String name;
+        public String owner;
 
         public Builder key(String key) {
             this.key = key;
@@ -40,7 +52,11 @@ public record CalendarDTOImpl(
         }
 
         public at.bestsolution.quti.service.dto.CalendarDTO build() {
-            return new CalendarDTOImpl(key, name, owner);
+            var rv = new CalendarDTOImpl();
+            rv.key = key;
+            rv.name = name;
+            rv.owner = owner;
+            return rv;
         }
     }
 

@@ -8,15 +8,47 @@ import java.util.List;
 import at.bestsolution.quti.service.dto.EventNewDTO;
 import at.bestsolution.quti.service.dto.EventRepeatDTO;
 
-public record EventNewDTOImpl(
-    String title,
-    String description,
-    ZonedDateTime start,
-    ZonedDateTime end,
-    boolean fullday,
-    EventRepeatDTOImpl repeat,
-    List<String> tags,
-    List<String> referencedCalendars) implements EventNewDTO {
+public class EventNewDTOImpl implements EventNewDTO {
+    public String title;
+    public String description;
+    public ZonedDateTime start;
+    public ZonedDateTime end;
+    public boolean fullday;
+    public EventRepeatDTOImpl repeat;
+    public List<String> tags;
+    public List<String> referencedCalendars;
+
+    public String title() {
+        return this.title;
+    }
+
+    public String description() {
+        return this.description;
+    }
+
+    public ZonedDateTime start() {
+        return this.start;
+    }
+
+    public ZonedDateTime end() {
+        return this.end;
+    }
+
+    public boolean fullday() {
+        return this.fullday;
+    }
+
+    public EventRepeatDTO repeat() {
+        return this.repeat;
+    }
+
+    public List<String> tags() {
+        return this.tags;
+    }
+
+    public List<String> referencedCalendars() {
+        return this.referencedCalendars;
+    }
 
     public static EventNewDTOImpl of(EventNewDTO source) {
         if(source == null) {
@@ -25,26 +57,26 @@ public record EventNewDTOImpl(
         else if(source instanceof EventNewDTOImpl) {
             return (EventNewDTOImpl)source;
         }
-        return new EventNewDTOImpl(
-            source.title(),
-            source.description(),
-            source.start(),
-            source.end(),
-            source.fullday(),
-            EventRepeatDTOImpl.of(source.repeat()),
-            source.tags(),
-            source.referencedCalendars()
-        );
+        var rv = new EventNewDTOImpl();
+        rv.title = source.title();
+        rv.description = source.description();
+        rv.start = source.start();
+        rv.end = source.end();
+        rv.fullday = source.fullday();
+        rv.repeat = EventRepeatDTOImpl.of(source.repeat());
+        rv.tags = source.tags();
+        rv.referencedCalendars = source.referencedCalendars();
+        return rv;
     }
     public static class BuilderImpl implements Builder {
-        String title;
-        String description;
-        ZonedDateTime start;
-        ZonedDateTime end;
-        boolean fullday;
-        EventRepeatDTOImpl repeat;
-        List<String> tags;
-        List<String> referencedCalendars;
+        public String title;
+        public String description;
+        public ZonedDateTime start;
+        public ZonedDateTime end;
+        public boolean fullday;
+        public EventRepeatDTOImpl repeat;
+        public List<String> tags;
+        public List<String> referencedCalendars;
 
         public Builder title(String title) {
             this.title = title;
@@ -100,7 +132,16 @@ public record EventNewDTOImpl(
         }
 
         public at.bestsolution.quti.service.dto.EventNewDTO build() {
-            return new EventNewDTOImpl(title, description, start, end, fullday, repeat, tags, referencedCalendars);
+            var rv = new EventNewDTOImpl();
+            rv.title = title;
+            rv.description = description;
+            rv.start = start;
+            rv.end = end;
+            rv.fullday = fullday;
+            rv.repeat = repeat;
+            rv.tags = tags;
+            rv.referencedCalendars = referencedCalendars;
+            return rv;
         }
     }
 

@@ -3,9 +3,17 @@ package at.bestsolution.quti.rest.dto;
 
 import at.bestsolution.quti.service.dto.CalendarNewDTO;
 
-public record CalendarNewDTOImpl(
-    String name,
-    String owner) implements CalendarNewDTO {
+public class CalendarNewDTOImpl implements CalendarNewDTO {
+    public String name;
+    public String owner;
+
+    public String name() {
+        return this.name;
+    }
+
+    public String owner() {
+        return this.owner;
+    }
 
     public static CalendarNewDTOImpl of(CalendarNewDTO source) {
         if(source == null) {
@@ -14,14 +22,14 @@ public record CalendarNewDTOImpl(
         else if(source instanceof CalendarNewDTOImpl) {
             return (CalendarNewDTOImpl)source;
         }
-        return new CalendarNewDTOImpl(
-            source.name(),
-            source.owner()
-        );
+        var rv = new CalendarNewDTOImpl();
+        rv.name = source.name();
+        rv.owner = source.owner();
+        return rv;
     }
     public static class BuilderImpl implements Builder {
-        String name;
-        String owner;
+        public String name;
+        public String owner;
 
         public Builder name(String name) {
             this.name = name;
@@ -33,7 +41,10 @@ public record CalendarNewDTOImpl(
         }
 
         public at.bestsolution.quti.service.dto.CalendarNewDTO build() {
-            return new CalendarNewDTOImpl(name, owner);
+            var rv = new CalendarNewDTOImpl();
+            rv.name = name;
+            rv.owner = owner;
+            return rv;
         }
     }
 

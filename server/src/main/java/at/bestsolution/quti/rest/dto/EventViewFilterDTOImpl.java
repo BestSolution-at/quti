@@ -5,12 +5,32 @@ import java.util.List;
 
 import at.bestsolution.quti.service.dto.EventViewFilterDTO;
 
-public record EventViewFilterDTOImpl(
-    String owner,
-    String title,
-    String description,
-    boolean fullday,
-    List<String> tags) implements EventViewFilterDTO {
+public class EventViewFilterDTOImpl implements EventViewFilterDTO {
+    public String owner;
+    public String title;
+    public String description;
+    public boolean fullday;
+    public List<String> tags;
+
+    public String owner() {
+        return this.owner;
+    }
+
+    public String title() {
+        return this.title;
+    }
+
+    public String description() {
+        return this.description;
+    }
+
+    public boolean fullday() {
+        return this.fullday;
+    }
+
+    public List<String> tags() {
+        return this.tags;
+    }
 
     public static EventViewFilterDTOImpl of(EventViewFilterDTO source) {
         if(source == null) {
@@ -19,20 +39,20 @@ public record EventViewFilterDTOImpl(
         else if(source instanceof EventViewFilterDTOImpl) {
             return (EventViewFilterDTOImpl)source;
         }
-        return new EventViewFilterDTOImpl(
-            source.owner(),
-            source.title(),
-            source.description(),
-            source.fullday(),
-            source.tags()
-        );
+        var rv = new EventViewFilterDTOImpl();
+        rv.owner = source.owner();
+        rv.title = source.title();
+        rv.description = source.description();
+        rv.fullday = source.fullday();
+        rv.tags = source.tags();
+        return rv;
     }
     public static class BuilderImpl implements Builder {
-        String owner;
-        String title;
-        String description;
-        boolean fullday;
-        List<String> tags;
+        public String owner;
+        public String title;
+        public String description;
+        public boolean fullday;
+        public List<String> tags;
 
         public Builder owner(String owner) {
             this.owner = owner;
@@ -56,7 +76,13 @@ public record EventViewFilterDTOImpl(
         }
 
         public at.bestsolution.quti.service.dto.EventViewFilterDTO build() {
-            return new EventViewFilterDTOImpl(owner, title, description, fullday, tags);
+            var rv = new EventViewFilterDTOImpl();
+            rv.owner = owner;
+            rv.title = title;
+            rv.description = description;
+            rv.fullday = fullday;
+            rv.tags = tags;
+            return rv;
         }
     }
 
