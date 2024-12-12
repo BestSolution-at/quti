@@ -77,4 +77,28 @@ public class EventEntity {
 		}
 		return modificationByDate.getOrDefault(date, List.of());
 	}
+
+	public void title(String title) {
+		this.title = title;
+	}
+
+	public void description(String description) {
+		this.description = description;
+	}
+
+	public void start(ZonedDateTime start) {
+		this.start = start;
+	}
+
+	public void end(ZonedDateTime end) {
+		this.end = end;
+	}
+
+	public void tags(List<String> tags) {
+		this.tags = tags;
+	}
+
+	public void fullday(boolean fullday) {
+		this.fullday = fullday;
+	}
 }
