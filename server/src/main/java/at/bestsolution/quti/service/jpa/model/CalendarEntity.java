@@ -1,4 +1,4 @@
-package at.bestsolution.quti.model;
+package at.bestsolution.quti.service.jpa.model;
 
 import java.util.List;
 import java.util.UUID;

@@ -2,7 +2,7 @@ package at.bestsolution.quti.service.jpa.calendar.utils;
 
 import java.util.UUID;
 
-import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import jakarta.persistence.EntityManager;
 
 public class CalendarUtils {

@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 

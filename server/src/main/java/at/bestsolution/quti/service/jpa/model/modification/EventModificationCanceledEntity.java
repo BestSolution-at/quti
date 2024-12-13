@@ -1,6 +1,6 @@
-package at.bestsolution.quti.model.modification;
+package at.bestsolution.quti.service.jpa.model.modification;
 
-import at.bestsolution.quti.model.EventModificationEntity;
+import at.bestsolution.quti.service.jpa.model.EventModificationEntity;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 

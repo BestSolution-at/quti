@@ -4,7 +4,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;

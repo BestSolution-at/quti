@@ -13,9 +13,9 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.model.EventReferenceEntity;
-import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.Result;

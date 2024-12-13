@@ -1,6 +1,6 @@
 package at.bestsolution.quti.service.jpa.event.utils;
 
-import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.Result;
 import jakarta.persistence.EntityManager;
 

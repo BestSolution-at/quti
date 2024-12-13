@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.hibernate.StatelessSession;
 
-import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.model.EventModificationEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventModificationEntity;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.BaseHandlerTest;
 import jakarta.inject.Inject;

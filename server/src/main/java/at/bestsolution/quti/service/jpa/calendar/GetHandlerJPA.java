@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.Result;

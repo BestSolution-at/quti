@@ -8,12 +8,12 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import at.bestsolution.quti.model.CalendarEntity;
-import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.model.EventReferenceEntity;
-import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
-import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatDailyEntity;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

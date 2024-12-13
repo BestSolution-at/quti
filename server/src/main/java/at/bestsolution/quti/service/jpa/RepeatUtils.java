@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.model.EventRepeatEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatAbsoluteMonthlyEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatAbsoluteYearlyEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatRelativeMonthlyEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatRelativeYearlyEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventRepeatEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatAbsoluteMonthlyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatAbsoluteYearlyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeMonthlyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeYearlyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
 
 public class RepeatUtils {
 	private static ZonedDateTime boxStartDateTime(EventRepeatEntity entity, ZonedDateTime startDatetime) {

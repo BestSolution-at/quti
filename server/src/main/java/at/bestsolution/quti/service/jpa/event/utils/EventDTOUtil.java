@@ -2,7 +2,7 @@ package at.bestsolution.quti.service.jpa.event.utils;
 
 import java.time.ZoneId;
 
-import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.dto.EventDTO;
 

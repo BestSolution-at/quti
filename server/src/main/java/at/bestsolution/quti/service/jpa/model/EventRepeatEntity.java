@@ -1,4 +1,4 @@
-package at.bestsolution.quti.model;
+package at.bestsolution.quti.service.jpa.model;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

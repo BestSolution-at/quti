@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import at.bestsolution.quti.model.EventEntity;
-import at.bestsolution.quti.model.modification.EventModificationCanceledEntity;
-import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
-import at.bestsolution.quti.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.dto.EventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO;

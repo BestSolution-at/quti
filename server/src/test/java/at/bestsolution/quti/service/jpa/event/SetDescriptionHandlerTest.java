@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.model.modification.EventModificationGenericEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.service.Result.ResultType;
 import io.quarkus.test.junit.QuarkusTest;
 

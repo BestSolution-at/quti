@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.dto.EventDTO;
 import at.bestsolution.quti.service.jpa.BaseHandler;

@@ -15,8 +15,8 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.model.repeat.EventRepeatDailyEntity;
-import at.bestsolution.quti.model.repeat.EventRepeatWeeklyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatDailyEntity;
+import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
 import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.Result.ResultType;
 import at.bestsolution.quti.service.dto.EventNewDTO;

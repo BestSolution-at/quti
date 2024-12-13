@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.hibernate.StatelessSession;
 
-import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.BaseHandlerTest;
 import jakarta.inject.Inject;

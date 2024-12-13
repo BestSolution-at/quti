@@ -1,8 +1,8 @@
-package at.bestsolution.quti.model.repeat;
+package at.bestsolution.quti.service.jpa.model.repeat;
 
 import java.time.Month;
 
-import at.bestsolution.quti.model.EventRepeatEntity;
+import at.bestsolution.quti.service.jpa.model.EventRepeatEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

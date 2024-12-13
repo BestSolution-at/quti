@@ -3,7 +3,7 @@ package at.bestsolution.quti.service.jpa.calendar;
 import java.util.Objects;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.Result;
