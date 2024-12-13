@@ -111,7 +111,7 @@
           "name": "owner",
           "array": false,
           "readonly": false,
-          "optional": false,
+          "optional": true,
           "nullable": false,
           "variant": "builtin",
           "type": "string",
@@ -122,7 +122,7 @@
     {
       "@type": "RecordType",
       "name": "Calendar",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "CalendarData"
       ],
@@ -186,7 +186,7 @@
     {
       "@type": "RecordType",
       "name": "EventRepeatDaily",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventRepeatData"
       ],
@@ -195,7 +195,7 @@
     {
       "@type": "RecordType",
       "name": "EventRepeatWeekly",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventRepeatData"
       ],
@@ -217,7 +217,7 @@
     {
       "@type": "RecordType",
       "name": "EventRepeatAbsoluteMonthly",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventRepeatData"
       ],
@@ -238,7 +238,7 @@
     {
       "@type": "RecordType",
       "name": "EventRepeatAbsoluteYearly",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventRepeatData"
       ],
@@ -270,7 +270,7 @@
     {
       "@type": "RecordType",
       "name": "EventRepeatRelativeMonthly",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventRepeatData"
       ],
@@ -292,7 +292,7 @@
     {
       "@type": "RecordType",
       "name": "EventRepeatRelativeYearly",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventRepeatData"
       ],
@@ -450,7 +450,7 @@
     {
       "@type": "RecordType",
       "name": "Event",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "EventData"
       ],
