@@ -2,6 +2,7 @@
 package at.bestsolution.quti.client.dto;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public interface CalendarDTO extends BaseDTO {
     /**
@@ -48,10 +49,22 @@ public interface CalendarDTO extends BaseDTO {
                 consumer.accept(dto.name());
             }
         }
+        public static <T> T ifName(Patch dto, Function<String, T> consumer, T defaultValue) {
+            if( dto.isSet(Props.NAME) ) {
+                return consumer.apply(dto.name());
+            }
+            return defaultValue;
+        }
         public static void ifOwner(Patch dto, Consumer<String> consumer) {
             if( dto.isSet(Props.OWNER) ) {
                 consumer.accept(dto.owner());
             }
+        }
+        public static <T> T ifOwner(Patch dto, Function<String, T> consumer, T defaultValue) {
+            if( dto.isSet(Props.OWNER) ) {
+                return consumer.apply(dto.owner());
+            }
+            return defaultValue;
         }
     }
 }

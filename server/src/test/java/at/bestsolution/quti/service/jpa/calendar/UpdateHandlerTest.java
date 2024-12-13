@@ -5,15 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.StringWriter;
-
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.rest.dto.CalendarPatchDTOImpl;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonPatch;
 
 @QuarkusTest
 public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
@@ -21,14 +17,6 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 	@Inject
 	public UpdateHandlerTest(UpdateHandlerJPA handler) {
 		super(handler);
-	}
-
-	private static String toString(JsonPatch patch) {
-		var w = new StringWriter();
-		var writer = Json.createWriter(w);
-		writer.writeArray(patch.toJsonArray());
-		writer.close();
-		return w.toString();
 	}
 
 	@Test

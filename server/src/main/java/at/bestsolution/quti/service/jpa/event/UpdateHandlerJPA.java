@@ -2,53 +2,48 @@ package at.bestsolution.quti.service.jpa.event;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.model.EventEntity;
 import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.dto.EventDTO;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonPatch;
-import jakarta.json.JsonValue;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 
 @Singleton
 public class UpdateHandlerJPA extends BaseHandler {
-	private static Map<String, BiFunction<EventEntity, JsonObject, Result<Runnable>>> REPLACE_OPS = new HashMap<>();
-
-	static {
-		REPLACE_OPS.put("title", UpdateHandlerJPA::handleTitleUpdate);
-		REPLACE_OPS.put("description", UpdateHandlerJPA::handleDescriptionUpdate);
-		REPLACE_OPS.put("start", UpdateHandlerJPA::handleStartUpdate);
-		REPLACE_OPS.put("end", UpdateHandlerJPA::handleEndUpdate);
-	}
 
 	@Inject
 	public UpdateHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
+	public Result<Void> update(UUID calendarKey, UUID eventKey, EventDTO.Patch patch) {
+		try {
+			return _update(calendarKey, eventKey, patch);
+		} catch(WebApplicationException t) {
+			return Result.invalidContent(t.getMessage());
+		}
+	}
+
 	@Transactional
-	public Result<Void> update(UUID calendarKey, UUID eventKey, JsonPatch patch) {
+	protected Result<Void> _update(UUID calendarKey, UUID eventKey, EventDTO.Patch patch) {
 		Objects.requireNonNull(calendarKey);
 		Objects.requireNonNull(eventKey);
 		Objects.requireNonNull(patch);
 
-		var query = em().createQuery("FROM Event e WHERE e.key = :eventKey AND e.calendar.key = :calendarKey", EventEntity.class);
+		var em = em();
+		var query = em.createQuery("FROM Event e WHERE e.key = :eventKey AND e.calendar.key = :calendarKey", EventEntity.class);
 		query.setParameter("eventKey", eventKey);
 		query.setParameter("calendarKey", calendarKey);
+
 		var result = query.getResultList();
 		if( result.size() == 0 ) {
 			return Result.notFound("Could not find event '%s' in calendar '%s'", eventKey, calendarKey);
@@ -57,37 +52,22 @@ public class UpdateHandlerJPA extends BaseHandler {
 		}
 
 		var entity = result.get(0);
-		var updateRunnables = new ArrayList<Runnable>();
 
-		for ( JsonValue e : patch.toJsonArray() ) {
-			var op = e.asJsonObject();
-			var operation = op.getString("op");
-			var path = op.getString("path");
-
-			if( "add".equals(operation) ) {
-
-			} else if( "replace".equals(operation) ) {
-				var handler = REPLACE_OPS.get(path);
-				if( handler != null ) {
-					var hrv = handler.apply(entity, op);
-					if( hrv.isOk() ) {
-						updateRunnables.add(hrv.value());
-					} else {
-						return hrv.toVoid();
-					}
-				} else {
-					return Result.invalidContent("Operation '%s' on '%s' is not allowed", operation, path);
+		EventDTO.Patch.ifTitle(patch, entity::title);
+		EventDTO.Patch.ifDescription(patch, entity::description);
+		EventDTO.Patch.ifFullday(patch, entity::fullday);
+		EventDTO.Patch.ifStart(patch, v -> {
+			if( entity.repeatPattern != null ) {
+				var newStart = ZonedDateTime.of(entity.start.toLocalDate(), LocalTime.MIN, entity.repeatPattern.recurrenceTimezone);
+				// if the repeat date changes we need to clear all modifications
+				if( ! newStart.equals(entity.repeatPattern.startDate) ) {
+					entity.repeatPattern.startDate = newStart;
+					entity.modifications.forEach(em::remove);
 				}
-			} else if( "remove".equals(operation) ) {
-
 			}
-		}
-
-		updateRunnables.forEach(Runnable::run);
-
-		if( entity.start.isAfter(entity.end) || entity.start.equals(entity.end) ) {
-			throw new WebApplicationException("event.start has to be before event.end", 422);
-		}
+			entity.start = v;
+		});
+		EventDTO.Patch.ifEnd(patch, entity::end);
 
 		var validate = EventUtils.validateEvent(entity);
 		if( ! validate.isOk() ) {
@@ -95,56 +75,5 @@ public class UpdateHandlerJPA extends BaseHandler {
 		}
 
 		return Result.OK;
-	}
-
-	private static Result<Runnable> handleTitleUpdate(EventEntity entity, JsonObject op) {
-		var value = Utils.getPatchStringValue(op);
-		if( value == null ) {
-			return Result.invalidContent("Title operation value must be a string");
-		} else if( value.isBlank() ) {
-			return Result.invalidContent("Title operation value must not be an empty string");
-		}
-		return Result.ok(() -> entity.title = value);
-	}
-
-	private static Result<Runnable> handleDescriptionUpdate(EventEntity entity, JsonObject op) {
-		var value = Utils.getPatchStringValue(op);
-		if( value == null ) {
-			return Result.invalidContent("Description operation value must be a string");
-		}
-		return Result.ok(() -> entity.description = value);
-	}
-
-	private static Result<Runnable> handleStartUpdate(EventEntity entity, JsonObject op) {
-		var value = Utils.getPatchStringValue(op);
-		if( value == null ) {
-			return Result.invalidContent("Start operation value must be a string encoding a date-time");
-		}
-		try {
-			var start = ZonedDateTime.parse(value);
-			return Result.ok(() -> {
-				entity.start = start;
-				if( entity.repeatPattern != null ) {
-					entity.repeatPattern.startDate = ZonedDateTime.of(entity.start.toLocalDate(), LocalTime.MIN, entity.repeatPattern.recurrenceTimezone);
-				}
-			});
-		} catch(DateTimeParseException e) {
-			return Result.invalidContent("Start operation value '%s' is not a valid datetime with a timezone", op.getString("value"));
-		}
-	}
-
-	private static Result<Runnable> handleEndUpdate(EventEntity entity, JsonObject op) {
-		var value = Utils.getPatchStringValue(op);
-		if( value == null ) {
-			return Result.invalidContent("End operation value must be a string encoding a date-time");
-		}
-		try {
-			var end = ZonedDateTime.parse(value);
-			return Result.ok(() -> {
-				entity.end = end;
-			});
-		} catch(DateTimeParseException e) {
-			return Result.invalidContent("End operation value '%s' is not a valid datetime with a timezone", op.getString("value"));
-		}
 	}
 }
