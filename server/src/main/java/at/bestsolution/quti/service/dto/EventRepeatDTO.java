@@ -85,9 +85,9 @@ public interface EventRepeatDTO extends BaseDTO {
         public EventRepeatDTO build();
     }
 
-    public interface EventRepeatDailyDTO extends EventRepeatDTO {
+    public interface EventRepeatDailyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
 
-        public interface Builder extends EventRepeatDTO.Builder {
+        public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
             public Builder interval(short interval);
             public Builder endDate(LocalDate endDate);
             public Builder timeZone(ZoneId timeZone);
@@ -150,13 +150,13 @@ public interface EventRepeatDTO extends BaseDTO {
         }
     }
 
-    public interface EventRepeatWeeklyDTO extends EventRepeatDTO {
+    public interface EventRepeatWeeklyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
         /**
          * the days in a week the event repeats
          */
         public List<DayOfWeek> daysOfWeek();
 
-        public interface Builder extends EventRepeatDTO.Builder {
+        public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
             public Builder daysOfWeek(List<DayOfWeek> daysOfWeek);
             public Builder interval(short interval);
             public Builder endDate(LocalDate endDate);
@@ -221,13 +221,13 @@ public interface EventRepeatDTO extends BaseDTO {
         }
     }
 
-    public interface EventRepeatAbsoluteMonthlyDTO extends EventRepeatDTO {
+    public interface EventRepeatAbsoluteMonthlyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
         /**
          * the day of the month the event repeats
          */
         public short dayOfMonth();
 
-        public interface Builder extends EventRepeatDTO.Builder {
+        public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
             public Builder dayOfMonth(short dayOfMonth);
             public Builder interval(short interval);
             public Builder endDate(LocalDate endDate);
@@ -307,7 +307,7 @@ public interface EventRepeatDTO extends BaseDTO {
         }
     }
 
-    public interface EventRepeatAbsoluteYearlyDTO extends EventRepeatDTO {
+    public interface EventRepeatAbsoluteYearlyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
         /**
          * the day of the month the event repeats
          */
@@ -317,7 +317,7 @@ public interface EventRepeatDTO extends BaseDTO {
          */
         public Month month();
 
-        public interface Builder extends EventRepeatDTO.Builder {
+        public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
             public Builder dayOfMonth(short dayOfMonth);
             public Builder month(Month month);
             public Builder interval(short interval);
@@ -414,13 +414,13 @@ public interface EventRepeatDTO extends BaseDTO {
         }
     }
 
-    public interface EventRepeatRelativeMonthlyDTO extends EventRepeatDTO {
+    public interface EventRepeatRelativeMonthlyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
         /**
          * selects the first day in a month
          */
         public List<DayOfWeek> daysOfWeek();
 
-        public interface Builder extends EventRepeatDTO.Builder {
+        public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
             public Builder daysOfWeek(List<DayOfWeek> daysOfWeek);
             public Builder interval(short interval);
             public Builder endDate(LocalDate endDate);
@@ -485,7 +485,7 @@ public interface EventRepeatDTO extends BaseDTO {
         }
     }
 
-    public interface EventRepeatRelativeYearlyDTO extends EventRepeatDTO {
+    public interface EventRepeatRelativeYearlyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
         /**
          * selects the first day in a month
          */
@@ -495,7 +495,7 @@ public interface EventRepeatDTO extends BaseDTO {
          */
         public Month month();
 
-        public interface Builder extends EventRepeatDTO.Builder {
+        public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
             public Builder daysOfWeek(List<DayOfWeek> daysOfWeek);
             public Builder month(Month month);
             public Builder interval(short interval);

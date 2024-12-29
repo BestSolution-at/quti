@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.function.Function;
 import java.util.List;
 
-public interface EventNewDTO extends BaseDTO {
+public interface EventNewDTO extends BaseDTO, MixinEventDataDTO {
     /**
      * basic description
      */
@@ -39,7 +39,7 @@ public interface EventNewDTO extends BaseDTO {
      */
     public List<String> referencedCalendars();
 
-    public interface Builder extends BaseDTO.Builder {
+    public interface Builder extends BaseDTO.Builder, MixinEventDataDTO.Builder {
         public Builder title(String title);
         public Builder description(String description);
         public Builder start(ZonedDateTime start);

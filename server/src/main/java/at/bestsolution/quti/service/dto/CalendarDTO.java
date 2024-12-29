@@ -4,7 +4,7 @@ package at.bestsolution.quti.service.dto;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface CalendarDTO extends BaseDTO {
+public interface CalendarDTO extends BaseDTO, MixinCalendarDataDTO {
     /**
      * Unique identifier of the calendar
      */
@@ -18,7 +18,7 @@ public interface CalendarDTO extends BaseDTO {
      */
     public String owner();
 
-    public interface Builder extends BaseDTO.Builder {
+    public interface Builder extends BaseDTO.Builder, MixinCalendarDataDTO.Builder {
         public Builder key(String key);
         public Builder name(String name);
         public Builder owner(String owner);

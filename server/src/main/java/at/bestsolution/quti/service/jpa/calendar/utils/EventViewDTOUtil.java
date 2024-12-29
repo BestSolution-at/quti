@@ -16,14 +16,15 @@ import at.bestsolution.quti.service.dto.EventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO;
 import at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO;
-import at.bestsolution.quti.service.dto.EventViewDTO.Status;
+import at.bestsolution.quti.service.dto.MixinEventViewDataDTO.Status;
 
 public class EventViewDTOUtil {
 	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
 		return SingleEventViewDTOUtil.of(factory, event, resultZone);
 	}
 
-	public static EventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+	public static EventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity,
+			ZoneId resultZone) {
 		return SeriesMovedEventViewDTOUtil.of(factory, movedEntity, resultZone);
 	}
 
@@ -47,32 +48,34 @@ public class EventViewDTOUtil {
 		public static SingleEventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
 			var b = factory.builder(SingleEventViewDTO.Builder.class);
 			return b
-				.key(event.key.toString())
-				.calendarKey(event.calendar.key.toString())
-				.owner(event.calendar.owner)
-				.title(event.title)
-				.description(event.description)
-				.start(event.start.withZoneSameInstant(resultZone))
-				.end(event.end.withZoneSameInstant(resultZone))
-				.tags(Objects.requireNonNullElse(event.tags, List.of()))
-				.referencedCalendars(event.references.stream().map( er -> er.calendar.key.toString()).toList())
-				.status(isCanceled(event) ? Status.CANCELED : Status.ACCEPTED)
-				.build();
+					.key(event.key.toString())
+					.calendarKey(event.calendar.key.toString())
+					.owner(event.calendar.owner)
+					.title(event.title)
+					.description(event.description)
+					.start(event.start.withZoneSameInstant(resultZone))
+					.end(event.end.withZoneSameInstant(resultZone))
+					.tags(Objects.requireNonNullElse(event.tags, List.of()))
+					.referencedCalendars(event.references.stream().map(er -> er.calendar.key.toString()).toList())
+					.status(isCanceled(event) ? Status.CANCELED : Status.ACCEPTED)
+					.build();
 		}
 
 		private static boolean isCanceled(EventEntity event) {
-			return (!event.modifications.isEmpty()) && event.modifications.stream().anyMatch( m -> m instanceof EventModificationCanceledEntity);
+			return (!event.modifications.isEmpty())
+					&& event.modifications.stream().anyMatch(m -> m instanceof EventModificationCanceledEntity);
 		}
 	}
 
 	public class SeriesMovedEventViewDTOUtil {
-		public static SeriesMovedEventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity, ZoneId resultZone) {
+		public static SeriesMovedEventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity,
+				ZoneId resultZone) {
 			var status = Status.ACCEPTED;
 
 			var canceled = movedEntity.event.modificationsAt(movedEntity.date)
-				.stream()
-				.anyMatch(m -> m instanceof EventModificationCanceledEntity);
-			if( canceled ) {
+					.stream()
+					.anyMatch(m -> m instanceof EventModificationCanceledEntity);
+			if (canceled) {
 				status = Status.CANCELED;
 			}
 
@@ -80,32 +83,32 @@ public class EventViewDTOUtil {
 					.stream()
 					.filter(m -> m instanceof EventModificationGenericEntity)
 					.findFirst()
-					.map( m -> (EventModificationGenericEntity)m)
-					.map( m -> m.description)
+					.map(m -> (EventModificationGenericEntity) m)
+					.map(m -> m.description)
 					.filter(Predicate.not(String::isBlank))
 					.orElse(movedEntity.event.description);
 
 			var b = factory.builder(SeriesMovedEventViewDTO.Builder.class);
 
 			return b
-				.key(movedEntity.event.key.toString() + "_" + movedEntity.date)
-				.calendarKey(movedEntity.event.calendar.key.toString())
-				.owner(movedEntity.event.calendar.owner)
-				.masterEventKey(movedEntity.event.key.toString())
-				.title(movedEntity.event.title)
-				.description(description)
-				.start(movedEntity.start.withZoneSameInstant(resultZone))
-				.end(movedEntity.end.withZoneSameInstant(resultZone))
-				.tags(Objects.requireNonNullElse(movedEntity.event.tags, List.of()))
-				.referencedCalendars(movedEntity.event.references.stream().map( er -> er.calendar.key.toString()).toList())
-				.originalStart(movedEntity.event.start
-					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
-					.withZoneSameInstant(resultZone))
-				.originalEnd(movedEntity.event.end
-					.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
-					.withZoneSameInstant(resultZone))
-				.status(status)
-				.build();
+					.key(movedEntity.event.key.toString() + "_" + movedEntity.date)
+					.calendarKey(movedEntity.event.calendar.key.toString())
+					.owner(movedEntity.event.calendar.owner)
+					.masterEventKey(movedEntity.event.key.toString())
+					.title(movedEntity.event.title)
+					.description(description)
+					.start(movedEntity.start.withZoneSameInstant(resultZone))
+					.end(movedEntity.end.withZoneSameInstant(resultZone))
+					.tags(Objects.requireNonNullElse(movedEntity.event.tags, List.of()))
+					.referencedCalendars(movedEntity.event.references.stream().map(er -> er.calendar.key.toString()).toList())
+					.originalStart(movedEntity.event.start
+							.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
+							.withZoneSameInstant(resultZone))
+					.originalEnd(movedEntity.event.end
+							.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
+							.withZoneSameInstant(resultZone))
+					.status(status)
+					.build();
 		}
 	}
 
@@ -130,36 +133,36 @@ public class EventViewDTOUtil {
 				}
 
 				var canceled = event.modificationsAt(targetDate)
-					.stream()
-					.anyMatch(m -> m instanceof EventModificationCanceledEntity);
-				if( canceled ) {
+						.stream()
+						.anyMatch(m -> m instanceof EventModificationCanceledEntity);
+				if (canceled) {
 					status = Status.CANCELED;
 				}
 
 				description = event.modificationsAt(targetDate)
-					.stream()
-					.filter(m -> m instanceof EventModificationGenericEntity)
-					.findFirst()
-					.map( m -> (EventModificationGenericEntity)m)
-					.map( m -> m.description)
-					.filter(Predicate.not(String::isBlank))
-					.orElse(description);
+						.stream()
+						.filter(m -> m instanceof EventModificationGenericEntity)
+						.findFirst()
+						.map(m -> (EventModificationGenericEntity) m)
+						.map(m -> m.description)
+						.filter(Predicate.not(String::isBlank))
+						.orElse(description);
 			}
 
 			var b = factory.builder(SeriesEventViewDTO.Builder.class);
 			return b
-				.key(event.key.toString() + "_" + date)
-				.calendarKey(event.calendar.key.toString())
-				.owner(event.calendar.owner)
-				.masterEventKey(event.key.toString())
-				.title(event.title)
-				.description(description)
-				.start(adjustedStart.withZoneSameInstant(zone))
-				.end(adjustedEnd.withZoneSameInstant(zone))
-				.tags(Objects.requireNonNullElse(event.tags, List.of()))
-				.referencedCalendars(event.references.stream().map( er -> er.calendar.key.toString()).toList())
-				.status(status)
-				.build();
+					.key(event.key.toString() + "_" + date)
+					.calendarKey(event.calendar.key.toString())
+					.owner(event.calendar.owner)
+					.masterEventKey(event.key.toString())
+					.title(event.title)
+					.description(description)
+					.start(adjustedStart.withZoneSameInstant(zone))
+					.end(adjustedEnd.withZoneSameInstant(zone))
+					.tags(Objects.requireNonNullElse(event.tags, List.of()))
+					.referencedCalendars(event.references.stream().map(er -> er.calendar.key.toString()).toList())
+					.status(status)
+					.build();
 		}
 	}
 }

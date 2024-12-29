@@ -10,6 +10,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 import at.bestsolution.quti.client.dto.EventViewDTO;
+import at.bestsolution.quti.client.dto.MixinEventViewDataDTO.Status;
 
 public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewDTO {
     EventViewDTOImpl(JsonObject data) {

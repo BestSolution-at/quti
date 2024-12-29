@@ -4,12 +4,9 @@ package at.bestsolution.quti.service.dto;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-public interface EventViewDTO extends BaseDTO {
-    public enum Status {
-        ACCEPTED,
-        CANCELED,
-    }
+import at.bestsolution.quti.service.dto.MixinEventViewDataDTO.Status;
 
+public interface EventViewDTO extends BaseDTO {
     /**
      * unique identifier of the event
      */
@@ -65,9 +62,9 @@ public interface EventViewDTO extends BaseDTO {
         public EventViewDTO build();
     }
 
-    public interface SingleEventViewDTO extends EventViewDTO {
+    public interface SingleEventViewDTO extends EventViewDTO, MixinEventViewDataDTO {
 
-        public interface Builder extends EventViewDTO.Builder {
+        public interface Builder extends EventViewDTO.Builder, MixinEventViewDataDTO.Builder {
             public Builder key(String key);
             public Builder calendarKey(String calendarKey);
             public Builder title(String title);
@@ -82,7 +79,7 @@ public interface EventViewDTO extends BaseDTO {
         }
     }
 
-    public interface SeriesMovedEventViewDTO extends EventViewDTO {
+    public interface SeriesMovedEventViewDTO extends EventViewDTO, MixinEventViewDataDTO {
         /**
          * key of the original event
          */
@@ -96,7 +93,7 @@ public interface EventViewDTO extends BaseDTO {
          */
         public ZonedDateTime originalEnd();
 
-        public interface Builder extends EventViewDTO.Builder {
+        public interface Builder extends EventViewDTO.Builder, MixinEventViewDataDTO.Builder {
             public Builder masterEventKey(String masterEventKey);
             public Builder originalStart(ZonedDateTime originalStart);
             public Builder originalEnd(ZonedDateTime originalEnd);
@@ -114,13 +111,13 @@ public interface EventViewDTO extends BaseDTO {
         }
     }
 
-    public interface SeriesEventViewDTO extends EventViewDTO {
+    public interface SeriesEventViewDTO extends EventViewDTO, MixinEventViewDataDTO {
         /**
          * key of the original event
          */
         public String masterEventKey();
 
-        public interface Builder extends EventViewDTO.Builder {
+        public interface Builder extends EventViewDTO.Builder, MixinEventViewDataDTO.Builder {
             public Builder masterEventKey(String masterEventKey);
             public Builder key(String key);
             public Builder calendarKey(String calendarKey);

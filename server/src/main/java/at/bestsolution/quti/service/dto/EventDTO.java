@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.List;
 
-public interface EventDTO extends BaseDTO {
+public interface EventDTO extends BaseDTO, MixinEventDataDTO {
     /**
      * Unique identifier of the event
      */
@@ -44,7 +44,7 @@ public interface EventDTO extends BaseDTO {
      */
     public List<String> referencedCalendars();
 
-    public interface Builder extends BaseDTO.Builder {
+    public interface Builder extends BaseDTO.Builder, MixinEventDataDTO.Builder {
         public Builder key(String key);
         public Builder title(String title);
         public Builder description(String description);

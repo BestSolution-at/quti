@@ -8,6 +8,7 @@ import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
 import at.bestsolution.quti.service.dto.EventViewDTO;
+import at.bestsolution.quti.service.dto.MixinEventViewDataDTO.Status;
 
 @JsonbTypeInfo({
     @JsonbSubtype(alias = "single", type = EventViewDTOImpl.SingleEventViewDTOImpl.class),
