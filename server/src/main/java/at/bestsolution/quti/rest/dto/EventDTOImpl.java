@@ -6,158 +6,173 @@ import java.util.function.Function;
 import java.util.List;
 
 import at.bestsolution.quti.service.dto.EventDTO;
+import at.bestsolution.quti.service.dto.EventRepeatAbsoluteMonthlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatAbsoluteYearlyDTO;
 import at.bestsolution.quti.service.dto.EventRepeatDTO;
+import at.bestsolution.quti.service.dto.EventRepeatDailyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatRelativeMonthlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatWeeklyDTO;
 
 public class EventDTOImpl implements EventDTO {
-    public String key;
-    public String title;
-    public String description;
-    public ZonedDateTime start;
-    public ZonedDateTime end;
-    public boolean fullday;
-    public EventRepeatDTOImpl repeat;
-    public List<String> tags;
-    public List<String> referencedCalendars;
+	public String key;
+	public String title;
+	public String description;
+	public ZonedDateTime start;
+	public ZonedDateTime end;
+	public boolean fullday;
+	public EventRepeatDTOImpl repeat;
+	public List<String> tags;
+	public List<String> referencedCalendars;
 
-    public String key() {
-        return this.key;
-    }
+	public String key() {
+		return this.key;
+	}
 
-    public String title() {
-        return this.title;
-    }
+	public String title() {
+		return this.title;
+	}
 
-    public String description() {
-        return this.description;
-    }
+	public String description() {
+		return this.description;
+	}
 
-    public ZonedDateTime start() {
-        return this.start;
-    }
+	public ZonedDateTime start() {
+		return this.start;
+	}
 
-    public ZonedDateTime end() {
-        return this.end;
-    }
+	public ZonedDateTime end() {
+		return this.end;
+	}
 
-    public boolean fullday() {
-        return this.fullday;
-    }
+	public boolean fullday() {
+		return this.fullday;
+	}
 
-    public EventRepeatDTO repeat() {
-        return this.repeat;
-    }
+	public EventRepeatDTO repeat() {
+		return this.repeat;
+	}
 
-    public List<String> tags() {
-        return this.tags;
-    }
+	public List<String> tags() {
+		return this.tags;
+	}
 
-    public List<String> referencedCalendars() {
-        return this.referencedCalendars;
-    }
+	public List<String> referencedCalendars() {
+		return this.referencedCalendars;
+	}
 
-    public static EventDTOImpl of(EventDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof EventDTOImpl) {
-            return (EventDTOImpl)source;
-        }
-        var rv = new EventDTOImpl();
-        rv.key = source.key();
-        rv.title = source.title();
-        rv.description = source.description();
-        rv.start = source.start();
-        rv.end = source.end();
-        rv.fullday = source.fullday();
-        rv.repeat = EventRepeatDTOImpl.of(source.repeat());
-        rv.tags = source.tags();
-        rv.referencedCalendars = source.referencedCalendars();
-        return rv;
-    }
-    public static class BuilderImpl implements Builder {
-        public String key;
-        public String title;
-        public String description;
-        public ZonedDateTime start;
-        public ZonedDateTime end;
-        public boolean fullday;
-        public EventRepeatDTOImpl repeat;
-        public List<String> tags;
-        public List<String> referencedCalendars;
+	public static EventDTOImpl of(EventDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof EventDTOImpl) {
+			return (EventDTOImpl) source;
+		}
+		var rv = new EventDTOImpl();
+		rv.key = source.key();
+		rv.title = source.title();
+		rv.description = source.description();
+		rv.start = source.start();
+		rv.end = source.end();
+		rv.fullday = source.fullday();
+		rv.repeat = EventRepeatDTOImpl.of(source.repeat());
+		rv.tags = source.tags();
+		rv.referencedCalendars = source.referencedCalendars();
+		return rv;
+	}
 
-        public Builder key(String key) {
-            this.key = key;
-            return this;
-        }
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-        public Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-        public Builder start(ZonedDateTime start) {
-            this.start = start;
-            return this;
-        }
-        public Builder end(ZonedDateTime end) {
-            this.end = end;
-            return this;
-        }
-        public Builder fullday(boolean fullday) {
-            this.fullday = fullday;
-            return this;
-        }
-        public Builder repeat(at.bestsolution.quti.service.dto.EventRepeatDTO repeat) {
-            this.repeat = EventRepeatDTOImpl.of(repeat);
-            return this;
-        }
-        public Builder tags(List<String> tags) {
-            this.tags = tags;
-            return this;
-        }
-        public Builder referencedCalendars(List<String> referencedCalendars) {
-            this.referencedCalendars = referencedCalendars;
-            return this;
-        }
-        public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block) {
-            EventRepeatDTOImpl.Builder b;
-            if( clazz == EventRepeatDTO.EventRepeatDailyDTO.Builder.class ) {
-                b = new EventRepeatDTOImpl.EventRepeatDailyDTOImpl.BuilderImpl();
-            } else if( clazz == EventRepeatDTO.EventRepeatWeeklyDTO.Builder.class ) {
-                b = new EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.BuilderImpl();
-            } else if( clazz == EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder.class ) {
-                b = new EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl();
-            } else if( clazz == EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.Builder.class ) {
-                b = new EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl.BuilderImpl();
-            } else if( clazz == EventRepeatDTO.EventRepeatRelativeMonthlyDTO.Builder.class ) {
-                b = new EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl.BuilderImpl();
-            } else if( clazz == EventRepeatDTO.EventRepeatRelativeYearlyDTO.Builder.class ) {
-                b = new EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl.BuilderImpl();
-            } else {
-                throw new IllegalArgumentException();
-            }
-            this.repeat = (EventRepeatDTOImpl)block.apply(clazz.cast(b));
-            return this;
-        }
+	public static class BuilderImpl implements Builder {
+		public String key;
+		public String title;
+		public String description;
+		public ZonedDateTime start;
+		public ZonedDateTime end;
+		public boolean fullday;
+		public EventRepeatDTOImpl repeat;
+		public List<String> tags;
+		public List<String> referencedCalendars;
 
-        public at.bestsolution.quti.service.dto.EventDTO build() {
-            var rv = new EventDTOImpl();
-            rv.key = key;
-            rv.title = title;
-            rv.description = description;
-            rv.start = start;
-            rv.end = end;
-            rv.fullday = fullday;
-            rv.repeat = repeat;
-            rv.tags = tags;
-            rv.referencedCalendars = referencedCalendars;
-            return rv;
-        }
-    }
+		public Builder key(String key) {
+			this.key = key;
+			return this;
+		}
 
-    public static Builder builder() {
-        return new BuilderImpl();
-    }
+		public Builder title(String title) {
+			this.title = title;
+			return this;
+		}
+
+		public Builder description(String description) {
+			this.description = description;
+			return this;
+		}
+
+		public Builder start(ZonedDateTime start) {
+			this.start = start;
+			return this;
+		}
+
+		public Builder end(ZonedDateTime end) {
+			this.end = end;
+			return this;
+		}
+
+		public Builder fullday(boolean fullday) {
+			this.fullday = fullday;
+			return this;
+		}
+
+		public Builder repeat(at.bestsolution.quti.service.dto.EventRepeatDTO repeat) {
+			this.repeat = EventRepeatDTOImpl.of(repeat);
+			return this;
+		}
+
+		public Builder tags(List<String> tags) {
+			this.tags = tags;
+			return this;
+		}
+
+		public Builder referencedCalendars(List<String> referencedCalendars) {
+			this.referencedCalendars = referencedCalendars;
+			return this;
+		}
+
+		public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block) {
+			EventRepeatDTOImpl.Builder b;
+			if (clazz == EventRepeatDailyDTO.Builder.class) {
+				b = new EventRepeatDTOImpl.EventRepeatDailyDTOImpl.BuilderImpl();
+			} else if (clazz == EventRepeatWeeklyDTO.Builder.class) {
+				b = new EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.BuilderImpl();
+			} else if (clazz == EventRepeatAbsoluteMonthlyDTO.Builder.class) {
+				b = new EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl();
+			} else if (clazz == EventRepeatAbsoluteYearlyDTO.Builder.class) {
+				b = new EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl.BuilderImpl();
+			} else if (clazz == EventRepeatRelativeMonthlyDTO.Builder.class) {
+				b = new EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl.BuilderImpl();
+			} else if (clazz == EventRepeatRelativeYearlyDTO.Builder.class) {
+				b = new EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl.BuilderImpl();
+			} else {
+				throw new IllegalArgumentException();
+			}
+			this.repeat = (EventRepeatDTOImpl) block.apply(clazz.cast(b));
+			return this;
+		}
+
+		public at.bestsolution.quti.service.dto.EventDTO build() {
+			var rv = new EventDTOImpl();
+			rv.key = key;
+			rv.title = title;
+			rv.description = description;
+			rv.start = start;
+			rv.end = end;
+			rv.fullday = fullday;
+			rv.repeat = repeat;
+			rv.tags = tags;
+			rv.referencedCalendars = referencedCalendars;
+			return rv;
+		}
+	}
+
+	public static Builder builder() {
+		return new BuilderImpl();
+	}
 }

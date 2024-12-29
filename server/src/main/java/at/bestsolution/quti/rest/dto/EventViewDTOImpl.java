@@ -8,515 +8,565 @@ import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
 
 import at.bestsolution.quti.service.dto.EventViewDTO;
+import at.bestsolution.quti.service.dto.SeriesEventViewDTO;
+import at.bestsolution.quti.service.dto.SeriesMovedEventViewDTO;
+import at.bestsolution.quti.service.dto.SingleEventViewDTO;
 import at.bestsolution.quti.service.dto.MixinEventViewDataDTO.Status;
 
 @JsonbTypeInfo({
-    @JsonbSubtype(alias = "single", type = EventViewDTOImpl.SingleEventViewDTOImpl.class),
-    @JsonbSubtype(alias = "series-moved", type = EventViewDTOImpl.SeriesMovedEventViewDTOImpl.class),
-    @JsonbSubtype(alias = "series", type = EventViewDTOImpl.SeriesEventViewDTOImpl.class),
+		@JsonbSubtype(alias = "single", type = EventViewDTOImpl.SingleEventViewDTOImpl.class),
+		@JsonbSubtype(alias = "series-moved", type = EventViewDTOImpl.SeriesMovedEventViewDTOImpl.class),
+		@JsonbSubtype(alias = "series", type = EventViewDTOImpl.SeriesEventViewDTOImpl.class),
 })
 public abstract class EventViewDTOImpl implements at.bestsolution.quti.service.dto.EventViewDTO {
-    public String key;
-    public String calendarKey;
-    public String title;
-    public String description;
-    public String owner;
-    public Status status;
-    public ZonedDateTime start;
-    public ZonedDateTime end;
-    public List<String> tags;
-    public List<String> referencedCalendars;
+	public String key;
+	public String calendarKey;
+	public String title;
+	public String description;
+	public String owner;
+	public Status status;
+	public ZonedDateTime start;
+	public ZonedDateTime end;
+	public List<String> tags;
+	public List<String> referencedCalendars;
 
-    public EventViewDTOImpl() {}
-    public EventViewDTOImpl(
-        String key,
-        String calendarKey,
-        String title,
-        String description,
-        String owner,
-        Status status,
-        ZonedDateTime start,
-        ZonedDateTime end,
-        List<String> tags,
-        List<String> referencedCalendars) {
-        this.key = key;
-        this.calendarKey = calendarKey;
-        this.title = title;
-        this.description = description;
-        this.owner = owner;
-        this.status = status;
-        this.start = start;
-        this.end = end;
-        this.tags = tags;
-        this.referencedCalendars = referencedCalendars;
-    }
+	public EventViewDTOImpl() {
+	}
 
-    public String key() {
-        return this.key;
-    }
+	public EventViewDTOImpl(
+			String key,
+			String calendarKey,
+			String title,
+			String description,
+			String owner,
+			Status status,
+			ZonedDateTime start,
+			ZonedDateTime end,
+			List<String> tags,
+			List<String> referencedCalendars) {
+		this.key = key;
+		this.calendarKey = calendarKey;
+		this.title = title;
+		this.description = description;
+		this.owner = owner;
+		this.status = status;
+		this.start = start;
+		this.end = end;
+		this.tags = tags;
+		this.referencedCalendars = referencedCalendars;
+	}
 
-    public String calendarKey() {
-        return this.calendarKey;
-    }
+	public String key() {
+		return this.key;
+	}
 
-    public String title() {
-        return this.title;
-    }
+	public String calendarKey() {
+		return this.calendarKey;
+	}
 
-    public String description() {
-        return this.description;
-    }
+	public String title() {
+		return this.title;
+	}
 
-    public String owner() {
-        return this.owner;
-    }
+	public String description() {
+		return this.description;
+	}
 
-    public Status status() {
-        return this.status;
-    }
+	public String owner() {
+		return this.owner;
+	}
 
-    public ZonedDateTime start() {
-        return this.start;
-    }
+	public Status status() {
+		return this.status;
+	}
 
-    public ZonedDateTime end() {
-        return this.end;
-    }
+	public ZonedDateTime start() {
+		return this.start;
+	}
 
-    public List<String> tags() {
-        return this.tags;
-    }
+	public ZonedDateTime end() {
+		return this.end;
+	}
 
-    public List<String> referencedCalendars() {
-        return this.referencedCalendars;
-    }
+	public List<String> tags() {
+		return this.tags;
+	}
 
-    public static EventViewDTOImpl of(at.bestsolution.quti.service.dto.EventViewDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof EventViewDTOImpl) {
-            return (EventViewDTOImpl)source;
-        }
-        if(source instanceof SingleEventViewDTO t) {
-            return SingleEventViewDTOImpl.of(t);
-        }
-        if(source instanceof SeriesMovedEventViewDTO t) {
-            return SeriesMovedEventViewDTOImpl.of(t);
-        }
-        if(source instanceof SeriesEventViewDTO t) {
-            return SeriesEventViewDTOImpl.of(t);
-        }
-        throw new IllegalStateException("Unsupported type '%s'".formatted(source));
-    }
+	public List<String> referencedCalendars() {
+		return this.referencedCalendars;
+	}
 
-    public static abstract class BuilderImpl implements Builder {
-        String key;
-        String calendarKey;
-        String title;
-        String description;
-        String owner;
-        Status status;
-        ZonedDateTime start;
-        ZonedDateTime end;
-        List<String> tags;
-        List<String> referencedCalendars;
+	public static EventViewDTOImpl of(at.bestsolution.quti.service.dto.EventViewDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof EventViewDTOImpl) {
+			return (EventViewDTOImpl) source;
+		}
+		if (source instanceof SingleEventViewDTO t) {
+			return SingleEventViewDTOImpl.of(t);
+		}
+		if (source instanceof SeriesMovedEventViewDTO t) {
+			return SeriesMovedEventViewDTOImpl.of(t);
+		}
+		if (source instanceof SeriesEventViewDTO t) {
+			return SeriesEventViewDTOImpl.of(t);
+		}
+		throw new IllegalStateException("Unsupported type '%s'".formatted(source));
+	}
 
-        public Builder key(String key) {
-            this.key = key;
-            return this;
-        }
-        public Builder calendarKey(String calendarKey) {
-            this.calendarKey = calendarKey;
-            return this;
-        }
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-        public Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-        public Builder owner(String owner) {
-            this.owner = owner;
-            return this;
-        }
-        public Builder status(Status status) {
-            this.status = status;
-            return this;
-        }
-        public Builder start(ZonedDateTime start) {
-            this.start = start;
-            return this;
-        }
-        public Builder end(ZonedDateTime end) {
-            this.end = end;
-            return this;
-        }
-        public Builder tags(List<String> tags) {
-            this.tags = tags;
-            return this;
-        }
-        public Builder referencedCalendars(List<String> referencedCalendars) {
-            this.referencedCalendars = referencedCalendars;
-            return this;
-        }
-    }
+	public static abstract class BuilderImpl implements Builder {
+		String key;
+		String calendarKey;
+		String title;
+		String description;
+		String owner;
+		Status status;
+		ZonedDateTime start;
+		ZonedDateTime end;
+		List<String> tags;
+		List<String> referencedCalendars;
 
-    public static class SingleEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SingleEventViewDTO {
+		public Builder key(String key) {
+			this.key = key;
+			return this;
+		}
 
-        public SingleEventViewDTOImpl() {}
-        public SingleEventViewDTOImpl(
-            String key,
-            String calendarKey,
-            String title,
-            String description,
-            String owner,
-            Status status,
-            ZonedDateTime start,
-            ZonedDateTime end,
-            List<String> tags,
-            List<String> referencedCalendars) {
-            super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
-        }
+		public Builder calendarKey(String calendarKey) {
+			this.calendarKey = calendarKey;
+			return this;
+		}
 
-        public static SingleEventViewDTOImpl of(SingleEventViewDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof SingleEventViewDTOImpl) {
-                return (SingleEventViewDTOImpl)source;
-            }
-            return new SingleEventViewDTOImpl(
-                source.key(),
-                source.calendarKey(),
-                source.title(),
-                source.description(),
-                source.owner(),
-                source.status(),
-                source.start(),
-                source.end(),
-                source.tags(),
-                source.referencedCalendars()
-            );
-        }
+		public Builder title(String title) {
+			this.title = title;
+			return this;
+		}
 
-        public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements EventViewDTO.SingleEventViewDTO.Builder {
-            @Override
-            public SingleEventViewDTO.Builder key(String key) {
-                return (SingleEventViewDTO.Builder) super.key(key);
-            }
-            @Override
-            public SingleEventViewDTO.Builder calendarKey(String calendarKey) {
-                return (SingleEventViewDTO.Builder) super.calendarKey(calendarKey);
-            }
-            @Override
-            public SingleEventViewDTO.Builder title(String title) {
-                return (SingleEventViewDTO.Builder) super.title(title);
-            }
-            @Override
-            public SingleEventViewDTO.Builder description(String description) {
-                return (SingleEventViewDTO.Builder) super.description(description);
-            }
-            @Override
-            public SingleEventViewDTO.Builder owner(String owner) {
-                return (SingleEventViewDTO.Builder) super.owner(owner);
-            }
-            @Override
-            public SingleEventViewDTO.Builder status(Status status) {
-                return (SingleEventViewDTO.Builder) super.status(status);
-            }
-            @Override
-            public SingleEventViewDTO.Builder start(ZonedDateTime start) {
-                return (SingleEventViewDTO.Builder) super.start(start);
-            }
-            @Override
-            public SingleEventViewDTO.Builder end(ZonedDateTime end) {
-                return (SingleEventViewDTO.Builder) super.end(end);
-            }
-            @Override
-            public SingleEventViewDTO.Builder tags(List<String> tags) {
-                return (SingleEventViewDTO.Builder) super.tags(tags);
-            }
-            @Override
-            public SingleEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
-                return (SingleEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
-            }
-            public SingleEventViewDTO build() {
-                return new SingleEventViewDTOImpl(
-                    this.key,
-                    this.calendarKey,
-                    this.title,
-                    this.description,
-                    this.owner,
-                    this.status,
-                    this.start,
-                    this.end,
-                    this.tags,
-                    this.referencedCalendars
-                );
-            }
-        }
+		public Builder description(String description) {
+			this.description = description;
+			return this;
+		}
 
-        public static EventViewDTO.SingleEventViewDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+		public Builder owner(String owner) {
+			this.owner = owner;
+			return this;
+		}
 
-    public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SeriesMovedEventViewDTO {
-        public String masterEventKey;
-        public ZonedDateTime originalStart;
-        public ZonedDateTime originalEnd;
+		public Builder status(Status status) {
+			this.status = status;
+			return this;
+		}
 
-        public SeriesMovedEventViewDTOImpl() {}
-        public SeriesMovedEventViewDTOImpl(
-            String key,
-            String calendarKey,
-            String title,
-            String description,
-            String owner,
-            Status status,
-            ZonedDateTime start,
-            ZonedDateTime end,
-            List<String> tags,
-            List<String> referencedCalendars,
-            String masterEventKey,
-            ZonedDateTime originalStart,
-            ZonedDateTime originalEnd) {
-            super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
-            this.masterEventKey = masterEventKey;
-            this.originalStart = originalStart;
-            this.originalEnd = originalEnd;
-        }
+		public Builder start(ZonedDateTime start) {
+			this.start = start;
+			return this;
+		}
 
-        public String masterEventKey() {
-            return this.masterEventKey;
-        }
+		public Builder end(ZonedDateTime end) {
+			this.end = end;
+			return this;
+		}
 
-        public ZonedDateTime originalStart() {
-            return this.originalStart;
-        }
+		public Builder tags(List<String> tags) {
+			this.tags = tags;
+			return this;
+		}
 
-        public ZonedDateTime originalEnd() {
-            return this.originalEnd;
-        }
+		public Builder referencedCalendars(List<String> referencedCalendars) {
+			this.referencedCalendars = referencedCalendars;
+			return this;
+		}
+	}
 
-        public static SeriesMovedEventViewDTOImpl of(SeriesMovedEventViewDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof SeriesMovedEventViewDTOImpl) {
-                return (SeriesMovedEventViewDTOImpl)source;
-            }
-            return new SeriesMovedEventViewDTOImpl(
-                source.key(),
-                source.calendarKey(),
-                source.title(),
-                source.description(),
-                source.owner(),
-                source.status(),
-                source.start(),
-                source.end(),
-                source.tags(),
-                source.referencedCalendars(),
-                source.masterEventKey(),
-                source.originalStart(),
-                source.originalEnd()
-            );
-        }
+	public static class SingleEventViewDTOImpl extends EventViewDTOImpl implements SingleEventViewDTO {
 
-        public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements EventViewDTO.SeriesMovedEventViewDTO.Builder {
-            String masterEventKey;
-            ZonedDateTime originalStart;
-            ZonedDateTime originalEnd;
-            @Override
-            public SeriesMovedEventViewDTO.Builder key(String key) {
-                return (SeriesMovedEventViewDTO.Builder) super.key(key);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder calendarKey(String calendarKey) {
-                return (SeriesMovedEventViewDTO.Builder) super.calendarKey(calendarKey);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder title(String title) {
-                return (SeriesMovedEventViewDTO.Builder) super.title(title);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder description(String description) {
-                return (SeriesMovedEventViewDTO.Builder) super.description(description);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder owner(String owner) {
-                return (SeriesMovedEventViewDTO.Builder) super.owner(owner);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder status(Status status) {
-                return (SeriesMovedEventViewDTO.Builder) super.status(status);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder start(ZonedDateTime start) {
-                return (SeriesMovedEventViewDTO.Builder) super.start(start);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder end(ZonedDateTime end) {
-                return (SeriesMovedEventViewDTO.Builder) super.end(end);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder tags(List<String> tags) {
-                return (SeriesMovedEventViewDTO.Builder) super.tags(tags);
-            }
-            @Override
-            public SeriesMovedEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
-                return (SeriesMovedEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
-            }
-            public SeriesMovedEventViewDTO.Builder masterEventKey(String masterEventKey) {
-                this.masterEventKey = masterEventKey;
-                return this;
-            }
-            public SeriesMovedEventViewDTO.Builder originalStart(ZonedDateTime originalStart) {
-                this.originalStart = originalStart;
-                return this;
-            }
-            public SeriesMovedEventViewDTO.Builder originalEnd(ZonedDateTime originalEnd) {
-                this.originalEnd = originalEnd;
-                return this;
-            }
-            public SeriesMovedEventViewDTO build() {
-                return new SeriesMovedEventViewDTOImpl(
-                    this.key,
-                    this.calendarKey,
-                    this.title,
-                    this.description,
-                    this.owner,
-                    this.status,
-                    this.start,
-                    this.end,
-                    this.tags,
-                    this.referencedCalendars,
-                    this.masterEventKey,
-                    this.originalStart,
-                    this.originalEnd
-                );
-            }
-        }
+		public SingleEventViewDTOImpl() {
+		}
 
-        public static EventViewDTO.SeriesMovedEventViewDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+		public SingleEventViewDTOImpl(
+				String key,
+				String calendarKey,
+				String title,
+				String description,
+				String owner,
+				Status status,
+				ZonedDateTime start,
+				ZonedDateTime end,
+				List<String> tags,
+				List<String> referencedCalendars) {
+			super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
+		}
 
-    public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements EventViewDTO.SeriesEventViewDTO {
-        public String masterEventKey;
+		public static SingleEventViewDTOImpl of(SingleEventViewDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof SingleEventViewDTOImpl) {
+				return (SingleEventViewDTOImpl) source;
+			}
+			return new SingleEventViewDTOImpl(
+					source.key(),
+					source.calendarKey(),
+					source.title(),
+					source.description(),
+					source.owner(),
+					source.status(),
+					source.start(),
+					source.end(),
+					source.tags(),
+					source.referencedCalendars());
+		}
 
-        public SeriesEventViewDTOImpl() {}
-        public SeriesEventViewDTOImpl(
-            String key,
-            String calendarKey,
-            String title,
-            String description,
-            String owner,
-            Status status,
-            ZonedDateTime start,
-            ZonedDateTime end,
-            List<String> tags,
-            List<String> referencedCalendars,
-            String masterEventKey) {
-            super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
-            this.masterEventKey = masterEventKey;
-        }
+		public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl
+				implements SingleEventViewDTO.Builder {
+			@Override
+			public SingleEventViewDTO.Builder key(String key) {
+				return (SingleEventViewDTO.Builder) super.key(key);
+			}
 
-        public String masterEventKey() {
-            return this.masterEventKey;
-        }
+			@Override
+			public SingleEventViewDTO.Builder calendarKey(String calendarKey) {
+				return (SingleEventViewDTO.Builder) super.calendarKey(calendarKey);
+			}
 
-        public static SeriesEventViewDTOImpl of(SeriesEventViewDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof SeriesEventViewDTOImpl) {
-                return (SeriesEventViewDTOImpl)source;
-            }
-            return new SeriesEventViewDTOImpl(
-                source.key(),
-                source.calendarKey(),
-                source.title(),
-                source.description(),
-                source.owner(),
-                source.status(),
-                source.start(),
-                source.end(),
-                source.tags(),
-                source.referencedCalendars(),
-                source.masterEventKey()
-            );
-        }
+			@Override
+			public SingleEventViewDTO.Builder title(String title) {
+				return (SingleEventViewDTO.Builder) super.title(title);
+			}
 
-        public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements EventViewDTO.SeriesEventViewDTO.Builder {
-            String masterEventKey;
-            @Override
-            public SeriesEventViewDTO.Builder key(String key) {
-                return (SeriesEventViewDTO.Builder) super.key(key);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder calendarKey(String calendarKey) {
-                return (SeriesEventViewDTO.Builder) super.calendarKey(calendarKey);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder title(String title) {
-                return (SeriesEventViewDTO.Builder) super.title(title);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder description(String description) {
-                return (SeriesEventViewDTO.Builder) super.description(description);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder owner(String owner) {
-                return (SeriesEventViewDTO.Builder) super.owner(owner);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder status(Status status) {
-                return (SeriesEventViewDTO.Builder) super.status(status);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder start(ZonedDateTime start) {
-                return (SeriesEventViewDTO.Builder) super.start(start);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder end(ZonedDateTime end) {
-                return (SeriesEventViewDTO.Builder) super.end(end);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder tags(List<String> tags) {
-                return (SeriesEventViewDTO.Builder) super.tags(tags);
-            }
-            @Override
-            public SeriesEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
-                return (SeriesEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
-            }
-            public SeriesEventViewDTO.Builder masterEventKey(String masterEventKey) {
-                this.masterEventKey = masterEventKey;
-                return this;
-            }
-            public SeriesEventViewDTO build() {
-                return new SeriesEventViewDTOImpl(
-                    this.key,
-                    this.calendarKey,
-                    this.title,
-                    this.description,
-                    this.owner,
-                    this.status,
-                    this.start,
-                    this.end,
-                    this.tags,
-                    this.referencedCalendars,
-                    this.masterEventKey
-                );
-            }
-        }
+			@Override
+			public SingleEventViewDTO.Builder description(String description) {
+				return (SingleEventViewDTO.Builder) super.description(description);
+			}
 
-        public static EventViewDTO.SeriesEventViewDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+			@Override
+			public SingleEventViewDTO.Builder owner(String owner) {
+				return (SingleEventViewDTO.Builder) super.owner(owner);
+			}
+
+			@Override
+			public SingleEventViewDTO.Builder status(Status status) {
+				return (SingleEventViewDTO.Builder) super.status(status);
+			}
+
+			@Override
+			public SingleEventViewDTO.Builder start(ZonedDateTime start) {
+				return (SingleEventViewDTO.Builder) super.start(start);
+			}
+
+			@Override
+			public SingleEventViewDTO.Builder end(ZonedDateTime end) {
+				return (SingleEventViewDTO.Builder) super.end(end);
+			}
+
+			@Override
+			public SingleEventViewDTO.Builder tags(List<String> tags) {
+				return (SingleEventViewDTO.Builder) super.tags(tags);
+			}
+
+			@Override
+			public SingleEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+				return (SingleEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
+			}
+
+			public SingleEventViewDTO build() {
+				return new SingleEventViewDTOImpl(
+						this.key,
+						this.calendarKey,
+						this.title,
+						this.description,
+						this.owner,
+						this.status,
+						this.start,
+						this.end,
+						this.tags,
+						this.referencedCalendars);
+			}
+		}
+
+		public static SingleEventViewDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
+
+	public static class SeriesMovedEventViewDTOImpl extends EventViewDTOImpl
+			implements SeriesMovedEventViewDTO {
+		public String masterEventKey;
+		public ZonedDateTime originalStart;
+		public ZonedDateTime originalEnd;
+
+		public SeriesMovedEventViewDTOImpl() {
+		}
+
+		public SeriesMovedEventViewDTOImpl(
+				String key,
+				String calendarKey,
+				String title,
+				String description,
+				String owner,
+				Status status,
+				ZonedDateTime start,
+				ZonedDateTime end,
+				List<String> tags,
+				List<String> referencedCalendars,
+				String masterEventKey,
+				ZonedDateTime originalStart,
+				ZonedDateTime originalEnd) {
+			super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
+			this.masterEventKey = masterEventKey;
+			this.originalStart = originalStart;
+			this.originalEnd = originalEnd;
+		}
+
+		public String masterEventKey() {
+			return this.masterEventKey;
+		}
+
+		public ZonedDateTime originalStart() {
+			return this.originalStart;
+		}
+
+		public ZonedDateTime originalEnd() {
+			return this.originalEnd;
+		}
+
+		public static SeriesMovedEventViewDTOImpl of(SeriesMovedEventViewDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof SeriesMovedEventViewDTOImpl) {
+				return (SeriesMovedEventViewDTOImpl) source;
+			}
+			return new SeriesMovedEventViewDTOImpl(
+					source.key(),
+					source.calendarKey(),
+					source.title(),
+					source.description(),
+					source.owner(),
+					source.status(),
+					source.start(),
+					source.end(),
+					source.tags(),
+					source.referencedCalendars(),
+					source.masterEventKey(),
+					source.originalStart(),
+					source.originalEnd());
+		}
+
+		public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl
+				implements SeriesMovedEventViewDTO.Builder {
+			String masterEventKey;
+			ZonedDateTime originalStart;
+			ZonedDateTime originalEnd;
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder key(String key) {
+				return (SeriesMovedEventViewDTO.Builder) super.key(key);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder calendarKey(String calendarKey) {
+				return (SeriesMovedEventViewDTO.Builder) super.calendarKey(calendarKey);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder title(String title) {
+				return (SeriesMovedEventViewDTO.Builder) super.title(title);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder description(String description) {
+				return (SeriesMovedEventViewDTO.Builder) super.description(description);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder owner(String owner) {
+				return (SeriesMovedEventViewDTO.Builder) super.owner(owner);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder status(Status status) {
+				return (SeriesMovedEventViewDTO.Builder) super.status(status);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder start(ZonedDateTime start) {
+				return (SeriesMovedEventViewDTO.Builder) super.start(start);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder end(ZonedDateTime end) {
+				return (SeriesMovedEventViewDTO.Builder) super.end(end);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder tags(List<String> tags) {
+				return (SeriesMovedEventViewDTO.Builder) super.tags(tags);
+			}
+
+			@Override
+			public SeriesMovedEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+				return (SeriesMovedEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
+			}
+
+			public SeriesMovedEventViewDTO.Builder masterEventKey(String masterEventKey) {
+				this.masterEventKey = masterEventKey;
+				return this;
+			}
+
+			public SeriesMovedEventViewDTO.Builder originalStart(ZonedDateTime originalStart) {
+				this.originalStart = originalStart;
+				return this;
+			}
+
+			public SeriesMovedEventViewDTO.Builder originalEnd(ZonedDateTime originalEnd) {
+				this.originalEnd = originalEnd;
+				return this;
+			}
+
+			public SeriesMovedEventViewDTO build() {
+				return new SeriesMovedEventViewDTOImpl(
+						this.key,
+						this.calendarKey,
+						this.title,
+						this.description,
+						this.owner,
+						this.status,
+						this.start,
+						this.end,
+						this.tags,
+						this.referencedCalendars,
+						this.masterEventKey,
+						this.originalStart,
+						this.originalEnd);
+			}
+		}
+
+		public static SeriesMovedEventViewDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
+
+	public static class SeriesEventViewDTOImpl extends EventViewDTOImpl implements SeriesEventViewDTO {
+		public String masterEventKey;
+
+		public SeriesEventViewDTOImpl() {
+		}
+
+		public SeriesEventViewDTOImpl(
+				String key,
+				String calendarKey,
+				String title,
+				String description,
+				String owner,
+				Status status,
+				ZonedDateTime start,
+				ZonedDateTime end,
+				List<String> tags,
+				List<String> referencedCalendars,
+				String masterEventKey) {
+			super(key, calendarKey, title, description, owner, status, start, end, tags, referencedCalendars);
+			this.masterEventKey = masterEventKey;
+		}
+
+		public String masterEventKey() {
+			return this.masterEventKey;
+		}
+
+		public static SeriesEventViewDTOImpl of(SeriesEventViewDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof SeriesEventViewDTOImpl) {
+				return (SeriesEventViewDTOImpl) source;
+			}
+			return new SeriesEventViewDTOImpl(
+					source.key(),
+					source.calendarKey(),
+					source.title(),
+					source.description(),
+					source.owner(),
+					source.status(),
+					source.start(),
+					source.end(),
+					source.tags(),
+					source.referencedCalendars(),
+					source.masterEventKey());
+		}
+
+		public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl
+				implements SeriesEventViewDTO.Builder {
+			String masterEventKey;
+
+			@Override
+			public SeriesEventViewDTO.Builder key(String key) {
+				return (SeriesEventViewDTO.Builder) super.key(key);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder calendarKey(String calendarKey) {
+				return (SeriesEventViewDTO.Builder) super.calendarKey(calendarKey);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder title(String title) {
+				return (SeriesEventViewDTO.Builder) super.title(title);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder description(String description) {
+				return (SeriesEventViewDTO.Builder) super.description(description);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder owner(String owner) {
+				return (SeriesEventViewDTO.Builder) super.owner(owner);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder status(Status status) {
+				return (SeriesEventViewDTO.Builder) super.status(status);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder start(ZonedDateTime start) {
+				return (SeriesEventViewDTO.Builder) super.start(start);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder end(ZonedDateTime end) {
+				return (SeriesEventViewDTO.Builder) super.end(end);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder tags(List<String> tags) {
+				return (SeriesEventViewDTO.Builder) super.tags(tags);
+			}
+
+			@Override
+			public SeriesEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+				return (SeriesEventViewDTO.Builder) super.referencedCalendars(referencedCalendars);
+			}
+
+			public SeriesEventViewDTO.Builder masterEventKey(String masterEventKey) {
+				this.masterEventKey = masterEventKey;
+				return this;
+			}
+
+			public SeriesEventViewDTO build() {
+				return new SeriesEventViewDTOImpl(
+						this.key,
+						this.calendarKey,
+						this.title,
+						this.description,
+						this.owner,
+						this.status,
+						this.start,
+						this.end,
+						this.tags,
+						this.referencedCalendars,
+						this.masterEventKey);
+			}
+		}
+
+		public static SeriesEventViewDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
 }

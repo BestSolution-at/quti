@@ -6,9 +6,22 @@ import java.time.ZoneId;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface EventRepeatDTO extends BaseDTO {
-    public interface Patch {
+public interface EventRepeatAbsoluteMonthlyDTO extends EventRepeatDTO, MixinEventRepeatDataDTO {
+    /**
+     * the day of the month the event repeats
+     */
+    public short dayOfMonth();
+
+    public interface Builder extends EventRepeatDTO.Builder, MixinEventRepeatDataDTO.Builder {
+        public Builder dayOfMonth(short dayOfMonth);
+        public Builder interval(short interval);
+        public Builder endDate(LocalDate endDate);
+        public Builder timeZone(ZoneId timeZone);
+        public EventRepeatAbsoluteMonthlyDTO build();
+    }
+    public interface Patch extends EventRepeatDTO.Patch {
         public enum Props {
+            DAYOFMONTH,
             INTERVAL,
             ENDDATE,
             TIMEZONE,
@@ -16,6 +29,10 @@ public interface EventRepeatDTO extends BaseDTO {
 
         public boolean isSet(Props prop);
 
+        /**
+         * the day of the month the event repeats
+         */
+        public short dayOfMonth();
         /**
          * Repeat interval
          */
@@ -28,6 +45,17 @@ public interface EventRepeatDTO extends BaseDTO {
          * Timezone in which the event repeats
          */
         public ZoneId timeZone();
+        public static void ifDayOfMonth(Patch dto, Consumer<Short> consumer) {
+            if( dto.isSet(Props.DAYOFMONTH) ) {
+                consumer.accept(dto.dayOfMonth());
+            }
+        }
+        public static <T> T ifDayOfMonth(Patch dto, Function<Short, T> consumer, T defaultValue) {
+            if( dto.isSet(Props.DAYOFMONTH) ) {
+                return consumer.apply(dto.dayOfMonth());
+            }
+            return defaultValue;
+        }
         public static void ifInterval(Patch dto, Consumer<Short> consumer) {
             if( dto.isSet(Props.INTERVAL) ) {
                 consumer.accept(dto.interval());
@@ -61,24 +89,5 @@ public interface EventRepeatDTO extends BaseDTO {
             }
             return defaultValue;
         }
-    }
-    /**
-     * Repeat interval
-     */
-    public short interval();
-    /**
-     * End date of the repeat
-     */
-    public LocalDate endDate();
-    /**
-     * Timezone in which the event repeats
-     */
-    public ZoneId timeZone();
-
-    public interface Builder extends BaseDTO.Builder {
-        public Builder interval(short interval);
-        public Builder endDate(LocalDate endDate);
-        public Builder timeZone(ZoneId timeZone);
-        public EventRepeatDTO build();
     }
 }

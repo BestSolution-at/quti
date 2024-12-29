@@ -13,9 +13,9 @@ import at.bestsolution.quti.service.jpa.model.modification.EventModificationGene
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.DTOBuilderFactory;
 import at.bestsolution.quti.service.dto.EventViewDTO;
-import at.bestsolution.quti.service.dto.EventViewDTO.SeriesEventViewDTO;
-import at.bestsolution.quti.service.dto.EventViewDTO.SeriesMovedEventViewDTO;
-import at.bestsolution.quti.service.dto.EventViewDTO.SingleEventViewDTO;
+import at.bestsolution.quti.service.dto.SeriesEventViewDTO;
+import at.bestsolution.quti.service.dto.SeriesMovedEventViewDTO;
+import at.bestsolution.quti.service.dto.SingleEventViewDTO;
 import at.bestsolution.quti.service.dto.MixinEventViewDataDTO.Status;
 
 public class EventViewDTOUtil {

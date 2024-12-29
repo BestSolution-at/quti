@@ -11,325 +11,346 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
-
+import at.bestsolution.quti.client.dto.EventRepeatAbsoluteMonthlyDTO;
+import at.bestsolution.quti.client.dto.EventRepeatAbsoluteYearlyDTO;
 import at.bestsolution.quti.client.dto.EventRepeatDTO;
+import at.bestsolution.quti.client.dto.EventRepeatDailyDTO;
+import at.bestsolution.quti.client.dto.EventRepeatRelativeMonthlyDTO;
+import at.bestsolution.quti.client.dto.EventRepeatRelativeYearlyDTO;
+import at.bestsolution.quti.client.dto.EventRepeatWeeklyDTO;
 
 public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRepeatDTO {
-    EventRepeatDTOImpl(JsonObject data) {
-        super(data);
-    }
+	EventRepeatDTOImpl(JsonObject data) {
+		super(data);
+	}
 
-    @Override
-    public short interval() {
-        return DTOUtils.mapShort(data, "interval");
-    }
+	@Override
+	public short interval() {
+		return DTOUtils.mapShort(data, "interval");
+	}
 
-    @Override
-    public LocalDate endDate() {
-        return DTOUtils.mapLocalDate(data, "endDate", null);
-    }
+	@Override
+	public LocalDate endDate() {
+		return DTOUtils.mapLocalDate(data, "endDate", null);
+	}
 
-    @Override
-    public ZoneId timeZone() {
-        return DTOUtils.mapLiteral(data, "timeZone", ZoneId::of);
-    }
+	@Override
+	public ZoneId timeZone() {
+		return DTOUtils.mapLiteral(data, "timeZone", ZoneId::of);
+	}
 
-    public static EventRepeatDTO of(JsonObject data) {
-        var descriminator = data.getString("@type");
-        return switch(descriminator) {
-            case "daily" -> new EventRepeatDailyDTOImpl(data);
-            case "weekly" -> new EventRepeatWeeklyDTOImpl(data);
-            case "absolute-monthly" -> new EventRepeatAbsoluteMonthlyDTOImpl(data);
-            case "absolute-yearly" -> new EventRepeatAbsoluteYearlyDTOImpl(data);
-            case "relative-monthly" -> new EventRepeatRelativeMonthlyDTOImpl(data);
-            case "relative-yearly" -> new EventRepeatRelativeYearlyDTOImpl(data);
-            default -> throw new IllegalArgumentException("Unexpected value: %s".formatted(descriminator));
-        };
-    }
+	public static EventRepeatDTO of(JsonObject data) {
+		var descriminator = data.getString("@type");
+		return switch (descriminator) {
+			case "daily" -> new EventRepeatDailyDTOImpl(data);
+			case "weekly" -> new EventRepeatWeeklyDTOImpl(data);
+			case "absolute-monthly" -> new EventRepeatAbsoluteMonthlyDTOImpl(data);
+			case "absolute-yearly" -> new EventRepeatAbsoluteYearlyDTOImpl(data);
+			case "relative-monthly" -> new EventRepeatRelativeMonthlyDTOImpl(data);
+			case "relative-yearly" -> new EventRepeatRelativeYearlyDTOImpl(data);
+			default -> throw new IllegalArgumentException("Unexpected value: %s".formatted(descriminator));
+		};
+	}
 
-    public static List<EventRepeatDTO> of(JsonArray data) {
-        return DTOUtils.mapObjects(data, EventRepeatDTOImpl::of);
-    }
+	public static List<EventRepeatDTO> of(JsonArray data) {
+		return DTOUtils.mapObjects(data, EventRepeatDTOImpl::of);
+	}
 
-    public static abstract class BuilderImpl<T extends EventRepeatDTO> implements EventRepeatDTO.Builder {
-        protected final JsonObjectBuilder $builder = Json.createObjectBuilder();
+	public static abstract class BuilderImpl<T extends EventRepeatDTO> implements EventRepeatDTO.Builder {
+		protected final JsonObjectBuilder $builder = Json.createObjectBuilder();
 
-        @Override
-        public Builder interval(short interval) {
-            $builder.add("interval", interval);
-            return this;
-        }
+		@Override
+		public Builder interval(short interval) {
+			$builder.add("interval", interval);
+			return this;
+		}
 
-        @Override
-        public Builder endDate(LocalDate endDate) {
-            if( endDate == null ) {
-                return this;
-            }
-            $builder.add("endDate", endDate.toString());
-            return this;
-        }
+		@Override
+		public Builder endDate(LocalDate endDate) {
+			if (endDate == null) {
+				return this;
+			}
+			$builder.add("endDate", endDate.toString());
+			return this;
+		}
 
-        @Override
-        public Builder timeZone(ZoneId timeZone) {
-            $builder.add("timeZone", timeZone.toString());
-            return this;
-        }
-    }
+		@Override
+		public Builder timeZone(ZoneId timeZone) {
+			$builder.add("timeZone", timeZone.toString());
+			return this;
+		}
+	}
 
-    public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDailyDTO {
-        EventRepeatDailyDTOImpl(JsonObject data) {
-            super(data);
-        }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatDailyDTO> implements EventRepeatDailyDTO.Builder {
-            public BuilderImpl() {
-                $builder.add("@type","daily");
-            }
+	public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDailyDTO {
+		EventRepeatDailyDTOImpl(JsonObject data) {
+			super(data);
+		}
 
-            @Override
-            public EventRepeatDailyDTO.Builder interval(short interval) {
-                return (EventRepeatDailyDTO.Builder) super.interval(interval);
-            }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatDailyDTO>
+				implements EventRepeatDailyDTO.Builder {
+			public BuilderImpl() {
+				$builder.add("@type", "daily");
+			}
 
-            @Override
-            public EventRepeatDailyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatDailyDTO.Builder) super.endDate(endDate);
-            }
+			@Override
+			public EventRepeatDailyDTO.Builder interval(short interval) {
+				return (EventRepeatDailyDTO.Builder) super.interval(interval);
+			}
 
-            @Override
-            public EventRepeatDailyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatDailyDTO.Builder) super.timeZone(timeZone);
-            }
+			@Override
+			public EventRepeatDailyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatDailyDTO.Builder) super.endDate(endDate);
+			}
 
-            public EventRepeatDailyDTO build() {
-                return new EventRepeatDailyDTOImpl($builder.build());
-            }
-        }
-    }
+			@Override
+			public EventRepeatDailyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatDailyDTO.Builder) super.timeZone(timeZone);
+			}
 
-    public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl implements EventRepeatWeeklyDTO {
-        EventRepeatWeeklyDTOImpl(JsonObject data) {
-            super(data);
-        }
+			public EventRepeatDailyDTO build() {
+				return new EventRepeatDailyDTOImpl($builder.build());
+			}
+		}
+	}
 
-        @Override
-        public List<DayOfWeek> daysOfWeek() {
-            return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
-        }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatWeeklyDTO> implements EventRepeatWeeklyDTO.Builder {
-            public BuilderImpl() {
-                $builder.add("@type","weekly");
-            }
+	public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl implements EventRepeatWeeklyDTO {
+		EventRepeatWeeklyDTOImpl(JsonObject data) {
+			super(data);
+		}
 
-            @Override
-            public EventRepeatWeeklyDTO.Builder interval(short interval) {
-                return (EventRepeatWeeklyDTO.Builder) super.interval(interval);
-            }
+		@Override
+		public List<DayOfWeek> daysOfWeek() {
+			return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
+		}
 
-            @Override
-            public EventRepeatWeeklyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatWeeklyDTO.Builder) super.endDate(endDate);
-            }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatWeeklyDTO>
+				implements EventRepeatWeeklyDTO.Builder {
+			public BuilderImpl() {
+				$builder.add("@type", "weekly");
+			}
 
-            @Override
-            public EventRepeatWeeklyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatWeeklyDTO.Builder) super.timeZone(timeZone);
-            }
+			@Override
+			public EventRepeatWeeklyDTO.Builder interval(short interval) {
+				return (EventRepeatWeeklyDTO.Builder) super.interval(interval);
+			}
 
-            @Override
-            public EventRepeatWeeklyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-                $builder.add("daysOfWeek", DTOUtils.toJsonLiteralArray(daysOfWeek));
-                return this;
-            }
+			@Override
+			public EventRepeatWeeklyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatWeeklyDTO.Builder) super.endDate(endDate);
+			}
 
-            public EventRepeatWeeklyDTO build() {
-                return new EventRepeatWeeklyDTOImpl($builder.build());
-            }
-        }
-    }
+			@Override
+			public EventRepeatWeeklyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatWeeklyDTO.Builder) super.timeZone(timeZone);
+			}
 
-    public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatAbsoluteMonthlyDTO {
-        EventRepeatAbsoluteMonthlyDTOImpl(JsonObject data) {
-            super(data);
-        }
+			@Override
+			public EventRepeatWeeklyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+				$builder.add("daysOfWeek", DTOUtils.toJsonLiteralArray(daysOfWeek));
+				return this;
+			}
 
-        @Override
-        public short dayOfMonth() {
-            return DTOUtils.mapShort(data, "dayOfMonth");
-        }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteMonthlyDTO> implements EventRepeatAbsoluteMonthlyDTO.Builder {
-            public BuilderImpl() {
-                $builder.add("@type","absolute-monthly");
-            }
+			public EventRepeatWeeklyDTO build() {
+				return new EventRepeatWeeklyDTOImpl($builder.build());
+			}
+		}
+	}
 
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder interval(short interval) {
-                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.interval(interval);
-            }
+	public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatAbsoluteMonthlyDTO {
+		EventRepeatAbsoluteMonthlyDTOImpl(JsonObject data) {
+			super(data);
+		}
 
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.endDate(endDate);
-            }
+		@Override
+		public short dayOfMonth() {
+			return DTOUtils.mapShort(data, "dayOfMonth");
+		}
 
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.timeZone(timeZone);
-            }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteMonthlyDTO>
+				implements EventRepeatAbsoluteMonthlyDTO.Builder {
+			public BuilderImpl() {
+				$builder.add("@type", "absolute-monthly");
+			}
 
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder dayOfMonth(short dayOfMonth) {
-                $builder.add("dayOfMonth", dayOfMonth);
-                return this;
-            }
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder interval(short interval) {
+				return (EventRepeatAbsoluteMonthlyDTO.Builder) super.interval(interval);
+			}
 
-            public EventRepeatAbsoluteMonthlyDTO build() {
-                return new EventRepeatAbsoluteMonthlyDTOImpl($builder.build());
-            }
-        }
-    }
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatAbsoluteMonthlyDTO.Builder) super.endDate(endDate);
+			}
 
-    public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatAbsoluteYearlyDTO {
-        EventRepeatAbsoluteYearlyDTOImpl(JsonObject data) {
-            super(data);
-        }
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatAbsoluteMonthlyDTO.Builder) super.timeZone(timeZone);
+			}
 
-        @Override
-        public short dayOfMonth() {
-            return DTOUtils.mapShort(data, "dayOfMonth");
-        }
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder dayOfMonth(short dayOfMonth) {
+				$builder.add("dayOfMonth", dayOfMonth);
+				return this;
+			}
 
-        @Override
-        public Month month() {
-            return DTOUtils.mapLiteral(data, "month", Month::valueOf);
-        }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteYearlyDTO> implements EventRepeatAbsoluteYearlyDTO.Builder {
-            public BuilderImpl() {
-                $builder.add("@type","absolute-yearly");
-            }
+			public EventRepeatAbsoluteMonthlyDTO build() {
+				return new EventRepeatAbsoluteMonthlyDTOImpl($builder.build());
+			}
+		}
+	}
 
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder interval(short interval) {
-                return (EventRepeatAbsoluteYearlyDTO.Builder) super.interval(interval);
-            }
+	public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatAbsoluteYearlyDTO {
+		EventRepeatAbsoluteYearlyDTOImpl(JsonObject data) {
+			super(data);
+		}
 
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatAbsoluteYearlyDTO.Builder) super.endDate(endDate);
-            }
+		@Override
+		public short dayOfMonth() {
+			return DTOUtils.mapShort(data, "dayOfMonth");
+		}
 
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatAbsoluteYearlyDTO.Builder) super.timeZone(timeZone);
-            }
+		@Override
+		public Month month() {
+			return DTOUtils.mapLiteral(data, "month", Month::valueOf);
+		}
 
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder dayOfMonth(short dayOfMonth) {
-                $builder.add("dayOfMonth", dayOfMonth);
-                return this;
-            }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteYearlyDTO>
+				implements EventRepeatAbsoluteYearlyDTO.Builder {
+			public BuilderImpl() {
+				$builder.add("@type", "absolute-yearly");
+			}
 
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder month(Month month) {
-                $builder.add("month", month.toString());
-                return this;
-            }
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder interval(short interval) {
+				return (EventRepeatAbsoluteYearlyDTO.Builder) super.interval(interval);
+			}
 
-            public EventRepeatAbsoluteYearlyDTO build() {
-                return new EventRepeatAbsoluteYearlyDTOImpl($builder.build());
-            }
-        }
-    }
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatAbsoluteYearlyDTO.Builder) super.endDate(endDate);
+			}
 
-    public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatRelativeMonthlyDTO {
-        EventRepeatRelativeMonthlyDTOImpl(JsonObject data) {
-            super(data);
-        }
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatAbsoluteYearlyDTO.Builder) super.timeZone(timeZone);
+			}
 
-        @Override
-        public List<DayOfWeek> daysOfWeek() {
-            return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
-        }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeMonthlyDTO> implements EventRepeatRelativeMonthlyDTO.Builder {
-            public BuilderImpl() {
-                $builder.add("@type","relative-monthly");
-            }
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder dayOfMonth(short dayOfMonth) {
+				$builder.add("dayOfMonth", dayOfMonth);
+				return this;
+			}
 
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder interval(short interval) {
-                return (EventRepeatRelativeMonthlyDTO.Builder) super.interval(interval);
-            }
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder month(Month month) {
+				$builder.add("month", month.toString());
+				return this;
+			}
 
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatRelativeMonthlyDTO.Builder) super.endDate(endDate);
-            }
+			public EventRepeatAbsoluteYearlyDTO build() {
+				return new EventRepeatAbsoluteYearlyDTOImpl($builder.build());
+			}
+		}
+	}
 
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatRelativeMonthlyDTO.Builder) super.timeZone(timeZone);
-            }
+	public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatRelativeMonthlyDTO {
+		EventRepeatRelativeMonthlyDTOImpl(JsonObject data) {
+			super(data);
+		}
 
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-                $builder.add("daysOfWeek", DTOUtils.toJsonLiteralArray(daysOfWeek));
-                return this;
-            }
+		@Override
+		public List<DayOfWeek> daysOfWeek() {
+			return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
+		}
 
-            public EventRepeatRelativeMonthlyDTO build() {
-                return new EventRepeatRelativeMonthlyDTOImpl($builder.build());
-            }
-        }
-    }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeMonthlyDTO>
+				implements EventRepeatRelativeMonthlyDTO.Builder {
+			public BuilderImpl() {
+				$builder.add("@type", "relative-monthly");
+			}
 
-    public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatRelativeYearlyDTO {
-        EventRepeatRelativeYearlyDTOImpl(JsonObject data) {
-            super(data);
-        }
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder interval(short interval) {
+				return (EventRepeatRelativeMonthlyDTO.Builder) super.interval(interval);
+			}
 
-        @Override
-        public List<DayOfWeek> daysOfWeek() {
-            return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
-        }
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatRelativeMonthlyDTO.Builder) super.endDate(endDate);
+			}
 
-        @Override
-        public Month month() {
-            return DTOUtils.mapLiteral(data, "month", Month::valueOf);
-        }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeYearlyDTO> implements EventRepeatRelativeYearlyDTO.Builder {
-            public BuilderImpl() {
-                $builder.add("@type","relative-yearly");
-            }
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatRelativeMonthlyDTO.Builder) super.timeZone(timeZone);
+			}
 
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
-                return (EventRepeatRelativeYearlyDTO.Builder) super.interval(interval);
-            }
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+				$builder.add("daysOfWeek", DTOUtils.toJsonLiteralArray(daysOfWeek));
+				return this;
+			}
 
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatRelativeYearlyDTO.Builder) super.endDate(endDate);
-            }
+			public EventRepeatRelativeMonthlyDTO build() {
+				return new EventRepeatRelativeMonthlyDTOImpl($builder.build());
+			}
+		}
+	}
 
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatRelativeYearlyDTO.Builder) super.timeZone(timeZone);
-            }
+	public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatRelativeYearlyDTO {
+		EventRepeatRelativeYearlyDTOImpl(JsonObject data) {
+			super(data);
+		}
 
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-                $builder.add("daysOfWeek", DTOUtils.toJsonLiteralArray(daysOfWeek));
-                return this;
-            }
+		@Override
+		public List<DayOfWeek> daysOfWeek() {
+			return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
+		}
 
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
-                $builder.add("month", month.toString());
-                return this;
-            }
+		@Override
+		public Month month() {
+			return DTOUtils.mapLiteral(data, "month", Month::valueOf);
+		}
 
-            public EventRepeatRelativeYearlyDTO build() {
-                return new EventRepeatRelativeYearlyDTOImpl($builder.build());
-            }
-        }
-    }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeYearlyDTO>
+				implements EventRepeatRelativeYearlyDTO.Builder {
+			public BuilderImpl() {
+				$builder.add("@type", "relative-yearly");
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
+				return (EventRepeatRelativeYearlyDTO.Builder) super.interval(interval);
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatRelativeYearlyDTO.Builder) super.endDate(endDate);
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatRelativeYearlyDTO.Builder) super.timeZone(timeZone);
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+				$builder.add("daysOfWeek", DTOUtils.toJsonLiteralArray(daysOfWeek));
+				return this;
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
+				$builder.add("month", month.toString());
+				return this;
+			}
+
+			public EventRepeatRelativeYearlyDTO build() {
+				return new EventRepeatRelativeYearlyDTOImpl($builder.build());
+			}
+		}
+	}
 }

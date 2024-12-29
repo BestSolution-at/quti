@@ -9,492 +9,534 @@ import java.util.List;
 
 import jakarta.json.bind.annotation.JsonbSubtype;
 import jakarta.json.bind.annotation.JsonbTypeInfo;
-
-import at.bestsolution.quti.service.dto.EventRepeatDTO;
+import at.bestsolution.quti.service.dto.EventRepeatAbsoluteMonthlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatAbsoluteYearlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatDailyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatRelativeMonthlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO;
+import at.bestsolution.quti.service.dto.EventRepeatWeeklyDTO;
 
 @JsonbTypeInfo({
-    @JsonbSubtype(alias = "daily", type = EventRepeatDTOImpl.EventRepeatDailyDTOImpl.class),
-    @JsonbSubtype(alias = "weekly", type = EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.class),
-    @JsonbSubtype(alias = "absolute-monthly", type = EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.class),
-    @JsonbSubtype(alias = "absolute-yearly", type = EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl.class),
-    @JsonbSubtype(alias = "relative-monthly", type = EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl.class),
-    @JsonbSubtype(alias = "relative-yearly", type = EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl.class),
+		@JsonbSubtype(alias = "daily", type = EventRepeatDTOImpl.EventRepeatDailyDTOImpl.class),
+		@JsonbSubtype(alias = "weekly", type = EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.class),
+		@JsonbSubtype(alias = "absolute-monthly", type = EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.class),
+		@JsonbSubtype(alias = "absolute-yearly", type = EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl.class),
+		@JsonbSubtype(alias = "relative-monthly", type = EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl.class),
+		@JsonbSubtype(alias = "relative-yearly", type = EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl.class),
 })
 public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO {
-    public short interval;
-    public LocalDate endDate;
-    public ZoneId timeZone;
+	public short interval;
+	public LocalDate endDate;
+	public ZoneId timeZone;
 
-    public EventRepeatDTOImpl() {}
-    public EventRepeatDTOImpl(
-        short interval,
-        LocalDate endDate,
-        ZoneId timeZone) {
-        this.interval = interval;
-        this.endDate = endDate;
-        this.timeZone = timeZone;
-    }
+	public EventRepeatDTOImpl() {
+	}
 
-    public short interval() {
-        return this.interval;
-    }
+	public EventRepeatDTOImpl(
+			short interval,
+			LocalDate endDate,
+			ZoneId timeZone) {
+		this.interval = interval;
+		this.endDate = endDate;
+		this.timeZone = timeZone;
+	}
 
-    public LocalDate endDate() {
-        return this.endDate;
-    }
+	public short interval() {
+		return this.interval;
+	}
 
-    public ZoneId timeZone() {
-        return this.timeZone;
-    }
+	public LocalDate endDate() {
+		return this.endDate;
+	}
 
-    public static EventRepeatDTOImpl of(at.bestsolution.quti.service.dto.EventRepeatDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof EventRepeatDTOImpl) {
-            return (EventRepeatDTOImpl)source;
-        }
-        if(source instanceof EventRepeatDailyDTO t) {
-            return EventRepeatDailyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatWeeklyDTO t) {
-            return EventRepeatWeeklyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatAbsoluteMonthlyDTO t) {
-            return EventRepeatAbsoluteMonthlyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatAbsoluteYearlyDTO t) {
-            return EventRepeatAbsoluteYearlyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatRelativeMonthlyDTO t) {
-            return EventRepeatRelativeMonthlyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatRelativeYearlyDTO t) {
-            return EventRepeatRelativeYearlyDTOImpl.of(t);
-        }
-        throw new IllegalStateException("Unsupported type '%s'".formatted(source));
-    }
+	public ZoneId timeZone() {
+		return this.timeZone;
+	}
 
-    public static abstract class BuilderImpl implements Builder {
-        short interval;
-        LocalDate endDate;
-        ZoneId timeZone;
+	public static EventRepeatDTOImpl of(at.bestsolution.quti.service.dto.EventRepeatDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof EventRepeatDTOImpl) {
+			return (EventRepeatDTOImpl) source;
+		}
+		if (source instanceof EventRepeatDailyDTO t) {
+			return EventRepeatDailyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatWeeklyDTO t) {
+			return EventRepeatWeeklyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatAbsoluteMonthlyDTO t) {
+			return EventRepeatAbsoluteMonthlyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatAbsoluteYearlyDTO t) {
+			return EventRepeatAbsoluteYearlyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatRelativeMonthlyDTO t) {
+			return EventRepeatRelativeMonthlyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatRelativeYearlyDTO t) {
+			return EventRepeatRelativeYearlyDTOImpl.of(t);
+		}
+		throw new IllegalStateException("Unsupported type '%s'".formatted(source));
+	}
 
-        public Builder interval(short interval) {
-            this.interval = interval;
-            return this;
-        }
-        public Builder endDate(LocalDate endDate) {
-            this.endDate = endDate;
-            return this;
-        }
-        public Builder timeZone(ZoneId timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
-    }
+	public static abstract class BuilderImpl implements Builder {
+		short interval;
+		LocalDate endDate;
+		ZoneId timeZone;
 
-    public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatDailyDTO {
+		public Builder interval(short interval) {
+			this.interval = interval;
+			return this;
+		}
 
-        public EventRepeatDailyDTOImpl() {}
-        public EventRepeatDailyDTOImpl(
-            short interval,
-            LocalDate endDate,
-            ZoneId timeZone) {
-            super(interval, endDate, timeZone);
-        }
+		public Builder endDate(LocalDate endDate) {
+			this.endDate = endDate;
+			return this;
+		}
 
-        public static EventRepeatDailyDTOImpl of(EventRepeatDailyDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof EventRepeatDailyDTOImpl) {
-                return (EventRepeatDailyDTOImpl)source;
-            }
-            return new EventRepeatDailyDTOImpl(
-                source.interval(),
-                source.endDate(),
-                source.timeZone()
-            );
-        }
+		public Builder timeZone(ZoneId timeZone) {
+			this.timeZone = timeZone;
+			return this;
+		}
+	}
 
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatDailyDTO.Builder {
-            @Override
-            public EventRepeatDailyDTO.Builder interval(short interval) {
-                return (EventRepeatDailyDTO.Builder) super.interval(interval);
-            }
-            @Override
-            public EventRepeatDailyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatDailyDTO.Builder) super.endDate(endDate);
-            }
-            @Override
-            public EventRepeatDailyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatDailyDTO.Builder) super.timeZone(timeZone);
-            }
-            public EventRepeatDailyDTO build() {
-                return new EventRepeatDailyDTOImpl(
-                    this.interval,
-                    this.endDate,
-                    this.timeZone
-                );
-            }
-        }
+	public static class EventRepeatDailyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDailyDTO {
 
-        public static EventRepeatDTO.EventRepeatDailyDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+		public EventRepeatDailyDTOImpl() {
+		}
 
-    public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatWeeklyDTO {
-        public List<DayOfWeek> daysOfWeek;
+		public EventRepeatDailyDTOImpl(
+				short interval,
+				LocalDate endDate,
+				ZoneId timeZone) {
+			super(interval, endDate, timeZone);
+		}
 
-        public EventRepeatWeeklyDTOImpl() {}
-        public EventRepeatWeeklyDTOImpl(
-            short interval,
-            LocalDate endDate,
-            ZoneId timeZone,
-            List<DayOfWeek> daysOfWeek) {
-            super(interval, endDate, timeZone);
-            this.daysOfWeek = daysOfWeek;
-        }
+		public static EventRepeatDailyDTOImpl of(EventRepeatDailyDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof EventRepeatDailyDTOImpl) {
+				return (EventRepeatDailyDTOImpl) source;
+			}
+			return new EventRepeatDailyDTOImpl(
+					source.interval(),
+					source.endDate(),
+					source.timeZone());
+		}
 
-        public List<DayOfWeek> daysOfWeek() {
-            return this.daysOfWeek;
-        }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+				implements EventRepeatDailyDTO.Builder {
+			@Override
+			public EventRepeatDailyDTO.Builder interval(short interval) {
+				return (EventRepeatDailyDTO.Builder) super.interval(interval);
+			}
 
-        public static EventRepeatWeeklyDTOImpl of(EventRepeatWeeklyDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof EventRepeatWeeklyDTOImpl) {
-                return (EventRepeatWeeklyDTOImpl)source;
-            }
-            return new EventRepeatWeeklyDTOImpl(
-                source.interval(),
-                source.endDate(),
-                source.timeZone(),
-                source.daysOfWeek()
-            );
-        }
+			@Override
+			public EventRepeatDailyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatDailyDTO.Builder) super.endDate(endDate);
+			}
 
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatWeeklyDTO.Builder {
-            List<DayOfWeek> daysOfWeek;
-            @Override
-            public EventRepeatWeeklyDTO.Builder interval(short interval) {
-                return (EventRepeatWeeklyDTO.Builder) super.interval(interval);
-            }
-            @Override
-            public EventRepeatWeeklyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatWeeklyDTO.Builder) super.endDate(endDate);
-            }
-            @Override
-            public EventRepeatWeeklyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatWeeklyDTO.Builder) super.timeZone(timeZone);
-            }
-            public EventRepeatWeeklyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-                this.daysOfWeek = daysOfWeek;
-                return this;
-            }
-            public EventRepeatWeeklyDTO build() {
-                return new EventRepeatWeeklyDTOImpl(
-                    this.interval,
-                    this.endDate,
-                    this.timeZone,
-                    this.daysOfWeek
-                );
-            }
-        }
+			@Override
+			public EventRepeatDailyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatDailyDTO.Builder) super.timeZone(timeZone);
+			}
 
-        public static EventRepeatDTO.EventRepeatWeeklyDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+			public EventRepeatDailyDTO build() {
+				return new EventRepeatDailyDTOImpl(
+						this.interval,
+						this.endDate,
+						this.timeZone);
+			}
+		}
 
-    public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO {
-        public short dayOfMonth;
+		public static EventRepeatDailyDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
 
-        public EventRepeatAbsoluteMonthlyDTOImpl() {}
-        public EventRepeatAbsoluteMonthlyDTOImpl(
-            short interval,
-            LocalDate endDate,
-            ZoneId timeZone,
-            short dayOfMonth) {
-            super(interval, endDate, timeZone);
-            this.dayOfMonth = dayOfMonth;
-        }
+	public static class EventRepeatWeeklyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatWeeklyDTO {
+		public List<DayOfWeek> daysOfWeek;
 
-        public short dayOfMonth() {
-            return this.dayOfMonth;
-        }
+		public EventRepeatWeeklyDTOImpl() {
+		}
 
-        public static EventRepeatAbsoluteMonthlyDTOImpl of(EventRepeatAbsoluteMonthlyDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof EventRepeatAbsoluteMonthlyDTOImpl) {
-                return (EventRepeatAbsoluteMonthlyDTOImpl)source;
-            }
-            return new EventRepeatAbsoluteMonthlyDTOImpl(
-                source.interval(),
-                source.endDate(),
-                source.timeZone(),
-                source.dayOfMonth()
-            );
-        }
+		public EventRepeatWeeklyDTOImpl(
+				short interval,
+				LocalDate endDate,
+				ZoneId timeZone,
+				List<DayOfWeek> daysOfWeek) {
+			super(interval, endDate, timeZone);
+			this.daysOfWeek = daysOfWeek;
+		}
 
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder {
-            short dayOfMonth;
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder interval(short interval) {
-                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.interval(interval);
-            }
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.endDate(endDate);
-            }
-            @Override
-            public EventRepeatAbsoluteMonthlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatAbsoluteMonthlyDTO.Builder) super.timeZone(timeZone);
-            }
-            public EventRepeatAbsoluteMonthlyDTO.Builder dayOfMonth(short dayOfMonth) {
-                this.dayOfMonth = dayOfMonth;
-                return this;
-            }
-            public EventRepeatAbsoluteMonthlyDTO build() {
-                return new EventRepeatAbsoluteMonthlyDTOImpl(
-                    this.interval,
-                    this.endDate,
-                    this.timeZone,
-                    this.dayOfMonth
-                );
-            }
-        }
+		public List<DayOfWeek> daysOfWeek() {
+			return this.daysOfWeek;
+		}
 
-        public static EventRepeatDTO.EventRepeatAbsoluteMonthlyDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+		public static EventRepeatWeeklyDTOImpl of(EventRepeatWeeklyDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof EventRepeatWeeklyDTOImpl) {
+				return (EventRepeatWeeklyDTOImpl) source;
+			}
+			return new EventRepeatWeeklyDTOImpl(
+					source.interval(),
+					source.endDate(),
+					source.timeZone(),
+					source.daysOfWeek());
+		}
 
-    public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatAbsoluteYearlyDTO {
-        public short dayOfMonth;
-        public Month month;
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+				implements EventRepeatWeeklyDTO.Builder {
+			List<DayOfWeek> daysOfWeek;
 
-        public EventRepeatAbsoluteYearlyDTOImpl() {}
-        public EventRepeatAbsoluteYearlyDTOImpl(
-            short interval,
-            LocalDate endDate,
-            ZoneId timeZone,
-            short dayOfMonth,
-            Month month) {
-            super(interval, endDate, timeZone);
-            this.dayOfMonth = dayOfMonth;
-            this.month = month;
-        }
+			@Override
+			public EventRepeatWeeklyDTO.Builder interval(short interval) {
+				return (EventRepeatWeeklyDTO.Builder) super.interval(interval);
+			}
 
-        public short dayOfMonth() {
-            return this.dayOfMonth;
-        }
+			@Override
+			public EventRepeatWeeklyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatWeeklyDTO.Builder) super.endDate(endDate);
+			}
 
-        public Month month() {
-            return this.month;
-        }
+			@Override
+			public EventRepeatWeeklyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatWeeklyDTO.Builder) super.timeZone(timeZone);
+			}
 
-        public static EventRepeatAbsoluteYearlyDTOImpl of(EventRepeatAbsoluteYearlyDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof EventRepeatAbsoluteYearlyDTOImpl) {
-                return (EventRepeatAbsoluteYearlyDTOImpl)source;
-            }
-            return new EventRepeatAbsoluteYearlyDTOImpl(
-                source.interval(),
-                source.endDate(),
-                source.timeZone(),
-                source.dayOfMonth(),
-                source.month()
-            );
-        }
+			public EventRepeatWeeklyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+				this.daysOfWeek = daysOfWeek;
+				return this;
+			}
 
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.Builder {
-            short dayOfMonth;
-            Month month;
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder interval(short interval) {
-                return (EventRepeatAbsoluteYearlyDTO.Builder) super.interval(interval);
-            }
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatAbsoluteYearlyDTO.Builder) super.endDate(endDate);
-            }
-            @Override
-            public EventRepeatAbsoluteYearlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatAbsoluteYearlyDTO.Builder) super.timeZone(timeZone);
-            }
-            public EventRepeatAbsoluteYearlyDTO.Builder dayOfMonth(short dayOfMonth) {
-                this.dayOfMonth = dayOfMonth;
-                return this;
-            }
-            public EventRepeatAbsoluteYearlyDTO.Builder month(Month month) {
-                this.month = month;
-                return this;
-            }
-            public EventRepeatAbsoluteYearlyDTO build() {
-                return new EventRepeatAbsoluteYearlyDTOImpl(
-                    this.interval,
-                    this.endDate,
-                    this.timeZone,
-                    this.dayOfMonth,
-                    this.month
-                );
-            }
-        }
+			public EventRepeatWeeklyDTO build() {
+				return new EventRepeatWeeklyDTOImpl(
+						this.interval,
+						this.endDate,
+						this.timeZone,
+						this.daysOfWeek);
+			}
+		}
 
-        public static EventRepeatDTO.EventRepeatAbsoluteYearlyDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+		public static EventRepeatWeeklyDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
 
-    public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatRelativeMonthlyDTO {
-        public List<DayOfWeek> daysOfWeek;
+	public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatAbsoluteMonthlyDTO {
+		public short dayOfMonth;
 
-        public EventRepeatRelativeMonthlyDTOImpl() {}
-        public EventRepeatRelativeMonthlyDTOImpl(
-            short interval,
-            LocalDate endDate,
-            ZoneId timeZone,
-            List<DayOfWeek> daysOfWeek) {
-            super(interval, endDate, timeZone);
-            this.daysOfWeek = daysOfWeek;
-        }
+		public EventRepeatAbsoluteMonthlyDTOImpl() {
+		}
 
-        public List<DayOfWeek> daysOfWeek() {
-            return this.daysOfWeek;
-        }
+		public EventRepeatAbsoluteMonthlyDTOImpl(
+				short interval,
+				LocalDate endDate,
+				ZoneId timeZone,
+				short dayOfMonth) {
+			super(interval, endDate, timeZone);
+			this.dayOfMonth = dayOfMonth;
+		}
 
-        public static EventRepeatRelativeMonthlyDTOImpl of(EventRepeatRelativeMonthlyDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof EventRepeatRelativeMonthlyDTOImpl) {
-                return (EventRepeatRelativeMonthlyDTOImpl)source;
-            }
-            return new EventRepeatRelativeMonthlyDTOImpl(
-                source.interval(),
-                source.endDate(),
-                source.timeZone(),
-                source.daysOfWeek()
-            );
-        }
+		public short dayOfMonth() {
+			return this.dayOfMonth;
+		}
 
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatRelativeMonthlyDTO.Builder {
-            List<DayOfWeek> daysOfWeek;
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder interval(short interval) {
-                return (EventRepeatRelativeMonthlyDTO.Builder) super.interval(interval);
-            }
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatRelativeMonthlyDTO.Builder) super.endDate(endDate);
-            }
-            @Override
-            public EventRepeatRelativeMonthlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatRelativeMonthlyDTO.Builder) super.timeZone(timeZone);
-            }
-            public EventRepeatRelativeMonthlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-                this.daysOfWeek = daysOfWeek;
-                return this;
-            }
-            public EventRepeatRelativeMonthlyDTO build() {
-                return new EventRepeatRelativeMonthlyDTOImpl(
-                    this.interval,
-                    this.endDate,
-                    this.timeZone,
-                    this.daysOfWeek
-                );
-            }
-        }
+		public static EventRepeatAbsoluteMonthlyDTOImpl of(EventRepeatAbsoluteMonthlyDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof EventRepeatAbsoluteMonthlyDTOImpl) {
+				return (EventRepeatAbsoluteMonthlyDTOImpl) source;
+			}
+			return new EventRepeatAbsoluteMonthlyDTOImpl(
+					source.interval(),
+					source.endDate(),
+					source.timeZone(),
+					source.dayOfMonth());
+		}
 
-        public static EventRepeatDTO.EventRepeatRelativeMonthlyDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+				implements EventRepeatAbsoluteMonthlyDTO.Builder {
+			short dayOfMonth;
 
-    public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatDTO.EventRepeatRelativeYearlyDTO {
-        public List<DayOfWeek> daysOfWeek;
-        public Month month;
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder interval(short interval) {
+				return (EventRepeatAbsoluteMonthlyDTO.Builder) super.interval(interval);
+			}
 
-        public EventRepeatRelativeYearlyDTOImpl() {}
-        public EventRepeatRelativeYearlyDTOImpl(
-            short interval,
-            LocalDate endDate,
-            ZoneId timeZone,
-            List<DayOfWeek> daysOfWeek,
-            Month month) {
-            super(interval, endDate, timeZone);
-            this.daysOfWeek = daysOfWeek;
-            this.month = month;
-        }
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatAbsoluteMonthlyDTO.Builder) super.endDate(endDate);
+			}
 
-        public List<DayOfWeek> daysOfWeek() {
-            return this.daysOfWeek;
-        }
+			@Override
+			public EventRepeatAbsoluteMonthlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatAbsoluteMonthlyDTO.Builder) super.timeZone(timeZone);
+			}
 
-        public Month month() {
-            return this.month;
-        }
+			public EventRepeatAbsoluteMonthlyDTO.Builder dayOfMonth(short dayOfMonth) {
+				this.dayOfMonth = dayOfMonth;
+				return this;
+			}
 
-        public static EventRepeatRelativeYearlyDTOImpl of(EventRepeatRelativeYearlyDTO source) {
-            if(source == null) {
-                return null;
-            }
-            else if(source instanceof EventRepeatRelativeYearlyDTOImpl) {
-                return (EventRepeatRelativeYearlyDTOImpl)source;
-            }
-            return new EventRepeatRelativeYearlyDTOImpl(
-                source.interval(),
-                source.endDate(),
-                source.timeZone(),
-                source.daysOfWeek(),
-                source.month()
-            );
-        }
+			public EventRepeatAbsoluteMonthlyDTO build() {
+				return new EventRepeatAbsoluteMonthlyDTOImpl(
+						this.interval,
+						this.endDate,
+						this.timeZone,
+						this.dayOfMonth);
+			}
+		}
 
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatDTO.EventRepeatRelativeYearlyDTO.Builder {
-            List<DayOfWeek> daysOfWeek;
-            Month month;
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
-                return (EventRepeatRelativeYearlyDTO.Builder) super.interval(interval);
-            }
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
-                return (EventRepeatRelativeYearlyDTO.Builder) super.endDate(endDate);
-            }
-            @Override
-            public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
-                return (EventRepeatRelativeYearlyDTO.Builder) super.timeZone(timeZone);
-            }
-            public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-                this.daysOfWeek = daysOfWeek;
-                return this;
-            }
-            public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
-                this.month = month;
-                return this;
-            }
-            public EventRepeatRelativeYearlyDTO build() {
-                return new EventRepeatRelativeYearlyDTOImpl(
-                    this.interval,
-                    this.endDate,
-                    this.timeZone,
-                    this.daysOfWeek,
-                    this.month
-                );
-            }
-        }
+		public static EventRepeatAbsoluteMonthlyDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
 
-        public static EventRepeatDTO.EventRepeatRelativeYearlyDTO.Builder builder() {
-            return new BuilderImpl();
-        }
-    }
+	public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatAbsoluteYearlyDTO {
+		public short dayOfMonth;
+		public Month month;
+
+		public EventRepeatAbsoluteYearlyDTOImpl() {
+		}
+
+		public EventRepeatAbsoluteYearlyDTOImpl(
+				short interval,
+				LocalDate endDate,
+				ZoneId timeZone,
+				short dayOfMonth,
+				Month month) {
+			super(interval, endDate, timeZone);
+			this.dayOfMonth = dayOfMonth;
+			this.month = month;
+		}
+
+		public short dayOfMonth() {
+			return this.dayOfMonth;
+		}
+
+		public Month month() {
+			return this.month;
+		}
+
+		public static EventRepeatAbsoluteYearlyDTOImpl of(EventRepeatAbsoluteYearlyDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof EventRepeatAbsoluteYearlyDTOImpl) {
+				return (EventRepeatAbsoluteYearlyDTOImpl) source;
+			}
+			return new EventRepeatAbsoluteYearlyDTOImpl(
+					source.interval(),
+					source.endDate(),
+					source.timeZone(),
+					source.dayOfMonth(),
+					source.month());
+		}
+
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+				implements EventRepeatAbsoluteYearlyDTO.Builder {
+			short dayOfMonth;
+			Month month;
+
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder interval(short interval) {
+				return (EventRepeatAbsoluteYearlyDTO.Builder) super.interval(interval);
+			}
+
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatAbsoluteYearlyDTO.Builder) super.endDate(endDate);
+			}
+
+			@Override
+			public EventRepeatAbsoluteYearlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatAbsoluteYearlyDTO.Builder) super.timeZone(timeZone);
+			}
+
+			public EventRepeatAbsoluteYearlyDTO.Builder dayOfMonth(short dayOfMonth) {
+				this.dayOfMonth = dayOfMonth;
+				return this;
+			}
+
+			public EventRepeatAbsoluteYearlyDTO.Builder month(Month month) {
+				this.month = month;
+				return this;
+			}
+
+			public EventRepeatAbsoluteYearlyDTO build() {
+				return new EventRepeatAbsoluteYearlyDTOImpl(
+						this.interval,
+						this.endDate,
+						this.timeZone,
+						this.dayOfMonth,
+						this.month);
+			}
+		}
+
+		public static EventRepeatAbsoluteYearlyDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
+
+	public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatRelativeMonthlyDTO {
+		public List<DayOfWeek> daysOfWeek;
+
+		public EventRepeatRelativeMonthlyDTOImpl() {
+		}
+
+		public EventRepeatRelativeMonthlyDTOImpl(
+				short interval,
+				LocalDate endDate,
+				ZoneId timeZone,
+				List<DayOfWeek> daysOfWeek) {
+			super(interval, endDate, timeZone);
+			this.daysOfWeek = daysOfWeek;
+		}
+
+		public List<DayOfWeek> daysOfWeek() {
+			return this.daysOfWeek;
+		}
+
+		public static EventRepeatRelativeMonthlyDTOImpl of(EventRepeatRelativeMonthlyDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof EventRepeatRelativeMonthlyDTOImpl) {
+				return (EventRepeatRelativeMonthlyDTOImpl) source;
+			}
+			return new EventRepeatRelativeMonthlyDTOImpl(
+					source.interval(),
+					source.endDate(),
+					source.timeZone(),
+					source.daysOfWeek());
+		}
+
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+				implements EventRepeatRelativeMonthlyDTO.Builder {
+			List<DayOfWeek> daysOfWeek;
+
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder interval(short interval) {
+				return (EventRepeatRelativeMonthlyDTO.Builder) super.interval(interval);
+			}
+
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatRelativeMonthlyDTO.Builder) super.endDate(endDate);
+			}
+
+			@Override
+			public EventRepeatRelativeMonthlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatRelativeMonthlyDTO.Builder) super.timeZone(timeZone);
+			}
+
+			public EventRepeatRelativeMonthlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+				this.daysOfWeek = daysOfWeek;
+				return this;
+			}
+
+			public EventRepeatRelativeMonthlyDTO build() {
+				return new EventRepeatRelativeMonthlyDTOImpl(
+						this.interval,
+						this.endDate,
+						this.timeZone,
+						this.daysOfWeek);
+			}
+		}
+
+		public static EventRepeatRelativeMonthlyDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
+
+	public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl
+			implements EventRepeatRelativeYearlyDTO {
+		public List<DayOfWeek> daysOfWeek;
+		public Month month;
+
+		public EventRepeatRelativeYearlyDTOImpl() {
+		}
+
+		public EventRepeatRelativeYearlyDTOImpl(
+				short interval,
+				LocalDate endDate,
+				ZoneId timeZone,
+				List<DayOfWeek> daysOfWeek,
+				Month month) {
+			super(interval, endDate, timeZone);
+			this.daysOfWeek = daysOfWeek;
+			this.month = month;
+		}
+
+		public List<DayOfWeek> daysOfWeek() {
+			return this.daysOfWeek;
+		}
+
+		public Month month() {
+			return this.month;
+		}
+
+		public static EventRepeatRelativeYearlyDTOImpl of(EventRepeatRelativeYearlyDTO source) {
+			if (source == null) {
+				return null;
+			} else if (source instanceof EventRepeatRelativeYearlyDTOImpl) {
+				return (EventRepeatRelativeYearlyDTOImpl) source;
+			}
+			return new EventRepeatRelativeYearlyDTOImpl(
+					source.interval(),
+					source.endDate(),
+					source.timeZone(),
+					source.daysOfWeek(),
+					source.month());
+		}
+
+		public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+				implements EventRepeatRelativeYearlyDTO.Builder {
+			List<DayOfWeek> daysOfWeek;
+			Month month;
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
+				return (EventRepeatRelativeYearlyDTO.Builder) super.interval(interval);
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
+				return (EventRepeatRelativeYearlyDTO.Builder) super.endDate(endDate);
+			}
+
+			@Override
+			public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
+				return (EventRepeatRelativeYearlyDTO.Builder) super.timeZone(timeZone);
+			}
+
+			public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+				this.daysOfWeek = daysOfWeek;
+				return this;
+			}
+
+			public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
+				this.month = month;
+				return this;
+			}
+
+			public EventRepeatRelativeYearlyDTO build() {
+				return new EventRepeatRelativeYearlyDTOImpl(
+						this.interval,
+						this.endDate,
+						this.timeZone,
+						this.daysOfWeek,
+						this.month);
+			}
+		}
+
+		public static EventRepeatRelativeYearlyDTO.Builder builder() {
+			return new BuilderImpl();
+		}
+	}
 }
