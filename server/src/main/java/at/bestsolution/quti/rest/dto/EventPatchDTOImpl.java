@@ -5,7 +5,6 @@ import java.time.ZonedDateTime;
 import java.util.EnumSet;
 
 import at.bestsolution.quti.service.dto.EventDTO;
-import at.bestsolution.quti.service.dto.EventRepeatDTO;
 
 public class EventPatchDTOImpl implements EventDTO.Patch {
     private String key;
@@ -14,14 +13,14 @@ public class EventPatchDTOImpl implements EventDTO.Patch {
     private ZonedDateTime start;
     private ZonedDateTime end;
     private boolean fullday;
-    private EventRepeatDTO.Patch repeat;
+    private EventRepeatPatchDTOImpl repeat;
 
     private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
 
     public EventPatchDTOImpl() {}
 
     @Override
-    public boolean isSet(Props prop) {
+    public boolean isSet(EventDTO.Patch.Props prop) {
         return dataSet.contains(prop);
     }
 
@@ -83,13 +82,13 @@ public class EventPatchDTOImpl implements EventDTO.Patch {
         return this.fullday;
     }
 
-    public void setRepeat(EventRepeatDTO.Patch repeat) {
+    public void setRepeat(EventRepeatPatchDTOImpl repeat) {
         this.repeat = repeat;
         this.dataSet.add(Props.REPEAT);
     }
 
     @Override
-    public EventRepeatDTO.Patch repeat() {
+    public EventRepeatPatchDTOImpl repeat() {
         return this.repeat;
     }
 

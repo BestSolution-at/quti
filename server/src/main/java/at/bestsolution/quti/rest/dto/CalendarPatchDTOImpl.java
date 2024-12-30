@@ -15,7 +15,7 @@ public class CalendarPatchDTOImpl implements CalendarDTO.Patch {
     public CalendarPatchDTOImpl() {}
 
     @Override
-    public boolean isSet(Props prop) {
+    public boolean isSet(CalendarDTO.Patch.Props prop) {
         return dataSet.contains(prop);
     }
 
