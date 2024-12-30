@@ -47,30 +47,30 @@ public class EventViewFilterDTOImpl implements EventViewFilterDTO {
         rv.tags = source.tags();
         return rv;
     }
-    public static class BuilderImpl implements Builder {
+    public static class BuilderImpl implements EventViewFilterDTO.Builder {
         public String owner;
         public String title;
         public String description;
         public boolean fullday;
         public List<String> tags;
 
-        public Builder owner(String owner) {
+        public EventViewFilterDTO.Builder owner(String owner) {
             this.owner = owner;
             return this;
         }
-        public Builder title(String title) {
+        public EventViewFilterDTO.Builder title(String title) {
             this.title = title;
             return this;
         }
-        public Builder description(String description) {
+        public EventViewFilterDTO.Builder description(String description) {
             this.description = description;
             return this;
         }
-        public Builder fullday(boolean fullday) {
+        public EventViewFilterDTO.Builder fullday(boolean fullday) {
             this.fullday = fullday;
             return this;
         }
-        public Builder tags(List<String> tags) {
+        public EventViewFilterDTO.Builder tags(List<String> tags) {
             this.tags = tags;
             return this;
         }
@@ -86,7 +86,7 @@ public class EventViewFilterDTOImpl implements EventViewFilterDTO {
         }
     }
 
-    public static Builder builder() {
+    public static EventViewFilterDTO.Builder builder() {
         return new BuilderImpl();
     }
 }

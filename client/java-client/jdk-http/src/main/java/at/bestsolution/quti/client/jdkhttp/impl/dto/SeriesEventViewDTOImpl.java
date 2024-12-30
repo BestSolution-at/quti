@@ -9,12 +9,17 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
-import at.bestsolution.quti.client.dto.EventViewDTO;
-import at.bestsolution.quti.client.dto.MixinEventViewDataDTO.Status;
+import at.bestsolution.quti.client.dto.SeriesEventViewDTO;
 
-public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewDTO {
-    EventViewDTOImpl(JsonObject data) {
+public class SeriesEventViewDTOImpl extends BaseDTOImpl implements SeriesEventViewDTO {
+
+    SeriesEventViewDTOImpl(JsonObject data) {
         super(data);
+    }
+
+    @Override
+    public String masterEventKey() {
+        return DTOUtils.mapString(data, "masterEventKey");
     }
 
     @Override
@@ -67,27 +72,24 @@ public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewD
         return DTOUtils.mapStrings(data, "referencedCalendars");
     }
 
-    public static EventViewDTO of(JsonObject data) {
-        var descriminator = data.getString("@type");
-        return switch(descriminator) {
-            case "single" -> new SingleEventViewDTOImpl(data);
-            case "series-moved" -> new SeriesMovedEventViewDTOImpl(data);
-            case "series" -> new SeriesEventViewDTOImpl(data);
-            default -> throw new IllegalArgumentException("Unexpected value: %s".formatted(descriminator));
-        };
+    public static SeriesEventViewDTO of(JsonObject data) {
+        return new SeriesEventViewDTOImpl(data);
     }
 
-    public static List<EventViewDTO> of(JsonArray data) {
-        return DTOUtils.mapObjects(data, EventViewDTOImpl::of);
+    public static List<SeriesEventViewDTO> of(JsonArray data) {
+        return DTOUtils.mapObjects(data, SeriesEventViewDTOImpl::of);
     }
 
-    @Override
-    public String toString() {
-        return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
-    }
-
-    public static abstract class BuilderImpl<T extends EventViewDTO> implements EventViewDTO.Builder {
-        protected final JsonObjectBuilder $builder = Json.createObjectBuilder();
+    public static class BuilderImpl implements Builder {
+        private JsonObjectBuilder $builder = Json.createObjectBuilder();
+        public BuilderImpl() {
+            $builder.add("@type", "series");
+        }
+        @Override
+        public Builder masterEventKey(String masterEventKey) {
+            $builder.add("masterEventKey", masterEventKey);
+            return this;
+        }
 
         @Override
         public Builder key(String key) {
@@ -147,6 +149,10 @@ public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewD
         public Builder referencedCalendars(List<String> referencedCalendars) {
             $builder.add("referencedCalendars", DTOUtils.toJsonStringArray(referencedCalendars));
             return this;
+        }
+
+        public SeriesEventViewDTO build() {
+            return new SeriesEventViewDTOImpl($builder.build());
         }
     }
 }

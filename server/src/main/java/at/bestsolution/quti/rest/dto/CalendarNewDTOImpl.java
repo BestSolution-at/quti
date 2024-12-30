@@ -27,15 +27,15 @@ public class CalendarNewDTOImpl implements CalendarNewDTO {
         rv.owner = source.owner();
         return rv;
     }
-    public static class BuilderImpl implements Builder {
+    public static class BuilderImpl implements CalendarNewDTO.Builder {
         public String name;
         public String owner;
 
-        public Builder name(String name) {
+        public CalendarNewDTO.Builder name(String name) {
             this.name = name;
             return this;
         }
-        public Builder owner(String owner) {
+        public CalendarNewDTO.Builder owner(String owner) {
             this.owner = owner;
             return this;
         }
@@ -48,7 +48,7 @@ public class CalendarNewDTOImpl implements CalendarNewDTO {
         }
     }
 
-    public static Builder builder() {
+    public static CalendarNewDTO.Builder builder() {
         return new BuilderImpl();
     }
 }

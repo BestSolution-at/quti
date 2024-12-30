@@ -31,80 +31,79 @@ import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarNewDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventNewDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatAbsoluteMonthlyDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatAbsoluteYearlyDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatDailyDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatRelativeMonthlyDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatRelativeYearlyDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatWeeklyDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewFilterDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.SeriesEventViewDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.SeriesMovedEventViewDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.dto.SingleEventViewDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.EventServiceImpl;
 import at.bestsolution.quti.client.QutiClient;
 
 public class JDKQutiClient implements QutiClient {
-	private static Map<Class<?>, Supplier<Object>> BUILDER_CREATOR_MAP = new HashMap<>();
-	private static Map<Class<?>, BiFunction<HttpClient, String, Object>> SERVICE_CREATOR_MAP = new HashMap<>();
+    private static Map<Class<?>, Supplier<Object>> BUILDER_CREATOR_MAP = new HashMap<>();
+    private static Map<Class<?>, BiFunction<HttpClient, String, Object>> SERVICE_CREATOR_MAP = new HashMap<>();
 
-	static {
-		registerBuilderCreator(CalendarDTO.Builder.class, CalendarDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(CalendarNewDTO.Builder.class, CalendarNewDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventNewDTO.Builder.class, EventNewDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventDTO.Builder.class, EventDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventViewFilterDTO.Builder.class, EventViewFilterDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventRepeatDailyDTO.Builder.class,
-				EventRepeatDTOImpl.EventRepeatDailyDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventRepeatWeeklyDTO.Builder.class,
-				EventRepeatDTOImpl.EventRepeatWeeklyDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteMonthlyDTO.Builder.class,
-				EventRepeatDTOImpl.EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteYearlyDTO.Builder.class,
-				EventRepeatDTOImpl.EventRepeatAbsoluteYearlyDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeMonthlyDTO.Builder.class,
-				EventRepeatDTOImpl.EventRepeatRelativeMonthlyDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeYearlyDTO.Builder.class,
-				EventRepeatDTOImpl.EventRepeatRelativeYearlyDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(SingleEventViewDTO.Builder.class, EventViewDTOImpl.SingleEventViewDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(SeriesMovedEventViewDTO.Builder.class,
-				EventViewDTOImpl.SeriesMovedEventViewDTOImpl.BuilderImpl::new);
-		registerBuilderCreator(SeriesEventViewDTO.Builder.class, EventViewDTOImpl.SeriesEventViewDTOImpl.BuilderImpl::new);
+    static {
+        registerBuilderCreator(CalendarDTO.Builder.class, CalendarDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(CalendarNewDTO.Builder.class, CalendarNewDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventNewDTO.Builder.class, EventNewDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventDTO.Builder.class, EventDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventViewFilterDTO.Builder.class, EventViewFilterDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventRepeatDailyDTO.Builder.class, EventRepeatDailyDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventRepeatWeeklyDTO.Builder.class, EventRepeatWeeklyDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteMonthlyDTO.Builder.class, EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteYearlyDTO.Builder.class, EventRepeatAbsoluteYearlyDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeMonthlyDTO.Builder.class, EventRepeatRelativeMonthlyDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeYearlyDTO.Builder.class, EventRepeatRelativeYearlyDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(SingleEventViewDTO.Builder.class, SingleEventViewDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(SeriesMovedEventViewDTO.Builder.class, SeriesMovedEventViewDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(SeriesEventViewDTO.Builder.class, SeriesEventViewDTOImpl.BuilderImpl::new);
 
-		registerServiceCreator(CalendarService.class, CalendarServiceImpl::new);
-		registerServiceCreator(EventService.class, EventServiceImpl::new);
-	}
+        registerServiceCreator(CalendarService.class, CalendarServiceImpl::new);
+        registerServiceCreator(EventService.class, EventServiceImpl::new);
+    }
 
-	private static void registerBuilderCreator(Class<?> clazz, Supplier<Object> constructor) {
-		BUILDER_CREATOR_MAP.put(clazz, constructor);
-	}
+    private static void registerBuilderCreator(Class<?> clazz, Supplier<Object> constructor) {
+        BUILDER_CREATOR_MAP.put(clazz, constructor);
+    }
 
-	private static void registerServiceCreator(Class<?> clazz, BiFunction<HttpClient, String, Object> constructor) {
-		SERVICE_CREATOR_MAP.put(clazz, constructor);
-	}
+    private static void registerServiceCreator(Class<?> clazz, BiFunction<HttpClient, String, Object> constructor) {
+        SERVICE_CREATOR_MAP.put(clazz, constructor);
+    }
 
-	private final URI baseURI;
-	private final HttpClient httpClient;
+    private final URI baseURI;
+    private final HttpClient httpClient;
 
-	JDKQutiClient(URI baseURI) {
-		this.baseURI = baseURI;
-		this.httpClient = HttpClient.newHttpClient();
-	}
+    JDKQutiClient(URI baseURI) {
+        this.baseURI = baseURI;
+        this.httpClient = HttpClient.newHttpClient();
+    }
 
-	public static QutiClient create(URI baseURI) {
-		return new JDKQutiClient(baseURI);
-	}
+    public static QutiClient create(URI baseURI) {
+        return new JDKQutiClient(baseURI);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends BaseDTO.Builder> T builder(Class<T> clazz) {
-		var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
-		if (builderConstructor != null) {
-			return (T) builderConstructor.get();
-		}
-		throw new IllegalArgumentException(String.format("Unsupported build '%s'", clazz));
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends BaseDTO.Builder> T builder(Class<T> clazz) {
+        var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
+        if( builderConstructor != null ) {
+            return (T)builderConstructor.get();
+        }
+        throw new IllegalArgumentException(String.format("Unsupported build '%s'", clazz));
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends BaseService> T service(Class<T> clazz) {
-		var serviceConstructor = SERVICE_CREATOR_MAP.get(clazz);
-		if (serviceConstructor != null) {
-			return (T) serviceConstructor.apply(this.httpClient, this.baseURI.toString());
-		}
-		throw new IllegalArgumentException(String.format("Unsupported service '%s'", clazz));
-	}
-}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends BaseService> T service(Class<T> clazz) {
+        var serviceConstructor = SERVICE_CREATOR_MAP.get(clazz);
+        if( serviceConstructor != null ) {
+            return (T) serviceConstructor.apply(this.httpClient, this.baseURI.toString());
+        }
+        throw new IllegalArgumentException(String.format("Unsupported service '%s'", clazz));
+    }}

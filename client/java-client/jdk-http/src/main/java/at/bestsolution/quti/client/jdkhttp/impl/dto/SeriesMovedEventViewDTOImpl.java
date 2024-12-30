@@ -9,12 +9,27 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
-import at.bestsolution.quti.client.dto.EventViewDTO;
-import at.bestsolution.quti.client.dto.MixinEventViewDataDTO.Status;
+import at.bestsolution.quti.client.dto.SeriesMovedEventViewDTO;
 
-public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewDTO {
-    EventViewDTOImpl(JsonObject data) {
+public class SeriesMovedEventViewDTOImpl extends BaseDTOImpl implements SeriesMovedEventViewDTO {
+
+    SeriesMovedEventViewDTOImpl(JsonObject data) {
         super(data);
+    }
+
+    @Override
+    public String masterEventKey() {
+        return DTOUtils.mapString(data, "masterEventKey");
+    }
+
+    @Override
+    public ZonedDateTime originalStart() {
+        return DTOUtils.mapZonedDateTime(data, "originalStart");
+    }
+
+    @Override
+    public ZonedDateTime originalEnd() {
+        return DTOUtils.mapZonedDateTime(data, "originalEnd");
     }
 
     @Override
@@ -67,27 +82,36 @@ public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewD
         return DTOUtils.mapStrings(data, "referencedCalendars");
     }
 
-    public static EventViewDTO of(JsonObject data) {
-        var descriminator = data.getString("@type");
-        return switch(descriminator) {
-            case "single" -> new SingleEventViewDTOImpl(data);
-            case "series-moved" -> new SeriesMovedEventViewDTOImpl(data);
-            case "series" -> new SeriesEventViewDTOImpl(data);
-            default -> throw new IllegalArgumentException("Unexpected value: %s".formatted(descriminator));
-        };
+    public static SeriesMovedEventViewDTO of(JsonObject data) {
+        return new SeriesMovedEventViewDTOImpl(data);
     }
 
-    public static List<EventViewDTO> of(JsonArray data) {
-        return DTOUtils.mapObjects(data, EventViewDTOImpl::of);
+    public static List<SeriesMovedEventViewDTO> of(JsonArray data) {
+        return DTOUtils.mapObjects(data, SeriesMovedEventViewDTOImpl::of);
     }
 
-    @Override
-    public String toString() {
-        return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
-    }
+    public static class BuilderImpl implements Builder {
+        private JsonObjectBuilder $builder = Json.createObjectBuilder();
+        public BuilderImpl() {
+            $builder.add("@type", "series-moved");
+        }
+        @Override
+        public Builder masterEventKey(String masterEventKey) {
+            $builder.add("masterEventKey", masterEventKey);
+            return this;
+        }
 
-    public static abstract class BuilderImpl<T extends EventViewDTO> implements EventViewDTO.Builder {
-        protected final JsonObjectBuilder $builder = Json.createObjectBuilder();
+        @Override
+        public Builder originalStart(ZonedDateTime originalStart) {
+            $builder.add("originalStart", originalStart.toString());
+            return this;
+        }
+
+        @Override
+        public Builder originalEnd(ZonedDateTime originalEnd) {
+            $builder.add("originalEnd", originalEnd.toString());
+            return this;
+        }
 
         @Override
         public Builder key(String key) {
@@ -147,6 +171,10 @@ public abstract class EventViewDTOImpl extends BaseDTOImpl implements EventViewD
         public Builder referencedCalendars(List<String> referencedCalendars) {
             $builder.add("referencedCalendars", DTOUtils.toJsonStringArray(referencedCalendars));
             return this;
+        }
+
+        public SeriesMovedEventViewDTO build() {
+            return new SeriesMovedEventViewDTOImpl($builder.build());
         }
     }
 }

@@ -10,10 +10,11 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
-import at.bestsolution.quti.client.dto.EventRepeatDTO;
+import at.bestsolution.quti.client.dto.EventRepeatDailyDTO;
 
-public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRepeatDTO {
-    EventRepeatDTOImpl(JsonObject data) {
+public class EventRepeatDailyDTOImpl extends BaseDTOImpl implements EventRepeatDailyDTO {
+
+    EventRepeatDailyDTOImpl(JsonObject data) {
         super(data);
     }
 
@@ -32,26 +33,19 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         return DTOUtils.mapLiteral(data, "timeZone", ZoneId::of);
     }
 
-    public static EventRepeatDTO of(JsonObject data) {
-        var descriminator = data.getString("@type");
-        return switch(descriminator) {
-            case "daily" -> new EventRepeatDailyDTOImpl(data);
-            case "weekly" -> new EventRepeatWeeklyDTOImpl(data);
-            case "absolute-monthly" -> new EventRepeatAbsoluteMonthlyDTOImpl(data);
-            case "absolute-yearly" -> new EventRepeatAbsoluteYearlyDTOImpl(data);
-            case "relative-monthly" -> new EventRepeatRelativeMonthlyDTOImpl(data);
-            case "relative-yearly" -> new EventRepeatRelativeYearlyDTOImpl(data);
-            default -> throw new IllegalArgumentException("Unexpected value: %s".formatted(descriminator));
-        };
+    public static EventRepeatDailyDTO of(JsonObject data) {
+        return new EventRepeatDailyDTOImpl(data);
     }
 
-    public static List<EventRepeatDTO> of(JsonArray data) {
-        return DTOUtils.mapObjects(data, EventRepeatDTOImpl::of);
+    public static List<EventRepeatDailyDTO> of(JsonArray data) {
+        return DTOUtils.mapObjects(data, EventRepeatDailyDTOImpl::of);
     }
 
-    public static abstract class BuilderImpl<T extends EventRepeatDTO> implements EventRepeatDTO.Builder {
-        protected final JsonObjectBuilder $builder = Json.createObjectBuilder();
-
+    public static class BuilderImpl implements Builder {
+        private JsonObjectBuilder $builder = Json.createObjectBuilder();
+        public BuilderImpl() {
+            $builder.add("@type", "daily");
+        }
         @Override
         public Builder interval(short interval) {
             $builder.add("interval", interval);
@@ -71,6 +65,10 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         public Builder timeZone(ZoneId timeZone) {
             $builder.add("timeZone", timeZone.toString());
             return this;
+        }
+
+        public EventRepeatDailyDTO build() {
+            return new EventRepeatDailyDTOImpl($builder.build());
         }
     }
 }
