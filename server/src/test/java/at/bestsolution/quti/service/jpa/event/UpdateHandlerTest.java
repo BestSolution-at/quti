@@ -18,7 +18,8 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 
 	@Test
 	public void updateSimpleEventTitle() {
-		var dto = new EventPatchDTOImpl(simpleEventKey.toString());
+		var dto = new EventPatchDTOImpl();
+		dto.setKey(simpleEventKey.toString());
 		dto.setTitle("Patched Title");
 
 		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
@@ -29,7 +30,8 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 
 	@Test
 	public void updateSimpleEventTitle_Empty() {
-		var dto = new EventPatchDTOImpl(simpleEventKey.toString());
+		var dto = new EventPatchDTOImpl();
+		dto.setKey(simpleEventKey.toString());
 		dto.setTitle("");
 
 		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
@@ -40,7 +42,8 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 
 	@Test
 	public void updateSimpleEventDescription() {
-		var dto = new EventPatchDTOImpl(simpleEventKey.toString());
+		var dto = new EventPatchDTOImpl();
+		dto.setKey(simpleEventKey.toString());
 		dto.setDescription("Patched Description");
 
 		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
