@@ -8,47 +8,48 @@ import java.util.EnumSet;
 import at.bestsolution.quti.service.dto.EventRepeatDailyDTO;
 
 public class EventRepeatDailyPatchDTOImpl extends EventRepeatPatchDTOImpl implements EventRepeatDailyDTO.Patch {
-    private short interval;
-    private LocalDate endDate;
-    private ZoneId timeZone;
+	private short interval;
+	private LocalDate endDate;
+	private ZoneId timeZone;
 
-    private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
+	private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
 
-    public EventRepeatDailyPatchDTOImpl() {}
+	public EventRepeatDailyPatchDTOImpl() {
+	}
 
-    @Override
-    public boolean isSet(EventRepeatDailyDTO.Patch.Props prop) {
-        return dataSet.contains(prop);
-    }
+	@Override
+	public boolean isSet(EventRepeatDailyDTO.Patch.Props prop) {
+		return dataSet.contains(prop);
+	}
 
-    public void setInterval(short interval) {
-        this.interval = interval;
-        this.dataSet.add(Props.INTERVAL);
-    }
+	public void setInterval(short interval) {
+		this.interval = interval;
+		this.dataSet.add(Props.INTERVAL);
+	}
 
-    @Override
-    public short interval() {
-        return this.interval;
-    }
+	@Override
+	public short interval() {
+		return this.interval;
+	}
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-        this.dataSet.add(Props.ENDDATE);
-    }
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+		this.dataSet.add(Props.ENDDATE);
+	}
 
-    @Override
-    public LocalDate endDate() {
-        return this.endDate;
-    }
+	@Override
+	public LocalDate endDate() {
+		return this.endDate;
+	}
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
-        this.dataSet.add(Props.TIMEZONE);
-    }
+	public void setTimeZone(ZoneId timeZone) {
+		this.timeZone = timeZone;
+		this.dataSet.add(Props.TIMEZONE);
+	}
 
-    @Override
-    public ZoneId timeZone() {
-        return this.timeZone;
-    }
+	@Override
+	public ZoneId timeZone() {
+		return this.timeZone;
+	}
 
 }

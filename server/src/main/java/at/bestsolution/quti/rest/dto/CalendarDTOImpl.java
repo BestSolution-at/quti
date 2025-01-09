@@ -4,63 +4,65 @@ package at.bestsolution.quti.rest.dto;
 import at.bestsolution.quti.service.dto.CalendarDTO;
 
 public class CalendarDTOImpl implements CalendarDTO {
-    public String key;
-    public String name;
-    public String owner;
+	public String key;
+	public String name;
+	public String owner;
 
-    public String key() {
-        return this.key;
-    }
+	public String key() {
+		return this.key;
+	}
 
-    public String name() {
-        return this.name;
-    }
+	public String name() {
+		return this.name;
+	}
 
-    public String owner() {
-        return this.owner;
-    }
+	public String owner() {
+		return this.owner;
+	}
 
-    public static CalendarDTOImpl of(CalendarDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof CalendarDTOImpl) {
-            return (CalendarDTOImpl)source;
-        }
-        var rv = new CalendarDTOImpl();
-        rv.key = source.key();
-        rv.name = source.name();
-        rv.owner = source.owner();
-        return rv;
-    }
-    public static class BuilderImpl implements CalendarDTO.Builder {
-        public String key;
-        public String name;
-        public String owner;
+	public static CalendarDTOImpl of(CalendarDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof CalendarDTOImpl) {
+			return (CalendarDTOImpl) source;
+		}
+		var rv = new CalendarDTOImpl();
+		rv.key = source.key();
+		rv.name = source.name();
+		rv.owner = source.owner();
+		return rv;
+	}
 
-        public CalendarDTO.Builder key(String key) {
-            this.key = key;
-            return this;
-        }
-        public CalendarDTO.Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-        public CalendarDTO.Builder owner(String owner) {
-            this.owner = owner;
-            return this;
-        }
+	public static class BuilderImpl implements CalendarDTO.Builder {
+		public String key;
+		public String name;
+		public String owner;
 
-        public at.bestsolution.quti.service.dto.CalendarDTO build() {
-            var rv = new CalendarDTOImpl();
-            rv.key = key;
-            rv.name = name;
-            rv.owner = owner;
-            return rv;
-        }
-    }
+		public CalendarDTO.Builder key(String key) {
+			this.key = key;
+			return this;
+		}
 
-    public static CalendarDTO.Builder builder() {
-        return new BuilderImpl();
-    }
+		public CalendarDTO.Builder name(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public CalendarDTO.Builder owner(String owner) {
+			this.owner = owner;
+			return this;
+		}
+
+		public at.bestsolution.quti.service.dto.CalendarDTO build() {
+			var rv = new CalendarDTOImpl();
+			rv.key = key;
+			rv.name = name;
+			rv.owner = owner;
+			return rv;
+		}
+	}
+
+	public static CalendarDTO.Builder builder() {
+		return new BuilderImpl();
+	}
 }

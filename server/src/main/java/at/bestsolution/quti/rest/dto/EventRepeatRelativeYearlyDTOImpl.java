@@ -10,72 +10,77 @@ import java.util.List;
 import at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO;
 
 public class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatRelativeYearlyDTO {
-    public List<DayOfWeek> daysOfWeek;
-    public Month month;
+	public List<DayOfWeek> daysOfWeek;
+	public Month month;
 
-    public List<DayOfWeek> daysOfWeek() {
-        return this.daysOfWeek;
-    }
+	public List<DayOfWeek> daysOfWeek() {
+		return this.daysOfWeek;
+	}
 
-    public Month month() {
-        return this.month;
-    }
+	public Month month() {
+		return this.month;
+	}
 
-    public static EventRepeatRelativeYearlyDTOImpl of(EventRepeatRelativeYearlyDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof EventRepeatRelativeYearlyDTOImpl) {
-            return (EventRepeatRelativeYearlyDTOImpl)source;
-        }
-        var rv = new EventRepeatRelativeYearlyDTOImpl();
-        rv.daysOfWeek = source.daysOfWeek();
-        rv.month = source.month();
-        rv.interval = source.interval();
-        rv.endDate = source.endDate();
-        rv.timeZone = source.timeZone();
-        return rv;
-    }
-    public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl implements EventRepeatRelativeYearlyDTO.Builder {
-        public List<DayOfWeek> daysOfWeek;
-        public Month month;
-        public short interval;
-        public LocalDate endDate;
-        public ZoneId timeZone;
+	public static EventRepeatRelativeYearlyDTOImpl of(EventRepeatRelativeYearlyDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof EventRepeatRelativeYearlyDTOImpl) {
+			return (EventRepeatRelativeYearlyDTOImpl) source;
+		}
+		var rv = new EventRepeatRelativeYearlyDTOImpl();
+		rv.daysOfWeek = source.daysOfWeek();
+		rv.month = source.month();
+		rv.interval = source.interval();
+		rv.endDate = source.endDate();
+		rv.timeZone = source.timeZone();
+		return rv;
+	}
 
-        public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-            this.daysOfWeek = daysOfWeek;
-            return this;
-        }
-        public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
-            this.month = month;
-            return this;
-        }
-        public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
-            this.interval = interval;
-            return this;
-        }
-        public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
-            this.endDate = endDate;
-            return this;
-        }
-        public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
+	public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl
+			implements EventRepeatRelativeYearlyDTO.Builder {
+		public List<DayOfWeek> daysOfWeek;
+		public Month month;
+		public short interval;
+		public LocalDate endDate;
+		public ZoneId timeZone;
 
-        public at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO build() {
-            var rv = new EventRepeatRelativeYearlyDTOImpl();
-            rv.daysOfWeek = daysOfWeek;
-            rv.month = month;
-            rv.interval = interval;
-            rv.endDate = endDate;
-            rv.timeZone = timeZone;
-            return rv;
-        }
-    }
+		public EventRepeatRelativeYearlyDTO.Builder daysOfWeek(List<DayOfWeek> daysOfWeek) {
+			this.daysOfWeek = daysOfWeek;
+			return this;
+		}
 
-    public static EventRepeatRelativeYearlyDTO.Builder builder() {
-        return new BuilderImpl();
-    }
+		public EventRepeatRelativeYearlyDTO.Builder month(Month month) {
+			this.month = month;
+			return this;
+		}
+
+		public EventRepeatRelativeYearlyDTO.Builder interval(short interval) {
+			this.interval = interval;
+			return this;
+		}
+
+		public EventRepeatRelativeYearlyDTO.Builder endDate(LocalDate endDate) {
+			this.endDate = endDate;
+			return this;
+		}
+
+		public EventRepeatRelativeYearlyDTO.Builder timeZone(ZoneId timeZone) {
+			this.timeZone = timeZone;
+			return this;
+		}
+
+		public at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO build() {
+			var rv = new EventRepeatRelativeYearlyDTOImpl();
+			rv.daysOfWeek = daysOfWeek;
+			rv.month = month;
+			rv.interval = interval;
+			rv.endDate = endDate;
+			rv.timeZone = timeZone;
+			return rv;
+		}
+	}
+
+	public static EventRepeatRelativeYearlyDTO.Builder builder() {
+		return new BuilderImpl();
+	}
 }

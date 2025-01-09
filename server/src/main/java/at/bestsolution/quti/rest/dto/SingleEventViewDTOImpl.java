@@ -8,96 +8,105 @@ import at.bestsolution.quti.service.dto.SingleEventViewDTO;
 
 public class SingleEventViewDTOImpl extends EventViewDTOImpl implements SingleEventViewDTO {
 
-    public static SingleEventViewDTOImpl of(SingleEventViewDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof SingleEventViewDTOImpl) {
-            return (SingleEventViewDTOImpl)source;
-        }
-        var rv = new SingleEventViewDTOImpl();
-        rv.key = source.key();
-        rv.calendarKey = source.calendarKey();
-        rv.title = source.title();
-        rv.description = source.description();
-        rv.owner = source.owner();
-        rv.status = source.status();
-        rv.start = source.start();
-        rv.end = source.end();
-        rv.tags = source.tags();
-        rv.referencedCalendars = source.referencedCalendars();
-        return rv;
-    }
-    public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements SingleEventViewDTO.Builder {
-        public String key;
-        public String calendarKey;
-        public String title;
-        public String description;
-        public String owner;
-        public Status status;
-        public ZonedDateTime start;
-        public ZonedDateTime end;
-        public List<String> tags;
-        public List<String> referencedCalendars;
+	public static SingleEventViewDTOImpl of(SingleEventViewDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof SingleEventViewDTOImpl) {
+			return (SingleEventViewDTOImpl) source;
+		}
+		var rv = new SingleEventViewDTOImpl();
+		rv.key = source.key();
+		rv.calendarKey = source.calendarKey();
+		rv.title = source.title();
+		rv.description = source.description();
+		rv.owner = source.owner();
+		rv.status = source.status();
+		rv.start = source.start();
+		rv.end = source.end();
+		rv.tags = source.tags();
+		rv.referencedCalendars = source.referencedCalendars();
+		return rv;
+	}
 
-        public SingleEventViewDTO.Builder key(String key) {
-            this.key = key;
-            return this;
-        }
-        public SingleEventViewDTO.Builder calendarKey(String calendarKey) {
-            this.calendarKey = calendarKey;
-            return this;
-        }
-        public SingleEventViewDTO.Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-        public SingleEventViewDTO.Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-        public SingleEventViewDTO.Builder owner(String owner) {
-            this.owner = owner;
-            return this;
-        }
-        public SingleEventViewDTO.Builder status(Status status) {
-            this.status = status;
-            return this;
-        }
-        public SingleEventViewDTO.Builder start(ZonedDateTime start) {
-            this.start = start;
-            return this;
-        }
-        public SingleEventViewDTO.Builder end(ZonedDateTime end) {
-            this.end = end;
-            return this;
-        }
-        public SingleEventViewDTO.Builder tags(List<String> tags) {
-            this.tags = tags;
-            return this;
-        }
-        public SingleEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
-            this.referencedCalendars = referencedCalendars;
-            return this;
-        }
+	public static class BuilderImpl extends EventViewDTOImpl.BuilderImpl implements SingleEventViewDTO.Builder {
+		public String key;
+		public String calendarKey;
+		public String title;
+		public String description;
+		public String owner;
+		public Status status;
+		public ZonedDateTime start;
+		public ZonedDateTime end;
+		public List<String> tags;
+		public List<String> referencedCalendars;
 
-        public at.bestsolution.quti.service.dto.SingleEventViewDTO build() {
-            var rv = new SingleEventViewDTOImpl();
-            rv.key = key;
-            rv.calendarKey = calendarKey;
-            rv.title = title;
-            rv.description = description;
-            rv.owner = owner;
-            rv.status = status;
-            rv.start = start;
-            rv.end = end;
-            rv.tags = tags;
-            rv.referencedCalendars = referencedCalendars;
-            return rv;
-        }
-    }
+		public SingleEventViewDTO.Builder key(String key) {
+			this.key = key;
+			return this;
+		}
 
-    public static SingleEventViewDTO.Builder builder() {
-        return new BuilderImpl();
-    }
+		public SingleEventViewDTO.Builder calendarKey(String calendarKey) {
+			this.calendarKey = calendarKey;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder title(String title) {
+			this.title = title;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder description(String description) {
+			this.description = description;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder owner(String owner) {
+			this.owner = owner;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder status(Status status) {
+			this.status = status;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder start(ZonedDateTime start) {
+			this.start = start;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder end(ZonedDateTime end) {
+			this.end = end;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder tags(List<String> tags) {
+			this.tags = tags;
+			return this;
+		}
+
+		public SingleEventViewDTO.Builder referencedCalendars(List<String> referencedCalendars) {
+			this.referencedCalendars = referencedCalendars;
+			return this;
+		}
+
+		public at.bestsolution.quti.service.dto.SingleEventViewDTO build() {
+			var rv = new SingleEventViewDTOImpl();
+			rv.key = key;
+			rv.calendarKey = calendarKey;
+			rv.title = title;
+			rv.description = description;
+			rv.owner = owner;
+			rv.status = status;
+			rv.start = start;
+			rv.end = end;
+			rv.tags = tags;
+			rv.referencedCalendars = referencedCalendars;
+			return rv;
+		}
+	}
+
+	public static SingleEventViewDTO.Builder builder() {
+		return new BuilderImpl();
+	}
 }

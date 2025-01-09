@@ -8,70 +8,72 @@ import java.util.EnumSet;
 
 import at.bestsolution.quti.service.dto.EventRepeatAbsoluteYearlyDTO;
 
-public class EventRepeatAbsoluteYearlyPatchDTOImpl extends EventRepeatPatchDTOImpl implements EventRepeatAbsoluteYearlyDTO.Patch {
-    private short dayOfMonth;
-    private Month month;
-    private short interval;
-    private LocalDate endDate;
-    private ZoneId timeZone;
+public class EventRepeatAbsoluteYearlyPatchDTOImpl extends EventRepeatPatchDTOImpl
+		implements EventRepeatAbsoluteYearlyDTO.Patch {
+	private short dayOfMonth;
+	private Month month;
+	private short interval;
+	private LocalDate endDate;
+	private ZoneId timeZone;
 
-    private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
+	private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
 
-    public EventRepeatAbsoluteYearlyPatchDTOImpl() {}
+	public EventRepeatAbsoluteYearlyPatchDTOImpl() {
+	}
 
-    @Override
-    public boolean isSet(EventRepeatAbsoluteYearlyDTO.Patch.Props prop) {
-        return dataSet.contains(prop);
-    }
+	@Override
+	public boolean isSet(EventRepeatAbsoluteYearlyDTO.Patch.Props prop) {
+		return dataSet.contains(prop);
+	}
 
-    public void setDayOfMonth(short dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
-        this.dataSet.add(Props.DAYOFMONTH);
-    }
+	public void setDayOfMonth(short dayOfMonth) {
+		this.dayOfMonth = dayOfMonth;
+		this.dataSet.add(Props.DAYOFMONTH);
+	}
 
-    @Override
-    public short dayOfMonth() {
-        return this.dayOfMonth;
-    }
+	@Override
+	public short dayOfMonth() {
+		return this.dayOfMonth;
+	}
 
-    public void setMonth(Month month) {
-        this.month = month;
-        this.dataSet.add(Props.MONTH);
-    }
+	public void setMonth(Month month) {
+		this.month = month;
+		this.dataSet.add(Props.MONTH);
+	}
 
-    @Override
-    public Month month() {
-        return this.month;
-    }
+	@Override
+	public Month month() {
+		return this.month;
+	}
 
-    public void setInterval(short interval) {
-        this.interval = interval;
-        this.dataSet.add(Props.INTERVAL);
-    }
+	public void setInterval(short interval) {
+		this.interval = interval;
+		this.dataSet.add(Props.INTERVAL);
+	}
 
-    @Override
-    public short interval() {
-        return this.interval;
-    }
+	@Override
+	public short interval() {
+		return this.interval;
+	}
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-        this.dataSet.add(Props.ENDDATE);
-    }
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+		this.dataSet.add(Props.ENDDATE);
+	}
 
-    @Override
-    public LocalDate endDate() {
-        return this.endDate;
-    }
+	@Override
+	public LocalDate endDate() {
+		return this.endDate;
+	}
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
-        this.dataSet.add(Props.TIMEZONE);
-    }
+	public void setTimeZone(ZoneId timeZone) {
+		this.timeZone = timeZone;
+		this.dataSet.add(Props.TIMEZONE);
+	}
 
-    @Override
-    public ZoneId timeZone() {
-        return this.timeZone;
-    }
+	@Override
+	public ZoneId timeZone() {
+		return this.timeZone;
+	}
 
 }
