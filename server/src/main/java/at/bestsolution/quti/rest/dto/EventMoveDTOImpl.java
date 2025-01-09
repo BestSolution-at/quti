@@ -4,6 +4,6 @@ package at.bestsolution.quti.rest.dto;
 import java.time.ZonedDateTime;
 
 public record EventMoveDTOImpl(
-		ZonedDateTime start,
-		ZonedDateTime end) {
+    ZonedDateTime start,
+    ZonedDateTime end) {
 }
