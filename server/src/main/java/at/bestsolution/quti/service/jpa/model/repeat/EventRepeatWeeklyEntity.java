@@ -13,4 +13,8 @@ import jakarta.persistence.Entity;
 public class EventRepeatWeeklyEntity extends EventRepeatEntity {
 	@Column(name = "er_days_of_week")
 	public List<DayOfWeek> daysOfWeek;
+
+	public void daysOfWeek(List<DayOfWeek> daysOfWeek) {
+		this.daysOfWeek = daysOfWeek;
+	}
 }

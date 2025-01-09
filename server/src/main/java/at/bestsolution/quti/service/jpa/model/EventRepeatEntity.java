@@ -38,4 +38,21 @@ public abstract class EventRepeatEntity {
 
 	@Column(name = "er_end")
 	public ZonedDateTime endDate;
+
+	public void interval(short interval) {
+		this.interval = interval;
+	}
+
+	public void recurrenceTimezone(ZoneId recurrenceTimezone) {
+		this.recurrenceTimezone = recurrenceTimezone;
+	}
+
+	public void startDate(ZonedDateTime startDate) {
+		this.startDate = startDate;
+	}
+
+	public void endDate(ZonedDateTime endDate) {
+		this.endDate = endDate;
+	}
+
 }

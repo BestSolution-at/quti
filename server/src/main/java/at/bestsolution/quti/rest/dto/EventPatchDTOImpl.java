@@ -5,91 +5,98 @@ import java.time.ZonedDateTime;
 import java.util.EnumSet;
 
 import at.bestsolution.quti.service.dto.EventDTO;
+import at.bestsolution.quti.service.dto.EventRepeatDTO;
+import at.bestsolution.quti.service.dto.BaseDTO.Either;
 
 public class EventPatchDTOImpl implements EventDTO.Patch {
-    private String key;
-    private String title;
-    private String description;
-    private ZonedDateTime start;
-    private ZonedDateTime end;
-    private boolean fullday;
-    private EventRepeatPatchDTOImpl repeat;
+	private String key;
+	private String title;
+	private String description;
+	private ZonedDateTime start;
+	private ZonedDateTime end;
+	private boolean fullday;
+	private Either<EventRepeatDTO.Patch, EventRepeatDTO> repeat;
 
-    private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
+	private final EnumSet<Props> dataSet = EnumSet.noneOf(Props.class);
 
-    public EventPatchDTOImpl() {}
+	public EventPatchDTOImpl() {
+	}
 
-    @Override
-    public boolean isSet(EventDTO.Patch.Props prop) {
-        return dataSet.contains(prop);
-    }
+	@Override
+	public boolean isSet(EventDTO.Patch.Props prop) {
+		return dataSet.contains(prop);
+	}
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+	public void setKey(String key) {
+		this.key = key;
+	}
 
-    @Override
-    public String key() {
-        return this.key;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-        this.dataSet.add(Props.TITLE);
-    }
+	@Override
+	public String key() {
+		return this.key;
+	}
 
-    @Override
-    public String title() {
-        return this.title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+		this.dataSet.add(Props.TITLE);
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-        this.dataSet.add(Props.DESCRIPTION);
-    }
+	@Override
+	public String title() {
+		return this.title;
+	}
 
-    @Override
-    public String description() {
-        return this.description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+		this.dataSet.add(Props.DESCRIPTION);
+	}
 
-    public void setStart(ZonedDateTime start) {
-        this.start = start;
-        this.dataSet.add(Props.START);
-    }
+	@Override
+	public String description() {
+		return this.description;
+	}
 
-    @Override
-    public ZonedDateTime start() {
-        return this.start;
-    }
+	public void setStart(ZonedDateTime start) {
+		this.start = start;
+		this.dataSet.add(Props.START);
+	}
 
-    public void setEnd(ZonedDateTime end) {
-        this.end = end;
-        this.dataSet.add(Props.END);
-    }
+	@Override
+	public ZonedDateTime start() {
+		return this.start;
+	}
 
-    @Override
-    public ZonedDateTime end() {
-        return this.end;
-    }
+	public void setEnd(ZonedDateTime end) {
+		this.end = end;
+		this.dataSet.add(Props.END);
+	}
 
-    public void setFullday(boolean fullday) {
-        this.fullday = fullday;
-        this.dataSet.add(Props.FULLDAY);
-    }
+	@Override
+	public ZonedDateTime end() {
+		return this.end;
+	}
 
-    @Override
-    public boolean fullday() {
-        return this.fullday;
-    }
+	public void setFullday(boolean fullday) {
+		this.fullday = fullday;
+		this.dataSet.add(Props.FULLDAY);
+	}
 
-    public void setRepeat(EventRepeatPatchDTOImpl repeat) {
-        this.repeat = repeat;
-        this.dataSet.add(Props.REPEAT);
-    }
+	@Override
+	public boolean fullday() {
+		return this.fullday;
+	}
 
-    @Override
-    public EventRepeatPatchDTOImpl repeat() {
-        return this.repeat;
-    }
+	public void setRepeat(EventRepeatDTOBaseImpl repeat) {
+		if (repeat != null) {
+			this.repeat = repeat instanceof EventRepeatDTO.Patch ? Either.left((EventRepeatDTO.Patch) repeat)
+					: Either.right((EventRepeatDTO) repeat);
+		}
+		this.dataSet.add(Props.REPEAT);
+	}
+
+	@Override
+	public Either<EventRepeatDTO.Patch, EventRepeatDTO> repeat() {
+		return this.repeat;
+	}
 
 }

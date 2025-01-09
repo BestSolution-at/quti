@@ -15,84 +15,89 @@ import at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO;
 import at.bestsolution.quti.service.dto.EventRepeatWeeklyDTO;
 
 @JsonbTypeInfo({
-    @JsonbSubtype(alias = "daily", type = EventRepeatDailyDTOImpl.class),
-    @JsonbSubtype(alias = "weekly", type = EventRepeatWeeklyDTOImpl.class),
-    @JsonbSubtype(alias = "absolute-monthly", type = EventRepeatAbsoluteMonthlyDTOImpl.class),
-    @JsonbSubtype(alias = "absolute-yearly", type = EventRepeatAbsoluteYearlyDTOImpl.class),
-    @JsonbSubtype(alias = "relative-monthly", type = EventRepeatRelativeMonthlyDTOImpl.class),
-    @JsonbSubtype(alias = "relative-yearly", type = EventRepeatRelativeYearlyDTOImpl.class),
+		@JsonbSubtype(alias = "daily", type = EventRepeatDailyDTOImpl.class),
+		@JsonbSubtype(alias = "weekly", type = EventRepeatWeeklyDTOImpl.class),
+		@JsonbSubtype(alias = "absolute-monthly", type = EventRepeatAbsoluteMonthlyDTOImpl.class),
+		@JsonbSubtype(alias = "absolute-yearly", type = EventRepeatAbsoluteYearlyDTOImpl.class),
+		@JsonbSubtype(alias = "relative-monthly", type = EventRepeatRelativeMonthlyDTOImpl.class),
+		@JsonbSubtype(alias = "relative-yearly", type = EventRepeatRelativeYearlyDTOImpl.class),
 })
-public abstract class EventRepeatDTOImpl implements at.bestsolution.quti.service.dto.EventRepeatDTO {
-    public short interval;
-    public LocalDate endDate;
-    public ZoneId timeZone;
+public abstract class EventRepeatDTOImpl extends EventRepeatDTOBaseImpl
+		implements at.bestsolution.quti.service.dto.EventRepeatDTO {
 
-    public EventRepeatDTOImpl() {}
-    public EventRepeatDTOImpl(
-        short interval,
-        LocalDate endDate,
-        ZoneId timeZone) {
-        this.interval = interval;
-        this.endDate = endDate;
-        this.timeZone = timeZone;
-    }
+	public short interval;
+	public LocalDate endDate;
+	public ZoneId timeZone;
 
-    public short interval() {
-        return this.interval;
-    }
+	public EventRepeatDTOImpl() {
+	}
 
-    public LocalDate endDate() {
-        return this.endDate;
-    }
+	public EventRepeatDTOImpl(
+			short interval,
+			LocalDate endDate,
+			ZoneId timeZone) {
+		this.interval = interval;
+		this.endDate = endDate;
+		this.timeZone = timeZone;
+	}
 
-    public ZoneId timeZone() {
-        return this.timeZone;
-    }
+	public short interval() {
+		return this.interval;
+	}
 
-    public static EventRepeatDTOImpl of(at.bestsolution.quti.service.dto.EventRepeatDTO source) {
-        if(source == null) {
-            return null;
-        }
-        else if(source instanceof EventRepeatDTOImpl) {
-            return (EventRepeatDTOImpl)source;
-        }
-        if(source instanceof EventRepeatDailyDTO t) {
-            return EventRepeatDailyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatWeeklyDTO t) {
-            return EventRepeatWeeklyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatAbsoluteMonthlyDTO t) {
-            return EventRepeatAbsoluteMonthlyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatAbsoluteYearlyDTO t) {
-            return EventRepeatAbsoluteYearlyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatRelativeMonthlyDTO t) {
-            return EventRepeatRelativeMonthlyDTOImpl.of(t);
-        }
-        if(source instanceof EventRepeatRelativeYearlyDTO t) {
-            return EventRepeatRelativeYearlyDTOImpl.of(t);
-        }
-        throw new IllegalStateException("Unsupported type '%s'".formatted(source));
-    }
+	public LocalDate endDate() {
+		return this.endDate;
+	}
 
-    public static abstract class BuilderImpl implements Builder {
-        short interval;
-        LocalDate endDate;
-        ZoneId timeZone;
+	public ZoneId timeZone() {
+		return this.timeZone;
+	}
 
-        public Builder interval(short interval) {
-            this.interval = interval;
-            return this;
-        }
-        public Builder endDate(LocalDate endDate) {
-            this.endDate = endDate;
-            return this;
-        }
-        public Builder timeZone(ZoneId timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
-    }
+	public static EventRepeatDTOImpl of(at.bestsolution.quti.service.dto.EventRepeatDTO source) {
+		if (source == null) {
+			return null;
+		} else if (source instanceof EventRepeatDTOImpl) {
+			return (EventRepeatDTOImpl) source;
+		}
+		if (source instanceof EventRepeatDailyDTO t) {
+			return EventRepeatDailyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatWeeklyDTO t) {
+			return EventRepeatWeeklyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatAbsoluteMonthlyDTO t) {
+			return EventRepeatAbsoluteMonthlyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatAbsoluteYearlyDTO t) {
+			return EventRepeatAbsoluteYearlyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatRelativeMonthlyDTO t) {
+			return EventRepeatRelativeMonthlyDTOImpl.of(t);
+		}
+		if (source instanceof EventRepeatRelativeYearlyDTO t) {
+			return EventRepeatRelativeYearlyDTOImpl.of(t);
+		}
+		throw new IllegalStateException("Unsupported type '%s'".formatted(source));
+	}
+
+	public static abstract class BuilderImpl implements Builder {
+		short interval;
+		LocalDate endDate;
+		ZoneId timeZone;
+
+		public Builder interval(short interval) {
+			this.interval = interval;
+			return this;
+		}
+
+		public Builder endDate(LocalDate endDate) {
+			this.endDate = endDate;
+			return this;
+		}
+
+		public Builder timeZone(ZoneId timeZone) {
+			this.timeZone = timeZone;
+			return this;
+		}
+	}
 }

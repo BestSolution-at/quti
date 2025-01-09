@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
-import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
 import at.bestsolution.quti.service.Result.ResultType;
 import at.bestsolution.quti.service.dto.EventNewDTO;
 import at.bestsolution.quti.service.jpa.event.utils.EventRepeatDTOUtil;
@@ -33,15 +32,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void invalidCalendarKey() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event")
-			.description("New event description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event")
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var result = handler.create(builderFactory, "abcd", dto);
 		assertFalse(result.isOk());
@@ -51,15 +50,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testSingleCreate() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event")
-			.description("New event description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event")
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		var entity = event(UUID.fromString(eventKey.value()));
@@ -75,15 +74,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testCreateWithTags() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event with tags")
-			.description("New event with tags description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of("tag-1","tag-2"))
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event with tags")
+				.description("New event with tags description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of("tag-1", "tag-2"))
+				.referencedCalendars(List.of())
+				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		var entity = event(UUID.fromString(eventKey.value()));
@@ -97,19 +96,18 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 		assertNull(entity.repeatPattern);
 	}
 
-
 	@Test
 	public void testNullStart() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event")
-			.description("New event description")
-			.start(null)
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event")
+				.description("New event description")
+				.start(null)
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertFalse(result.isOk());
@@ -119,15 +117,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testNullEnd() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event")
-			.description("New event description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(null)
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event")
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(null)
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertFalse(result.isOk());
@@ -137,15 +135,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testNullTitle() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title(null)
-			.description("New event description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title(null)
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertFalse(result.isOk());
@@ -155,15 +153,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testEmptyTitle() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("")
-			.description("New event description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("")
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertFalse(result.isOk());
@@ -173,15 +171,15 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testBlankTitle() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("    ")
-			.description("New event description")
-			.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("    ")
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertFalse(result.isOk());
@@ -191,36 +189,36 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 	@Test
 	public void testWithReferences() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("Event referenced")
-			.description("New referenced event description")
-			.start(ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T09:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of(writeableReferenceCalendarKey.toString()))
-			.build();
+				.title("Event referenced")
+				.description("New referenced event description")
+				.start(ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T09:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of(writeableReferenceCalendarKey.toString()))
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertTrue(result.isOk());
 		var eventEntity = event(UUID.fromString(result.value()));
 
-		assertEquals(1,eventEntity.references.size());
+		assertEquals(1, eventEntity.references.size());
 		assertEquals(writeableReferenceCalendarKey, eventEntity.references.get(0).calendar.key);
 	}
 
 	@Test
 	public void testWithInvalidReferences() {
 		var dto = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("Event referenced")
-			.description("New referenced event description")
-			.start(ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T09:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(null)
-			.tags(List.of())
-			.referencedCalendars(List.of(writeableReferenceCalendarKey.toString(), UUID.randomUUID().toString()))
-			.build();
+				.title("Event referenced")
+				.description("New referenced event description")
+				.start(ZonedDateTime.parse("2020-01-01T08:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T09:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of(writeableReferenceCalendarKey.toString(), UUID.randomUUID().toString()))
+				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
 		assertFalse(result.isOk());
@@ -228,17 +226,17 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testRepeatingDailyEndless() {
-		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of(builderFactory, (short)2, "Europe/Vienna", null);
+		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of(builderFactory, (short) 2, "Europe/Vienna", null);
 		var newEvent = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event daily")
-			.description("New event description daily")
-			.start(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(repeat)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event daily")
+				.description("New event description daily")
+				.start(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(repeat)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
@@ -251,82 +249,90 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testRepeatingDailyEnd() {
-		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of(builderFactory, (short)2, "Europe/Vienna", LocalDate.parse("2020-01-31"));
+		var repeat = EventRepeatDTOUtil.EventRepeatDailyDTOUtil.of(builderFactory, (short) 2, "Europe/Vienna",
+				LocalDate.parse("2020-01-31"));
 		var newEvent = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event daily with end")
-			.description("New event description daily with end")
-			.start(ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(repeat)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event daily with end")
+				.description("New event description daily with end")
+				.start(ZonedDateTime.parse("2020-01-01T14:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(repeat)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatDailyEntity.class, entity.repeatPattern);
-		assertEquals(ZonedDateTime.parse("2020-01-31T23:59:59+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
+		assertEquals(ZonedDateTime.parse("2020-01-31T23:59:59+01:00[Europe/Vienna]").toInstant(),
+				entity.repeatPattern.endDate.toInstant());
 	}
 
 	@Test
 	public void testRepeatingWeeklyEndless() {
-		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short)1, "Europe/Vienna", null, List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short) 1, "Europe/Vienna", null,
+				List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
 		var newEvent = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event weekly with end")
-			.description("New event description weekly with end")
-			.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(repeat)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event weekly with end")
+				.description("New event description weekly with end")
+				.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(repeat)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
 		assertNotNull(entity.end);
 		assertNull(entity.repeatPattern.endDate);
-		assertEquals(List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY), ((EventRepeatWeeklyEntity)entity.repeatPattern).daysOfWeek);
+		assertEquals(List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY),
+				((EventRepeatWeeklyEntity) entity.repeatPattern).daysOfWeek);
 	}
 
 	@Test
 	public void testRepeatingWeeklyEnd() {
-		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short) 1, "Europe/Vienna",
+				LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
 		var newEvent = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event weekly with end")
-			.description("New event description weekly with end")
-			.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(repeat)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event weekly with end")
+				.description("New event description weekly with end")
+				.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(repeat)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 		var entity = event(UUID.fromString(eventKey.value()));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
-		assertEquals(ZonedDateTime.parse("2020-01-15T23:59:59+01:00[Europe/Vienna]").toInstant(), entity.repeatPattern.endDate.toInstant());
-		assertEquals(List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY), ((EventRepeatWeeklyEntity)entity.repeatPattern).daysOfWeek);
+		assertEquals(ZonedDateTime.parse("2020-01-15T23:59:59+01:00[Europe/Vienna]").toInstant(),
+				entity.repeatPattern.endDate.toInstant());
+		assertEquals(List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY),
+				((EventRepeatWeeklyEntity) entity.repeatPattern).daysOfWeek);
 	}
 
 	@Test
 	public void testInvalidInterval() {
-		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short)0, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short) 0, "Europe/Vienna",
+				LocalDate.parse("2020-01-15"), List.of(DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY));
 		var newEvent = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event weekly with end")
-			.description("New event description weekly with end")
-			.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(repeat)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event weekly with end")
+				.description("New event description weekly with end")
+				.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(repeat)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 
 		assertFalse(eventKey.isOk());
@@ -334,17 +340,18 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testInvalidWeek() {
-		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short)1, "Europe/Vienna", LocalDate.parse("2020-01-15"), List.of());
+		var repeat = EventRepeatDTOUtil.EventRepeatWeeklyDTOUtil.of(builderFactory, (short) 1, "Europe/Vienna",
+				LocalDate.parse("2020-01-15"), List.of());
 		var newEvent = builderFactory.builder(EventNewDTO.Builder.class)
-			.title("New event weekly with end")
-			.description("New event description weekly with end")
-			.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
-			.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
-			.fullday(false)
-			.repeat(repeat)
-			.tags(List.of())
-			.referencedCalendars(List.of())
-			.build();
+				.title("New event weekly with end")
+				.description("New event description weekly with end")
+				.start(ZonedDateTime.parse("2020-01-01T16:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T18:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(repeat)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 
 		assertFalse(eventKey.isOk());
