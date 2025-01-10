@@ -22,7 +22,7 @@ import at.bestsolution.quti.service.dto.EventRepeatWeeklyDTO;
 		@JsonbSubtype(alias = "relative-monthly", type = EventRepeatRelativeMonthlyDTOImpl.class),
 		@JsonbSubtype(alias = "relative-yearly", type = EventRepeatRelativeYearlyDTOImpl.class),
 })
-public abstract class EventRepeatDTOImpl extends EventRepeatDTOBaseImpl
+public abstract class EventRepeatDTOImpl
 		implements at.bestsolution.quti.service.dto.EventRepeatDTO {
 
 	public short interval;
