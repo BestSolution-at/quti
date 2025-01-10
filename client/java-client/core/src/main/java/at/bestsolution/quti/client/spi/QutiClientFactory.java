@@ -6,5 +6,5 @@ import java.net.URI;
 import at.bestsolution.quti.client.QutiClient;
 
 public interface QutiClientFactory {
-    public QutiClient create(URI uri);
+	public QutiClient create(URI uri);
 }

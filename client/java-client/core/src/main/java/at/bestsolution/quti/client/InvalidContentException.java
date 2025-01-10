@@ -2,7 +2,7 @@
 package at.bestsolution.quti.client;
 
 public class InvalidContentException extends RuntimeException {
-    public InvalidContentException(String message, Throwable t) {
-        super(message, t);
-    }
+	public InvalidContentException(String message, Throwable t) {
+		super(message, t);
+	}
 }

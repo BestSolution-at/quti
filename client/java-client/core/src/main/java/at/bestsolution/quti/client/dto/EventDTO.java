@@ -123,7 +123,17 @@ public interface EventDTO extends BaseDTO, MixinEventDataDTO {
 		/**
 		 * the repeat pattern
 		 */
-		public EventRepeatDTO.Patch repeat();
+		public Either<EventRepeatDTO.Patch, EventRepeatDTO> repeat();
+
+		/**
+		 * a list of custom tags
+		 */
+		public List<String> tags();
+
+		/**
+		 * other calendars this event is referenced in
+		 */
+		public List<String> referencedCalendars();
 
 		public static void ifTitle(Patch dto, Consumer<String> consumer) {
 			if (dto.isSet(Props.TITLE)) {
@@ -186,6 +196,46 @@ public interface EventDTO extends BaseDTO, MixinEventDataDTO {
 		public static <T> T ifFullday(Patch dto, Function<Boolean, T> consumer, T defaultValue) {
 			if (dto.isSet(Props.FULLDAY)) {
 				return consumer.apply(dto.fullday());
+			}
+			return defaultValue;
+		}
+
+		public static void ifRepeat(Patch dto, Consumer<Either<EventRepeatDTO.Patch, EventRepeatDTO>> consumer) {
+			if (dto.isSet(Props.REPEAT)) {
+				consumer.accept(dto.repeat());
+			}
+		}
+
+		public static <T> T ifRepeat(Patch dto, Function<Either<EventRepeatDTO.Patch, EventRepeatDTO>, T> consumer,
+				T defaultValue) {
+			if (dto.isSet(Props.REPEAT)) {
+				return consumer.apply(dto.repeat());
+			}
+			return defaultValue;
+		}
+
+		public static void ifTags(Patch dto, Consumer<List<String>> consumer) {
+			if (dto.isSet(Props.TAGS)) {
+				consumer.accept(dto.tags());
+			}
+		}
+
+		public static <T> T ifTags(Patch dto, Function<List<String>, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.TAGS)) {
+				return consumer.apply(dto.tags());
+			}
+			return defaultValue;
+		}
+
+		public static void ifReferencedCalendars(Patch dto, Consumer<List<String>> consumer) {
+			if (dto.isSet(Props.REFERENCEDCALENDARS)) {
+				consumer.accept(dto.referencedCalendars());
+			}
+		}
+
+		public static <T> T ifReferencedCalendars(Patch dto, Function<List<String>, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.REFERENCEDCALENDARS)) {
+				return consumer.apply(dto.referencedCalendars());
 			}
 			return defaultValue;
 		}

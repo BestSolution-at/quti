@@ -2,7 +2,7 @@
 package at.bestsolution.quti.client;
 
 public class NotFoundException extends RuntimeException {
-    public NotFoundException(String message, Throwable t) {
-        super(message, t);
-    }
+	public NotFoundException(String message, Throwable t) {
+		super(message, t);
+	}
 }

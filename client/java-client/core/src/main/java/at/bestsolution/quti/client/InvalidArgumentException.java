@@ -2,7 +2,7 @@
 package at.bestsolution.quti.client;
 
 public class InvalidArgumentException extends RuntimeException {
-    public InvalidArgumentException(String message, Throwable t) {
-        super(message, t);
-    }
+	public InvalidArgumentException(String message, Throwable t) {
+		super(message, t);
+	}
 }
