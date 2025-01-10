@@ -39,6 +39,10 @@ public interface EventRepeatRelativeYearlyDTO extends EventRepeatDTO, MixinEvent
         public boolean isSet(Props prop);
 
         /**
+         * selects the first day in a month
+         */
+        public List<DayOfWeek> daysOfWeek();
+        /**
          * the month in a year
          */
         public Month month();
@@ -54,6 +58,17 @@ public interface EventRepeatRelativeYearlyDTO extends EventRepeatDTO, MixinEvent
          * Timezone in which the event repeats
          */
         public ZoneId timeZone();
+        public static void ifDaysOfWeek(Patch dto, Consumer<List<DayOfWeek>> consumer) {
+            if( dto.isSet(Props.DAYSOFWEEK) ) {
+                consumer.accept(dto.daysOfWeek());
+            }
+        }
+        public static <T> T ifDaysOfWeek(Patch dto, Function<List<DayOfWeek>, T> consumer, T defaultValue) {
+            if( dto.isSet(Props.DAYSOFWEEK) ) {
+                return consumer.apply(dto.daysOfWeek());
+            }
+            return defaultValue;
+        }
         public static void ifMonth(Patch dto, Consumer<Month> consumer) {
             if( dto.isSet(Props.MONTH) ) {
                 consumer.accept(dto.month());

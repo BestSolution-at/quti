@@ -23,38 +23,43 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/calendar")
 @Produces(MediaType.APPLICATION_JSON)
 public class CalendarResource {
+	private final RestDTOBuilderFactory builderFactory;
 	private final CalendarService service;
 	private final CalendarResourceResponseBuilder responseBuilder;
 
 	@Inject
-	public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder) {
-			this.service = service;
-			this.responseBuilder = responseBuilder;
+	public CalendarResource(
+			CalendarService service,
+			CalendarResourceResponseBuilder responseBuilder,
+			RestDTOBuilderFactory builderFactory) {
+		this.builderFactory = builderFactory;
+		this.service = service;
+		this.responseBuilder = responseBuilder;
 	}
 
 	@GET
 	@Path("{key}")
 	public Response get(@PathParam("key") String key) {
-			var result = service.get(key);
-			if (result.isOk()) {
-					return responseBuilder.get(result.value(),key).build();
-			}
-			return RestUtils.toResponse(result);
+		var result = service.get(builderFactory, key);
+		if (result.isOk()) {
+			return responseBuilder.get(result.value(), key).build();
+		}
+		return RestUtils.toResponse(result);
 	}
 
 	@POST
 	public Response create(CalendarNewDTOImpl calendar) {
-			var result = service.create(calendar);
-			if (result.isOk()) {
-					return responseBuilder.create(result.value(),calendar).build();
-			}
-			return RestUtils.toResponse(result);
+		var result = service.create(builderFactory, calendar);
+		if (result.isOk()) {
+			return responseBuilder.create(result.value(), calendar).build();
+		}
+		return RestUtils.toResponse(result);
 	}
 
 	@PATCH
 	@Path("{key}")
 	public Response update(@PathParam("key") String key, CalendarPatchDTOImpl patch) {
-		var result = service.update(key, patch);
+		var result = service.update(builderFactory, key, patch);
 		if (result.isOk()) {
 			return responseBuilder.update(key, patch).build();
 		}
@@ -69,10 +74,10 @@ public class CalendarResource {
 			@QueryParam("to") LocalDate end,
 			@QueryParam("timezone") ZoneId timezone,
 			@HeaderParam("timezone") ZoneId resultTimeZone) {
-			var result = service.eventView(key, start, end, timezone, resultTimeZone);
-			if (result.isOk()) {
-					return responseBuilder.eventView(result.value(),key, start, end, timezone, resultTimeZone).build();
-			}
-			return RestUtils.toResponse(result);
+		var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
+		if (result.isOk()) {
+			return responseBuilder.eventView(result.value(), key, start, end, timezone, resultTimeZone).build();
+		}
+		return RestUtils.toResponse(result);
 	}
 }

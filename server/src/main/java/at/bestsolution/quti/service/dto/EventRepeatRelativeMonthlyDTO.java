@@ -32,6 +32,10 @@ public interface EventRepeatRelativeMonthlyDTO extends EventRepeatDTO, MixinEven
         public boolean isSet(Props prop);
 
         /**
+         * selects the first day in a month
+         */
+        public List<DayOfWeek> daysOfWeek();
+        /**
          * Repeat interval
          */
         public short interval();
@@ -43,6 +47,17 @@ public interface EventRepeatRelativeMonthlyDTO extends EventRepeatDTO, MixinEven
          * Timezone in which the event repeats
          */
         public ZoneId timeZone();
+        public static void ifDaysOfWeek(Patch dto, Consumer<List<DayOfWeek>> consumer) {
+            if( dto.isSet(Props.DAYSOFWEEK) ) {
+                consumer.accept(dto.daysOfWeek());
+            }
+        }
+        public static <T> T ifDaysOfWeek(Patch dto, Function<List<DayOfWeek>, T> consumer, T defaultValue) {
+            if( dto.isSet(Props.DAYSOFWEEK) ) {
+                return consumer.apply(dto.daysOfWeek());
+            }
+            return defaultValue;
+        }
         public static void ifInterval(Patch dto, Consumer<Short> consumer) {
             if( dto.isSet(Props.INTERVAL) ) {
                 consumer.accept(dto.interval());
