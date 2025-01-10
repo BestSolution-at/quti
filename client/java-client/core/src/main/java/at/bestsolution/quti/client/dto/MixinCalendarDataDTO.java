@@ -2,11 +2,14 @@
 package at.bestsolution.quti.client.dto;
 
 public interface MixinCalendarDataDTO {
-	public interface Builder {}
+	public interface Builder {
+	}
+
 	/**
 	 * Name of the calendar
 	 */
 	public String name();
+
 	/**
 	 * Owner of the calendar
 	 */

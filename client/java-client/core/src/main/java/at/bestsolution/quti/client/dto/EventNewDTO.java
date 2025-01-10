@@ -6,49 +6,65 @@ import java.util.function.Function;
 import java.util.List;
 
 public interface EventNewDTO extends BaseDTO, MixinEventDataDTO {
-    /**
-     * basic description
-     */
-    public String title();
-    /**
-     * a more detailed description
-     */
-    public String description();
-    /**
-     * start time
-     */
-    public ZonedDateTime start();
-    /**
-     * end time
-     */
-    public ZonedDateTime end();
-    /**
-     * mark it as a fullday event
-     */
-    public boolean fullday();
-    /**
-     * the repeat pattern
-     */
-    public EventRepeatDTO repeat();
-    /**
-     * a list of custom tags
-     */
-    public List<String> tags();
-    /**
-     * other calendars this event is referenced in
-     */
-    public List<String> referencedCalendars();
+	/**
+	 * basic description
+	 */
+	public String title();
 
-    public interface Builder extends BaseDTO.Builder, MixinEventDataDTO.Builder {
-        public Builder title(String title);
-        public Builder description(String description);
-        public Builder start(ZonedDateTime start);
-        public Builder end(ZonedDateTime end);
-        public Builder fullday(boolean fullday);
-        public Builder repeat(EventRepeatDTO repeat);
-        public Builder tags(List<String> tags);
-        public Builder referencedCalendars(List<String> referencedCalendars);
-        public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block);
-        public EventNewDTO build();
-    }
+	/**
+	 * a more detailed description
+	 */
+	public String description();
+
+	/**
+	 * start time
+	 */
+	public ZonedDateTime start();
+
+	/**
+	 * end time
+	 */
+	public ZonedDateTime end();
+
+	/**
+	 * mark it as a fullday event
+	 */
+	public boolean fullday();
+
+	/**
+	 * the repeat pattern
+	 */
+	public EventRepeatDTO repeat();
+
+	/**
+	 * a list of custom tags
+	 */
+	public List<String> tags();
+
+	/**
+	 * other calendars this event is referenced in
+	 */
+	public List<String> referencedCalendars();
+
+	public interface Builder extends BaseDTO.Builder, MixinEventDataDTO.Builder {
+		public Builder title(String title);
+
+		public Builder description(String description);
+
+		public Builder start(ZonedDateTime start);
+
+		public Builder end(ZonedDateTime end);
+
+		public Builder fullday(boolean fullday);
+
+		public Builder repeat(EventRepeatDTO repeat);
+
+		public Builder tags(List<String> tags);
+
+		public Builder referencedCalendars(List<String> referencedCalendars);
+
+		public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block);
+
+		public EventNewDTO build();
+	}
 }

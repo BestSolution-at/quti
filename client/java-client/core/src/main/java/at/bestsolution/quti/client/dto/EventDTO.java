@@ -7,152 +7,187 @@ import java.util.function.Function;
 import java.util.List;
 
 public interface EventDTO extends BaseDTO, MixinEventDataDTO {
-    /**
-     * Unique identifier of the event
-     */
-    public String key();
-    /**
-     * basic description
-     */
-    public String title();
-    /**
-     * a more detailed description
-     */
-    public String description();
-    /**
-     * start time
-     */
-    public ZonedDateTime start();
-    /**
-     * end time
-     */
-    public ZonedDateTime end();
-    /**
-     * mark it as a fullday event
-     */
-    public boolean fullday();
-    /**
-     * the repeat pattern
-     */
-    public EventRepeatDTO repeat();
-    /**
-     * a list of custom tags
-     */
-    public List<String> tags();
-    /**
-     * other calendars this event is referenced in
-     */
-    public List<String> referencedCalendars();
+	/**
+	 * Unique identifier of the event
+	 */
+	public String key();
 
-    public interface Builder extends BaseDTO.Builder, MixinEventDataDTO.Builder {
-        public Builder key(String key);
-        public Builder title(String title);
-        public Builder description(String description);
-        public Builder start(ZonedDateTime start);
-        public Builder end(ZonedDateTime end);
-        public Builder fullday(boolean fullday);
-        public Builder repeat(EventRepeatDTO repeat);
-        public Builder tags(List<String> tags);
-        public Builder referencedCalendars(List<String> referencedCalendars);
-        public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block);
-        public EventDTO build();
-    }
-    public interface Patch {
-        public enum Props {
-            TITLE,
-            DESCRIPTION,
-            START,
-            END,
-            FULLDAY,
-            REPEAT,
-            TAGS,
-            REFERENCEDCALENDARS,
-        }
+	/**
+	 * basic description
+	 */
+	public String title();
 
-        public boolean isSet(Props prop);
+	/**
+	 * a more detailed description
+	 */
+	public String description();
 
-        /**
-         * Unique identifier of the event
-         */
-        public String key();
-        /**
-         * basic description
-         */
-        public String title();
-        /**
-         * a more detailed description
-         */
-        public String description();
-        /**
-         * start time
-         */
-        public ZonedDateTime start();
-        /**
-         * end time
-         */
-        public ZonedDateTime end();
-        /**
-         * mark it as a fullday event
-         */
-        public boolean fullday();
-        /**
-         * the repeat pattern
-         */
-        public EventRepeatDTO.Patch repeat();
-        public static void ifTitle(Patch dto, Consumer<String> consumer) {
-            if( dto.isSet(Props.TITLE) ) {
-                consumer.accept(dto.title());
-            }
-        }
-        public static <T> T ifTitle(Patch dto, Function<String, T> consumer, T defaultValue) {
-            if( dto.isSet(Props.TITLE) ) {
-                return consumer.apply(dto.title());
-            }
-            return defaultValue;
-        }
-        public static void ifDescription(Patch dto, Consumer<String> consumer) {
-            if( dto.isSet(Props.DESCRIPTION) ) {
-                consumer.accept(dto.description());
-            }
-        }
-        public static <T> T ifDescription(Patch dto, Function<String, T> consumer, T defaultValue) {
-            if( dto.isSet(Props.DESCRIPTION) ) {
-                return consumer.apply(dto.description());
-            }
-            return defaultValue;
-        }
-        public static void ifStart(Patch dto, Consumer<ZonedDateTime> consumer) {
-            if( dto.isSet(Props.START) ) {
-                consumer.accept(dto.start());
-            }
-        }
-        public static <T> T ifStart(Patch dto, Function<ZonedDateTime, T> consumer, T defaultValue) {
-            if( dto.isSet(Props.START) ) {
-                return consumer.apply(dto.start());
-            }
-            return defaultValue;
-        }
-        public static void ifEnd(Patch dto, Consumer<ZonedDateTime> consumer) {
-            if( dto.isSet(Props.END) ) {
-                consumer.accept(dto.end());
-            }
-        }
-        public static <T> T ifEnd(Patch dto, Function<ZonedDateTime, T> consumer, T defaultValue) {
-            if( dto.isSet(Props.END) ) {
-                return consumer.apply(dto.end());
-            }
-            return defaultValue;
-        }
-        public static void ifFullday(Patch dto, Consumer<Boolean> consumer) {
-            if( dto.isSet(Props.FULLDAY) ) {
-                consumer.accept(dto.fullday());
-            }
-        }
-        public static <T> T ifFullday(Patch dto, Function<Boolean, T> consumer, T defaultValue) {
-            if( dto.isSet(Props.FULLDAY) ) {
-                return consumer.apply(dto.fullday());
-            }
-            return defaultValue;
-        }
-    }
+	/**
+	 * start time
+	 */
+	public ZonedDateTime start();
+
+	/**
+	 * end time
+	 */
+	public ZonedDateTime end();
+
+	/**
+	 * mark it as a fullday event
+	 */
+	public boolean fullday();
+
+	/**
+	 * the repeat pattern
+	 */
+	public EventRepeatDTO repeat();
+
+	/**
+	 * a list of custom tags
+	 */
+	public List<String> tags();
+
+	/**
+	 * other calendars this event is referenced in
+	 */
+	public List<String> referencedCalendars();
+
+	public interface Builder extends BaseDTO.Builder, MixinEventDataDTO.Builder {
+		public Builder key(String key);
+
+		public Builder title(String title);
+
+		public Builder description(String description);
+
+		public Builder start(ZonedDateTime start);
+
+		public Builder end(ZonedDateTime end);
+
+		public Builder fullday(boolean fullday);
+
+		public Builder repeat(EventRepeatDTO repeat);
+
+		public Builder tags(List<String> tags);
+
+		public Builder referencedCalendars(List<String> referencedCalendars);
+
+		public <T extends EventRepeatDTO.Builder> Builder withRepeat(Class<T> clazz, Function<T, EventRepeatDTO> block);
+
+		public EventDTO build();
+	}
+
+	public interface Patch {
+		public enum Props {
+			TITLE,
+			DESCRIPTION,
+			START,
+			END,
+			FULLDAY,
+			REPEAT,
+			TAGS,
+			REFERENCEDCALENDARS,
+		}
+
+		public boolean isSet(Props prop);
+
+		/**
+		 * Unique identifier of the event
+		 */
+		public String key();
+
+		/**
+		 * basic description
+		 */
+		public String title();
+
+		/**
+		 * a more detailed description
+		 */
+		public String description();
+
+		/**
+		 * start time
+		 */
+		public ZonedDateTime start();
+
+		/**
+		 * end time
+		 */
+		public ZonedDateTime end();
+
+		/**
+		 * mark it as a fullday event
+		 */
+		public boolean fullday();
+
+		/**
+		 * the repeat pattern
+		 */
+		public EventRepeatDTO.Patch repeat();
+
+		public static void ifTitle(Patch dto, Consumer<String> consumer) {
+			if (dto.isSet(Props.TITLE)) {
+				consumer.accept(dto.title());
+			}
+		}
+
+		public static <T> T ifTitle(Patch dto, Function<String, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.TITLE)) {
+				return consumer.apply(dto.title());
+			}
+			return defaultValue;
+		}
+
+		public static void ifDescription(Patch dto, Consumer<String> consumer) {
+			if (dto.isSet(Props.DESCRIPTION)) {
+				consumer.accept(dto.description());
+			}
+		}
+
+		public static <T> T ifDescription(Patch dto, Function<String, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.DESCRIPTION)) {
+				return consumer.apply(dto.description());
+			}
+			return defaultValue;
+		}
+
+		public static void ifStart(Patch dto, Consumer<ZonedDateTime> consumer) {
+			if (dto.isSet(Props.START)) {
+				consumer.accept(dto.start());
+			}
+		}
+
+		public static <T> T ifStart(Patch dto, Function<ZonedDateTime, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.START)) {
+				return consumer.apply(dto.start());
+			}
+			return defaultValue;
+		}
+
+		public static void ifEnd(Patch dto, Consumer<ZonedDateTime> consumer) {
+			if (dto.isSet(Props.END)) {
+				consumer.accept(dto.end());
+			}
+		}
+
+		public static <T> T ifEnd(Patch dto, Function<ZonedDateTime, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.END)) {
+				return consumer.apply(dto.end());
+			}
+			return defaultValue;
+		}
+
+		public static void ifFullday(Patch dto, Consumer<Boolean> consumer) {
+			if (dto.isSet(Props.FULLDAY)) {
+				consumer.accept(dto.fullday());
+			}
+		}
+
+		public static <T> T ifFullday(Patch dto, Function<Boolean, T> consumer, T defaultValue) {
+			if (dto.isSet(Props.FULLDAY)) {
+				return consumer.apply(dto.fullday());
+			}
+			return defaultValue;
+		}
+	}
 }
