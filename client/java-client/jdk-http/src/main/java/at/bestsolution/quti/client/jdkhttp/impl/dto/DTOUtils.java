@@ -5,9 +5,9 @@ import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.function.Function;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -129,8 +129,7 @@ public class DTOUtils {
 		return Stream.empty();
 	}
 
-	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonArray array, Class<J> clazz,
-			Function<J, T> mapper) {
+	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonArray array, Class<J> clazz, Function<J, T> mapper) {
 		return array
 				.getValuesAs(clazz)
 				.stream()
@@ -141,132 +140,72 @@ public class DTOUtils {
 		return mapToStream(object, property, JsonValue.class, v -> v == JsonValue.TRUE).toList();
 	}
 
+	public static List<Boolean> mapBooleans(JsonArray array) {
+		return mapToStream(array, JsonValue.class, v -> v == JsonValue.TRUE).toList();
+	}
+
 	public static List<Short> mapShorts(JsonObject object, String property) {
 		return mapToStream(object, property, JsonNumber.class, v -> v.numberValue().shortValue()).toList();
+	}
+
+	public static List<Short> mapShorts(JsonArray array) {
+		return mapToStream(array, JsonNumber.class, v -> v.numberValue().shortValue()).toList();
 	}
 
 	public static List<Integer> mapInts(JsonObject object, String property) {
 		return mapToStream(object, property, JsonNumber.class, JsonNumber::intValue).toList();
 	}
 
+	public static List<Integer> mapInts(JsonArray array) {
+		return mapToStream(array, JsonNumber.class, JsonNumber::intValue).toList();
+	}
+
 	public static List<Long> mapLongs(JsonObject object, String property) {
 		return mapToStream(object, property, JsonNumber.class, v -> v.numberValue().longValue()).toList();
+	}
+
+	public static List<Long> mapLongs(JsonArray array) {
+		return mapToStream(array, JsonNumber.class, v -> v.numberValue().longValue()).toList();
 	}
 
 	public static List<Double> mapDoubles(JsonObject object, String property) {
 		return mapToStream(object, property, JsonNumber.class, JsonNumber::doubleValue).toList();
 	}
 
+	public static List<Double> mapDoubles(JsonArray array) {
+		return mapToStream(array, JsonNumber.class, JsonNumber::doubleValue).toList();
+	}
+
 	public static List<Float> mapFloats(JsonObject object, String property) {
 		return mapToStream(object, property, JsonNumber.class, v -> v.numberValue().floatValue()).toList();
 	}
 
-	public static <T> List<T> mapObjects(JsonObject object, String property, Function<JsonObject, T> converter) {
-		return mapToStream(object, property, JsonObject.class, converter).toList();
-	}
-
-	public static <T> List<T> mapLiterals(JsonObject object, String property, Function<String, T> mapper) {
-		return mapToStream(object, property, JsonString.class, JsonString::getString).map(mapper).toList();
+	public static List<Float> mapFloats(JsonArray array) {
+		return mapToStream(array, JsonNumber.class, v -> v.numberValue().floatValue()).toList();
 	}
 
 	public static List<String> mapStrings(JsonObject object, String property) {
 		return mapToStream(object, property, JsonString.class, JsonString::getString).toList();
 	}
 
+	public static List<String> mapStrings(JsonArray array) {
+		return mapToStream(array, JsonString.class, JsonString::getString).toList();
+	}
+
+	public static <T> List<T> mapObjects(JsonObject object, String property, Function<JsonObject, T> converter) {
+		return mapToStream(object, property, JsonObject.class, converter).toList();
+	}
+
 	public static <T> List<T> mapObjects(JsonArray array, Function<JsonObject, T> converter) {
-		return array
-				.getValuesAs(JsonObject.class)
-				.stream()
-				.map(converter)
-				.toList();
+		return mapToStream(array, JsonObject.class, converter).toList();
 	}
 
-	public static <T> JsonArray toJsonLiteralArray(List<T> value, Function<T, String> converter) {
-		return value.stream().map(converter).collect(toStringArray());
+	public static <T> List<T> mapLiterals(JsonObject object, String property, Function<String, T> mapper) {
+		return mapToStream(object, property, JsonString.class, JsonString::getString).map(mapper).toList();
 	}
 
-	public static <T> JsonArray toJsonLiteralArray(List<T> value) {
-		return value.stream().map(Object::toString).collect(toStringArray());
-	}
-
-	public static <T> JsonArray toJsonObjectArray(List<T> value) {
-		return value.stream().map(v -> ((BaseDTOImpl) v).data).collect(toArray());
-	}
-
-	public static JsonArray toJsonStringArray(List<String> value) {
-		return value.stream().collect(toStringArray());
-	}
-
-	public static JsonArray toJsonIntArray(List<Integer> value) {
-		return value.stream().collect(toIntArray());
-	}
-
-	public static JsonArray toJsonShortArray(List<Short> value) {
-		return value.stream().collect(toShortArray());
-	}
-
-	public static JsonArray toJsonLongArray(List<Long> value) {
-		return value.stream().collect(toLongArray());
-	}
-
-	public static JsonArray toJsonDoubleArray(List<Double> value) {
-		return value.stream().collect(toDoubleArray());
-	}
-
-	public static JsonArray toJsonFloatArray(List<Float> value) {
-		return value.stream().collect(toFloatArray());
-	}
-
-	public static JsonArray toJsonBooleanArray(List<Boolean> value) {
-		return value.stream().collect(toBooleanArray());
-	}
-
-	public static Collector<Boolean, ?, JsonArray> toBooleanArray() {
-		return Collector.of(
-				Json::createArrayBuilder,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::build);
-	}
-
-	public static Collector<Short, ?, JsonArray> toShortArray() {
-		return Collector.of(
-				Json::createArrayBuilder,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::build);
-	}
-
-	public static Collector<Integer, ?, JsonArray> toIntArray() {
-		return Collector.of(
-				Json::createArrayBuilder,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::build);
-	}
-
-	public static Collector<Long, ?, JsonArray> toLongArray() {
-		return Collector.of(
-				Json::createArrayBuilder,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::build);
-	}
-
-	public static Collector<Double, ?, JsonArray> toDoubleArray() {
-		return Collector.of(
-				Json::createArrayBuilder,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::build);
-	}
-
-	public static Collector<Float, ?, JsonArray> toFloatArray() {
-		return Collector.of(
-				Json::createArrayBuilder,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::add,
-				JsonArrayBuilder::build);
+	public static <T> List<T> mapLiterals(JsonArray array, Function<String, T> mapper) {
+		return mapToStream(array, JsonString.class, JsonString::getString).map(mapper).toList();
 	}
 
 	public static Collector<String, ?, JsonArray> toStringArray() {
@@ -277,6 +216,82 @@ public class DTOUtils {
 				JsonArrayBuilder::build);
 	}
 
+	public static JsonArray toJsonStringArray(List<String> value) {
+		return value.stream().collect(toStringArray());
+	}
+
+	public static Collector<Integer, ?, JsonArray> toIntArray() {
+		return Collector.of(
+				Json::createArrayBuilder,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::build);
+	}
+
+	public static JsonArray toJsonIntArray(List<Integer> value) {
+		return value.stream().collect(toIntArray());
+	}
+
+	public static Collector<Short, ?, JsonArray> toShortArray() {
+		return Collector.of(
+				Json::createArrayBuilder,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::build);
+	}
+
+	public static JsonArray toJsonShortArray(List<Short> value) {
+		return value.stream().collect(toShortArray());
+	}
+
+	public static Collector<Long, ?, JsonArray> toLongArray() {
+		return Collector.of(
+				Json::createArrayBuilder,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::build);
+	}
+
+	public static JsonArray toJsonLongArray(List<Long> value) {
+		return value.stream().collect(toLongArray());
+	}
+
+	public static Collector<Double, ?, JsonArray> toDoubleArray() {
+		return Collector.of(
+				Json::createArrayBuilder,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::build);
+	}
+
+	public static JsonArray toJsonDoubleArray(List<Double> value) {
+		return value.stream().collect(toDoubleArray());
+	}
+
+	public static Collector<Float, ?, JsonArray> toFloatArray() {
+		return Collector.of(
+				Json::createArrayBuilder,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::build);
+	}
+
+	public static JsonArray toJsonFloatArray(List<Float> value) {
+		return value.stream().collect(toFloatArray());
+	}
+
+	public static Collector<Boolean, ?, JsonArray> toBooleanArray() {
+		return Collector.of(
+				Json::createArrayBuilder,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::add,
+				JsonArrayBuilder::build);
+	}
+
+	public static JsonArray toJsonBooleanArray(List<Boolean> value) {
+		return value.stream().collect(toBooleanArray());
+	}
+
 	public static Collector<JsonValue, ?, JsonArray> toArray() {
 		return Collector.of(
 				Json::createArrayBuilder,
@@ -285,10 +300,17 @@ public class DTOUtils {
 				JsonArrayBuilder::build);
 	}
 
+	public static <T> JsonArray toJsonLiteralArray(List<T> value, Function<T, String> converter) {
+		return value.stream().map(converter).collect(toStringArray());
+	}
+
+	public static <T> JsonArray toJsonLiteralArray(List<T> value) {
+		return value.stream().map(Object::toString).collect(toStringArray());
+	}
+
 	public static <T> Collector<T, ?, JsonArray> toArray(Function<T, JsonValue> jsonValueConverter) {
-		return Collector.of(
-				Json::createArrayBuilder,
-				(b, v) -> b.add(jsonValueConverter.apply(v)),
+		return Collector.of(Json::createArrayBuilder,
+				(b, v) -> jsonValueConverter.apply(v),
 				JsonArrayBuilder::add,
 				JsonArrayBuilder::build);
 	}
