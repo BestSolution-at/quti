@@ -14,7 +14,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import at.bestsolution.quti.client.jdkhttp.impl.dto.DTOUtils;
+import at.bestsolution.quti.client.jdkhttp.impl.model._JsonUtils;
 import jakarta.json.Json;
 import jakarta.json.JsonNumber;
 import jakarta.json.JsonObject;
@@ -26,7 +26,7 @@ public class ServiceUtils {
         if( value == null ) {
             return null;
         }
-        var text = DTOUtils.toJsonString(value, false);
+        var text = _JsonUtils.toJsonString(value, false);
         return URLEncoder.encode(text, StandardCharsets.UTF_8);
     }
 

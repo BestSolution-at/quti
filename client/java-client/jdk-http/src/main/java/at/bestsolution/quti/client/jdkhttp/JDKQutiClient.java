@@ -10,38 +10,38 @@ import java.util.Map;
 
 import at.bestsolution.quti.client.BaseService;
 import at.bestsolution.quti.client.CalendarService;
-import at.bestsolution.quti.client.dto.BaseDTO;
-import at.bestsolution.quti.client.dto.CalendarDTO;
-import at.bestsolution.quti.client.dto.CalendarNewDTO;
-import at.bestsolution.quti.client.dto.EventDTO;
-import at.bestsolution.quti.client.dto.EventNewDTO;
-import at.bestsolution.quti.client.dto.EventRepeatAbsoluteMonthlyDTO;
-import at.bestsolution.quti.client.dto.EventRepeatAbsoluteYearlyDTO;
-import at.bestsolution.quti.client.dto.EventRepeatDailyDTO;
-import at.bestsolution.quti.client.dto.EventRepeatRelativeMonthlyDTO;
-import at.bestsolution.quti.client.dto.EventRepeatRelativeYearlyDTO;
-import at.bestsolution.quti.client.dto.EventRepeatWeeklyDTO;
-import at.bestsolution.quti.client.dto.EventViewFilterDTO;
-import at.bestsolution.quti.client.dto.SeriesEventViewDTO;
-import at.bestsolution.quti.client.dto.SeriesMovedEventViewDTO;
-import at.bestsolution.quti.client.dto.SingleEventViewDTO;
 import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.jdkhttp.impl.CalendarServiceImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarNewDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventNewDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatAbsoluteMonthlyDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatAbsoluteYearlyDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatDailyDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatRelativeMonthlyDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatRelativeYearlyDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventRepeatWeeklyDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewFilterDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.SeriesEventViewDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.SeriesMovedEventViewDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.SingleEventViewDTOImpl;
 import at.bestsolution.quti.client.jdkhttp.impl.EventServiceImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.CalendarDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.CalendarNewDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventNewDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventRepeatAbsoluteMonthlyDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventRepeatAbsoluteYearlyDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventRepeatDailyDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventRepeatRelativeMonthlyDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventRepeatRelativeYearlyDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventRepeatWeeklyDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventViewFilterDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.SeriesEventViewDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.SeriesMovedEventViewDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.SingleEventViewDataImpl;
+import at.bestsolution.quti.client.model._Base;
+import at.bestsolution.quti.client.model.Calendar;
+import at.bestsolution.quti.client.model.CalendarNew;
+import at.bestsolution.quti.client.model.Event;
+import at.bestsolution.quti.client.model.EventNew;
+import at.bestsolution.quti.client.model.EventRepeatAbsoluteMonthly;
+import at.bestsolution.quti.client.model.EventRepeatAbsoluteYearly;
+import at.bestsolution.quti.client.model.EventRepeatDaily;
+import at.bestsolution.quti.client.model.EventRepeatRelativeMonthly;
+import at.bestsolution.quti.client.model.EventRepeatRelativeYearly;
+import at.bestsolution.quti.client.model.EventRepeatWeekly;
+import at.bestsolution.quti.client.model.EventViewFilter;
+import at.bestsolution.quti.client.model.SeriesEventView;
+import at.bestsolution.quti.client.model.SeriesMovedEventView;
+import at.bestsolution.quti.client.model.SingleEventView;
 import at.bestsolution.quti.client.QutiClient;
 
 public class JDKQutiClient implements QutiClient {
@@ -49,20 +49,20 @@ public class JDKQutiClient implements QutiClient {
     private static Map<Class<?>, BiFunction<HttpClient, String, Object>> SERVICE_CREATOR_MAP = new HashMap<>();
 
     static {
-        registerBuilderCreator(CalendarDTO.Builder.class, CalendarDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(CalendarNewDTO.Builder.class, CalendarNewDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventNewDTO.Builder.class, EventNewDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventDTO.Builder.class, EventDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventViewFilterDTO.Builder.class, EventViewFilterDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventRepeatDailyDTO.Builder.class, EventRepeatDailyDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventRepeatWeeklyDTO.Builder.class, EventRepeatWeeklyDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventRepeatAbsoluteMonthlyDTO.Builder.class, EventRepeatAbsoluteMonthlyDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventRepeatAbsoluteYearlyDTO.Builder.class, EventRepeatAbsoluteYearlyDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventRepeatRelativeMonthlyDTO.Builder.class, EventRepeatRelativeMonthlyDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(EventRepeatRelativeYearlyDTO.Builder.class, EventRepeatRelativeYearlyDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(SingleEventViewDTO.Builder.class, SingleEventViewDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(SeriesMovedEventViewDTO.Builder.class, SeriesMovedEventViewDTOImpl.BuilderImpl::new);
-        registerBuilderCreator(SeriesEventViewDTO.Builder.class, SeriesEventViewDTOImpl.BuilderImpl::new);
+        registerBuilderCreator(Calendar.DataBuilder.class, CalendarDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(CalendarNew.DataBuilder.class, CalendarNewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatDaily.DataBuilder.class, EventRepeatDailyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatWeekly.DataBuilder.class, EventRepeatWeeklyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteMonthly.DataBuilder.class, EventRepeatAbsoluteMonthlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteYearly.DataBuilder.class, EventRepeatAbsoluteYearlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeMonthly.DataBuilder.class, EventRepeatRelativeMonthlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeYearly.DataBuilder.class, EventRepeatRelativeYearlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventNew.DataBuilder.class, EventNewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(Event.DataBuilder.class, EventDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(SingleEventView.DataBuilder.class, SingleEventViewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(SeriesMovedEventView.DataBuilder.class, SeriesMovedEventViewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(SeriesEventView.DataBuilder.class, SeriesEventViewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventViewFilter.DataBuilder.class, EventViewFilterDataImpl.DataBuilderImpl::new);
 
         registerServiceCreator(CalendarService.class, CalendarServiceImpl::new);
         registerServiceCreator(EventService.class, EventServiceImpl::new);
@@ -90,7 +90,7 @@ public class JDKQutiClient implements QutiClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends BaseDTO.Builder> T builder(Class<T> clazz) {
+    public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> clazz) {
         var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
         if( builderConstructor != null ) {
             return (T)builderConstructor.get();

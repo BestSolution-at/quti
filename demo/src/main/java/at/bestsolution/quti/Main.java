@@ -7,10 +7,10 @@ import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.client.CalendarService;
 import at.bestsolution.quti.client.EventService;
-import at.bestsolution.quti.client.dto.CalendarNewDTO;
-import at.bestsolution.quti.client.dto.EventNewDTO;
-import at.bestsolution.quti.client.dto.EventRepeatDailyDTO;
 import at.bestsolution.quti.client.jdkhttp.JDKQutiClient;
+import at.bestsolution.quti.client.model.CalendarNew;
+import at.bestsolution.quti.client.model.EventNew;
+import at.bestsolution.quti.client.model.EventRepeatDaily;
 
 public class Main {
 	public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class Main {
 		var calendarService = client.service(CalendarService.class);
 		var eventService = client.service(EventService.class);
 
-		var calendarBuilder = client.builder(CalendarNewDTO.Builder.class);
+		var calendarBuilder = client.builder(CalendarNew.DataBuilder.class);
 		var calendarNewDto = calendarBuilder
 				.name("Sample Calendar")
 				.build();
@@ -28,13 +28,13 @@ public class Main {
 		var calendar = calendarService.get(calendarId);
 		System.err.println("Loaded calendar - Name: %s".formatted(calendar.name()));
 
-		var eventBuilder = client.builder(EventNewDTO.Builder.class);
+		var eventBuilder = client.builder(EventNew.DataBuilder.class);
 		var eventNewDto = eventBuilder
 				.title("Sample Event")
 				.description("This is a sample event")
 				.start(ZonedDateTime.parse("2024-01-01T10:00:00+01:00[Europe/Vienna]"))
 				.end(ZonedDateTime.parse("2024-01-01T12:00:00+01:00[Europe/Vienna]"))
-				.withRepeat(EventRepeatDailyDTO.Builder.class, b -> {
+				.withRepeat(EventRepeatDaily.DataBuilder.class, b -> {
 					return b
 							.endDate(LocalDate.parse("2024-05-01"))
 							.interval((short) 1)

@@ -14,14 +14,14 @@ import java.util.Map;
 import java.util.Objects;
 
 import at.bestsolution.quti.client.CalendarService;
-import at.bestsolution.quti.client.dto.CalendarDTO;
-import at.bestsolution.quti.client.dto.CalendarNewDTO;
-import at.bestsolution.quti.client.dto.EventViewDTO;
 import at.bestsolution.quti.client.InvalidArgumentException;
 import at.bestsolution.quti.client.InvalidContentException;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.CalendarDTOImpl;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.DTOUtils;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventViewDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model._JsonUtils;
+import at.bestsolution.quti.client.jdkhttp.impl.model.CalendarDataImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventViewDataImpl;
+import at.bestsolution.quti.client.model.Calendar;
+import at.bestsolution.quti.client.model.CalendarNew;
+import at.bestsolution.quti.client.model.EventView;
 import at.bestsolution.quti.client.NotFoundException;
 
 public class CalendarServiceImpl implements CalendarService {
@@ -33,7 +33,7 @@ public class CalendarServiceImpl implements CalendarService {
         this.client = client;
     }
 
-    public String create(CalendarNewDTO calendar)
+    public String create(CalendarNew.Data calendar)
         throws InvalidContentException {
         Objects.requireNonNull(calendar, "calendar must not be null");
 
@@ -41,7 +41,7 @@ public class CalendarServiceImpl implements CalendarService {
             this.baseURI
         );
 
-        var $body = BodyPublishers.ofString(DTOUtils.toJsonString(calendar, false));
+        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(calendar, false));
 
         var $uri = URI.create($path);
         var $request = HttpRequest.newBuilder()
@@ -63,7 +63,7 @@ public class CalendarServiceImpl implements CalendarService {
         }
     }
 
-    public CalendarDTO get(String key)
+    public Calendar.Data get(String key)
         throws NotFoundException,
             InvalidArgumentException {
         Objects.requireNonNull(key, "key must not be null");
@@ -82,7 +82,7 @@ public class CalendarServiceImpl implements CalendarService {
         try {
             var $response = this.client.send($request, BodyHandlers.ofString());
             if ($response.statusCode() == 200 ) {
-                return ServiceUtils.mapObject($response, CalendarDTOImpl::of);
+                return ServiceUtils.mapObject($response, CalendarDataImpl::of);
             } else if ($response.statusCode() == 404 ) {
                 throw new NotFoundException(ServiceUtils.mapString($response), null);
             } else if ($response.statusCode() == 400 ) {
@@ -94,7 +94,7 @@ public class CalendarServiceImpl implements CalendarService {
         }
     }
 
-    public List<EventViewDTO> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone)
+    public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone)
         throws NotFoundException,
             InvalidArgumentException {
         Objects.requireNonNull(key, "key must not be null");
@@ -123,7 +123,7 @@ public class CalendarServiceImpl implements CalendarService {
         try {
             var $response = this.client.send($request, BodyHandlers.ofString());
             if ($response.statusCode() == 200 ) {
-                return ServiceUtils.mapObjects($response, EventViewDTOImpl::of);
+                return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
             } else if ($response.statusCode() == 404 ) {
                 throw new NotFoundException(ServiceUtils.mapString($response), null);
             } else if ($response.statusCode() == 400 ) {
@@ -135,7 +135,7 @@ public class CalendarServiceImpl implements CalendarService {
         }
     }
 
-    public List<EventViewDTO> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
+    public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
         throws NotFoundException,
             InvalidArgumentException {
         Objects.requireNonNull(key, "key must not be null");
@@ -171,7 +171,7 @@ public class CalendarServiceImpl implements CalendarService {
         try {
             var $response = this.client.send($request, BodyHandlers.ofString());
             if ($response.statusCode() == 200 ) {
-                return ServiceUtils.mapObjects($response, EventViewDTOImpl::of);
+                return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
             } else if ($response.statusCode() == 404 ) {
                 throw new NotFoundException(ServiceUtils.mapString($response), null);
             } else if ($response.statusCode() == 400 ) {

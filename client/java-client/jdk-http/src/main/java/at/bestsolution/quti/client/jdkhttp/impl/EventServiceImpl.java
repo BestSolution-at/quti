@@ -15,12 +15,12 @@ import java.util.Objects;
 
 import jakarta.json.Json;
 
-import at.bestsolution.quti.client.dto.EventDTO;
-import at.bestsolution.quti.client.dto.EventNewDTO;
 import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.InvalidArgumentException;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.DTOUtils;
-import at.bestsolution.quti.client.jdkhttp.impl.dto.EventDTOImpl;
+import at.bestsolution.quti.client.jdkhttp.impl.model._JsonUtils;
+import at.bestsolution.quti.client.jdkhttp.impl.model.EventDataImpl;
+import at.bestsolution.quti.client.model.Event;
+import at.bestsolution.quti.client.model.EventNew;
 import at.bestsolution.quti.client.NotFoundException;
 
 public class EventServiceImpl implements EventService {
@@ -32,7 +32,7 @@ public class EventServiceImpl implements EventService {
         this.client = client;
     }
 
-    public String create(String calendar, EventNewDTO event)
+    public String create(String calendar, EventNew.Data event)
         throws NotFoundException,
             InvalidArgumentException {
         Objects.requireNonNull(calendar, "calendar must not be null");
@@ -43,7 +43,7 @@ public class EventServiceImpl implements EventService {
             calendar
         );
 
-        var $body = BodyPublishers.ofString(DTOUtils.toJsonString(event, false));
+        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
 
         var $uri = URI.create($path);
         var $request = HttpRequest.newBuilder()
@@ -67,7 +67,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    public EventDTO get(String calendar, String key, ZoneId timezone) {
+    public Event.Data get(String calendar, String key, ZoneId timezone) {
         Objects.requireNonNull(calendar, "calendar must not be null");
         Objects.requireNonNull(key, "key must not be null");
         Objects.requireNonNull(timezone, "timezone must not be null");
@@ -93,7 +93,7 @@ public class EventServiceImpl implements EventService {
         try {
             var $response = this.client.send($request, BodyHandlers.ofString());
             if ($response.statusCode() == 200 ) {
-                return ServiceUtils.mapObject($response, EventDTOImpl::of);
+                return ServiceUtils.mapObject($response, EventDataImpl::of);
             } else if ($response.statusCode() == 401 ) {
                 throw new NotFoundException(ServiceUtils.mapString($response), null);
             } else if ($response.statusCode() == 400 ) {
@@ -207,7 +207,7 @@ public class EventServiceImpl implements EventService {
         var $builder = Json.createObjectBuilder();
         $builder = $builder.add("start", start.toString());
         $builder = $builder.add("end", end.toString());
-        var $body = BodyPublishers.ofString(DTOUtils.toJsonString($builder.build(),false));
+        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString($builder.build(),false));
 
         var $uri = URI.create($path);
         var $request = HttpRequest.newBuilder()

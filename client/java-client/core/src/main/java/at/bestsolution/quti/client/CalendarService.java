@@ -5,24 +5,23 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import at.bestsolution.quti.client.dto.CalendarDTO;
-import at.bestsolution.quti.client.dto.CalendarNewDTO;
-import at.bestsolution.quti.client.dto.EventViewDTO;
+import at.bestsolution.quti.client.model.Calendar;
+import at.bestsolution.quti.client.model.CalendarNew;
+import at.bestsolution.quti.client.model.EventView;
 
 public interface CalendarService extends BaseService {
-	public String create(CalendarNewDTO calendar)
+	public String create(CalendarNew.Data calendar)
 			throws InvalidContentException;
 
-	public CalendarDTO get(String key)
+	public Calendar.Data get(String key)
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public List<EventViewDTO> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone)
+	public List<EventView.Data> eventView(String key,LocalDate start,LocalDate end,ZoneId timezone)
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public List<EventViewDTO> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone,
-			ZoneId resultTimeZone)
+	public List<EventView.Data> eventView(String key,LocalDate start,LocalDate end,ZoneId timezone,ZoneId resultTimeZone)
 			throws NotFoundException,
 			InvalidArgumentException;
 
