@@ -17,19 +17,19 @@ public class EventResourceTest extends BaseTest {
 	@Test
 	void testCreate() {
 		given()
-			.header("Content-Type", "application/json")
-			.body("""
-					{
-						"title": "Sample",
-						"start": "2024-01-01T06:00:00Z",
-						"end": "2024-01-10T12:00:00Z"
-					}
-					""")
-			.post("/api/calendar/{calendarKey}/events", basicCalendarKey)
-			.then()
-			.body(notNullValue())
-			.statusCode(201)
-			.header("Location", notNullValue());
+				.header("Content-Type", "application/json")
+				.body("""
+						{
+							"title": "Sample",
+							"start": "2024-01-01T06:00:00Z",
+							"end": "2024-01-10T12:00:00Z"
+						}
+						""")
+				.post("/api/calendar/{calendarKey}/events", basicCalendarKey)
+				.then()
+				.body(notNullValue())
+				.statusCode(201)
+				.header("Location", notNullValue());
 	}
 
 	@Test
@@ -41,8 +41,8 @@ public class EventResourceTest extends BaseTest {
 				.body("key", is(simpleEventKey.toString()))
 				.body("title", is("Simple Event"))
 				.body("description", is("A simple none repeating event"))
-				.body("start", is("2024-01-10T06:00:00Z"))
-				.body("end", is("2024-01-10T12:00:00Z"));
+				.body("start", is("2024-01-10T06:00Z"))
+				.body("end", is("2024-01-10T12:00Z"));
 
 		given()
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleSummerEventKey))
@@ -51,8 +51,8 @@ public class EventResourceTest extends BaseTest {
 				.body("key", is(simpleSummerEventKey.toString()))
 				.body("title", is("Simple Summer Event"))
 				.body("description", is("A simple none repeating event in summer"))
-				.body("start", is("2024-06-10T05:00:00Z"))
-				.body("end", is("2024-06-10T11:00:00Z"));
+				.body("start", is("2024-06-10T05:00Z"))
+				.body("end", is("2024-06-10T11:00Z"));
 	}
 
 	@Test
@@ -87,8 +87,8 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("key", is(simpleEventKey.toString()))
-				.body("start", is("2024-01-10T07:00:00+01:00[Europe/Vienna]"))
-				.body("end", is("2024-01-10T13:00:00+01:00[Europe/Vienna]"));
+				.body("start", is("2024-01-10T07:00+01:00[Europe/Vienna]"))
+				.body("end", is("2024-01-10T13:00+01:00[Europe/Vienna]"));
 
 		given()
 				.header("timezone", "Europe/Vienna")
@@ -96,8 +96,8 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("key", is(simpleSummerEventKey.toString()))
-				.body("start", is("2024-06-10T07:00:00+02:00[Europe/Vienna]"))
-				.body("end", is("2024-06-10T13:00:00+02:00[Europe/Vienna]"));
+				.body("start", is("2024-06-10T07:00+02:00[Europe/Vienna]"))
+				.body("end", is("2024-06-10T13:00+02:00[Europe/Vienna]"));
 
 		given()
 				.header("timezone", "+01:00")
@@ -105,8 +105,8 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("key", is(simpleEventKey.toString()))
-				.body("start", is("2024-01-10T07:00:00+01:00"))
-				.body("end", is("2024-01-10T13:00:00+01:00"));
+				.body("start", is("2024-01-10T07:00+01:00"))
+				.body("end", is("2024-01-10T13:00+01:00"));
 	}
 
 	@Test
@@ -117,8 +117,8 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("key", is(simpleEventKey.toString()))
-				.body("start", is("2024-01-10T01:00:00-05:00[America/New_York]"))
-				.body("end", is("2024-01-10T07:00:00-05:00[America/New_York]"));
+				.body("start", is("2024-01-10T01:00-05:00[America/New_York]"))
+				.body("end", is("2024-01-10T07:00-05:00[America/New_York]"));
 
 		given()
 				.header("timezone", "US/Pacific")
@@ -126,8 +126,8 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(200)
 				.body("key", is(simpleEventKey.toString()))
-				.body("start", is("2024-01-09T22:00:00-08:00[US/Pacific]"))
-				.body("end", is("2024-01-10T04:00:00-08:00[US/Pacific]"));
+				.body("start", is("2024-01-09T22:00-08:00[US/Pacific]"))
+				.body("end", is("2024-01-10T04:00-08:00[US/Pacific]"));
 	}
 
 	@Test
@@ -148,22 +148,21 @@ public class EventResourceTest extends BaseTest {
 	@Test
 	void testActionEndRepeating() {
 		given()
-		.header("Content-Type", "application/json")
-		.body("\"2024-01-10\"")
-			.put(String.format("/api/calendar/%s/events/%s/action/end-repeat", basicCalendarKey, repeatingDailyEndlessKey))
-			.then()
-			.statusCode(204)
-		;
+				.header("Content-Type", "application/json")
+				.body("\"2024-01-10\"")
+				.put(String.format("/api/calendar/%s/events/%s/action/end-repeat", basicCalendarKey, repeatingDailyEndlessKey))
+				.then()
+				.statusCode(204);
 	}
 
 	@Test
 	void testActionDescription() {
 		given()
-		.header("Content-Type", "application/json")
-		.body("A custom description")
-			.put(String.format("/api/calendar/%s/events/%s/action/description", basicCalendarKey, repeatingDailyEndlessKey+"_2024-01-01"))
-			.then()
-			.statusCode(204)
-		;
+				.header("Content-Type", "application/json")
+				.body("A custom description")
+				.put(String.format("/api/calendar/%s/events/%s/action/description", basicCalendarKey,
+						repeatingDailyEndlessKey + "_2024-01-01"))
+				.then()
+				.statusCode(204);
 	}
 }

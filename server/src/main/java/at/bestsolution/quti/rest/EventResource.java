@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.rest.model.EventMoveDataImpl;
-import at.bestsolution.quti.rest.model.EventNewDataImpl;
+import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.service.EventService;
+import at.bestsolution.quti.service.model.EventNew;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -15,9 +16,12 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/api/calendar/{calendar}/events")
+@Produces(MediaType.APPLICATION_JSON)
 public class EventResource {
 	private final RestDTOBuilderFactory builderFactory;
 	private final EventService service;
@@ -38,7 +42,8 @@ public class EventResource {
 	public Response get(
 			@PathParam("calendar") String calendar,
 			@PathParam("key") String key,
-			@HeaderParam("timezone") ZoneId timezone) {
+			@HeaderParam("timezone") String stimezone) {
+		var timezone = stimezone == null ? null : ZoneId.of(stimezone);
 		var result = service.get(builderFactory, calendar, key, timezone);
 
 		if (result.isOk()) {
@@ -50,7 +55,8 @@ public class EventResource {
 	@POST
 	public Response create(
 			@PathParam("calendar") String calendar,
-			EventNewDataImpl event) {
+			String data) {
+		var event = builderFactory.of(EventNew.Data.class, data);
 		var result = service.create(builderFactory, calendar, event);
 
 		if (result.isOk()) {
@@ -99,7 +105,8 @@ public class EventResource {
 	public Response move(
 			@PathParam("calendar") String calendar,
 			@PathParam("key") String key,
-			EventMoveDataImpl dto) {
+			String data) {
+		var dto = _JsonUtils.fromString(data, EventMoveDataImpl::new);
 		var result = service.move(builderFactory, calendar, key, dto.start(), dto.end());
 
 		if (result.isOk()) {

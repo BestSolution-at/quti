@@ -3,13 +3,12 @@ package at.bestsolution.quti.rest;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import at.bestsolution.quti.rest.model.CalendarNewDataImpl;
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.model.CalendarNew;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -47,7 +46,8 @@ public class CalendarResource {
 	}
 
 	@POST
-	public Response create(CalendarNewDataImpl calendar) {
+	public Response create(String data) {
+		var calendar = builderFactory.of(CalendarNew.Data.class, data);
 		var result = service.create(builderFactory, calendar);
 		if (result.isOk()) {
 			return responseBuilder.create(result.value(), calendar).build();
@@ -57,7 +57,7 @@ public class CalendarResource {
 
 	/*
 	 * @PATCH
-	 * 
+	 *
 	 * @Path("{key}")
 	 * public Response update(@PathParam("key") String key, Calendar.Patch patch) {
 	 * var result = service.update(builderFactory, key, patch);
@@ -74,8 +74,11 @@ public class CalendarResource {
 			@PathParam("key") String key,
 			@QueryParam("from") LocalDate start,
 			@QueryParam("to") LocalDate end,
-			@QueryParam("timezone") ZoneId timezone,
-			@HeaderParam("timezone") ZoneId resultTimeZone) {
+			@QueryParam("timezone") String stimezone,
+			@HeaderParam("timezone") String sresultTimeZone) {
+		var timezone = stimezone == null ? null : ZoneId.of(stimezone);
+		var resultTimeZone = sresultTimeZone == null ? null : ZoneId.of(sresultTimeZone);
+
 		var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
 		if (result.isOk()) {
 			return responseBuilder.eventView(result.value(), key, start, end, timezone, resultTimeZone).build();

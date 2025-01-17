@@ -4,9 +4,9 @@ package at.bestsolution.quti.service;
 import at.bestsolution.quti.service.model._Base;
 
 public interface DataBuilderFactory {
-    public interface Builder {
-        public _Base.BaseData build();
-    }
+	public interface Builder {
+		public _Base.BaseData build();
+	}
 
-    public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> type);
+	public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> type);
 }

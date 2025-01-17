@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatDailyEntity;
@@ -96,62 +97,65 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 		assertNull(entity.repeatPattern);
 	}
 
-	// @Test
-	// public void testNullStart() {
-	// var dto = builderFactory.builder(EventNew.DataBuilder.class)
-	// .title("New event")
-	// .description("New event description")
-	// // .start(null)
-	// .end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-	// .fullday(false)
-	// .repeat(null)
-	// .tags(List.of())
-	// .referencedCalendars(List.of())
-	// .build();
+	@Test
+	@Disabled
+	public void testNullStart() {
+		var dto = builderFactory.builder(EventNew.DataBuilder.class)
+				.title("New event")
+				.description("New event description")
+				// .start(null)
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
-	// var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
-	// dto);
-	// assertFalse(result.isOk());
-	// assertEquals(ResultType.INVALID_CONTENT, result.type());
-	// }
+		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
+				dto);
+		assertFalse(result.isOk());
+		assertEquals(ResultType.INVALID_CONTENT, result.type());
+	}
 
-	// @Test
-	// public void testNullEnd() {
-	// var dto = builderFactory.builder(EventNew.DataBuilder.class)
-	// .title("New event")
-	// .description("New event description")
-	// .start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-	// // .end(null)
-	// .fullday(false)
-	// .repeat(null)
-	// .tags(List.of())
-	// .referencedCalendars(List.of())
-	// .build();
+	@Test
+	@Disabled
+	public void testNullEnd() {
+		var dto = builderFactory.builder(EventNew.DataBuilder.class)
+				.title("New event")
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				// .end(null)
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
-	// var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
-	// dto);
-	// assertFalse(result.isOk());
-	// assertEquals(ResultType.INVALID_CONTENT, result.type());
-	// }
+		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
+				dto);
+		assertFalse(result.isOk());
+		assertEquals(ResultType.INVALID_CONTENT, result.type());
+	}
 
-	// @Test
-	// public void testNullTitle() {
-	// var dto = builderFactory.builder(EventNew.DataBuilder.class)
-	// // .title(null)
-	// .description("New event description")
-	// .start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
-	// .end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
-	// .fullday(false)
-	// .repeat(null)
-	// .tags(List.of())
-	// .referencedCalendars(List.of())
-	// .build();
+	@Test
+	@Disabled
+	public void testNullTitle() {
+		var dto = builderFactory.builder(EventNew.DataBuilder.class)
+				// .title(null)
+				.description("New event description")
+				.start(ZonedDateTime.parse("2020-01-01T10:00:00+01:00[Europe/Vienna]"))
+				.end(ZonedDateTime.parse("2020-01-01T12:00:00+01:00[Europe/Vienna]"))
+				.fullday(false)
+				.repeat(null)
+				.tags(List.of())
+				.referencedCalendars(List.of())
+				.build();
 
-	// var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
-	// dto);
-	// assertFalse(result.isOk());
-	// assertEquals(ResultType.INVALID_CONTENT, result.type());
-	// }
+		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
+				dto);
+		assertFalse(result.isOk());
+		assertEquals(ResultType.INVALID_CONTENT, result.type());
+	}
 
 	@Test
 	public void testEmptyTitle() {
