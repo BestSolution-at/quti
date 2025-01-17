@@ -5,10 +5,10 @@ import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.jpa.model.EventEntity;
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.dto.EventDTO;
+import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventDTOUtil;
 import jakarta.inject.Inject;
@@ -23,14 +23,14 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.G
 		super(em);
 	}
 
-	public Result<EventDTO> get(DTOBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
+	public Result<Event.Data> get(DataBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if( parsedCalendarKey.isNotOk() ) {
+		if (parsedCalendarKey.isNotOk()) {
 			return parsedCalendarKey.toAny();
 		}
-		if( parsedEventKey.isNotOk() ) {
+		if (parsedEventKey.isNotOk()) {
 			return parsedEventKey.toAny();
 		}
 

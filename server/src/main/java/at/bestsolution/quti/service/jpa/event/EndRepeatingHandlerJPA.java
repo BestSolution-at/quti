@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -23,15 +23,15 @@ public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.
 	}
 
 	@Transactional
-	public Result<Void> endRepeat(DTOBuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
+	public Result<Void> endRepeat(DataBuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if( parsedCalendarKey.isNotOk() ) {
+		if (parsedCalendarKey.isNotOk()) {
 			return parsedCalendarKey.toAny();
 		}
 
-		if( parsedEventKey.isNotOk() ) {
+		if (parsedEventKey.isNotOk()) {
 			return parsedEventKey.toAny();
 		}
 
@@ -39,21 +39,21 @@ public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.
 
 		var event = EventUtils.event(em, parsedCalendarKey.value(), parsedEventKey.value());
 
-		if( event == null ) {
+		if (event == null) {
 			return Result.notFound("No event with key '%s' was found in calendar '%s'", eventKey, calendarKey);
-		} else if( event.repeatPattern == null ) {
+		} else if (event.repeatPattern == null) {
 			return Result.invalidContent("%s is not a repeating event", eventKey);
 		}
 
-		var endDatetime = Utils.atEndOfDay(ZonedDateTime.of(endDate, LocalTime.NOON, event.repeatPattern.recurrenceTimezone));
+		var endDatetime = Utils
+				.atEndOfDay(ZonedDateTime.of(endDate, LocalTime.NOON, event.repeatPattern.recurrenceTimezone));
 
-		if( endDatetime.isBefore(event.repeatPattern.startDate) ) {
+		if (endDatetime.isBefore(event.repeatPattern.startDate)) {
 			return Result.invalidContent(
-				"Repeating end '%s' of '%s' is before the repeat start '%s'",
-				endDatetime.toLocalDate(),
-				eventKey,
-				event.repeatPattern.startDate.toLocalDate()
-			);
+					"Repeating end '%s' of '%s' is before the repeat start '%s'",
+					endDatetime.toLocalDate(),
+					eventKey,
+					event.repeatPattern.startDate.toLocalDate());
 		}
 		event.repeatPattern.endDate = endDatetime;
 

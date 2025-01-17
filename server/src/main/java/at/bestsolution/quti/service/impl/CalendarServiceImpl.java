@@ -5,11 +5,11 @@ import java.time.ZoneId;
 import java.util.List;
 
 import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.dto.CalendarDTO;
-import at.bestsolution.quti.service.dto.CalendarNewDTO;
-import at.bestsolution.quti.service.dto.EventViewDTO;
+import at.bestsolution.quti.service.model.Calendar;
+import at.bestsolution.quti.service.model.CalendarNew;
+import at.bestsolution.quti.service.model.EventView;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -35,22 +35,22 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<CalendarDTO> get(DTOBuilderFactory builderFactory, String key) {
+	public Result<Calendar.Data> get(DataBuilderFactory builderFactory, String key) {
 		return getHandler.get(builderFactory, key);
 	}
 
 	@Override
-	public Result<String> create(DTOBuilderFactory builderFactory, CalendarNewDTO calendar) {
+	public Result<String> create(DataBuilderFactory builderFactory, CalendarNew.Data calendar) {
 		return createHandler.create(builderFactory, calendar);
 	}
 
 	@Override
-	public Result<Void> update(DTOBuilderFactory builderFactory, String key, CalendarDTO.Patch patch) {
+	public Result<Void> update(DataBuilderFactory builderFactory, String key, Calendar.Patch patch) {
 		return updateHandler.update(builderFactory, key, patch);
 	}
 
 	@Override
-	public Result<List<EventViewDTO>> eventView(DTOBuilderFactory builderFactory, String calendarKey, LocalDate start,
+	public Result<List<EventView.Data>> eventView(DataBuilderFactory builderFactory, String calendarKey, LocalDate start,
 			LocalDate end, ZoneId timezone,
 			ZoneId resultZone) {
 		return viewHandler.view(builderFactory, calendarKey, start, end, timezone, resultZone);

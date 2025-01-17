@@ -2,7 +2,7 @@ package at.bestsolution.quti.rest;
 
 import java.net.URI;
 
-import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
+import at.bestsolution.quti.service.model.CalendarNew;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.inject.Alternative;
 import jakarta.inject.Singleton;
@@ -14,8 +14,8 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 public class ExtCalendarResourceResponseBuilder extends CalendarResourceResponseBuilder {
 
 	@Override
-	public ResponseBuilder create(String result, CalendarNewDTOImpl calendar) {
+	public ResponseBuilder create(String result, CalendarNew.Data calendar) {
 		return super.create(result, calendar)
-			.location(URI.create("/api/calendar/" + result));
+				.location(URI.create("/api/calendar/" + result));
 	}
 }

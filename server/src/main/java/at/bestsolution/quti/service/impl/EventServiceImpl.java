@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.dto.EventDTO;
-import at.bestsolution.quti.service.dto.EventNewDTO;
+import at.bestsolution.quti.service.model.Event;
+import at.bestsolution.quti.service.model.EventNew;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -45,44 +45,44 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Result<EventDTO> get(DTOBuilderFactory builderFactory, String calendarKey, String eventKey, ZoneId zone) {
+	public Result<Event.Data> get(DataBuilderFactory builderFactory, String calendarKey, String eventKey, ZoneId zone) {
 		return getHandler.get(builderFactory, calendarKey, eventKey, zone);
 	}
 
 	@Override
-	public Result<String> create(DTOBuilderFactory builderFactory, String calendarKey, EventNewDTO event) {
+	public Result<String> create(DataBuilderFactory builderFactory, String calendarKey, EventNew.Data event) {
 		return createHandler.create(builderFactory, calendarKey, event);
 	}
 
 	@Override
-	public Result<Void> delete(DTOBuilderFactory builderFactory, String calendarKey, String eventKey) {
+	public Result<Void> delete(DataBuilderFactory builderFactory, String calendarKey, String eventKey) {
 		return deleteHandler.delete(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> endRepeat(DTOBuilderFactory builderFactory, String calendarKey, String eventKey,
+	public Result<Void> endRepeat(DataBuilderFactory builderFactory, String calendarKey, String eventKey,
 			LocalDate endDate) {
 		return endRepeatHandler.endRepeat(builderFactory, calendarKey, eventKey, endDate);
 	}
 
 	@Override
-	public Result<Void> move(DTOBuilderFactory builderFactory, String calendarKey, String eventKey, ZonedDateTime start,
+	public Result<Void> move(DataBuilderFactory builderFactory, String calendarKey, String eventKey, ZonedDateTime start,
 			ZonedDateTime end) {
 		return moveHandler.move(builderFactory, calendarKey, eventKey, start, end);
 	}
 
 	@Override
-	public Result<Void> cancel(DTOBuilderFactory builderFactory, String calendarKey, String eventKey) {
+	public Result<Void> cancel(DataBuilderFactory builderFactory, String calendarKey, String eventKey) {
 		return cancelHandler.cancel(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> uncancel(DTOBuilderFactory builderFactory, String calendarKey, String eventKey) {
+	public Result<Void> uncancel(DataBuilderFactory builderFactory, String calendarKey, String eventKey) {
 		return uncancelHandler.uncancel(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> description(DTOBuilderFactory builderFactory, String calendarKey, String eventKey,
+	public Result<Void> description(DataBuilderFactory builderFactory, String calendarKey, String eventKey,
 			String description) {
 		return setDescriptionHandler.setDescription(builderFactory, calendarKey, eventKey, description);
 	}

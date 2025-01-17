@@ -3,8 +3,8 @@ package at.bestsolution.quti.rest;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import at.bestsolution.quti.rest.dto.EventMoveDTOImpl;
-import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
+import at.bestsolution.quti.rest.model.EventMoveDataImpl;
+import at.bestsolution.quti.rest.model.EventNewDataImpl;
 import at.bestsolution.quti.service.EventService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -50,7 +50,7 @@ public class EventResource {
 	@POST
 	public Response create(
 			@PathParam("calendar") String calendar,
-			EventNewDTOImpl event) {
+			EventNewDataImpl event) {
 		var result = service.create(builderFactory, calendar, event);
 
 		if (result.isOk()) {
@@ -99,7 +99,7 @@ public class EventResource {
 	public Response move(
 			@PathParam("calendar") String calendar,
 			@PathParam("key") String key,
-			EventMoveDTOImpl dto) {
+			EventMoveDataImpl dto) {
 		var result = service.move(builderFactory, calendar, key, dto.start(), dto.end());
 
 		if (result.isOk()) {

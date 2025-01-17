@@ -1,6 +1,5 @@
 package at.bestsolution.quti.service.jpa.calendar;
 
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -17,9 +16,9 @@ import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.dto.EventViewDTO;
+import at.bestsolution.quti.service.model.EventView;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
 import at.bestsolution.quti.service.jpa.calendar.utils.EventViewDTOUtil;
@@ -35,7 +34,9 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		super(em);
 	}
 
-	public Result<List<EventViewDTO>> view(DTOBuilderFactory factory, String calendarKey, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultZone) {
+	public Result<List<EventView.Data>> view(DataBuilderFactory factory, String calendarKey, LocalDate start,
+			LocalDate end,
+			ZoneId timezone, ZoneId resultZone) {
 		Objects.requireNonNull(calendarKey, "calendarKey must not be null");
 		Objects.requireNonNull(start, "start must not be null");
 		Objects.requireNonNull(end, "end must not be null");
@@ -51,29 +52,34 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 			throw new IllegalArgumentException(String.format("start-date '%s' must not be past end-date '%s'", start, end));
 		}
 
-		if( resultZone == null ) {
+		if (resultZone == null) {
 			resultZone = timezone;
 		}
 
 		var startDatetime = ZonedDateTime.of(start, LocalTime.MIN, timezone);
 		var endDatetime = ZonedDateTime.of(end, LocalTime.MAX, timezone);
 
-		var result = new ArrayList<EventViewDTO>();
+		var result = new ArrayList<EventView.Data>();
 		result.addAll(findOneTimeEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
-		result.addAll(findOneTimeReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+		result.addAll(
+				findOneTimeReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
 
 		result.addAll(findMovedSeriesEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
-		result.addAll(findMovedSeriesReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+		result.addAll(
+				findMovedSeriesReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
 
 		result.addAll(findSeriesEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
-		result.addAll(findSeriesReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+		result
+				.addAll(findSeriesReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
 
 		Collections.sort(result, EventViewDTOUtil::compare);
 
 		return Result.ok(result);
 	}
 
-	private List<EventViewDTO> findOneTimeEvents(DTOBuilderFactory factory, UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime,
+	private List<EventView.Data> findOneTimeEvents(DataBuilderFactory factory, UUID calendarKey,
+			ZonedDateTime startDatetime,
+			ZonedDateTime endDatetime,
 			ZoneId resultZone) {
 		var query = em().createQuery("""
 					FROM
@@ -97,7 +103,8 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventViewDTO> findOneTimeReferencedEvents(DTOBuilderFactory factory, UUID calendarKey, ZonedDateTime startDatetime,
+	private List<EventView.Data> findOneTimeReferencedEvents(DataBuilderFactory factory, UUID calendarKey,
+			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
 					FROM
@@ -123,7 +130,8 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventViewDTO> findMovedSeriesEvents(DTOBuilderFactory factory, UUID calendarKey, ZonedDateTime startDatetime,
+	private List<EventView.Data> findMovedSeriesEvents(DataBuilderFactory factory, UUID calendarKey,
+			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
 					FROM
@@ -148,7 +156,8 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventViewDTO> findMovedSeriesReferencedEvents(DTOBuilderFactory factory, UUID calendarKey, ZonedDateTime startDatetime,
+	private List<EventView.Data> findMovedSeriesReferencedEvents(DataBuilderFactory factory, UUID calendarKey,
+			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
 				FROM
@@ -168,9 +177,9 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		query.setParameter("endDatetime", endDatetime);
 
 		var result = query.getResultList()
-			.stream()
-			.map(eventModification -> EventViewDTOUtil.of(factory, eventModification, resultZone))
-			.toList();
+				.stream()
+				.map(eventModification -> EventViewDTOUtil.of(factory, eventModification, resultZone))
+				.toList();
 
 		// now fill the modifications
 		query = em().createQuery("""
@@ -195,7 +204,9 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		return result;
 	}
 
-	private List<EventViewDTO> findSeriesEvents(DTOBuilderFactory factory, UUID calendarKey, ZonedDateTime startDatetime, ZonedDateTime endDatetime,
+	private List<EventView.Data> findSeriesEvents(DataBuilderFactory factory, UUID calendarKey,
+			ZonedDateTime startDatetime,
+			ZonedDateTime endDatetime,
 			ZoneId resultZone) {
 		var query = em().createQuery("""
 					FROM
@@ -215,11 +226,13 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		query.setParameter("startDate", startDatetime);
 		query.setParameter("endDate", endDatetime);
 
-		return query.getResultList().stream().flatMap(event -> fromRepeat(factory, event, startDatetime, endDatetime, resultZone))
+		return query.getResultList().stream()
+				.flatMap(event -> fromRepeat(factory, event, startDatetime, endDatetime, resultZone))
 				.toList();
 	}
 
-	private List<EventViewDTO> findSeriesReferencedEvents(DTOBuilderFactory factory, UUID calendarKey, ZonedDateTime startDatetime,
+	private List<EventView.Data> findSeriesReferencedEvents(DataBuilderFactory factory, UUID calendarKey,
+			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
 					FROM
@@ -242,13 +255,15 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		query.setParameter("endDate", endDatetime);
 
 		return query.getResultList().stream()
-				.flatMap(eventReference -> fromRepeat(factory, eventReference.event, startDatetime, endDatetime, resultZone)).toList();
+				.flatMap(eventReference -> fromRepeat(factory, eventReference.event, startDatetime, endDatetime, resultZone))
+				.toList();
 	}
 
-	private static Stream<EventViewDTO> fromRepeat(DTOBuilderFactory factory, EventEntity entity, ZonedDateTime startDatetime,
+	private static Stream<EventView.Data> fromRepeat(DataBuilderFactory factory, EventEntity entity,
+			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
-				return RepeatUtils.fromRepeat(entity, startDatetime, endDatetime)
-					.map( date -> EventViewDTOUtil.of(factory, entity, date, resultZone))
-					.filter(Objects::nonNull);
+		return RepeatUtils.fromRepeat(entity, startDatetime, endDatetime)
+				.map(date -> EventViewDTOUtil.of(factory, entity, date, resultZone))
+				.filter(Objects::nonNull);
 	}
 }

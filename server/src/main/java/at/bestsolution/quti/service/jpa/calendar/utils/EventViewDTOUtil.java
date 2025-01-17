@@ -11,28 +11,28 @@ import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.service.DTOBuilderFactory;
-import at.bestsolution.quti.service.dto.EventViewDTO;
-import at.bestsolution.quti.service.dto.SeriesEventViewDTO;
-import at.bestsolution.quti.service.dto.SeriesMovedEventViewDTO;
-import at.bestsolution.quti.service.dto.SingleEventViewDTO;
-import at.bestsolution.quti.service.dto.MixinEventViewDataDTO.Status;
+import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.model.EventView;
+import at.bestsolution.quti.service.model.SeriesEventView;
+import at.bestsolution.quti.service.model.SeriesMovedEventView;
+import at.bestsolution.quti.service.model.SingleEventView;
+import at.bestsolution.quti.service.model.mixins.EventViewDataMixin.Status;
 
 public class EventViewDTOUtil {
-	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
+	public static EventView.Data of(DataBuilderFactory factory, EventEntity event, ZoneId resultZone) {
 		return SingleEventViewDTOUtil.of(factory, event, resultZone);
 	}
 
-	public static EventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity,
+	public static EventView.Data of(DataBuilderFactory factory, EventModificationMovedEntity movedEntity,
 			ZoneId resultZone) {
 		return SeriesMovedEventViewDTOUtil.of(factory, movedEntity, resultZone);
 	}
 
-	public static EventViewDTO of(DTOBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
+	public static EventView.Data of(DataBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
 		return SeriesEventViewDTOUtil.of(factory, event, date, zone);
 	}
 
-	public static int compare(EventViewDTO a, EventViewDTO b) {
+	public static int compare(EventView.Data a, EventView.Data b) {
 		var result = a.start().compareTo(b.start());
 		if (result == 0) {
 			result = a.end().compareTo(b.end());
@@ -45,8 +45,8 @@ public class EventViewDTOUtil {
 	}
 
 	public class SingleEventViewDTOUtil {
-		public static SingleEventViewDTO of(DTOBuilderFactory factory, EventEntity event, ZoneId resultZone) {
-			var b = factory.builder(SingleEventViewDTO.Builder.class);
+		public static SingleEventView.Data of(DataBuilderFactory factory, EventEntity event, ZoneId resultZone) {
+			var b = factory.builder(SingleEventView.DataBuilder.class);
 			return b
 					.key(event.key.toString())
 					.calendarKey(event.calendar.key.toString())
@@ -68,7 +68,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesMovedEventViewDTOUtil {
-		public static SeriesMovedEventViewDTO of(DTOBuilderFactory factory, EventModificationMovedEntity movedEntity,
+		public static SeriesMovedEventView.Data of(DataBuilderFactory factory, EventModificationMovedEntity movedEntity,
 				ZoneId resultZone) {
 			var status = Status.ACCEPTED;
 
@@ -88,7 +88,7 @@ public class EventViewDTOUtil {
 					.filter(Predicate.not(String::isBlank))
 					.orElse(movedEntity.event.description);
 
-			var b = factory.builder(SeriesMovedEventViewDTO.Builder.class);
+			var b = factory.builder(SeriesMovedEventView.DataBuilder.class);
 
 			return b
 					.key(movedEntity.event.key.toString() + "_" + movedEntity.date)
@@ -113,7 +113,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesEventViewDTOUtil {
-		public static SeriesEventViewDTO of(DTOBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
+		public static SeriesEventView.Data of(DataBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
 			var start = event.start.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var end = event.end.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var dayDiff = ChronoUnit.DAYS.between(start.toLocalDate(), date);
@@ -149,7 +149,7 @@ public class EventViewDTOUtil {
 						.orElse(description);
 			}
 
-			var b = factory.builder(SeriesEventViewDTO.Builder.class);
+			var b = factory.builder(SeriesEventView.DataBuilder.class);
 			return b
 					.key(event.key.toString() + "_" + date)
 					.calendarKey(event.calendar.key.toString())

@@ -3,8 +3,7 @@ package at.bestsolution.quti.rest;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import at.bestsolution.quti.rest.dto.CalendarNewDTOImpl;
-import at.bestsolution.quti.rest.dto.CalendarPatchDTOImpl;
+import at.bestsolution.quti.rest.model.CalendarNewDataImpl;
 import at.bestsolution.quti.service.CalendarService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -48,7 +47,7 @@ public class CalendarResource {
 	}
 
 	@POST
-	public Response create(CalendarNewDTOImpl calendar) {
+	public Response create(CalendarNewDataImpl calendar) {
 		var result = service.create(builderFactory, calendar);
 		if (result.isOk()) {
 			return responseBuilder.create(result.value(), calendar).build();
@@ -56,15 +55,18 @@ public class CalendarResource {
 		return RestUtils.toResponse(result);
 	}
 
-	@PATCH
-	@Path("{key}")
-	public Response update(@PathParam("key") String key, CalendarPatchDTOImpl patch) {
-		var result = service.update(builderFactory, key, patch);
-		if (result.isOk()) {
-			return responseBuilder.update(key, patch).build();
-		}
-		return RestUtils.toResponse(result);
-	}
+	/*
+	 * @PATCH
+	 * 
+	 * @Path("{key}")
+	 * public Response update(@PathParam("key") String key, Calendar.Patch patch) {
+	 * var result = service.update(builderFactory, key, patch);
+	 * if (result.isOk()) {
+	 * return responseBuilder.update(key, patch).build();
+	 * }
+	 * return RestUtils.toResponse(result);
+	 * }
+	 */
 
 	@GET
 	@Path("{key}/view")

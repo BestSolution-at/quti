@@ -8,10 +8,10 @@ import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.dto.EventNewDTO;
+import at.bestsolution.quti.service.model.EventNew;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventRepeatDTOUtil;
@@ -36,7 +36,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 	}
 
 	@Transactional
-	public Result<String> create(DTOBuilderFactory factory, String calendarKey, EventNewDTO event) {
+	public Result<String> create(DataBuilderFactory factory, String calendarKey, EventNew.Data event) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		if (parsedCalendarKey.isNotOk()) {
 			return parsedCalendarKey.toAny();

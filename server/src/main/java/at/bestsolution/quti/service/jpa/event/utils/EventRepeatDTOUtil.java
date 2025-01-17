@@ -15,19 +15,19 @@ import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeMonthlyE
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.DTOBuilderFactory;
+import at.bestsolution.quti.service.DataBuilderFactory;
 import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.dto.EventRepeatDTO;
-import at.bestsolution.quti.service.dto.EventRepeatAbsoluteMonthlyDTO;
-import at.bestsolution.quti.service.dto.EventRepeatAbsoluteYearlyDTO;
-import at.bestsolution.quti.service.dto.EventRepeatDailyDTO;
-import at.bestsolution.quti.service.dto.EventRepeatRelativeMonthlyDTO;
-import at.bestsolution.quti.service.dto.EventRepeatRelativeYearlyDTO;
-import at.bestsolution.quti.service.dto.EventRepeatWeeklyDTO;
-import at.bestsolution.quti.service.dto.MixinEventRepeatDataDTO;
+import at.bestsolution.quti.service.model.EventRepeat;
+import at.bestsolution.quti.service.model.EventRepeatAbsoluteMonthly;
+import at.bestsolution.quti.service.model.EventRepeatAbsoluteYearly;
+import at.bestsolution.quti.service.model.EventRepeatDaily;
+import at.bestsolution.quti.service.model.EventRepeatRelativeMonthly;
+import at.bestsolution.quti.service.model.EventRepeatRelativeYearly;
+import at.bestsolution.quti.service.model.EventRepeatWeekly;
+import at.bestsolution.quti.service.model.mixins.EventRepeatDataMixin;
 
 public class EventRepeatDTOUtil {
-	public static EventRepeatDTO of(DTOBuilderFactory factory, EventRepeatEntity entity) {
+	public static EventRepeat.Data of(DataBuilderFactory factory, EventRepeatEntity entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -49,8 +49,8 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatDailyDTOUtil {
-		public static EventRepeatDailyDTO of(DTOBuilderFactory factory, EventRepeatDailyEntity entity) {
-			var b = factory.builder(EventRepeatDailyDTO.Builder.class);
+		public static EventRepeatDaily.Data of(DataBuilderFactory factory, EventRepeatDailyEntity entity) {
+			var b = factory.builder(EventRepeatDaily.DataBuilder.class);
 			return b
 					.interval(entity.interval)
 					.endDate(entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate()
@@ -59,9 +59,9 @@ public class EventRepeatDTOUtil {
 					.build();
 		}
 
-		public static EventRepeatDailyDTO of(DTOBuilderFactory factory, short interval, String timeZone,
+		public static EventRepeatDaily.Data of(DataBuilderFactory factory, short interval, String timeZone,
 				LocalDate endDate) {
-			var b = factory.builder(EventRepeatDailyDTO.Builder.class);
+			var b = factory.builder(EventRepeatDaily.DataBuilder.class);
 			return b
 					.interval(interval)
 					.timeZone(ZoneId.of(timeZone))
@@ -71,8 +71,8 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatWeeklyDTOUtil {
-		public static EventRepeatWeeklyDTO of(DTOBuilderFactory factory, EventRepeatWeeklyEntity entity) {
-			var b = factory.builder(EventRepeatWeeklyDTO.Builder.class);
+		public static EventRepeatWeekly.Data of(DataBuilderFactory factory, EventRepeatWeeklyEntity entity) {
+			var b = factory.builder(EventRepeatWeekly.DataBuilder.class);
 			return b
 					.interval(entity.interval)
 					.endDate(entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate()
@@ -82,9 +82,10 @@ public class EventRepeatDTOUtil {
 					.build();
 		}
 
-		public static EventRepeatWeeklyDTO of(DTOBuilderFactory factory, short interval, String timeZone, LocalDate endDate,
+		public static EventRepeatWeekly.Data of(DataBuilderFactory factory, short interval, String timeZone,
+				LocalDate endDate,
 				List<DayOfWeek> daysOfWeek) {
-			var b = factory.builder(EventRepeatWeeklyDTO.Builder.class);
+			var b = factory.builder(EventRepeatWeekly.DataBuilder.class);
 			return b
 					.interval(interval)
 					.endDate(endDate)
@@ -95,8 +96,9 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatAbsoluteMonthlyDTOUtil {
-		public static EventRepeatAbsoluteMonthlyDTO of(DTOBuilderFactory factory, EventRepeatAbsoluteMonthlyEntity entity) {
-			var b = factory.builder(EventRepeatAbsoluteMonthlyDTO.Builder.class);
+		public static EventRepeatAbsoluteMonthly.Data of(DataBuilderFactory factory,
+				EventRepeatAbsoluteMonthlyEntity entity) {
+			var b = factory.builder(EventRepeatAbsoluteMonthly.DataBuilder.class);
 			return b
 					.interval(entity.interval)
 					.endDate(entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate()
@@ -108,8 +110,9 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatAbsoluteYearlyDTOUtil {
-		public static EventRepeatAbsoluteYearlyDTO of(DTOBuilderFactory factory, EventRepeatAbsoluteYearlyEntity entity) {
-			var b = factory.builder(EventRepeatAbsoluteYearlyDTO.Builder.class);
+		public static EventRepeatAbsoluteYearly.Data of(DataBuilderFactory factory,
+				EventRepeatAbsoluteYearlyEntity entity) {
+			var b = factory.builder(EventRepeatAbsoluteYearly.DataBuilder.class);
 			return b
 					.interval(entity.interval)
 					.endDate(entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate()
@@ -122,8 +125,9 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatRelativeMonthlyDTOUtil {
-		public static EventRepeatRelativeMonthlyDTO of(DTOBuilderFactory factory, EventRepeatRelativeMonthlyEntity entity) {
-			var b = factory.builder(EventRepeatRelativeMonthlyDTO.Builder.class);
+		public static EventRepeatRelativeMonthly.Data of(DataBuilderFactory factory,
+				EventRepeatRelativeMonthlyEntity entity) {
+			var b = factory.builder(EventRepeatRelativeMonthly.DataBuilder.class);
 			return b
 					.interval(entity.interval)
 					.endDate(entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate()
@@ -135,8 +139,9 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatRelativeYearlyDTOUtil {
-		public static EventRepeatRelativeYearlyDTO of(DTOBuilderFactory factory, EventRepeatRelativeYearlyEntity entity) {
-			var b = factory.builder(EventRepeatRelativeYearlyDTO.Builder.class);
+		public static EventRepeatRelativeYearly.Data of(DataBuilderFactory factory,
+				EventRepeatRelativeYearlyEntity entity) {
+			var b = factory.builder(EventRepeatRelativeYearly.DataBuilder.class);
 			return b
 					.interval(entity.interval)
 					.endDate(entity.endDate != null ? entity.endDate.withZoneSameInstant(entity.recurrenceTimezone).toLocalDate()
@@ -148,7 +153,7 @@ public class EventRepeatDTOUtil {
 		}
 	}
 
-	private static <T extends EventRepeatEntity> T fillDefaults(T repeatEntity, LocalDate startDate, EventRepeatDTO r) {
+	private static <T extends EventRepeatEntity> T fillDefaults(T repeatEntity, LocalDate startDate, EventRepeat.Data r) {
 		var recurrenceTimezone = r.timeZone();
 		repeatEntity.interval = r.interval();
 		repeatEntity.startDate = ZonedDateTime.of(startDate, LocalTime.MIN, recurrenceTimezone);
@@ -158,36 +163,36 @@ public class EventRepeatDTOUtil {
 		return repeatEntity;
 	}
 
-	public static Result<EventRepeatEntity> createRepeatPattern(LocalDate startDate, EventRepeatDTO repeat) {
-		if (repeat instanceof MixinEventRepeatDataDTO r) {
+	public static Result<EventRepeatEntity> createRepeatPattern(LocalDate startDate, EventRepeat.Data repeat) {
+		if (repeat instanceof EventRepeatDataMixin r) {
 			if (r.interval() <= 0) {
 				return Result.invalidContent("Interval must be greater than 0");
 			}
 		}
 
-		if (repeat instanceof EventRepeatDailyDTO) {
+		if (repeat instanceof EventRepeatDaily.Data) {
 			return Result.ok(fillDefaults(new EventRepeatDailyEntity(), startDate, repeat));
-		} else if (repeat instanceof EventRepeatWeeklyDTO r) {
+		} else if (repeat instanceof EventRepeatWeekly.Data r) {
 			if (r.daysOfWeek().isEmpty()) {
 				return Result.invalidContent("Weekdays must not be empty");
 			}
 			var repeatPatternEntity = fillDefaults(new EventRepeatWeeklyEntity(), startDate, repeat);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek();
 			return Result.ok(repeatPatternEntity);
-		} else if (repeat instanceof EventRepeatAbsoluteMonthlyDTO r) {
+		} else if (repeat instanceof EventRepeatAbsoluteMonthly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteMonthlyEntity(), startDate, repeat);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth();
 			return Result.ok(repeatPatternEntity);
-		} else if (repeat instanceof EventRepeatAbsoluteYearlyDTO r) {
+		} else if (repeat instanceof EventRepeatAbsoluteYearly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteYearlyEntity(), startDate, repeat);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth();
 			repeatPatternEntity.month = r.month();
 			return Result.ok(repeatPatternEntity);
-		} else if (repeat instanceof EventRepeatRelativeMonthlyDTO r) {
+		} else if (repeat instanceof EventRepeatRelativeMonthly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeMonthlyEntity(), startDate, repeat);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek();
 			return Result.ok(repeatPatternEntity);
-		} else if (repeat instanceof EventRepeatRelativeYearlyDTO r) {
+		} else if (repeat instanceof EventRepeatRelativeYearly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeYearlyEntity(), startDate, repeat);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek();
 			repeatPatternEntity.month = r.month();

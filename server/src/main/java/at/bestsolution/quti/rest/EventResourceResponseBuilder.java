@@ -4,19 +4,19 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.rest.dto.EventNewDTOImpl;
-import at.bestsolution.quti.service.dto.EventDTO;
+import at.bestsolution.quti.service.model.Event;
+import at.bestsolution.quti.service.model.EventNew;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 @Singleton
 public class EventResourceResponseBuilder {
-	public ResponseBuilder get(EventDTO result, String calendarKey, String eventKey, ZoneId zone) {
+	public ResponseBuilder get(Event.Data result, String calendarKey, String eventKey, ZoneId zone) {
 		return Response.status(200).entity(result);
 	}
 
-	public ResponseBuilder create(String result, String calendarKey, EventNewDTOImpl event) {
+	public ResponseBuilder create(String result, String calendarKey, EventNew.Data event) {
 		return Response.status(201).entity(result);
 	}
 
