@@ -387,13 +387,14 @@ export class QutiMultidayView {
     }
     const startDate = this.internalDates[0];
     const endDate = this.internalDates[this.internalDates.length - 1];
+    const r2 = createDateRange(startDate, endDate);
     const dayEntries = this.internalEvents.filter(e => {
       if (e.fullday) {
         const r1 = createDateRange(
           toCalendarDate(e.start),
           toCalendarDate(e.end),
         );
-        const r2 = createDateRange(startDate, endDate);
+
         return intersects(r1, r2, true);
       }
       return false;
