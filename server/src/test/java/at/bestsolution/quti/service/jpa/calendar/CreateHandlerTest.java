@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import at.bestsolution.quti.service.dto.CalendarNewDTO;
+import at.bestsolution.quti.service.model.CalendarNew;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
@@ -23,7 +23,7 @@ public class CreateHandlerTest extends CalendarHandlerTest<CreateHandlerJPA> {
 
 	@Test
 	public void testCreate() {
-		var dto = builderFactory.builder(CalendarNewDTO.Builder.class)
+		var dto = builderFactory.builder(CalendarNew.DataBuilder.class)
 				.name("Test Handler")
 				.owner("info@quti.dev")
 				.build();
