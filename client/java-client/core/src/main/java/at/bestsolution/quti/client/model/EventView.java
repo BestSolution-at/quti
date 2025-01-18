@@ -8,6 +8,8 @@ import at.bestsolution.quti.client.model.mixins.EventViewDataMixin;
 
 public interface EventView {
 	public interface Data extends EventView {
+		public String key();
+
 		public String calendarKey();
 
 		public String title();
