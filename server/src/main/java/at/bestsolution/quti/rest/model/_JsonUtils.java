@@ -122,8 +122,7 @@ public class _JsonUtils {
 		return hasValue(object, property) ? mapObject(object, property, converter) : defaultValue;
 	}
 
-	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonObject object, String property, Class<J> clazz,
-			Function<J, T> mapper) {
+	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
 		if (object.containsKey(property)) {
 			return mapToStream(object.getJsonArray(property), clazz, mapper);
 		}
@@ -333,7 +332,6 @@ public class _JsonUtils {
 				}
 			});
 			generator.writeEnd();
-
 			generator.close();
 			return writer.toString();
 		}

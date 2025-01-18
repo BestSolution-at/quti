@@ -2,7 +2,8 @@
 package at.bestsolution.quti.rest;
 
 import jakarta.inject.Singleton;
-import jakarta.json.JsonObject;
+
+import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.rest.model.CalendarDataImpl;
 import at.bestsolution.quti.rest.model.CalendarNewDataImpl;
 import at.bestsolution.quti.rest.model.EventDataImpl;
@@ -17,7 +18,8 @@ import at.bestsolution.quti.rest.model.EventViewFilterDataImpl;
 import at.bestsolution.quti.rest.model.SeriesEventViewDataImpl;
 import at.bestsolution.quti.rest.model.SeriesMovedEventViewDataImpl;
 import at.bestsolution.quti.rest.model.SingleEventViewDataImpl;
-import at.bestsolution.quti.rest.model._JsonUtils;
+import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.model._Base;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
 import at.bestsolution.quti.service.model.Event;
@@ -32,8 +34,6 @@ import at.bestsolution.quti.service.model.EventViewFilter;
 import at.bestsolution.quti.service.model.SeriesEventView;
 import at.bestsolution.quti.service.model.SeriesMovedEventView;
 import at.bestsolution.quti.service.model.SingleEventView;
-import at.bestsolution.quti.service.model._Base;
-import at.bestsolution.quti.service.DataBuilderFactory;
 
 @Singleton
 public class RestDTOBuilderFactory implements DataBuilderFactory {
