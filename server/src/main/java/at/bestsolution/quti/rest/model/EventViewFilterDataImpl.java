@@ -26,7 +26,7 @@ public class EventViewFilterDataImpl extends _BaseDataImpl implements EventViewF
 		return _JsonUtils.mapString(data, "description", null);
 	}
 
-	public Boolean fullday() {
+	public boolean fullday() {
 		return _JsonUtils.mapBoolean(data, "fullday", false);
 	}
 
@@ -69,10 +69,7 @@ public class EventViewFilterDataImpl extends _BaseDataImpl implements EventViewF
 			return this;
 		}
 
-		public EventViewFilter.DataBuilder fullday(Boolean fullday) {
-			if (fullday == null) {
-				return this;
-			}
+		public EventViewFilter.DataBuilder fullday(boolean fullday) {
 			$builder.add("fullday", fullday);
 			return this;
 		}

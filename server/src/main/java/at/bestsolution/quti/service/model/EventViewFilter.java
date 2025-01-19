@@ -12,7 +12,7 @@ public interface EventViewFilter {
 
 		public String description();
 
-		public Boolean fullday();
+		public boolean fullday();
 
 		public List<String> tags();
 
@@ -25,7 +25,7 @@ public interface EventViewFilter {
 
 		public DataBuilder description(String description);
 
-		public DataBuilder fullday(Boolean fullday);
+		public DataBuilder fullday(boolean fullday);
 
 		public DataBuilder tags(List<String> tags);
 

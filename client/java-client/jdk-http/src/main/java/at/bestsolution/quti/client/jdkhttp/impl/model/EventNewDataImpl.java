@@ -40,7 +40,7 @@ public class EventNewDataImpl extends _BaseDataImpl implements EventNew.Data {
 	}
 
 	public boolean fullday() {
-		return _JsonUtils.mapBoolean(data, "fullday");
+		return _JsonUtils.mapBoolean(data, "fullday", false);
 	}
 
 	public EventRepeat.Data repeat() {

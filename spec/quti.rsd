@@ -1,5 +1,5 @@
 << days of the week
-enum DayOfWeek = 
+enum DayOfWeek =
     MONDAY
     | TUESDAY
     | WEDNESDAY
@@ -68,7 +68,7 @@ patchable record EventRepeatAbsoluteMonthly {
     dayOfMonth: short << the day of the month the event repeats
 }
 
-<< Repeat an event on a yearly interval - eg repeat the event on the 1st May every year 
+<< Repeat an event on a yearly interval - eg repeat the event on the 1st May every year
 patchable record EventRepeatAbsoluteYearly {
     include EventRepeatData
     dayOfMonth: short << the day of the month the event repeats
@@ -89,7 +89,7 @@ patchable record EventRepeatRelativeYearly {
 }
 
 << Repeat an event
-union EventRepeat = 
+union EventRepeat =
     EventRepeatDaily('daily')
     | EventRepeatWeekly('weekly')
     | EventRepeatAbsoluteMonthly('absolute-monthly')
@@ -103,7 +103,7 @@ mixin EventData {
     description?: string            << a more detailed description
     start: zoned-date-time          << start time
     end: zoned-date-time           << end time
-    fullday: boolean                << mark it as a fullday event
+    fullday?: boolean                << mark it as a fullday event
     repeat?: EventRepeat            << the repeat pattern
     tags: string[]                  << a list of custom tags
     referencedCalendars: string[]   << other calendars this event is referenced in
@@ -154,9 +154,9 @@ record SeriesEventView {
 }
 
 << combination of possible views of events
-union EventView = 
-    SingleEventView("single") 
-    | SeriesMovedEventView("series-moved") 
+union EventView =
+    SingleEventView("single")
+    | SeriesMovedEventView("series-moved")
     | SeriesEventView("series")
 ;
 
@@ -179,7 +179,7 @@ service Calendar {
      * create a new calendar
      *
      * foo Bar is eine dubar
-     * 
+     *
      * @param calendar - new calendar data
      * @returns key of the new calendar
      *>
@@ -189,19 +189,19 @@ service Calendar {
 
     <*
      * get a calendar
-     * 
+     *
      * @param key - the calendar key
      * @returns the calendar
      *>
     operation get(key: string): Calendar
         throws
-            NotFound        << if calendar with the given key is not found 
+            NotFound        << if calendar with the given key is not found
             InvalidArgument << if the key is not an UUID
         ;
 
     <*
      * get a view of all events in a date range
-     * 
+     *
      * @param key - the calendar key
      * @param start - the start date
      * @param end - the end date
@@ -209,22 +209,22 @@ service Calendar {
      * @returns a list of events
      *>
     operation eventView(
-        key: string, 
-        start: local-date, 
-        end: local-date, 
+        key: string,
+        start: local-date,
+        end: local-date,
         timezone: ZoneId,
-        resultTimeZone?: ZoneId): EventView[] 
-        throws 
-            NotFound 
+        resultTimeZone?: ZoneId): EventView[]
+        throws
+            NotFound
             InvalidArgument;
 
-//    operation update(key: string, @patch changes: Calendar); 
-/*   */   
+//    operation update(key: string, @patch changes: Calendar);
+/*   */
 }
 
 << Service to create and modify events in a calendar
 service Event {
-    <* 
+    <*
      * create a new event
      *
      * @param calendar - key of the calendar owning the new event
@@ -232,23 +232,23 @@ service Event {
      * @returns key of the new event
      *>
     operation create(calendar: string, event: EventNew): string
-        throws 
+        throws
             NotFound
             InvalidArgument;
 
-    
+
     operation get(calendar: string, key: string, timezone: ZoneId): Event;
 //    operation update(calendar: string, key: string, @patch changes: Event);
-    
-    <* 
+
+    <*
      * delete an event
-     * 
+     *
      * @param calendar - key of the calendar owning the event
      * @param key - key of the event
      *>
     operation delete(calendar: string, key: string);
 
-    <* 
+    <*
      * cancel an event
      *
      * @param calendar - key of the calendar owning the event
@@ -256,7 +256,7 @@ service Event {
      *>
     operation cancel(calendar: string, key: string);
 
-    <* 
+    <*
      * uncancel an event
      * @param calendar - key of the calendar owning the event
      * @param key - key of the event
@@ -281,7 +281,7 @@ service Event {
      *>
     operation endRepeat(calendar: string, key: string, end: local-date);
 
-    <* 
+    <*
      * set a description
      * @param calendar - key of the calendar owning the event
      * @param key - key of the event
