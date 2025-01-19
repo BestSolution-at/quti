@@ -3,6 +3,6 @@ package at.bestsolution.quti.service;
 
 import at.bestsolution.quti.service.model._Base;
 
-public interface DataBuilderFactory {
+public interface BuilderFactory {
 	public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> type);
 }

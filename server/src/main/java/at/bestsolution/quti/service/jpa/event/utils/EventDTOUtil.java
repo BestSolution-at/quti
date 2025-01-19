@@ -3,11 +3,11 @@ package at.bestsolution.quti.service.jpa.event.utils;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.service.jpa.model.EventEntity;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.model.Event;
 
 public class EventDTOUtil {
-	public static Event.Data of(DataBuilderFactory factory, EventEntity event, ZoneId zoneId) {
+	public static Event.Data of(BuilderFactory factory, EventEntity event, ZoneId zoneId) {
 		var b = factory.builder(Event.DataBuilder.class);
 		return b
 				.key(event.key.toString())

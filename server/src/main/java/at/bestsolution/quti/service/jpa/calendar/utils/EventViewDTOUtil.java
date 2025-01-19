@@ -11,7 +11,7 @@ import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.model.EventView;
 import at.bestsolution.quti.service.model.SeriesEventView;
 import at.bestsolution.quti.service.model.SeriesMovedEventView;
@@ -19,16 +19,16 @@ import at.bestsolution.quti.service.model.SingleEventView;
 import at.bestsolution.quti.service.model.mixins.EventViewDataMixin.Status;
 
 public class EventViewDTOUtil {
-	public static EventView.Data of(DataBuilderFactory factory, EventEntity event, ZoneId resultZone) {
+	public static EventView.Data of(BuilderFactory factory, EventEntity event, ZoneId resultZone) {
 		return SingleEventViewDTOUtil.of(factory, event, resultZone);
 	}
 
-	public static EventView.Data of(DataBuilderFactory factory, EventModificationMovedEntity movedEntity,
+	public static EventView.Data of(BuilderFactory factory, EventModificationMovedEntity movedEntity,
 			ZoneId resultZone) {
 		return SeriesMovedEventViewDTOUtil.of(factory, movedEntity, resultZone);
 	}
 
-	public static EventView.Data of(DataBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
+	public static EventView.Data of(BuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
 		return SeriesEventViewDTOUtil.of(factory, event, date, zone);
 	}
 
@@ -45,7 +45,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SingleEventViewDTOUtil {
-		public static SingleEventView.Data of(DataBuilderFactory factory, EventEntity event, ZoneId resultZone) {
+		public static SingleEventView.Data of(BuilderFactory factory, EventEntity event, ZoneId resultZone) {
 			var b = factory.builder(SingleEventView.DataBuilder.class);
 			return b
 					.key(event.key.toString())
@@ -68,7 +68,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesMovedEventViewDTOUtil {
-		public static SeriesMovedEventView.Data of(DataBuilderFactory factory, EventModificationMovedEntity movedEntity,
+		public static SeriesMovedEventView.Data of(BuilderFactory factory, EventModificationMovedEntity movedEntity,
 				ZoneId resultZone) {
 			var status = Status.ACCEPTED;
 
@@ -113,7 +113,7 @@ public class EventViewDTOUtil {
 	}
 
 	public class SeriesEventViewDTOUtil {
-		public static SeriesEventView.Data of(DataBuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
+		public static SeriesEventView.Data of(BuilderFactory factory, EventEntity event, LocalDate date, ZoneId zone) {
 			var start = event.start.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var end = event.end.withZoneSameInstant(event.repeatPattern.recurrenceTimezone);
 			var dayDiff = ChronoUnit.DAYS.between(start.toLocalDate(), date);

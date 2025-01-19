@@ -40,7 +40,7 @@ public class EventNewDataImpl extends _BaseDataImpl implements EventNew.Data {
 	}
 
 	public boolean fullday() {
-		return _JsonUtils.mapBoolean(data, "fullday", false);
+		return _JsonUtils.mapBoolean(data, "fullday");
 	}
 
 	public EventRepeat.Data repeat() {
@@ -107,12 +107,12 @@ public class EventNewDataImpl extends _BaseDataImpl implements EventNew.Data {
 			if (repeat == null) {
 				return this;
 			}
-			$builder.add("repeat", ((_BaseDataImpl) repeat).data);
+			$builder.add("repeat", ((_BaseDataImpl)repeat).data);
 			return this;
 		}
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat.Data> block) {
+
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block) {
 			EventRepeat.DataBuilder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();

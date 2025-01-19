@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.Event;
@@ -45,44 +45,44 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Result<Event.Data> get(DataBuilderFactory builderFactory, String calendarKey, String eventKey, ZoneId zone) {
+	public Result<Event.Data> get(BuilderFactory builderFactory, String calendarKey, String eventKey, ZoneId zone) {
 		return getHandler.get(builderFactory, calendarKey, eventKey, zone);
 	}
 
 	@Override
-	public Result<String> create(DataBuilderFactory builderFactory, String calendarKey, EventNew.Data event) {
+	public Result<String> create(BuilderFactory builderFactory, String calendarKey, EventNew.Data event) {
 		return createHandler.create(builderFactory, calendarKey, event);
 	}
 
 	@Override
-	public Result<Void> delete(DataBuilderFactory builderFactory, String calendarKey, String eventKey) {
+	public Result<Void> delete(BuilderFactory builderFactory, String calendarKey, String eventKey) {
 		return deleteHandler.delete(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> endRepeat(DataBuilderFactory builderFactory, String calendarKey, String eventKey,
+	public Result<Void> endRepeat(BuilderFactory builderFactory, String calendarKey, String eventKey,
 			LocalDate endDate) {
 		return endRepeatHandler.endRepeat(builderFactory, calendarKey, eventKey, endDate);
 	}
 
 	@Override
-	public Result<Void> move(DataBuilderFactory builderFactory, String calendarKey, String eventKey, ZonedDateTime start,
+	public Result<Void> move(BuilderFactory builderFactory, String calendarKey, String eventKey, ZonedDateTime start,
 			ZonedDateTime end) {
 		return moveHandler.move(builderFactory, calendarKey, eventKey, start, end);
 	}
 
 	@Override
-	public Result<Void> cancel(DataBuilderFactory builderFactory, String calendarKey, String eventKey) {
+	public Result<Void> cancel(BuilderFactory builderFactory, String calendarKey, String eventKey) {
 		return cancelHandler.cancel(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> uncancel(DataBuilderFactory builderFactory, String calendarKey, String eventKey) {
+	public Result<Void> uncancel(BuilderFactory builderFactory, String calendarKey, String eventKey) {
 		return uncancelHandler.uncancel(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> description(DataBuilderFactory builderFactory, String calendarKey, String eventKey,
+	public Result<Void> description(BuilderFactory builderFactory, String calendarKey, String eventKey,
 			String description) {
 		return setDescriptionHandler.setDescription(builderFactory, calendarKey, eventKey, description);
 	}

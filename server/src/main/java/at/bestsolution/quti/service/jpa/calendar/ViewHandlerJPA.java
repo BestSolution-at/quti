@@ -16,7 +16,7 @@ import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.EventView;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
@@ -34,7 +34,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		super(em);
 	}
 
-	public Result<List<EventView.Data>> view(DataBuilderFactory factory, String calendarKey, LocalDate start,
+	public Result<List<EventView.Data>> view(BuilderFactory factory, String calendarKey, LocalDate start,
 			LocalDate end,
 			ZoneId timezone, ZoneId resultZone) {
 		Objects.requireNonNull(calendarKey, "calendarKey must not be null");
@@ -77,7 +77,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		return Result.ok(result);
 	}
 
-	private List<EventView.Data> findOneTimeEvents(DataBuilderFactory factory, UUID calendarKey,
+	private List<EventView.Data> findOneTimeEvents(BuilderFactory factory, UUID calendarKey,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime,
 			ZoneId resultZone) {
@@ -103,7 +103,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventView.Data> findOneTimeReferencedEvents(DataBuilderFactory factory, UUID calendarKey,
+	private List<EventView.Data> findOneTimeReferencedEvents(BuilderFactory factory, UUID calendarKey,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
@@ -130,7 +130,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventView.Data> findMovedSeriesEvents(DataBuilderFactory factory, UUID calendarKey,
+	private List<EventView.Data> findMovedSeriesEvents(BuilderFactory factory, UUID calendarKey,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
@@ -156,7 +156,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventView.Data> findMovedSeriesReferencedEvents(DataBuilderFactory factory, UUID calendarKey,
+	private List<EventView.Data> findMovedSeriesReferencedEvents(BuilderFactory factory, UUID calendarKey,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
@@ -204,7 +204,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		return result;
 	}
 
-	private List<EventView.Data> findSeriesEvents(DataBuilderFactory factory, UUID calendarKey,
+	private List<EventView.Data> findSeriesEvents(BuilderFactory factory, UUID calendarKey,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime,
 			ZoneId resultZone) {
@@ -231,7 +231,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private List<EventView.Data> findSeriesReferencedEvents(DataBuilderFactory factory, UUID calendarKey,
+	private List<EventView.Data> findSeriesReferencedEvents(BuilderFactory factory, UUID calendarKey,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		var query = em().createQuery("""
@@ -259,7 +259,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 				.toList();
 	}
 
-	private static Stream<EventView.Data> fromRepeat(DataBuilderFactory factory, EventEntity entity,
+	private static Stream<EventView.Data> fromRepeat(BuilderFactory factory, EventEntity entity,
 			ZonedDateTime startDatetime,
 			ZonedDateTime endDatetime, ZoneId resultZone) {
 		return RepeatUtils.fromRepeat(entity, startDatetime, endDatetime)

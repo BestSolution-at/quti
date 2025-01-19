@@ -5,7 +5,7 @@ import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.jpa.model.EventEntity;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.Event;
@@ -23,7 +23,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.G
 		super(em);
 	}
 
-	public Result<Event.Data> get(DataBuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
+	public Result<Event.Data> get(BuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 

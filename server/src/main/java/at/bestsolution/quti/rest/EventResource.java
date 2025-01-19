@@ -23,7 +23,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/calendar/{calendar}/events")
 @Produces(MediaType.APPLICATION_JSON)
 public class EventResource {
-	private final RestDTOBuilderFactory builderFactory;
+	private final RestBuilderFactory builderFactory;
 	private final EventService service;
 	private final EventResourceResponseBuilder responseBuilder;
 
@@ -31,7 +31,7 @@ public class EventResource {
 	public EventResource(
 			EventService service,
 			EventResourceResponseBuilder responseBuilder,
-			RestDTOBuilderFactory builderFactory) {
+			RestBuilderFactory builderFactory) {
 		this.service = service;
 		this.responseBuilder = responseBuilder;
 		this.builderFactory = builderFactory;

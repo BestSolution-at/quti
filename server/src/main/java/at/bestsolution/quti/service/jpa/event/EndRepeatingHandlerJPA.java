@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -23,7 +23,7 @@ public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.
 	}
 
 	@Transactional
-	public Result<Void> endRepeat(DataBuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
+	public Result<Void> endRepeat(BuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 

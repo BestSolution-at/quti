@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -27,7 +27,7 @@ public class MoveHandlerJPA extends BaseHandler implements EventService.MoveHand
 	}
 
 	@Transactional
-	public Result<Void> move(DataBuilderFactory factory, String calendarKey, String eventKey, ZonedDateTime start,
+	public Result<Void> move(BuilderFactory factory, String calendarKey, String eventKey, ZonedDateTime start,
 			ZonedDateTime end) {
 		var seriesSep = eventKey.indexOf('_');
 

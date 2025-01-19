@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/calendar")
 @Produces(MediaType.APPLICATION_JSON)
 public class CalendarResource {
-	private final RestDTOBuilderFactory builderFactory;
+	private final RestBuilderFactory builderFactory;
 	private final CalendarService service;
 	private final CalendarResourceResponseBuilder responseBuilder;
 
@@ -29,7 +29,7 @@ public class CalendarResource {
 	public CalendarResource(
 			CalendarService service,
 			CalendarResourceResponseBuilder responseBuilder,
-			RestDTOBuilderFactory builderFactory) {
+			RestBuilderFactory builderFactory) {
 		this.builderFactory = builderFactory;
 		this.service = service;
 		this.responseBuilder = responseBuilder;

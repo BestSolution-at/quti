@@ -18,7 +18,7 @@ import at.bestsolution.quti.rest.model.EventViewFilterDataImpl;
 import at.bestsolution.quti.rest.model.SeriesEventViewDataImpl;
 import at.bestsolution.quti.rest.model.SeriesMovedEventViewDataImpl;
 import at.bestsolution.quti.rest.model.SingleEventViewDataImpl;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.model._Base;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
@@ -36,7 +36,7 @@ import at.bestsolution.quti.service.model.SeriesMovedEventView;
 import at.bestsolution.quti.service.model.SingleEventView;
 
 @Singleton
-public class RestDTOBuilderFactory implements DataBuilderFactory {
+public class RestBuilderFactory implements BuilderFactory {
 	@Override
 	public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> type) {
 		if (type == Calendar.DataBuilder.class) {

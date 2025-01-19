@@ -7,7 +7,7 @@ import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarDTOUtil;
@@ -29,7 +29,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements CalendarServic
 		return query.getResultList();
 	}
 
-	public Result<Calendar.Data> get(DataBuilderFactory factory, String key) {
+	public Result<Calendar.Data> get(BuilderFactory factory, String key) {
 		var parsedKey = Utils.parseUUID(key, "key");
 		if (parsedKey.isNotOk()) {
 			return parsedKey.toAny();

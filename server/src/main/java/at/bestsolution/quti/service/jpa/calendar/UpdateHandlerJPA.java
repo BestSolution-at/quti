@@ -2,7 +2,7 @@ package at.bestsolution.quti.service.jpa.calendar;
 
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import jakarta.inject.Inject;
@@ -19,7 +19,7 @@ public class UpdateHandlerJPA extends BaseHandler implements CalendarService.Upd
 	}
 
 	@Transactional
-	public Result<Void> update(DataBuilderFactory factory, String key, Calendar.Patch patch) {
+	public Result<Void> update(BuilderFactory factory, String key, Calendar.Patch patch) {
 		/*
 		 * Objects.requireNonNull(key, "key must not be null");
 		 * Objects.requireNonNull(patch, "patch must not be null");

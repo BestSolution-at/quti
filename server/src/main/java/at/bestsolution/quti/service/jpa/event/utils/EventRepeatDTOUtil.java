@@ -15,7 +15,7 @@ import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeMonthlyE
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeYearlyEntity;
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.DataBuilderFactory;
+import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.EventRepeat;
 import at.bestsolution.quti.service.model.EventRepeatAbsoluteMonthly;
@@ -27,7 +27,7 @@ import at.bestsolution.quti.service.model.EventRepeatWeekly;
 import at.bestsolution.quti.service.model.mixins.EventRepeatDataMixin;
 
 public class EventRepeatDTOUtil {
-	public static EventRepeat.Data of(DataBuilderFactory factory, EventRepeatEntity entity) {
+	public static EventRepeat.Data of(BuilderFactory factory, EventRepeatEntity entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -49,7 +49,7 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatDailyDTOUtil {
-		public static EventRepeatDaily.Data of(DataBuilderFactory factory, EventRepeatDailyEntity entity) {
+		public static EventRepeatDaily.Data of(BuilderFactory factory, EventRepeatDailyEntity entity) {
 			var b = factory.builder(EventRepeatDaily.DataBuilder.class);
 			return b
 					.interval(entity.interval)
@@ -59,7 +59,7 @@ public class EventRepeatDTOUtil {
 					.build();
 		}
 
-		public static EventRepeatDaily.Data of(DataBuilderFactory factory, short interval, String timeZone,
+		public static EventRepeatDaily.Data of(BuilderFactory factory, short interval, String timeZone,
 				LocalDate endDate) {
 			var b = factory.builder(EventRepeatDaily.DataBuilder.class);
 			return b
@@ -71,7 +71,7 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatWeeklyDTOUtil {
-		public static EventRepeatWeekly.Data of(DataBuilderFactory factory, EventRepeatWeeklyEntity entity) {
+		public static EventRepeatWeekly.Data of(BuilderFactory factory, EventRepeatWeeklyEntity entity) {
 			var b = factory.builder(EventRepeatWeekly.DataBuilder.class);
 			return b
 					.interval(entity.interval)
@@ -82,7 +82,7 @@ public class EventRepeatDTOUtil {
 					.build();
 		}
 
-		public static EventRepeatWeekly.Data of(DataBuilderFactory factory, short interval, String timeZone,
+		public static EventRepeatWeekly.Data of(BuilderFactory factory, short interval, String timeZone,
 				LocalDate endDate,
 				List<DayOfWeek> daysOfWeek) {
 			var b = factory.builder(EventRepeatWeekly.DataBuilder.class);
@@ -96,7 +96,7 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatAbsoluteMonthlyDTOUtil {
-		public static EventRepeatAbsoluteMonthly.Data of(DataBuilderFactory factory,
+		public static EventRepeatAbsoluteMonthly.Data of(BuilderFactory factory,
 				EventRepeatAbsoluteMonthlyEntity entity) {
 			var b = factory.builder(EventRepeatAbsoluteMonthly.DataBuilder.class);
 			return b
@@ -110,7 +110,7 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatAbsoluteYearlyDTOUtil {
-		public static EventRepeatAbsoluteYearly.Data of(DataBuilderFactory factory,
+		public static EventRepeatAbsoluteYearly.Data of(BuilderFactory factory,
 				EventRepeatAbsoluteYearlyEntity entity) {
 			var b = factory.builder(EventRepeatAbsoluteYearly.DataBuilder.class);
 			return b
@@ -125,7 +125,7 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatRelativeMonthlyDTOUtil {
-		public static EventRepeatRelativeMonthly.Data of(DataBuilderFactory factory,
+		public static EventRepeatRelativeMonthly.Data of(BuilderFactory factory,
 				EventRepeatRelativeMonthlyEntity entity) {
 			var b = factory.builder(EventRepeatRelativeMonthly.DataBuilder.class);
 			return b
@@ -139,7 +139,7 @@ public class EventRepeatDTOUtil {
 	}
 
 	public class EventRepeatRelativeYearlyDTOUtil {
-		public static EventRepeatRelativeYearly.Data of(DataBuilderFactory factory,
+		public static EventRepeatRelativeYearly.Data of(BuilderFactory factory,
 				EventRepeatRelativeYearlyEntity entity) {
 			var b = factory.builder(EventRepeatRelativeYearly.DataBuilder.class);
 			return b
