@@ -36,7 +36,7 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
 
     public static EventRepeatDTO of(JsonObject data) {
         var descriminator = data.getString("@type");
-        return switch(descriminator) {
+        return switch (descriminator) {
             case "daily" -> new EventRepeatDailyDTOImpl(data);
             case "weekly" -> new EventRepeatWeeklyDTOImpl(data);
             case "absolute-monthly" -> new EventRepeatAbsoluteMonthlyDTOImpl(data);
@@ -62,6 +62,9 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
 
         @Override
         public Builder endDate(LocalDate endDate) {
+            if (endDate == null) {
+                return this;
+            }
             $builder.add("endDate", endDate.toString());
             return this;
         }
@@ -77,9 +80,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         EventRepeatDailyDTOImpl(JsonObject data) {
             super(data);
         }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatDailyDTO> implements EventRepeatDailyDTO.Builder {
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatDailyDTO>
+                implements EventRepeatDailyDTO.Builder {
             public BuilderImpl() {
-                $builder.add("@type","daily");
+                $builder.add("@type", "daily");
             }
 
             @Override
@@ -112,9 +117,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         public List<DayOfWeek> daysOfWeek() {
             return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
         }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatWeeklyDTO> implements EventRepeatWeeklyDTO.Builder {
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatWeeklyDTO>
+                implements EventRepeatWeeklyDTO.Builder {
             public BuilderImpl() {
-                $builder.add("@type","weekly");
+                $builder.add("@type", "weekly");
             }
 
             @Override
@@ -144,7 +151,8 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         }
     }
 
-    public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatAbsoluteMonthlyDTO {
+    public static class EventRepeatAbsoluteMonthlyDTOImpl extends EventRepeatDTOImpl
+            implements EventRepeatAbsoluteMonthlyDTO {
         EventRepeatAbsoluteMonthlyDTOImpl(JsonObject data) {
             super(data);
         }
@@ -153,9 +161,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         public short dayOfMonth() {
             return DTOUtils.mapShort(data, "dayOfMonth");
         }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteMonthlyDTO> implements EventRepeatAbsoluteMonthlyDTO.Builder {
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteMonthlyDTO>
+                implements EventRepeatAbsoluteMonthlyDTO.Builder {
             public BuilderImpl() {
-                $builder.add("@type","absolute-monthly");
+                $builder.add("@type", "absolute-monthly");
             }
 
             @Override
@@ -185,7 +195,8 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         }
     }
 
-    public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatAbsoluteYearlyDTO {
+    public static class EventRepeatAbsoluteYearlyDTOImpl extends EventRepeatDTOImpl
+            implements EventRepeatAbsoluteYearlyDTO {
         EventRepeatAbsoluteYearlyDTOImpl(JsonObject data) {
             super(data);
         }
@@ -199,9 +210,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         public Month month() {
             return DTOUtils.mapLiteral(data, "month", Month::valueOf);
         }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteYearlyDTO> implements EventRepeatAbsoluteYearlyDTO.Builder {
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatAbsoluteYearlyDTO>
+                implements EventRepeatAbsoluteYearlyDTO.Builder {
             public BuilderImpl() {
-                $builder.add("@type","absolute-yearly");
+                $builder.add("@type", "absolute-yearly");
             }
 
             @Override
@@ -237,7 +250,8 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         }
     }
 
-    public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatRelativeMonthlyDTO {
+    public static class EventRepeatRelativeMonthlyDTOImpl extends EventRepeatDTOImpl
+            implements EventRepeatRelativeMonthlyDTO {
         EventRepeatRelativeMonthlyDTOImpl(JsonObject data) {
             super(data);
         }
@@ -246,9 +260,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         public List<DayOfWeek> daysOfWeek() {
             return DTOUtils.mapLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
         }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeMonthlyDTO> implements EventRepeatRelativeMonthlyDTO.Builder {
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeMonthlyDTO>
+                implements EventRepeatRelativeMonthlyDTO.Builder {
             public BuilderImpl() {
-                $builder.add("@type","relative-monthly");
+                $builder.add("@type", "relative-monthly");
             }
 
             @Override
@@ -278,7 +294,8 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         }
     }
 
-    public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl implements EventRepeatRelativeYearlyDTO {
+    public static class EventRepeatRelativeYearlyDTOImpl extends EventRepeatDTOImpl
+            implements EventRepeatRelativeYearlyDTO {
         EventRepeatRelativeYearlyDTOImpl(JsonObject data) {
             super(data);
         }
@@ -292,9 +309,11 @@ public abstract class EventRepeatDTOImpl extends BaseDTOImpl implements EventRep
         public Month month() {
             return DTOUtils.mapLiteral(data, "month", Month::valueOf);
         }
-        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeYearlyDTO> implements EventRepeatRelativeYearlyDTO.Builder {
+
+        public static class BuilderImpl extends EventRepeatDTOImpl.BuilderImpl<EventRepeatRelativeYearlyDTO>
+                implements EventRepeatRelativeYearlyDTO.Builder {
             public BuilderImpl() {
-                $builder.add("@type","relative-yearly");
+                $builder.add("@type", "relative-yearly");
             }
 
             @Override
