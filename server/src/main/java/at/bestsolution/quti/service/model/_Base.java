@@ -2,6 +2,9 @@
 package at.bestsolution.quti.service.model;
 
 public interface _Base {
+	public class Nillable<T> {
+	}
+
 	public interface BaseData {
 	}
 

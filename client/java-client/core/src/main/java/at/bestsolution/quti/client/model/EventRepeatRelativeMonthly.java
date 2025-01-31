@@ -33,6 +33,10 @@ public interface EventRepeatRelativeMonthly {
 	}
 
 	public interface Patch extends EventRepeatRelativeMonthly {
+		// daysOfWeek
+		// interval
+		// endDate// NULLABLE
+		// timeZone
 	}
 
 	public interface PatchBuilder {

@@ -4,6 +4,7 @@ package at.bestsolution.quti.client.model;
 import java.time.ZonedDateTime;
 import java.util.function.Function;
 import java.util.List;
+import java.util.Optional;
 
 import at.bestsolution.quti.client.model.mixins.EventDataMixin;
 
@@ -45,7 +46,8 @@ public interface Event {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
+				Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 
@@ -54,6 +56,22 @@ public interface Event {
 	}
 
 	public interface Patch extends Event {
+		public Optional<String> title();
+
+		public _Base.Nillable<String> description();
+
+		public Optional<ZonedDateTime> start();
+
+		public Optional<ZonedDateTime> end();
+
+		public _Base.Nillable<Boolean> fullday();
+
+		public _Base.Nillable<EventRepeat.Data> repeat();
+
+		public Optional<List<String>> tags();
+
+		public Optional<List<String>> referencedCalendars();
+
 	}
 
 	public interface PatchBuilder {

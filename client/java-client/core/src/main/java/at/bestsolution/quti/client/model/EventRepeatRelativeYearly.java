@@ -38,6 +38,11 @@ public interface EventRepeatRelativeYearly {
 	}
 
 	public interface Patch extends EventRepeatRelativeYearly {
+		// daysOfWeek
+		// month
+		// interval
+		// endDate// NULLABLE
+		// timeZone
 	}
 
 	public interface PatchBuilder {

@@ -36,6 +36,11 @@ public interface EventRepeatAbsoluteYearly {
 	}
 
 	public interface Patch extends EventRepeatAbsoluteYearly {
+		// dayOfMonth
+		// month
+		// interval
+		// endDate// NULLABLE
+		// timeZone
 	}
 
 	public interface PatchBuilder {

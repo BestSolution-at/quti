@@ -33,6 +33,10 @@ public interface EventRepeatWeekly {
 	}
 
 	public interface Patch extends EventRepeatWeekly {
+		// daysOfWeek
+		// interval
+		// endDate// NULLABLE
+		// timeZone
 	}
 
 	public interface PatchBuilder {

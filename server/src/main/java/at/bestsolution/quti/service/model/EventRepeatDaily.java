@@ -27,6 +27,9 @@ public interface EventRepeatDaily {
 	}
 
 	public interface Patch extends EventRepeatDaily {
+		// interval
+		// endDate// NULLABLE
+		// timeZone
 	}
 
 	public interface PatchBuilder {

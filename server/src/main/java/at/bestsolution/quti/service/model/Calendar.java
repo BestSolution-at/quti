@@ -24,6 +24,8 @@ public interface Calendar {
 	}
 
 	public interface Patch extends Calendar {
+		// name
+		// owner// NULLABLE
 	}
 
 	public interface PatchBuilder {

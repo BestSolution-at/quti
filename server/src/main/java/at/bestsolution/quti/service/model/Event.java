@@ -54,6 +54,14 @@ public interface Event {
 	}
 
 	public interface Patch extends Event {
+		// title
+		// description// NULLABLE
+		// start
+		// end
+		// fullday// NULLABLE
+		// repeat
+		// tags
+		// referencedCalendars
 	}
 
 	public interface PatchBuilder {
