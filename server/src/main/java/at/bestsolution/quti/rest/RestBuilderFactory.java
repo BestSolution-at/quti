@@ -5,8 +5,10 @@ import jakarta.inject.Singleton;
 
 import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.rest.model.CalendarDataImpl;
+import at.bestsolution.quti.rest.model.CalendarDataPatchImpl;
 import at.bestsolution.quti.rest.model.CalendarNewDataImpl;
 import at.bestsolution.quti.rest.model.EventDataImpl;
+import at.bestsolution.quti.rest.model.EventDataPatchImpl;
 import at.bestsolution.quti.rest.model.EventNewDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatAbsoluteMonthlyDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatAbsoluteYearlyDataImpl;
@@ -39,6 +41,9 @@ import at.bestsolution.quti.service.model.SingleEventView;
 public class RestBuilderFactory implements BuilderFactory {
 	@Override
 	public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> type) {
+		if (type == Calendar.PatchBuilder.class) {
+			return type.cast(CalendarDataPatchImpl.builder());
+		}
 		if (type == Calendar.DataBuilder.class) {
 			return type.cast(CalendarDataImpl.builder());
 		}
@@ -50,6 +55,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Event.DataBuilder.class) {
 			return type.cast(EventDataImpl.builder());
+		}
+		if (type == Event.PatchBuilder.class) {
+			return type.cast(EventDataPatchImpl.builder());
 		}
 		if (type == EventViewFilter.DataBuilder.class) {
 			return type.cast(EventViewFilterDataImpl.builder());

@@ -4,6 +4,7 @@ package at.bestsolution.quti.service.model;
 import java.time.ZonedDateTime;
 import java.util.function.Function;
 import java.util.List;
+import java.util.Optional;
 
 import at.bestsolution.quti.service.model.mixins.EventDataMixin;
 
@@ -45,7 +46,8 @@ public interface Event {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
+				Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 
@@ -54,16 +56,38 @@ public interface Event {
 	}
 
 	public interface Patch extends Event {
-		// title
-		// description// NULLABLE
-		// start
-		// end
-		// fullday// NULLABLE
-		// repeat
-		// tags
-		// referencedCalendars
+		public Optional<String> title();
+
+		public _Base.Nillable<String> description();
+
+		public Optional<ZonedDateTime> start();
+
+		public Optional<ZonedDateTime> end();
+
+		public _Base.Nillable<Boolean> fullday();
+
+		public _Base.Nillable<EventRepeat.Data> repeat();
+
+		public Optional<List<String>> tags();
+
+		public Optional<List<String>> referencedCalendars();
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<Event.Patch> {
+		public PatchBuilder title(String title);
+
+		public PatchBuilder description(String description);
+
+		public PatchBuilder start(ZonedDateTime start);
+
+		public PatchBuilder end(ZonedDateTime end);
+
+		public PatchBuilder fullday(Boolean fullday);
+
+		public PatchBuilder repeat(EventRepeat.Data repeat);
+
+		public PatchBuilder tags(List<String> tags);
+
+		public PatchBuilder referencedCalendars(List<String> referencedCalendars);
 	}
 }
