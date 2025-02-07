@@ -345,6 +345,13 @@ public class _JsonUtils {
 		return Stream.empty();
 	}
 
+	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonArray array, Class<J> clazz, Function<J, T> mapper) {
+		return array
+				.getValuesAs(clazz)
+				.stream()
+				.map(mapper);
+	}
+
 	public static <J extends JsonValue, T> Optional<Stream<T>> mapToOptStream(JsonObject object, String property,
 			Class<J> clazz,
 			Function<J, T> mapper) {
@@ -364,13 +371,6 @@ public class _JsonUtils {
 			return _NillableImpl.of(mapToStream(object.getJsonArray(property), clazz, mapper));
 		}
 		return _NillableImpl.undefined();
-	}
-
-	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonArray array, Class<J> clazz, Function<J, T> mapper) {
-		return array
-				.getValuesAs(clazz)
-				.stream()
-				.map(mapper);
 	}
 
 	public static List<Boolean> mapBooleans(JsonObject object, String property) {
