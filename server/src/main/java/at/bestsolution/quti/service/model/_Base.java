@@ -6,11 +6,11 @@ import java.util.function.Function;
 
 public interface _Base {
 	public interface Nillable<T> {
-		public <X> X apply(Function<T, X> function, X defaultValue);
+		public <R> R apply(Function<T, R> function, R defaultValue);
 
 		public void accept(Consumer<T> block);
 
-		public <X> Nillable<X> map(Function<T, X> mapper);
+		public <R> Nillable<R> map(Function<T, R> mapper);
 	}
 
 	public interface BaseData {
