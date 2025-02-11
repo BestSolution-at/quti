@@ -16,7 +16,6 @@ import java.util.OptionalLong;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import at.bestsolution.quti.service.model._Base;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
@@ -25,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
 import jakarta.json.stream.JsonGenerator;
+
+import at.bestsolution.quti.service.model._Base;
 
 public class _JsonUtils {
 	public static boolean hasValue(JsonObject object, String property) {
@@ -326,8 +327,7 @@ public class _JsonUtils {
 		return Optional.empty();
 	}
 
-	public static <T> _Base.Nillable<T> mapNilObject(JsonObject object, String property,
-			Function<JsonObject, T> converter) {
+	public static <T> _Base.Nillable<T> mapNilObject(JsonObject object, String property, Function<JsonObject, T> converter) {
 		if (object.containsKey(property)) {
 			if (object.isNull(property)) {
 				return _NillableImpl.nill();
@@ -337,8 +337,7 @@ public class _JsonUtils {
 		return _NillableImpl.undefined();
 	}
 
-	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonObject object, String property, Class<J> clazz,
-			Function<J, T> mapper) {
+	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
 		if (object.containsKey(property)) {
 			return mapToStream(object.getJsonArray(property), clazz, mapper);
 		}
@@ -352,23 +351,19 @@ public class _JsonUtils {
 				.map(mapper);
 	}
 
-	public static <J extends JsonValue, T> Optional<Stream<T>> mapToOptStream(JsonObject object, String property,
-			Class<J> clazz,
-			Function<J, T> mapper) {
+		public static <J extends JsonValue, T> Optional<Stream<T>> mapToOptStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
 		if (object.containsKey(property)) {
-			return Optional.of(mapToStream(object.getJsonArray(property), clazz, mapper));
+			return Optional.of(mapToStream(object, property, clazz, mapper));
 		}
 		return Optional.empty();
 	}
 
-	public static <J extends JsonValue, T> _Base.Nillable<Stream<T>> mapToNilStream(JsonObject object, String property,
-			Class<J> clazz,
-			Function<J, T> mapper) {
+		public static <J extends JsonValue, T> _Base.Nillable<Stream<T>> mapToNilStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
 		if (object.containsKey(property)) {
 			if (object.isNull(property)) {
 				return _NillableImpl.nill();
 			}
-			return _NillableImpl.of(mapToStream(object.getJsonArray(property), clazz, mapper));
+			return _NillableImpl.of(mapToStream(object, property, clazz, mapper));
 		}
 		return _NillableImpl.undefined();
 	}
@@ -493,13 +488,11 @@ public class _JsonUtils {
 		return mapToStream(array, JsonObject.class, converter).toList();
 	}
 
-	public static <T> Optional<List<T>> mapOptObjects(JsonObject object, String property,
-			Function<JsonObject, T> converter) {
+	public static <T> Optional<List<T>> mapOptObjects(JsonObject object, String property, Function<JsonObject, T> converter) {
 		return mapToOptStream(object, property, JsonObject.class, converter).map(Stream::toList);
 	}
 
-	public static <T> _Base.Nillable<List<T>> mapNilObjects(JsonObject object, String property,
-			Function<JsonObject, T> converter) {
+	public static <T> _Base.Nillable<List<T>> mapNilObjects(JsonObject object, String property, Function<JsonObject, T> converter) {
 		return mapToNilStream(object, property, JsonObject.class, converter).map(Stream::toList);
 	}
 
@@ -512,14 +505,11 @@ public class _JsonUtils {
 	}
 
 	public static <T> Optional<List<T>> mapOptLiterals(JsonObject object, String property, Function<String, T> mapper) {
-		return mapToOptStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper))
-				.map(Stream::toList);
+		return mapToOptStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper)).map(Stream::toList);
 	}
 
-	public static <T> _Base.Nillable<List<T>> mapNilLiterals(JsonObject object, String property,
-			Function<String, T> mapper) {
-		return mapToNilStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper))
-				.map(Stream::toList);
+	public static <T> _Base.Nillable<List<T>> mapNilLiterals(JsonObject object, String property, Function<String, T> mapper) {
+		return mapToNilStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper)).map(Stream::toList);
 	}
 
 	public static Collector<String, ?, JsonArray> toStringArray() {

@@ -3,9 +3,16 @@ package at.bestsolution.quti.rest.model;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventRepeat;
+import at.bestsolution.quti.service.model.EventRepeatAbsoluteMonthly;
+import at.bestsolution.quti.service.model.EventRepeatAbsoluteYearly;
+import at.bestsolution.quti.service.model.EventRepeatDaily;
+import at.bestsolution.quti.service.model.EventRepeatRelativeMonthly;
+import at.bestsolution.quti.service.model.EventRepeatRelativeYearly;
+import at.bestsolution.quti.service.model.EventRepeatWeekly;
 import at.bestsolution.quti.service.model._Base;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -110,6 +117,28 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 			}
 			$builder.add("repeat", ((_BaseDataImpl) repeat).data);
 			return this;
+		}
+
+		@Override
+		public <T extends at.bestsolution.quti.service.model.EventRepeat.DataBuilder> PatchBuilder withRepeat(
+				Class<T> clazz, Function<T, at.bestsolution.quti.service.model.EventRepeat.Data> block) {
+			EventRepeat.DataBuilder b;
+			if (clazz == EventRepeatDaily.DataBuilder.class) {
+				b = EventRepeatDailyDataImpl.builder();
+			} else if (clazz == EventRepeatWeekly.DataBuilder.class) {
+				b = EventRepeatWeeklyDataImpl.builder();
+			} else if (clazz == EventRepeatAbsoluteMonthly.DataBuilder.class) {
+				b = EventRepeatAbsoluteMonthlyDataImpl.builder();
+			} else if (clazz == EventRepeatAbsoluteYearly.DataBuilder.class) {
+				b = EventRepeatAbsoluteYearlyDataImpl.builder();
+			} else if (clazz == EventRepeatRelativeMonthly.DataBuilder.class) {
+				b = EventRepeatRelativeMonthlyDataImpl.builder();
+			} else if (clazz == EventRepeatRelativeYearly.DataBuilder.class) {
+				b = EventRepeatRelativeYearlyDataImpl.builder();
+			} else {
+				throw new IllegalArgumentException();
+			}
+			return repeat(block.apply(clazz.cast(b)));
 		}
 
 		@Override

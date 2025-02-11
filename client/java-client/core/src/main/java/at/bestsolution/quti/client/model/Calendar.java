@@ -26,11 +26,16 @@ public interface Calendar {
 	}
 
 	public interface Patch extends Calendar {
-		Optional<String> name();
+		public Optional<String> name();
 
-		_Base.Nillable<String> owner();
+		public _Base.Nillable<String> owner();
+
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<Calendar.Patch> {
+		public PatchBuilder name(String name);
+
+		public PatchBuilder owner(String owner);
+
 	}
 }

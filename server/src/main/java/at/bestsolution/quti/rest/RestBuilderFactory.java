@@ -41,11 +41,11 @@ import at.bestsolution.quti.service.model.SingleEventView;
 public class RestBuilderFactory implements BuilderFactory {
 	@Override
 	public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> type) {
-		if (type == Calendar.PatchBuilder.class) {
-			return type.cast(CalendarDataPatchImpl.builder());
-		}
 		if (type == Calendar.DataBuilder.class) {
 			return type.cast(CalendarDataImpl.builder());
+		}
+		if (type == Calendar.PatchBuilder.class) {
+			return type.cast(CalendarDataPatchImpl.builder());
 		}
 		if (type == CalendarNew.DataBuilder.class) {
 			return type.cast(CalendarNewDataImpl.builder());

@@ -46,8 +46,7 @@ public interface Event {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 
@@ -74,6 +73,24 @@ public interface Event {
 
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<Event.Patch> {
+		public PatchBuilder title(String title);
+
+		public PatchBuilder description(String description);
+
+		public PatchBuilder start(ZonedDateTime start);
+
+		public PatchBuilder end(ZonedDateTime end);
+
+		public PatchBuilder fullday(Boolean fullday);
+
+		public PatchBuilder repeat(EventRepeat.Data repeat);
+
+		public <T extends EventRepeat.DataBuilder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
+
+		public PatchBuilder tags(List<String> tags);
+
+		public PatchBuilder referencedCalendars(List<String> referencedCalendars);
+
 	}
 }
