@@ -15,6 +15,8 @@ public interface EventService extends BaseService {
 
 	public Event.Data get(String calendar, String key, ZoneId timezone);
 
+	public void update(String calendar, String key, Event.Patch changes);
+
 	public void delete(String calendar, String key);
 
 	public void cancel(String calendar, String key);
@@ -27,5 +29,4 @@ public interface EventService extends BaseService {
 
 	public void description(String calendar, String key, String description);
 
-	public void update(String calendar, String key, Event.Patch patch);
 }

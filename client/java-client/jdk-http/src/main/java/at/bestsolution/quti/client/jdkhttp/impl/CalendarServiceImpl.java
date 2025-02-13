@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse.BodyHandler;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.net.URI;
 import java.time.LocalDate;
@@ -23,7 +22,6 @@ import at.bestsolution.quti.client.jdkhttp.impl.model.EventViewDataImpl;
 import at.bestsolution.quti.client.model.Calendar;
 import at.bestsolution.quti.client.model.CalendarNew;
 import at.bestsolution.quti.client.model.EventView;
-import at.bestsolution.quti.client.model.Calendar.Patch;
 import at.bestsolution.quti.client.NotFoundException;
 
 public class CalendarServiceImpl implements CalendarService {
@@ -96,26 +94,32 @@ public class CalendarServiceImpl implements CalendarService {
 		}
 	}
 
-	@Override
-	public void update(String key, Patch patch) {
+	public void update(String key, Calendar.Patch changes)
+			throws NotFoundException,
+			InvalidArgumentException {
 		Objects.requireNonNull(key, "key must not be null");
-		Objects.requireNonNull(patch, "patch must not be null");
+		Objects.requireNonNull(changes, "changes must not be null");
 
 		var $path = "%s/api/calendar/%s".formatted(
 				this.baseURI,
 				key);
 
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(patch, false));
+		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
 
 		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.method("PATCH", $body)
 				.build();
+
 		try {
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
+			} else if ($response.statusCode() == 404) {
+				throw new NotFoundException(ServiceUtils.mapString($response), null);
+			} else if ($response.statusCode() == 400) {
+				throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
 			}
 			throw new IllegalStateException(
 					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));

@@ -17,7 +17,9 @@ public interface CalendarService extends BaseService {
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public void update(String key, Calendar.Patch patch);
+	public void update(String key, Calendar.Patch changes)
+			throws NotFoundException,
+			InvalidArgumentException;
 
 	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone)
 			throws NotFoundException,
