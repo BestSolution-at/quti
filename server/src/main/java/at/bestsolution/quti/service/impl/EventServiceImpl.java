@@ -3,7 +3,6 @@ package at.bestsolution.quti.service.impl;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
