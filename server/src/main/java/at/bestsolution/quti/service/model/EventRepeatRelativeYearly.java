@@ -38,7 +38,7 @@ public interface EventRepeatRelativeYearly {
 
 	}
 
-	public interface Patch extends EventRepeatRelativeYearly {
+	public interface Patch extends _Base.BaseData, EventRepeatRelativeYearly {
 		public Optional<List<DayOfWeek>> daysOfWeek();
 
 		public Optional<Month> month();

@@ -55,7 +55,6 @@ public class CalendarResourceTest extends BaseTest {
 	}
 
 	@Test
-	@Disabled
 	void testUpdateName() {
 		given()
 				.body("""
@@ -76,7 +75,6 @@ public class CalendarResourceTest extends BaseTest {
 	}
 
 	@Test
-	@Disabled
 	void testAddOwner() {
 		given()
 				.body("""
@@ -96,8 +94,7 @@ public class CalendarResourceTest extends BaseTest {
 	}
 
 	@Test
-	@Disabled
-	void testAddOwnerExisting() {
+	void testUpdateOwnerExisting() {
 		given()
 				.body("""
 						{
@@ -107,22 +104,7 @@ public class CalendarResourceTest extends BaseTest {
 				.header("Content-Type", "application/json")
 				.patch(String.format("/api/calendar/%s", basicCalendarKey))
 				.then()
-				.statusCode(400);
-	}
-
-	@Test
-	@Disabled
-	void testReplaceOwnerExisting() {
-		given()
-				.body("""
-						{
-							"owner": "newowner@bestsolution.at"
-						}
-						""")
-				.header("Content-Type", "application/json")
-				.patch(String.format("/api/calendar/%s", basicCalendarKey))
-				.then()
-				.statusCode(400);
+				.statusCode(204);
 	}
 
 	@Test

@@ -72,6 +72,10 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 	}
 
+	public static EventRepeatWeekly.Patch of(JsonObject obj) {
+		return new EventRepeatWeeklyDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

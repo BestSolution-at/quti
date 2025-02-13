@@ -48,6 +48,10 @@ public class CalendarDataPatchImpl extends _BaseDataImpl implements Calendar.Pat
 		}
 	}
 
+	public static Calendar.Patch of(JsonObject obj) {
+		return new CalendarDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

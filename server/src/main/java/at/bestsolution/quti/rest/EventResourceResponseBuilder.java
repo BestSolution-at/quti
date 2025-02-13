@@ -21,7 +21,7 @@ public class EventResourceResponseBuilder {
 		return Response.status(201).entity(result);
 	}
 
-	public ResponseBuilder update(String calendarKey, String eventKey, String patch) {
+	public ResponseBuilder update(String calendarKey, String eventKey, Event.Patch patch) {
 		return Response.status(200);
 	}
 

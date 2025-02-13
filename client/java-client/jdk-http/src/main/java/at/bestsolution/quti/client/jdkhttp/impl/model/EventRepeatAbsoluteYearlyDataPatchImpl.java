@@ -81,6 +81,10 @@ public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 	}
 
+	public static EventRepeatAbsoluteYearly.Patch of(JsonObject obj) {
+		return new EventRepeatAbsoluteYearlyDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

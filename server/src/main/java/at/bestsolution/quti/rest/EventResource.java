@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import at.bestsolution.quti.rest.model.EventMoveDataImpl;
 import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.service.EventService;
+import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -66,7 +67,10 @@ public class EventResource {
 	}
 
 	@PATCH
-	public Response update(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String patch) {
+	public Response update(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String data) {
+		var patch = builderFactory.of(Event.Patch.class, data);
+		service.update(builderFactory, calendarKey, eventKey, patch);
+
 		return responseBuilder.update(
 				calendarKey,
 				eventKey,

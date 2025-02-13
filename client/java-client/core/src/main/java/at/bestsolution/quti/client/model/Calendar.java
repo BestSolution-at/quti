@@ -25,7 +25,7 @@ public interface Calendar {
 
 	}
 
-	public interface Patch extends Calendar {
+	public interface Patch extends _Base.BaseData, Calendar {
 		public Optional<String> name();
 
 		public _Base.Nillable<String> owner();

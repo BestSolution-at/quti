@@ -3,6 +3,7 @@ package at.bestsolution.quti.service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
@@ -26,6 +27,8 @@ public interface EventService {
 
 	public Result<Void> description(BuilderFactory builderFactory, String calendarKey, String eventKey,
 			String description);
+
+	public Result<Void> update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch);
 
 	public interface CancelHandler {
 		public Result<Void> cancel(BuilderFactory factory, String calendarKey, String eventKey);
@@ -61,4 +64,7 @@ public interface EventService {
 		public Result<Void> uncancel(BuilderFactory factory, String calendarKey, String eventKey);
 	}
 
+	public interface UpdateHandler {
+		public Result<Void> update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch);
+	}
 }

@@ -36,7 +36,7 @@ public interface EventRepeatAbsoluteYearly {
 
 	}
 
-	public interface Patch extends EventRepeatAbsoluteYearly {
+	public interface Patch extends _Base.BaseData, EventRepeatAbsoluteYearly {
 		public Optional<Short> dayOfMonth();
 
 		public Optional<Month> month();

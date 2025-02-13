@@ -70,6 +70,10 @@ public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 	}
 
+	public static EventRepeatAbsoluteMonthly.Patch of(JsonObject obj) {
+		return new EventRepeatAbsoluteMonthlyDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

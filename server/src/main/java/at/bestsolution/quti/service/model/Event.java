@@ -54,7 +54,7 @@ public interface Event {
 
 	}
 
-	public interface Patch extends Event {
+	public interface Patch extends _Base.BaseData, Event {
 		public Optional<String> title();
 
 		public _Base.Nillable<String> description();

@@ -83,6 +83,10 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 	}
 
+	public static EventRepeatRelativeYearly.Patch of(JsonObject obj) {
+		return new EventRepeatRelativeYearlyDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

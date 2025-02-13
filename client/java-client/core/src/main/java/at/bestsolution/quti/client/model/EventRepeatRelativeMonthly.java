@@ -33,7 +33,7 @@ public interface EventRepeatRelativeMonthly {
 
 	}
 
-	public interface Patch extends EventRepeatRelativeMonthly {
+	public interface Patch extends _Base.BaseData, EventRepeatRelativeMonthly {
 		public Optional<List<DayOfWeek>> daysOfWeek();
 
 		public Optional<Short> interval();

@@ -72,6 +72,10 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 	}
 
+	public static EventRepeatRelativeMonthly.Patch of(JsonObject obj) {
+		return new EventRepeatRelativeMonthlyDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

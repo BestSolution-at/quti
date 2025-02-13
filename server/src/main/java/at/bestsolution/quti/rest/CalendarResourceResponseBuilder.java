@@ -24,11 +24,9 @@ public class CalendarResourceResponseBuilder {
 		return Response.status(201).entity(result);
 	}
 
-	/*
-	 * public ResponseBuilder update(String key, CalendarPatchDTOImpl patch) {
-	 * return Response.status(204);
-	 * }
-	 */
+	public ResponseBuilder update(String key, Calendar.Patch patch) {
+		return Response.status(204);
+	}
 
 	public ResponseBuilder eventView(List<EventView.Data> result, String key, LocalDate from, LocalDate to,
 			ZoneId timezone,

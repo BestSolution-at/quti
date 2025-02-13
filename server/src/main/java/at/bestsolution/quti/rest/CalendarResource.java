@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -55,18 +57,16 @@ public class CalendarResource {
 		return RestUtils.toResponse(result);
 	}
 
-	/*
-	 * @PATCH
-	 *
-	 * @Path("{key}")
-	 * public Response update(@PathParam("key") String key, Calendar.Patch patch) {
-	 * var result = service.update(builderFactory, key, patch);
-	 * if (result.isOk()) {
-	 * return responseBuilder.update(key, patch).build();
-	 * }
-	 * return RestUtils.toResponse(result);
-	 * }
-	 */
+	@PATCH
+	@Path("{key}")
+	public Response update(@PathParam("key") String key, String data) {
+		var patch = builderFactory.of(Calendar.Patch.class, data);
+		var result = service.update(builderFactory, key, patch);
+		if (result.isOk()) {
+			return responseBuilder.update(key, patch).build();
+		}
+		return RestUtils.toResponse(result);
+	}
 
 	@GET
 	@Path("{key}/view")

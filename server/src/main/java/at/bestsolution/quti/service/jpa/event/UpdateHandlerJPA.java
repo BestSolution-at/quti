@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
+import at.bestsolution.quti.service.BuilderFactory;
+import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventRepeat;
@@ -24,14 +26,14 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 
 @Singleton
-public class UpdateHandlerJPA extends BaseHandler {
+public class UpdateHandlerJPA extends BaseHandler implements EventService.UpdateHandler {
 
 	@Inject
 	public UpdateHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
-	public Result<Void> update(UUID calendarKey, UUID eventKey, Event.Patch patch) {
+	public Result<Void> update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch) {
 		try {
 			return _update(calendarKey, eventKey, patch);
 		} catch (WebApplicationException t) {
@@ -40,9 +42,16 @@ public class UpdateHandlerJPA extends BaseHandler {
 	}
 
 	@Transactional
-	protected Result<Void> _update(UUID calendarKey, UUID eventKey, Event.Patch patch) {
-		Objects.requireNonNull(calendarKey);
-		Objects.requireNonNull(eventKey);
+	protected Result<Void> _update(String calendarKey, String eventKey, Event.Patch patch) {
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
+
+		if (parsedCalendarKey.isNotOk()) {
+			return parsedCalendarKey.toAny();
+		}
+		if (parsedEventKey.isNotOk()) {
+			return parsedEventKey.toAny();
+		}
 		Objects.requireNonNull(patch);
 
 		var em = em();
@@ -54,14 +63,15 @@ public class UpdateHandlerJPA extends BaseHandler {
 				AND e.calendar.key = :calendarKey
 				""",
 				EventEntity.class);
-		query.setParameter("eventKey", eventKey);
-		query.setParameter("calendarKey", calendarKey);
+		query.setParameter("eventKey", parsedEventKey.value());
+		query.setParameter("calendarKey", parsedCalendarKey.value());
 
 		var result = query.getResultList();
 		if (result.size() == 0) {
-			return Result.notFound("Could not find event '%s' in calendar '%s'", eventKey, calendarKey);
+			return Result.notFound("Could not find event '%s' in calendar '%s'", parsedEventKey.value(),
+					parsedCalendarKey.value());
 		} else if (result.size() > 1) {
-			throw new IllegalStateException("Multiple matching events for '%s' are found.".formatted(eventKey));
+			throw new IllegalStateException("Multiple matching events for '%s' are found.".formatted(parsedEventKey.value()));
 		}
 
 		var entity = result.get(0);

@@ -96,6 +96,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == Calendar.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CalendarDataImpl::of));
 		}
+		if (type == Calendar.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, CalendarDataPatchImpl::of));
+		}
 		if (type == CalendarNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CalendarNewDataImpl::of));
 		}
@@ -104,6 +107,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Event.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventDataImpl::of));
+		}
+		if (type == Event.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventDataPatchImpl::of));
 		}
 		if (type == EventViewFilter.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventViewFilterDataImpl::of));

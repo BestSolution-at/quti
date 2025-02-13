@@ -30,7 +30,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.title("Patched Title")
 				.build();
 
-		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
 		assertTrue(rv.isOk());
 		assertEquals("Patched Title", event(simpleEventKey).title);
 		assertEquals("A simple none repeating event",
@@ -43,7 +43,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.title("")
 				.build();
 
-		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
 		assertTrue(rv.isNotOk());
 		assertEquals("Simple Event", event(simpleEventKey).title);
 		assertEquals("A simple none repeating event",
@@ -56,7 +56,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.description("Patched Description")
 				.build();
 
-		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
 		assertTrue(rv.isOk());
 		assertEquals("Simple Event", event(simpleEventKey).title);
 		assertEquals("Patched Description", event(simpleEventKey).description);
@@ -68,7 +68,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.start(ZonedDateTime.parse("2024-01-10T06:00:00+01:00[Europe/Vienna]"))
 				.build();
 
-		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
 		assertTrue(rv.isOk());
 		var entity = event(simpleEventKey);
 		assertEquals(entity.start,
@@ -81,7 +81,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.end(ZonedDateTime.parse("2024-01-10T14:00:00+01:00[Europe/Vienna]"))
 				.build();
 
-		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
 		assertTrue(rv.isOk());
 		var entity = event(simpleEventKey);
 		assertEquals(entity.end,
@@ -94,7 +94,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.start(ZonedDateTime.parse("2024-01-01T12:00:00+01:00[Europe/Vienna]"))
 				.build();
 
-		var rv = handler.update(basicCalendarKey, repeatingDailyEndlessKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
 		assertTrue(rv.isOk());
 
 		var entity = event(repeatingDailyEndlessKey);
@@ -115,7 +115,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 				.repeat(repeat)
 				.build();
 
-		var rv = handler.update(basicCalendarKey, simpleEventKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
 		assertTrue(rv.isOk());
 		var entity = event(simpleEventKey);
 		assertNotNull(entity.repeatPattern);
@@ -128,7 +128,7 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 		var dto = builderFactory.builder(Event.PatchBuilder.class)
 				.repeat(null)
 				.build();
-		var rv = handler.update(basicCalendarKey, repeatingDailyEndlessKey, dto);
+		var rv = handler.update(this.builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
 		assertTrue(rv.isOk());
 		assertNull(event(repeatingDailyEndlessKey).repeatPattern);
 		assertEquals(0, modifications(repeatingDailyEndlessKey).size());

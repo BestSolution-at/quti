@@ -33,7 +33,7 @@ public interface EventRepeatWeekly {
 
 	}
 
-	public interface Patch extends EventRepeatWeekly {
+	public interface Patch extends _Base.BaseData, EventRepeatWeekly {
 		public Optional<List<DayOfWeek>> daysOfWeek();
 
 		public Optional<Short> interval();

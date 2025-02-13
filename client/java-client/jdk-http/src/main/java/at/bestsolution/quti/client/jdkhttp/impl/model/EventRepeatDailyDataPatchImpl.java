@@ -60,6 +60,10 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 		}
 	}
 
+	public static EventRepeatDaily.Patch of(JsonObject obj) {
+		return new EventRepeatDailyDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}

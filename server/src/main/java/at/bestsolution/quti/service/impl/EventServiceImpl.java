@@ -3,12 +3,14 @@ package at.bestsolution.quti.service.impl;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.model.Event.Patch;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -23,6 +25,7 @@ public class EventServiceImpl implements EventService {
 	private final UncancelHandler uncancelHandler;
 	private final EndRepeatingHandler endRepeatHandler;
 	private final SetDescriptionHandler setDescriptionHandler;
+	private final UpdateHandler updateHandler;
 
 	@Inject
 	public EventServiceImpl(
@@ -33,7 +36,8 @@ public class EventServiceImpl implements EventService {
 			CancelHandler cancelHandler,
 			UncancelHandler uncancelHandler,
 			EndRepeatingHandler endRepeatHandler,
-			SetDescriptionHandler setDescriptionHandler) {
+			SetDescriptionHandler setDescriptionHandler,
+			UpdateHandler updateHandler) {
 		this.getHandler = getHandler;
 		this.createHandler = createHandler;
 		this.deleteHandler = deleteHandler;
@@ -42,6 +46,7 @@ public class EventServiceImpl implements EventService {
 		this.uncancelHandler = uncancelHandler;
 		this.endRepeatHandler = endRepeatHandler;
 		this.setDescriptionHandler = setDescriptionHandler;
+		this.updateHandler = updateHandler;
 	}
 
 	@Override
@@ -87,4 +92,8 @@ public class EventServiceImpl implements EventService {
 		return setDescriptionHandler.setDescription(builderFactory, calendarKey, eventKey, description);
 	}
 
+	@Override
+	public Result<Void> update(BuilderFactory factory, String calendarKey, String eventKey, Patch patch) {
+		return updateHandler.update(factory, calendarKey, eventKey, patch);
+	}
 }

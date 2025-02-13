@@ -53,83 +53,74 @@ import at.bestsolution.quti.client.model.SingleEventView;
 import at.bestsolution.quti.client.QutiClient;
 
 public class JDKQutiClient implements QutiClient {
-	private static Map<Class<?>, Supplier<Object>> BUILDER_CREATOR_MAP = new HashMap<>();
-	private static Map<Class<?>, BiFunction<HttpClient, String, Object>> SERVICE_CREATOR_MAP = new HashMap<>();
+    private static Map<Class<?>, Supplier<Object>> BUILDER_CREATOR_MAP = new HashMap<>();
+    private static Map<Class<?>, BiFunction<HttpClient, String, Object>> SERVICE_CREATOR_MAP = new HashMap<>();
 
-	static {
-		registerBuilderCreator(Calendar.DataBuilder.class, CalendarDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(CalendarNew.DataBuilder.class, CalendarNewDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatDaily.DataBuilder.class, EventRepeatDailyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatWeekly.DataBuilder.class, EventRepeatWeeklyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteMonthly.DataBuilder.class,
-				EventRepeatAbsoluteMonthlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteYearly.DataBuilder.class,
-				EventRepeatAbsoluteYearlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeMonthly.DataBuilder.class,
-				EventRepeatRelativeMonthlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeYearly.DataBuilder.class,
-				EventRepeatRelativeYearlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventNew.DataBuilder.class, EventNewDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(Event.DataBuilder.class, EventDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(SingleEventView.DataBuilder.class, SingleEventViewDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(SeriesMovedEventView.DataBuilder.class, SeriesMovedEventViewDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(SeriesEventView.DataBuilder.class, SeriesEventViewDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventViewFilter.DataBuilder.class, EventViewFilterDataImpl.DataBuilderImpl::new);
+    static {
+        registerBuilderCreator(Calendar.DataBuilder.class, CalendarDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(CalendarNew.DataBuilder.class, CalendarNewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatDaily.DataBuilder.class, EventRepeatDailyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatWeekly.DataBuilder.class, EventRepeatWeeklyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteMonthly.DataBuilder.class, EventRepeatAbsoluteMonthlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteYearly.DataBuilder.class, EventRepeatAbsoluteYearlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeMonthly.DataBuilder.class, EventRepeatRelativeMonthlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeYearly.DataBuilder.class, EventRepeatRelativeYearlyDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventNew.DataBuilder.class, EventNewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(Event.DataBuilder.class, EventDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(SingleEventView.DataBuilder.class, SingleEventViewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(SeriesMovedEventView.DataBuilder.class, SeriesMovedEventViewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(SeriesEventView.DataBuilder.class, SeriesEventViewDataImpl.DataBuilderImpl::new);
+        registerBuilderCreator(EventViewFilter.DataBuilder.class, EventViewFilterDataImpl.DataBuilderImpl::new);
 
-		registerBuilderCreator(Calendar.PatchBuilder.class, CalendarDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatDaily.PatchBuilder.class, EventRepeatDailyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatWeekly.PatchBuilder.class, EventRepeatWeeklyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteMonthly.PatchBuilder.class,
-				EventRepeatAbsoluteMonthlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteYearly.PatchBuilder.class,
-				EventRepeatAbsoluteYearlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeMonthly.PatchBuilder.class,
-				EventRepeatRelativeMonthlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeYearly.PatchBuilder.class,
-				EventRepeatRelativeYearlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(Event.PatchBuilder.class, EventDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(Calendar.PatchBuilder.class, CalendarDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(EventRepeatDaily.PatchBuilder.class, EventRepeatDailyDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(EventRepeatWeekly.PatchBuilder.class, EventRepeatWeeklyDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteMonthly.PatchBuilder.class, EventRepeatAbsoluteMonthlyDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(EventRepeatAbsoluteYearly.PatchBuilder.class, EventRepeatAbsoluteYearlyDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeMonthly.PatchBuilder.class, EventRepeatRelativeMonthlyDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(EventRepeatRelativeYearly.PatchBuilder.class, EventRepeatRelativeYearlyDataPatchImpl.PatchBuilderImpl::new);
+        registerBuilderCreator(Event.PatchBuilder.class, EventDataPatchImpl.PatchBuilderImpl::new);
 
-		registerServiceCreator(CalendarService.class, CalendarServiceImpl::new);
-		registerServiceCreator(EventService.class, EventServiceImpl::new);
-	}
+        registerServiceCreator(CalendarService.class, CalendarServiceImpl::new);
+        registerServiceCreator(EventService.class, EventServiceImpl::new);
+    }
 
-	private static void registerBuilderCreator(Class<?> clazz, Supplier<Object> constructor) {
-		BUILDER_CREATOR_MAP.put(clazz, constructor);
-	}
+    private static void registerBuilderCreator(Class<?> clazz, Supplier<Object> constructor) {
+        BUILDER_CREATOR_MAP.put(clazz, constructor);
+    }
 
-	private static void registerServiceCreator(Class<?> clazz, BiFunction<HttpClient, String, Object> constructor) {
-		SERVICE_CREATOR_MAP.put(clazz, constructor);
-	}
+    private static void registerServiceCreator(Class<?> clazz, BiFunction<HttpClient, String, Object> constructor) {
+        SERVICE_CREATOR_MAP.put(clazz, constructor);
+    }
 
-	private final URI baseURI;
-	private final HttpClient httpClient;
+    private final URI baseURI;
+    private final HttpClient httpClient;
 
-	JDKQutiClient(URI baseURI) {
-		this.baseURI = baseURI;
-		this.httpClient = HttpClient.newHttpClient();
-	}
+    JDKQutiClient(URI baseURI) {
+        this.baseURI = baseURI;
+        this.httpClient = HttpClient.newHttpClient();
+    }
 
-	public static QutiClient create(URI baseURI) {
-		return new JDKQutiClient(baseURI);
-	}
+    public static QutiClient create(URI baseURI) {
+        return new JDKQutiClient(baseURI);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> clazz) {
-		var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
-		if (builderConstructor != null) {
-			return (T) builderConstructor.get();
-		}
-		throw new IllegalArgumentException(String.format("Unsupported build '%s'", clazz));
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends _Base.BaseDataBuilder<?>> T builder(Class<T> clazz) {
+        var builderConstructor = BUILDER_CREATOR_MAP.get(clazz);
+        if( builderConstructor != null ) {
+            return (T)builderConstructor.get();
+        }
+        throw new IllegalArgumentException(String.format("Unsupported build '%s'", clazz));
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends BaseService> T service(Class<T> clazz) {
-		var serviceConstructor = SERVICE_CREATOR_MAP.get(clazz);
-		if (serviceConstructor != null) {
-			return (T) serviceConstructor.apply(this.httpClient, this.baseURI.toString());
-		}
-		throw new IllegalArgumentException(String.format("Unsupported service '%s'", clazz));
-	}
-}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends BaseService> T service(Class<T> clazz) {
+        var serviceConstructor = SERVICE_CREATOR_MAP.get(clazz);
+        if( serviceConstructor != null ) {
+            return (T) serviceConstructor.apply(this.httpClient, this.baseURI.toString());
+        }
+        throw new IllegalArgumentException(String.format("Unsupported service '%s'", clazz));
+    }}

@@ -146,6 +146,10 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 	}
 
+	public static Event.Patch of(JsonObject obj) {
+		return new EventDataPatchImpl(obj);
+	}
+
 	public static PatchBuilderImpl builder() {
 		return new PatchBuilderImpl();
 	}
