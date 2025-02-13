@@ -69,7 +69,6 @@ public class EventResource {
 	@PATCH
 	@Path("{key}")
 	public Response update(@PathParam("calendar") String calendarKey, @PathParam("key") String eventKey, String data) {
-		System.err.println("=====> RECEIVED: " + data);
 		var patch = builderFactory.of(Event.Patch.class, data);
 		service.update(builderFactory, calendarKey, eventKey, patch);
 
