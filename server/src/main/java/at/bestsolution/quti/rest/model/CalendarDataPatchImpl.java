@@ -44,7 +44,8 @@ public class CalendarDataPatchImpl extends _BaseDataImpl implements Calendar.Pat
 
 		@Override
 		public Patch build() {
-			return new CalendarDataPatchImpl($builder.build());}
+			return new CalendarDataPatchImpl($builder.build());
+		}
 	}
 
 	public static PatchBuilderImpl builder() {

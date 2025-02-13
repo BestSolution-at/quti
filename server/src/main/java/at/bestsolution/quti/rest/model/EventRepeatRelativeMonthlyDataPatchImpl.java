@@ -68,7 +68,8 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 
 		@Override
 		public Patch build() {
-			return new EventRepeatRelativeMonthlyDataPatchImpl($builder.build());}
+			return new EventRepeatRelativeMonthlyDataPatchImpl($builder.build());
+		}
 	}
 
 	public static PatchBuilderImpl builder() {

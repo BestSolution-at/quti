@@ -68,7 +68,8 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 
 		@Override
 		public Patch build() {
-			return new EventRepeatWeeklyDataPatchImpl($builder.build());}
+			return new EventRepeatWeeklyDataPatchImpl($builder.build());
+		}
 	}
 
 	public static PatchBuilderImpl builder() {

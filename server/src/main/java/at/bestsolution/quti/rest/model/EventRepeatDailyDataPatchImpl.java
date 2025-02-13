@@ -56,7 +56,8 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 
 		@Override
 		public Patch build() {
-			return new EventRepeatDailyDataPatchImpl($builder.build());}
+			return new EventRepeatDailyDataPatchImpl($builder.build());
+		}
 	}
 
 	public static PatchBuilderImpl builder() {

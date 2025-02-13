@@ -77,7 +77,8 @@ public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implem
 
 		@Override
 		public Patch build() {
-			return new EventRepeatAbsoluteYearlyDataPatchImpl($builder.build());}
+			return new EventRepeatAbsoluteYearlyDataPatchImpl($builder.build());
+		}
 	}
 
 	public static PatchBuilderImpl builder() {

@@ -142,7 +142,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 
 		@Override
 		public Patch build() {
-			return new EventDataPatchImpl($builder.build());}
+			return new EventDataPatchImpl($builder.build());
+		}
 	}
 
 	public static PatchBuilderImpl builder() {
