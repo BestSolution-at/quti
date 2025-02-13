@@ -91,7 +91,7 @@
 						<param>PostgreSQL@16</param>
 					</dialects>
 					<packages>
-						<param>at.bestsolution.quti.model</param>
+						<param>at.bestsolution.quti.service.jpa.model</param>
 					</packages>
 					<outputDirectory>${project.basedir}/src/database/sql-generated</outputDirectory>
 				</configuration>
@@ -154,7 +154,7 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>3.1.1</version>
 				<configuration>
-								<skip>true</skip>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>
