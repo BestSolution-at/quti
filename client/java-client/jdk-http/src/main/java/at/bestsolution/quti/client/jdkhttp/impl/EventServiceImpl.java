@@ -21,271 +21,299 @@ import at.bestsolution.quti.client.jdkhttp.impl.model._JsonUtils;
 import at.bestsolution.quti.client.jdkhttp.impl.model.EventDataImpl;
 import at.bestsolution.quti.client.model.Event;
 import at.bestsolution.quti.client.model.EventNew;
+import at.bestsolution.quti.client.model.Event.Patch;
 import at.bestsolution.quti.client.NotFoundException;
 
 public class EventServiceImpl implements EventService {
-    private final String baseURI;
-    private final HttpClient client;
+	private final String baseURI;
+	private final HttpClient client;
 
-    public EventServiceImpl(HttpClient client, String baseURI) {
-        this.baseURI = baseURI;
-        this.client = client;
-    }
+	public EventServiceImpl(HttpClient client, String baseURI) {
+		this.baseURI = baseURI;
+		this.client = client;
+	}
 
-    public String create(String calendar, EventNew.Data event)
-        throws NotFoundException,
-            InvalidArgumentException {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(event, "event must not be null");
+	public String create(String calendar, EventNew.Data event)
+			throws NotFoundException,
+			InvalidArgumentException {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(event, "event must not be null");
 
-        var $path = "%s/api/calendar/%s/events/".formatted(
-            this.baseURI,
-            calendar
-        );
+		var $path = "%s/api/calendar/%s/events/".formatted(
+				this.baseURI,
+				calendar);
 
-        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
+		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .header("Content-Type", "application/json")
-                .POST($body)
-                .build();
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.header("Content-Type", "application/json")
+				.POST($body)
+				.build();
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 201 ) {
-                return ServiceUtils.mapString($response);
-            } else if ($response.statusCode() == 404 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
-            } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 201) {
+				return ServiceUtils.mapString($response);
+			} else if ($response.statusCode() == 404) {
+				throw new NotFoundException(ServiceUtils.mapString($response), null);
+			} else if ($response.statusCode() == 400) {
+				throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-    public Event.Data get(String calendar, String key, ZoneId timezone) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
-        Objects.requireNonNull(timezone, "timezone must not be null");
+	public Event.Data get(String calendar, String key, ZoneId timezone) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
+		Objects.requireNonNull(timezone, "timezone must not be null");
 
-        var $path = "%s/api/calendar/%s/events/%s".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		var $path = "%s/api/calendar/%s/events/%s".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-        var $headerParams = Map.of(
-            "timezone",Objects.toString(timezone)
-        );
-        var $headers = ServiceUtils.toHeaders($headerParams);
+		var $headerParams = Map.of(
+				"timezone", Objects.toString(timezone));
+		var $headers = ServiceUtils.toHeaders($headerParams);
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .headers($headers)
-                .GET()
-                .build();
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.headers($headers)
+				.GET()
+				.build();
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 200 ) {
-                return ServiceUtils.mapObject($response, EventDataImpl::of);
-            } else if ($response.statusCode() == 401 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
-            } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 200) {
+				return ServiceUtils.mapObject($response, EventDataImpl::of);
+			} else if ($response.statusCode() == 401) {
+				throw new NotFoundException(ServiceUtils.mapString($response), null);
+			} else if ($response.statusCode() == 400) {
+				throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-    public void delete(String calendar, String key) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
+	@Override
+	public void update(String calendar, String key, Patch patch) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
+		Objects.requireNonNull(patch, "patch must not be null");
 
-        var $path = "%s/api/calendar/%s/events/%s".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		var $path = "%s/api/calendar/%s/events/%s".formatted(
+				this.baseURI,
+				calendar,
+				key);
+		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(patch, false));
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.method("PATCH", $body)
+				.build();
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .DELETE()
-                .build();
+	public void delete(String calendar, String key) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 204) {
-                return;
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		var $path = "%s/api/calendar/%s/events/%s".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-    public void cancel(String calendar, String key) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.DELETE()
+				.build();
 
-        var $path = "%s/api/calendar/%s/events/%s/action/cancel".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-        var $body = BodyPublishers.ofString("");
+	public void cancel(String calendar, String key) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .header("Content-Type", "application/json")
-                .PUT($body)
-                .build();
+		var $path = "%s/api/calendar/%s/events/%s/action/cancel".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 204) {
-                return;
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		var $body = BodyPublishers.ofString("");
 
-    public void uncancel(String calendar, String key) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.header("Content-Type", "application/json")
+				.PUT($body)
+				.build();
 
-        var $path = "%s/api/calendar/%s/events/%s/action/uncancel".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-        var $body = BodyPublishers.ofString("");
+	public void uncancel(String calendar, String key) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .header("Content-Type", "application/json")
-                .PUT($body)
-                .build();
+		var $path = "%s/api/calendar/%s/events/%s/action/uncancel".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 204) {
-                return;
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		var $body = BodyPublishers.ofString("");
 
-    public void move(String calendar, String key, ZonedDateTime start, ZonedDateTime end) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
-        Objects.requireNonNull(start, "start must not be null");
-        Objects.requireNonNull(end, "end must not be null");
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.header("Content-Type", "application/json")
+				.PUT($body)
+				.build();
 
-        var $path = "%s/api/calendar/%s/events/%s/action/move".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-        var $builder = Json.createObjectBuilder();
-        $builder = $builder.add("start", start.toString());
-        $builder = $builder.add("end", end.toString());
-        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString($builder.build(),false));
+	public void move(String calendar, String key, ZonedDateTime start, ZonedDateTime end) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
+		Objects.requireNonNull(start, "start must not be null");
+		Objects.requireNonNull(end, "end must not be null");
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .header("Content-Type", "application/json")
-                .PUT($body)
-                .build();
+		var $path = "%s/api/calendar/%s/events/%s/action/move".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 204) {
-                return;
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		var $builder = Json.createObjectBuilder();
+		$builder = $builder.add("start", start.toString());
+		$builder = $builder.add("end", end.toString());
+		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString($builder.build(), false));
 
-    public void endRepeat(String calendar, String key, LocalDate end) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
-        Objects.requireNonNull(end, "end must not be null");
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.header("Content-Type", "application/json")
+				.PUT($body)
+				.build();
 
-        var $path = "%s/api/calendar/%s/events/%s/action/end-repeat".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-        var $body = BodyPublishers.ofString(String.format("\"%s\"",end));
+	public void endRepeat(String calendar, String key, LocalDate end) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
+		Objects.requireNonNull(end, "end must not be null");
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .header("Content-Type", "application/json")
-                .PUT($body)
-                .build();
+		var $path = "%s/api/calendar/%s/events/%s/action/end-repeat".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 204) {
-                return;
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		var $body = BodyPublishers.ofString(String.format("\"%s\"", end));
 
-    public void description(String calendar, String key, String description) {
-        Objects.requireNonNull(calendar, "calendar must not be null");
-        Objects.requireNonNull(key, "key must not be null");
-        Objects.requireNonNull(description, "description must not be null");
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.header("Content-Type", "application/json")
+				.PUT($body)
+				.build();
 
-        var $path = "%s/api/calendar/%s/events/%s/action/description".formatted(
-            this.baseURI,
-            calendar,
-            key
-        );
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-        var $body = BodyPublishers.ofString(String.format("\"%s\"",description));
+	public void description(String calendar, String key, String description) {
+		Objects.requireNonNull(calendar, "calendar must not be null");
+		Objects.requireNonNull(key, "key must not be null");
+		Objects.requireNonNull(description, "description must not be null");
 
-        var $uri = URI.create($path);
-        var $request = HttpRequest.newBuilder()
-                .uri($uri)
-                .header("Content-Type", "application/json")
-                .PUT($body)
-                .build();
+		var $path = "%s/api/calendar/%s/events/%s/action/description".formatted(
+				this.baseURI,
+				calendar,
+				key);
 
-        try {
-            var $response = this.client.send($request, BodyHandlers.ofString());
-            if ($response.statusCode() == 204) {
-                return;
-            }
-            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
-        } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException(e);
-        }
-    }
+		var $body = BodyPublishers.ofString(String.format("\"%s\"", description));
+
+		var $uri = URI.create($path);
+		var $request = HttpRequest.newBuilder()
+				.uri($uri)
+				.header("Content-Type", "application/json")
+				.PUT($body)
+				.build();
+
+		try {
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
+			}
+			throw new IllegalStateException(
+					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
 }

@@ -169,6 +169,7 @@ public class EventResourceTest extends BaseTest {
 		given()
 				.header("Content-Type", "application/json")
 				.body("{\"title\": \"Patched Title\"}")
+				.patch(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(204);
 	}

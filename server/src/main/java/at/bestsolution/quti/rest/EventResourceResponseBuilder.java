@@ -22,7 +22,7 @@ public class EventResourceResponseBuilder {
 	}
 
 	public ResponseBuilder update(String calendarKey, String eventKey, Event.Patch patch) {
-		return Response.status(200);
+		return Response.status(204);
 	}
 
 	public ResponseBuilder delete(String calendarKey, String eventKey) {
