@@ -7,8 +7,8 @@ import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.NotFoundException;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarDTOUtil;
 import jakarta.inject.Inject;
@@ -29,17 +29,14 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements CalendarServic
 		return query.getResultList();
 	}
 
-	public Result<Calendar.Data> get(BuilderFactory factory, String key) {
-		var parsedKey = Utils.parseUUID(key, "key");
-		if (parsedKey.isNotOk()) {
-			return parsedKey.toAny();
-		}
+	public Calendar.Data get(BuilderFactory factory, String key) {
+		var parsedKey = Utils._parseUUID(key, "key");
 
-		var result = getEnties(parsedKey.value());
+		var result = getEnties(parsedKey);
 		if (result.size() == 1) {
-			return Result.ok(CalendarDTOUtil.of(factory, result.get(0)));
+			return CalendarDTOUtil.of(factory, result.get(0));
 		} else if (result.size() == 0) {
-			return Result.notFound("Could not find calendar with '%s'", key);
+			throw new NotFoundException("Could not find calendar with '%s'".formatted(key));
 		}
 		throw new IllegalStateException(String.format("Multiple calendars for '%s' are found", key));
 	}

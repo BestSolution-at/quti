@@ -18,6 +18,9 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 
 import at.bestsolution.quti.service.CalendarService;
+import at.bestsolution.quti.service.InvalidArgumentException;
+import at.bestsolution.quti.service.InvalidContentException;
+import at.bestsolution.quti.service.NotFoundException;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
 
@@ -40,24 +43,28 @@ public class CalendarResource {
 	@POST
 	public Response create(String _calendar) {
 		var calendar = builderFactory.of(CalendarNew.Data.class, _calendar);
-		var result = service.create(builderFactory, calendar);
 
-		if (result.isOk()) {
-			return responseBuilder.create(result.value(), calendar).build();
+		try {
+			var result = service.create(builderFactory, calendar);
+			return responseBuilder.create(result, calendar).build();
+		} catch (InvalidContentException e) {
+			return RestUtils.toResponse(422, e);
 		}
-		return RestUtils.toResponse(result);
 	}
 
 	@GET
 	@Path("{key}")
 	public Response get(@PathParam("key") String _key) {
 		var key = _key;
-		var result = service.get(builderFactory, key);
 
-		if (result.isOk()) {
-			return responseBuilder.get(result.value(), key).build();
+		try {
+			var result = service.get(builderFactory, key);
+			return responseBuilder.get(result, key).build();
+		} catch (NotFoundException e) {
+			return RestUtils.toResponse(404, e);
+		} catch (InvalidArgumentException e) {
+			return RestUtils.toResponse(400, e);
 		}
-		return RestUtils.toResponse(result);
 	}
 
 	@PATCH
@@ -67,12 +74,14 @@ public class CalendarResource {
 			String _changes) {
 		var key = _key;
 		var changes = builderFactory.of(Calendar.Patch.class, _changes);
-		var result = service.update(builderFactory, key, changes);
-
-		if (result.isOk()) {
+		try {
+			service.update(builderFactory, key, changes);
 			return responseBuilder.update(key, changes).build();
+		} catch (NotFoundException e) {
+			return RestUtils.toResponse(404, e);
+		} catch (InvalidArgumentException e) {
+			return RestUtils.toResponse(400, e);
 		}
-		return RestUtils.toResponse(result);
 	}
 
 	@GET
@@ -88,12 +97,15 @@ public class CalendarResource {
 		var end = _end;
 		var timezone = _timezone == null ? null : ZoneId.of(_timezone);
 		var resultTimeZone = _resultTimeZone == null ? null : ZoneId.of(_resultTimeZone);
-		var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
 
-		if (result.isOk()) {
-			return responseBuilder.eventView(result.value(), key, start, end, timezone, resultTimeZone).build();
+		try {
+			var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
+			return responseBuilder.eventView(result, key, start, end, timezone, resultTimeZone).build();
+		} catch (NotFoundException e) {
+			return RestUtils.toResponse(404, e);
+		} catch (InvalidArgumentException e) {
+			return RestUtils.toResponse(400, e);
 		}
-		return RestUtils.toResponse(result);
 	}
 
 }

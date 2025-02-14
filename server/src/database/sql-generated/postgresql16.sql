@@ -60,9 +60,9 @@
         er_interval smallint not null,
         er_recurrence_tz varchar(255) not null,
         er_start timestamp(6) with time zone not null,
+        er_days_of_week smallint array,
         er_day_of_month smallint,
         er_month smallint check (er_month between 0 and 11),
-        er_days_of_week smallint array,
         primary key (er_id)
     );
 

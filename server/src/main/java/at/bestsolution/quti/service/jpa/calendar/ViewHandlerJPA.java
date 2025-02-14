@@ -17,7 +17,6 @@ import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.EventView;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
@@ -34,7 +33,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		super(em);
 	}
 
-	public Result<List<EventView.Data>> view(BuilderFactory factory, String calendarKey, LocalDate start,
+	public List<EventView.Data> view(BuilderFactory factory, String calendarKey, LocalDate start,
 			LocalDate end,
 			ZoneId timezone, ZoneId resultZone) {
 		Objects.requireNonNull(calendarKey, "calendarKey must not be null");
@@ -42,11 +41,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		Objects.requireNonNull(end, "end must not be null");
 		Objects.requireNonNull(timezone, "timezone must not be null");
 
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "request path");
-
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
-		}
+		var parsedCalendarKey = Utils._parseUUID(calendarKey, "request path");
 
 		if (start.isAfter(end)) {
 			throw new IllegalArgumentException(String.format("start-date '%s' must not be past end-date '%s'", start, end));
@@ -60,21 +55,21 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		var endDatetime = ZonedDateTime.of(end, LocalTime.MAX, timezone);
 
 		var result = new ArrayList<EventView.Data>();
-		result.addAll(findOneTimeEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+		result.addAll(findOneTimeEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
 		result.addAll(
-				findOneTimeReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+				findOneTimeReferencedEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
 
-		result.addAll(findMovedSeriesEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+		result.addAll(findMovedSeriesEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
 		result.addAll(
-				findMovedSeriesReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+				findMovedSeriesReferencedEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
 
-		result.addAll(findSeriesEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+		result.addAll(findSeriesEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
 		result
-				.addAll(findSeriesReferencedEvents(factory, parsedCalendarKey.value(), startDatetime, endDatetime, resultZone));
+				.addAll(findSeriesReferencedEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
 
 		Collections.sort(result, EventViewDTOUtil::compare);
 
-		return Result.ok(result);
+		return result;
 	}
 
 	private List<EventView.Data> findOneTimeEvents(BuilderFactory factory, UUID calendarKey,

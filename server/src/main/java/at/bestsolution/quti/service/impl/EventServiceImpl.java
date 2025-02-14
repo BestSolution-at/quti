@@ -6,7 +6,6 @@ import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
 import at.bestsolution.quti.service.model.Event.Patch;
@@ -49,50 +48,50 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Result<Event.Data> get(BuilderFactory builderFactory, String calendarKey, String eventKey, ZoneId zone) {
+	public Event.Data get(BuilderFactory builderFactory, String calendarKey, String eventKey, ZoneId zone) {
 		return getHandler.get(builderFactory, calendarKey, eventKey, zone);
 	}
 
 	@Override
-	public Result<String> create(BuilderFactory builderFactory, String calendarKey, EventNew.Data event) {
+	public String create(BuilderFactory builderFactory, String calendarKey, EventNew.Data event) {
 		return createHandler.create(builderFactory, calendarKey, event);
 	}
 
 	@Override
-	public Result<Void> delete(BuilderFactory builderFactory, String calendarKey, String eventKey) {
-		return deleteHandler.delete(builderFactory, calendarKey, eventKey);
+	public void delete(BuilderFactory builderFactory, String calendarKey, String eventKey) {
+		deleteHandler.delete(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> endRepeat(BuilderFactory builderFactory, String calendarKey, String eventKey,
+	public void endRepeat(BuilderFactory builderFactory, String calendarKey, String eventKey,
 			LocalDate endDate) {
-		return endRepeatHandler.endRepeat(builderFactory, calendarKey, eventKey, endDate);
+		endRepeatHandler.endRepeat(builderFactory, calendarKey, eventKey, endDate);
 	}
 
 	@Override
-	public Result<Void> move(BuilderFactory builderFactory, String calendarKey, String eventKey, ZonedDateTime start,
+	public void move(BuilderFactory builderFactory, String calendarKey, String eventKey, ZonedDateTime start,
 			ZonedDateTime end) {
-		return moveHandler.move(builderFactory, calendarKey, eventKey, start, end);
+		moveHandler.move(builderFactory, calendarKey, eventKey, start, end);
 	}
 
 	@Override
-	public Result<Void> cancel(BuilderFactory builderFactory, String calendarKey, String eventKey) {
-		return cancelHandler.cancel(builderFactory, calendarKey, eventKey);
+	public void cancel(BuilderFactory builderFactory, String calendarKey, String eventKey) {
+		cancelHandler.cancel(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> uncancel(BuilderFactory builderFactory, String calendarKey, String eventKey) {
-		return uncancelHandler.uncancel(builderFactory, calendarKey, eventKey);
+	public void uncancel(BuilderFactory builderFactory, String calendarKey, String eventKey) {
+		uncancelHandler.uncancel(builderFactory, calendarKey, eventKey);
 	}
 
 	@Override
-	public Result<Void> description(BuilderFactory builderFactory, String calendarKey, String eventKey,
+	public void description(BuilderFactory builderFactory, String calendarKey, String eventKey,
 			String description) {
-		return setDescriptionHandler.setDescription(builderFactory, calendarKey, eventKey, description);
+		setDescriptionHandler.setDescription(builderFactory, calendarKey, eventKey, description);
 	}
 
 	@Override
-	public Result<Void> update(BuilderFactory factory, String calendarKey, String eventKey, Patch patch) {
-		return updateHandler.update(factory, calendarKey, eventKey, patch);
+	public void update(BuilderFactory factory, String calendarKey, String eventKey, Patch patch) {
+		updateHandler.update(factory, calendarKey, eventKey, patch);
 	}
 }

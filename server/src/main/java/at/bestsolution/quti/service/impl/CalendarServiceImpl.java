@@ -6,7 +6,6 @@ import java.util.List;
 
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.Result;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
 import at.bestsolution.quti.service.model.EventView;
@@ -35,23 +34,27 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Result<Calendar.Data> get(BuilderFactory builderFactory, String key) {
+	public Calendar.Data get(BuilderFactory builderFactory, String key) {
 		return getHandler.get(builderFactory, key);
 	}
 
 	@Override
-	public Result<String> create(BuilderFactory builderFactory, CalendarNew.Data calendar) {
+	public String create(BuilderFactory builderFactory, CalendarNew.Data calendar) {
 		return createHandler.create(builderFactory, calendar);
 	}
 
 	@Override
-	public Result<Void> update(BuilderFactory builderFactory, String key, Calendar.Patch patch) {
-		return updateHandler.update(builderFactory, key, patch);
+	public void update(BuilderFactory builderFactory, String key, Calendar.Patch patch) {
+		updateHandler.update(builderFactory, key, patch);
 	}
 
 	@Override
-	public Result<List<EventView.Data>> eventView(BuilderFactory builderFactory, String calendarKey, LocalDate start,
-			LocalDate end, ZoneId timezone,
+	public List<EventView.Data> eventView(
+			BuilderFactory builderFactory,
+			String calendarKey,
+			LocalDate start,
+			LocalDate end,
+			ZoneId timezone,
 			ZoneId resultZone) {
 		return viewHandler.view(builderFactory, calendarKey, start, end, timezone, resultZone);
 	}

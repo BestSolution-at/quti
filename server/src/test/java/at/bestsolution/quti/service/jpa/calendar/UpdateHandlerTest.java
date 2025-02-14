@@ -25,8 +25,7 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 				.name("My Updated Calendar")
 				.build();
 
-		assertTrue(handler.update(builderFactory,
-				handler_ownerlessCalendarKey.toString(), patch).isOk());
+		handler.update(builderFactory, handler_ownerlessCalendarKey.toString(), patch);
 		assertEquals("My Updated Calendar",
 				calendar(handler_ownerlessCalendarKey).name);
 	}
@@ -40,8 +39,7 @@ public class UpdateHandlerTest extends CalendarHandlerTest<UpdateHandlerJPA> {
 
 		assertNull(calendar(handler_ownerlessCalendarKey).owner);
 
-		assertTrue(handler.update(builderFactory,
-				handler_ownerlessCalendarKey.toString(), patch).isOk());
+		handler.update(builderFactory, handler_ownerlessCalendarKey.toString(), patch);
 
 		assertEquals("My Updated Calendar 2",
 				calendar(handler_ownerlessCalendarKey).name);

@@ -10,7 +10,7 @@ import java.util.UUID;
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.NotFoundException;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventRepeat;
 import at.bestsolution.quti.service.jpa.BaseHandler;
@@ -23,7 +23,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.WebApplicationException;
 
 @Singleton
 public class UpdateHandlerJPA extends BaseHandler implements EventService.UpdateHandler {
@@ -33,25 +32,11 @@ public class UpdateHandlerJPA extends BaseHandler implements EventService.Update
 		super(em);
 	}
 
-	public Result<Void> update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch) {
-		try {
-			return _update(calendarKey, eventKey, patch);
-		} catch (WebApplicationException t) {
-			return Result.invalidContent(t.getMessage());
-		}
-	}
-
 	@Transactional
-	protected Result<Void> _update(String calendarKey, String eventKey, Event.Patch patch) {
-		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
+	public void update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch) {
+		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils._parseUUID(eventKey, "in path");
 
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
-		}
-		if (parsedEventKey.isNotOk()) {
-			return parsedEventKey.toAny();
-		}
 		Objects.requireNonNull(patch);
 
 		var em = em();
@@ -63,15 +48,15 @@ public class UpdateHandlerJPA extends BaseHandler implements EventService.Update
 				AND e.calendar.key = :calendarKey
 				""",
 				EventEntity.class);
-		query.setParameter("eventKey", parsedEventKey.value());
-		query.setParameter("calendarKey", parsedCalendarKey.value());
+		query.setParameter("eventKey", parsedEventKey);
+		query.setParameter("calendarKey", parsedCalendarKey);
 
 		var result = query.getResultList();
 		if (result.size() == 0) {
-			return Result.notFound("Could not find event '%s' in calendar '%s'", parsedEventKey.value(),
-					parsedCalendarKey.value());
+			throw new NotFoundException("Could not find event '%s' in calendar '%s'".formatted(parsedEventKey,
+					parsedCalendarKey));
 		} else if (result.size() > 1) {
-			throw new IllegalStateException("Multiple matching events for '%s' are found.".formatted(parsedEventKey.value()));
+			throw new IllegalStateException("Multiple matching events for '%s' are found.".formatted(parsedEventKey));
 		}
 
 		var entity = result.get(0);
@@ -83,17 +68,9 @@ public class UpdateHandlerJPA extends BaseHandler implements EventService.Update
 		patch.end().ifPresent(entity::end);
 
 		patch.referencedCalendars().ifPresent(refs -> handleReferencedCalendardChange(em, entity, refs));
-		var rv = patch.repeat().apply(r -> handleRepeatChange(em, entity, r), Result.OK);
-		if (rv.isNotOk()) {
-			Utils.throwAsException(rv);
-		}
+		patch.repeat().accept(r -> handleRepeatChange(em, entity, r));
 
-		var validate = EventUtils.validateEvent(entity);
-		if (validate.isNotOk()) {
-			Utils.throwAsException(validate);
-		}
-
-		return Result.OK;
+		EventUtils.validateEvent(entity);
 	}
 
 	private static void handleStartChange(EntityManager em, EventEntity entity, ZonedDateTime v) {
@@ -131,7 +108,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventService.Update
 		;
 	}
 
-	private static Result<Void> handleRepeatChange(EntityManager em, EventEntity entity, EventRepeat.Data repeat) {
+	private static void handleRepeatChange(EntityManager em, EventEntity entity, EventRepeat.Data repeat) {
 		if (entity.repeatPattern != null) {
 			entity.modifications.forEach(em::remove);
 			em.remove(entity.repeatPattern);
@@ -141,14 +118,9 @@ public class UpdateHandlerJPA extends BaseHandler implements EventService.Update
 			entity.repeatPattern = null;
 		} else {
 			var rv = EventRepeatDTOUtil.createRepeatPattern(entity.start.toLocalDate(), repeat);
-			if (!rv.isOk()) {
-				return rv.toAny();
-			}
 
-			entity.repeatPattern = rv.value();
+			entity.repeatPattern = rv;
 			em.persist(entity.repeatPattern);
 		}
-
-		return Result.OK;
 	}
 }

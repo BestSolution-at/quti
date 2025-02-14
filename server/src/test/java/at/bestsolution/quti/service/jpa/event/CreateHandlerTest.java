@@ -1,11 +1,10 @@
 package at.bestsolution.quti.service.jpa.event;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,7 +18,8 @@ import org.junit.jupiter.api.Test;
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatDailyEntity;
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
 import at.bestsolution.quti.service.model.EventNew;
-import at.bestsolution.quti.service.Result.ResultType;
+import at.bestsolution.quti.service.InvalidArgumentException;
+import at.bestsolution.quti.service.InvalidContentException;
 import at.bestsolution.quti.service.jpa.event.utils.EventRepeatDTOUtil;
 import io.quarkus.test.junit.QuarkusTest;
 
@@ -43,9 +43,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 
-		var result = handler.create(builderFactory, "abcd", dto);
-		assertFalse(result.isOk());
-		assertEquals(result.type(), ResultType.INVALID_PARAMETER);
+		assertThrows(InvalidArgumentException.class, () -> handler.create(builderFactory, "abcd", dto));
 	}
 
 	@Test
@@ -62,7 +60,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
-		var entity = event(UUID.fromString(eventKey.value()));
+		var entity = event(UUID.fromString(eventKey));
 
 		assertEquals(ownerlessCalendarKey, entity.calendar.key);
 		assertEquals(dto.title(), entity.title);
@@ -86,7 +84,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
-		var entity = event(UUID.fromString(eventKey.value()));
+		var entity = event(UUID.fromString(eventKey));
 
 		assertEquals(ownerlessCalendarKey, entity.calendar.key);
 		assertEquals(dto.title(), entity.title);
@@ -111,10 +109,8 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 
-		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
-				dto);
-		assertFalse(result.isOk());
-		assertEquals(ResultType.INVALID_CONTENT, result.type());
+		assertThrows(InvalidContentException.class, () -> handler.create(builderFactory, ownerlessCalendarKey.toString(),
+				dto));
 	}
 
 	@Test
@@ -131,10 +127,8 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 
-		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
-				dto);
-		assertFalse(result.isOk());
-		assertEquals(ResultType.INVALID_CONTENT, result.type());
+		assertThrows(InvalidContentException.class, () -> handler.create(builderFactory, ownerlessCalendarKey.toString(),
+				dto));
 	}
 
 	@Test
@@ -151,10 +145,8 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 
-		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(),
-				dto);
-		assertFalse(result.isOk());
-		assertEquals(ResultType.INVALID_CONTENT, result.type());
+		assertThrows(InvalidContentException.class, () -> handler.create(builderFactory, ownerlessCalendarKey.toString(),
+				dto));
 	}
 
 	@Test
@@ -170,9 +162,8 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 
-		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
-		assertFalse(result.isOk());
-		assertEquals(ResultType.INVALID_CONTENT, result.type());
+		assertThrows(InvalidContentException.class,
+				() -> handler.create(builderFactory, ownerlessCalendarKey.toString(), dto));
 	}
 
 	@Test
@@ -188,9 +179,8 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 
-		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
-		assertFalse(result.isOk());
-		assertEquals(ResultType.INVALID_CONTENT, result.type());
+		assertThrows(InvalidContentException.class,
+				() -> handler.create(builderFactory, ownerlessCalendarKey.toString(), dto));
 	}
 
 	@Test
@@ -207,8 +197,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.build();
 
 		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
-		assertTrue(result.isOk());
-		var eventEntity = event(UUID.fromString(result.value()));
+		var eventEntity = event(UUID.fromString(result));
 
 		assertEquals(1, eventEntity.references.size());
 		assertEquals(writeableReferenceCalendarKey, eventEntity.references.get(0).calendar.key);
@@ -227,8 +216,8 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of(writeableReferenceCalendarKey.toString(), UUID.randomUUID().toString()))
 				.build();
 
-		var result = handler.create(builderFactory, ownerlessCalendarKey.toString(), dto);
-		assertFalse(result.isOk());
+		assertThrows(InvalidContentException.class,
+				() -> handler.create(builderFactory, ownerlessCalendarKey.toString(), dto));
 	}
 
 	@Test
@@ -245,7 +234,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
-		var entity = event(UUID.fromString(eventKey.value()));
+		var entity = event(UUID.fromString(eventKey));
 
 		assertNotNull(entity.repeatPattern);
 		assertInstanceOf(EventRepeatDailyEntity.class, entity.repeatPattern);
@@ -270,7 +259,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
-		var entity = event(UUID.fromString(eventKey.value()));
+		var entity = event(UUID.fromString(eventKey));
 
 		assertInstanceOf(EventRepeatDailyEntity.class, entity.repeatPattern);
 		assertEquals(ZonedDateTime.parse("2020-01-31T23:59:59+01:00[Europe/Vienna]").toInstant(),
@@ -292,7 +281,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.referencedCalendars(List.of())
 				.build();
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
-		var entity = event(UUID.fromString(eventKey.value()));
+		var entity = event(UUID.fromString(eventKey));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
 		assertNotNull(entity.end);
@@ -317,7 +306,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.build();
 
 		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
-		var entity = event(UUID.fromString(eventKey.value()));
+		var entity = event(UUID.fromString(eventKey));
 
 		assertInstanceOf(EventRepeatWeeklyEntity.class, entity.repeatPattern);
 		assertEquals(ZonedDateTime.parse("2020-01-15T23:59:59+01:00[Europe/Vienna]").toInstant(),
@@ -340,9 +329,9 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.tags(List.of())
 				.referencedCalendars(List.of())
 				.build();
-		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
 
-		assertFalse(eventKey.isOk());
+		assertThrows(InvalidContentException.class,
+				() -> handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent));
 	}
 
 	@Test
@@ -359,8 +348,7 @@ public class CreateHandlerTest extends EventHandlerTest<CreateHandlerJPA> {
 				.tags(List.of())
 				.referencedCalendars(List.of())
 				.build();
-		var eventKey = handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent);
-
-		assertFalse(eventKey.isOk());
+		assertThrows(InvalidContentException.class,
+				() -> handler.create(builderFactory, ownerlessCalendarKey.toString(), newEvent));
 	}
 }
