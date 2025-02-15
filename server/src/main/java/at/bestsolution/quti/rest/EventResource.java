@@ -51,9 +51,9 @@ public class EventResource {
             var result = service.create(builderFactory, calendar, event);
             return responseBuilder.create(result,calendar, event).build();
         } catch(NotFoundException e) {
-            return RestUtils.toResponse(404, e);
+            return _RestUtils.toResponse(404, e);
         } catch(InvalidArgumentException e) {
-            return RestUtils.toResponse(400, e);
+            return _RestUtils.toResponse(400, e);
         }
     }
 
@@ -70,9 +70,9 @@ public class EventResource {
             var result = service.get(builderFactory, calendar, key, timezone);
             return responseBuilder.get(result,calendar, key, timezone).build();
         } catch(NotFoundException e) {
-            return RestUtils.toResponse(404, e);
+            return _RestUtils.toResponse(404, e);
         } catch(InvalidArgumentException e) {
-            return RestUtils.toResponse(400, e);
+            return _RestUtils.toResponse(400, e);
         }
     }
 
@@ -89,9 +89,9 @@ public class EventResource {
             service.update(builderFactory, calendar, key, changes);
             return responseBuilder.update(calendar, key, changes).build();
         } catch(NotFoundException e) {
-            return RestUtils.toResponse(404, e);
+            return _RestUtils.toResponse(404, e);
         } catch(InvalidArgumentException e) {
-            return RestUtils.toResponse(400, e);
+            return _RestUtils.toResponse(400, e);
         }
     }
 

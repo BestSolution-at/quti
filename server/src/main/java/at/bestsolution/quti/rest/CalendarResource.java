@@ -46,7 +46,7 @@ public class CalendarResource {
             var result = service.create(builderFactory, calendar);
             return responseBuilder.create(result,calendar).build();
         } catch(InvalidContentException e) {
-            return RestUtils.toResponse(422, e);
+            return _RestUtils.toResponse(422, e);
         }
     }
 
@@ -58,9 +58,9 @@ public class CalendarResource {
             var result = service.get(builderFactory, key);
             return responseBuilder.get(result,key).build();
         } catch(NotFoundException e) {
-            return RestUtils.toResponse(404, e);
+            return _RestUtils.toResponse(404, e);
         } catch(InvalidArgumentException e) {
-            return RestUtils.toResponse(400, e);
+            return _RestUtils.toResponse(400, e);
         }
     }
 
@@ -75,9 +75,9 @@ public class CalendarResource {
             service.update(builderFactory, key, changes);
             return responseBuilder.update(key, changes).build();
         } catch(NotFoundException e) {
-            return RestUtils.toResponse(404, e);
+            return _RestUtils.toResponse(404, e);
         } catch(InvalidArgumentException e) {
-            return RestUtils.toResponse(400, e);
+            return _RestUtils.toResponse(400, e);
         }
     }
 
@@ -98,9 +98,9 @@ public class CalendarResource {
             var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
             return responseBuilder.eventView(result,key, start, end, timezone, resultTimeZone).build();
         } catch(NotFoundException e) {
-            return RestUtils.toResponse(404, e);
+            return _RestUtils.toResponse(404, e);
         } catch(InvalidArgumentException e) {
-            return RestUtils.toResponse(400, e);
+            return _RestUtils.toResponse(400, e);
         }
     }
 
