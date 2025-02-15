@@ -67,7 +67,9 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    public Event.Data get(String calendar, String key, ZoneId timezone) {
+    public Event.Data get(String calendar, String key, ZoneId timezone)
+        throws NotFoundException,
+            InvalidArgumentException {
         Objects.requireNonNull(calendar, "calendar must not be null");
         Objects.requireNonNull(key, "key must not be null");
         Objects.requireNonNull(timezone, "timezone must not be null");

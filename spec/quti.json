@@ -1163,7 +1163,10 @@
             "type": "Event",
             "doc": "the event"
           },
-          "errors": [],
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
           "meta": {
             "rest": {
               "method": "GET",

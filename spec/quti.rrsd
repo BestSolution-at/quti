@@ -16,7 +16,7 @@ resource Calendar at '/api/calendar' {
             200
             404: NotFound
             400: InvalidArgument
-        }
+    }
     PATCH update		at '${key}' => {
 			204
 			404: NotFound

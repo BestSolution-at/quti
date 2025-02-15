@@ -13,7 +13,9 @@ public interface EventService extends BaseService {
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public Event.Data get(String calendar, String key, ZoneId timezone);
+	public Event.Data get(String calendar, String key, ZoneId timezone)
+			throws NotFoundException,
+			InvalidArgumentException;
 
 	public void update(String calendar, String key, Event.Patch changes);
 

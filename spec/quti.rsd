@@ -251,7 +251,8 @@ service Event {
 		 * @param timezone - the timezone
 		 * @returns the event
 		 *>
-    operation get(calendar: string, key: string, timezone: ZoneId): Event;
+    operation get(calendar: string, key: string, timezone: ZoneId): Event
+			throws NotFound InvalidArgument;
 
 		<*
 		 * update an event
