@@ -327,7 +327,8 @@ public class _JsonUtils {
 		return Optional.empty();
 	}
 
-	public static <T> _Base.Nillable<T> mapNilObject(JsonObject object, String property, Function<JsonObject, T> converter) {
+	public static <T> _Base.Nillable<T> mapNilObject(JsonObject object, String property,
+			Function<JsonObject, T> converter) {
 		if (object.containsKey(property)) {
 			if (object.isNull(property)) {
 				return _NillableImpl.nill();
@@ -337,7 +338,8 @@ public class _JsonUtils {
 		return _NillableImpl.undefined();
 	}
 
-	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
+	public static <J extends JsonValue, T> Stream<T> mapToStream(JsonObject object, String property, Class<J> clazz,
+			Function<J, T> mapper) {
 		if (object.containsKey(property)) {
 			return mapToStream(object.getJsonArray(property), clazz, mapper);
 		}
@@ -351,14 +353,16 @@ public class _JsonUtils {
 				.map(mapper);
 	}
 
-		public static <J extends JsonValue, T> Optional<Stream<T>> mapToOptStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
+	public static <J extends JsonValue, T> Optional<Stream<T>> mapToOptStream(JsonObject object, String property,
+			Class<J> clazz, Function<J, T> mapper) {
 		if (object.containsKey(property)) {
 			return Optional.of(mapToStream(object, property, clazz, mapper));
 		}
 		return Optional.empty();
 	}
 
-		public static <J extends JsonValue, T> _Base.Nillable<Stream<T>> mapToNilStream(JsonObject object, String property, Class<J> clazz, Function<J, T> mapper) {
+	public static <J extends JsonValue, T> _Base.Nillable<Stream<T>> mapToNilStream(JsonObject object, String property,
+			Class<J> clazz, Function<J, T> mapper) {
 		if (object.containsKey(property)) {
 			if (object.isNull(property)) {
 				return _NillableImpl.nill();
@@ -488,11 +492,13 @@ public class _JsonUtils {
 		return mapToStream(array, JsonObject.class, converter).toList();
 	}
 
-	public static <T> Optional<List<T>> mapOptObjects(JsonObject object, String property, Function<JsonObject, T> converter) {
+	public static <T> Optional<List<T>> mapOptObjects(JsonObject object, String property,
+			Function<JsonObject, T> converter) {
 		return mapToOptStream(object, property, JsonObject.class, converter).map(Stream::toList);
 	}
 
-	public static <T> _Base.Nillable<List<T>> mapNilObjects(JsonObject object, String property, Function<JsonObject, T> converter) {
+	public static <T> _Base.Nillable<List<T>> mapNilObjects(JsonObject object, String property,
+			Function<JsonObject, T> converter) {
 		return mapToNilStream(object, property, JsonObject.class, converter).map(Stream::toList);
 	}
 
@@ -505,11 +511,14 @@ public class _JsonUtils {
 	}
 
 	public static <T> Optional<List<T>> mapOptLiterals(JsonObject object, String property, Function<String, T> mapper) {
-		return mapToOptStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper)).map(Stream::toList);
+		return mapToOptStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper))
+				.map(Stream::toList);
 	}
 
-	public static <T> _Base.Nillable<List<T>> mapNilLiterals(JsonObject object, String property, Function<String, T> mapper) {
-		return mapToNilStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper)).map(Stream::toList);
+	public static <T> _Base.Nillable<List<T>> mapNilLiterals(JsonObject object, String property,
+			Function<String, T> mapper) {
+		return mapToNilStream(object, property, JsonString.class, JsonString::getString).map(s -> s.map(mapper))
+				.map(Stream::toList);
 	}
 
 	public static Collector<String, ?, JsonArray> toStringArray() {
@@ -664,5 +673,75 @@ public class _JsonUtils {
 
 	public static <T> T fromString(String data, Function<JsonObject, T> constructor) {
 		return constructor.apply(fromString(data));
+	}
+
+	public static String encodeAsJsonString(String text) {
+		StringBuilder b = new StringBuilder(text.length() + 2);
+		b.append('"');
+		int l = text.length();
+		for (int i = 0; i < l; i++) {
+			int begin = i;
+			int end = i;
+			char c = text.charAt(i);
+
+			// https://datatracker.ietf.org/doc/html/rfc8259#section-7
+			// unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+			// - everything beyond 32 (SPACE)
+			// - except 34 (")
+			// - except 92 (\)
+			while (c >= ' ' && c <= 0x10ffff && c != '"' && c != '\\') {
+				i += 1;
+				end = i;
+				if (i == l) {
+					break;
+				}
+				c = text.charAt(i);
+			}
+			if (begin < end) {
+				b.append(text, begin, end);
+				if (end == l) {
+					break;
+				}
+			}
+
+			switch (c) {
+				case '"':
+				case '\\':
+					b.append('\\');
+					b.append(c);
+					break;
+				case '\b':
+					b.append('\\');
+					b.append('b');
+					break;
+				case '\f':
+					b.append('\\');
+					b.append('f');
+					break;
+				case '\n':
+					b.append('\\');
+					b.append('n');
+					break;
+				case '\r':
+					b.append('\\');
+					b.append('r');
+					break;
+				case '\t':
+					b.append('\\');
+					b.append('t');
+					break;
+				default:
+					b.append("\\u");
+					var hex = Integer.toHexString(c);
+					var u = hex.length();
+					while (u < 4) {
+						b.append('0');
+						u += 1;
+					}
+					b.append(hex);
+			}
+		}
+		b.append('"');
+		return b.toString();
 	}
 }
