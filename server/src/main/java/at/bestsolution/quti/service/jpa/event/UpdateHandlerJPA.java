@@ -34,8 +34,8 @@ public class UpdateHandlerJPA extends BaseHandler implements EventService.Update
 
 	@Transactional
 	public void update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch) {
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils._parseUUID(eventKey, "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
 		Objects.requireNonNull(patch);
 

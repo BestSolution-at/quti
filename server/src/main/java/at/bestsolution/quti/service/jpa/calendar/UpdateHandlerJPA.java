@@ -29,7 +29,7 @@ public class UpdateHandlerJPA extends BaseHandler implements CalendarService.Upd
 		Objects.requireNonNull(key, "key must not be null");
 		Objects.requireNonNull(patch, "patch must not be null");
 
-		var parsedKey = Utils._parseUUID(key, "key");
+		var parsedKey = Utils.parseUUID(key, "key");
 		var query = em().createQuery("FROM Calendar WHERE key = :key", CalendarEntity.class);
 		query.setParameter("key", parsedKey);
 		try {

@@ -24,8 +24,8 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.G
 	}
 
 	public Event.Data get(BuilderFactory factory, String calendarKey, String eventKey, ZoneId zone) {
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils._parseUUID(eventKey, "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
 		var query = em().createQuery("FROM Event e WHERE e.key = :eventKey AND e.calendar.key = :calendarKey",
 				EventEntity.class);

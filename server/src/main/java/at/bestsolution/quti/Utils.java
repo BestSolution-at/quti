@@ -33,7 +33,7 @@ public class Utils {
 		return getAsString("value", o);
 	}
 
-	public static LocalDate _parseLocalDate(String date, String paramName) {
+	public static LocalDate parseLocalDate(String date, String paramName) {
 		try {
 			return LocalDate.parse(date);
 		} catch (Throwable t) {
@@ -41,7 +41,7 @@ public class Utils {
 		}
 	}
 
-	public static UUID _parseUUID(String uuid, String paramName) {
+	public static UUID parseUUID(String uuid, String paramName) {
 		try {
 			return UUID.fromString(uuid);
 		} catch (IllegalArgumentException e) {

@@ -41,7 +41,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		Objects.requireNonNull(end, "end must not be null");
 		Objects.requireNonNull(timezone, "timezone must not be null");
 
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "request path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "request path");
 
 		if (start.isAfter(end)) {
 			throw new IllegalArgumentException(String.format("start-date '%s' must not be past end-date '%s'", start, end));

@@ -21,8 +21,8 @@ public class DeleteHandlerJPA extends BaseHandler implements EventService.Delete
 
 	@Transactional
 	public void delete(BuilderFactory factory, String calendarKey, String eventKey) {
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils._parseUUID(eventKey, "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
 		var em = em();
 		var event = EventUtils.event(em, parsedCalendarKey, parsedEventKey);

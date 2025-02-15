@@ -30,7 +30,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements CalendarServic
 	}
 
 	public Calendar.Data get(BuilderFactory factory, String key) {
-		var parsedKey = Utils._parseUUID(key, "key");
+		var parsedKey = Utils.parseUUID(key, "key");
 
 		var result = getEnties(parsedKey);
 		if (result.size() == 1) {

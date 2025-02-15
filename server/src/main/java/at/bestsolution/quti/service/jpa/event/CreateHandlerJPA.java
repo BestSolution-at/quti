@@ -37,7 +37,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 
 	@Transactional
 	public String create(BuilderFactory factory, String calendarKey, EventNew.Data event) {
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 
 		var em = em();
 		var eventEntity = new EventEntity();

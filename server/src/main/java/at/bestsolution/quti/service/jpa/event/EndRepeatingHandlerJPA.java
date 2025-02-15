@@ -25,8 +25,8 @@ public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.
 
 	@Transactional
 	public void endRepeat(BuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
-		var parsedEventKey = Utils._parseUUID(eventKey, "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
 		var em = em();
 

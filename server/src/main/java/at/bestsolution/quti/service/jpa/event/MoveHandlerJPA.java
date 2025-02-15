@@ -31,11 +31,11 @@ public class MoveHandlerJPA extends BaseHandler implements EventService.MoveHand
 			ZonedDateTime end) {
 		var seriesSep = eventKey.indexOf('_');
 
-		var parsedCalendarKey = Utils._parseUUID(calendarKey, "in path");
-		var parsedEventKey = seriesSep == -1 ? Utils._parseUUID(eventKey, "in path")
-				: Utils._parseUUID(eventKey.substring(0, seriesSep), "in path");
+		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
+		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path")
+				: Utils.parseUUID(eventKey.substring(0, seriesSep), "in path");
 		var parsedOriginalDate = seriesSep == -1 ? null
-				: Utils._parseLocalDate(eventKey.substring(seriesSep + 1), "in path");
+				: Utils.parseLocalDate(eventKey.substring(seriesSep + 1), "in path");
 
 		if (parsedOriginalDate == null) {
 			moveSingleEvent(parsedCalendarKey, parsedEventKey, start, end);
