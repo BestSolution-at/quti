@@ -665,4 +665,73 @@ public class _JsonUtils {
 	public static <T> T fromString(String data, Function<JsonObject, T> constructor) {
 		return constructor.apply(fromString(data));
 	}
+	public static String encodeAsJsonString(String text) {
+		StringBuilder b = new StringBuilder(text.length() + 2);
+		b.append('"');
+		int l = text.length();
+		for (int i = 0; i < l; i++) {
+			int begin = i;
+			int end = i;
+			char c = text.charAt(i);
+
+			// https://datatracker.ietf.org/doc/html/rfc8259#section-7
+			// unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+			// - everything beyond 32 (SPACE)
+			// - except 34 (")
+			// - except 92 (\)
+			while (c >= ' ' && c <= 0x10ffff && c != '"' && c != '\\') {
+				i += 1;
+				end = i;
+				if (i == l) {
+					break;
+				}
+				c = text.charAt(i);
+			}
+			if (begin < end) {
+				b.append(text, begin, end);
+				if (end == l) {
+					break;
+				}
+			}
+
+			switch (c) {
+				case '"':
+				case '\\':
+					b.append('\\');
+					b.append(c);
+					break;
+				case '\b':
+					b.append('\\');
+					b.append('b');
+					break;
+				case '\f':
+					b.append('\\');
+					b.append('f');
+					break;
+				case '\n':
+					b.append('\\');
+					b.append('n');
+					break;
+				case '\r':
+					b.append('\\');
+					b.append('r');
+					break;
+				case '\t':
+					b.append('\\');
+					b.append('t');
+					break;
+				default:
+					b.append("\\u");
+					var hex = Integer.toHexString(c);
+					var u = hex.length();
+					while (u < 4) {
+						b.append('0');
+						u += 1;
+					}
+					b.append(hex);
+			}
+		}
+		b.append('"');
+		return b.toString();
+	}
 }
