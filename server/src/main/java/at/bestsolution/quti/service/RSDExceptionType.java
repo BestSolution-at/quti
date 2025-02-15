@@ -1,6 +1,6 @@
 package at.bestsolution.quti.service;
 
-public enum _ExceptionType {
+public enum RSDExceptionType {
 	InvalidArgumentException,
 	InvalidContentException,
 	NotFoundException;

@@ -1,7 +1,7 @@
 package at.bestsolution.quti.service;
 
-public class InvalidContentException extends _RSDException.RSDMessageException {
+public class InvalidContentException extends RSDException.RSDMessageException {
 	public InvalidContentException(String message) {
-		super(_ExceptionType.InvalidContentException, message);
+		super(RSDExceptionType.InvalidContentException, message);
 	}
 }
