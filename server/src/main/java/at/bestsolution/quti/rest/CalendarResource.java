@@ -20,92 +20,88 @@ import jakarta.ws.rs.QueryParam;
 import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.InvalidArgumentException;
 import at.bestsolution.quti.service.InvalidContentException;
-import at.bestsolution.quti.service.NotFoundException;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
+import at.bestsolution.quti.service.NotFoundException;
 
 @ApplicationScoped
 @Path("/api/calendar")
 @Produces(MediaType.APPLICATION_JSON)
 public class CalendarResource {
-	private final RestBuilderFactory builderFactory;
-	private final CalendarService service;
-	private final CalendarResourceResponseBuilder responseBuilder;
+    private final RestBuilderFactory builderFactory;
+    private final CalendarService service;
+    private final CalendarResourceResponseBuilder responseBuilder;
 
-	@Inject
-	public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder,
-			RestBuilderFactory builderFactory) {
-		this.builderFactory = builderFactory;
-		this.service = service;
-		this.responseBuilder = responseBuilder;
-	}
+    @Inject
+    public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder, RestBuilderFactory builderFactory) {
+        this.builderFactory = builderFactory;
+        this.service = service;
+        this.responseBuilder = responseBuilder;
+    }
 
-	@POST
-	public Response create(String _calendar) {
-		var calendar = builderFactory.of(CalendarNew.Data.class, _calendar);
+    @POST
+    public Response create(String _calendar) {
+        var calendar = builderFactory.of(CalendarNew.Data.class, _calendar);
+        try {
+            var result = service.create(builderFactory, calendar);
+            return responseBuilder.create(result,calendar).build();
+        } catch(InvalidContentException e) {
+            return RestUtils.toResponse(422, e);
+        }
+    }
 
-		try {
-			var result = service.create(builderFactory, calendar);
-			return responseBuilder.create(result, calendar).build();
-		} catch (InvalidContentException e) {
-			return RestUtils.toResponse(422, e);
-		}
-	}
+    @GET
+    @Path("{key}")
+    public Response get(@PathParam("key") String _key) {
+        var key = _key;
+        try {
+            var result = service.get(builderFactory, key);
+            return responseBuilder.get(result,key).build();
+        } catch(NotFoundException e) {
+            return RestUtils.toResponse(404, e);
+        } catch(InvalidArgumentException e) {
+            return RestUtils.toResponse(400, e);
+        }
+    }
 
-	@GET
-	@Path("{key}")
-	public Response get(@PathParam("key") String _key) {
-		var key = _key;
+    @PATCH
+    @Path("{key}")
+    public Response update(
+        @PathParam("key") String _key,
+        String _changes) {
+        var key = _key;
+        var changes = builderFactory.of(Calendar.Patch.class, _changes);
+        try {
+            service.update(builderFactory, key, changes);
+            return responseBuilder.update(key, changes).build();
+        } catch(NotFoundException e) {
+            return RestUtils.toResponse(404, e);
+        } catch(InvalidArgumentException e) {
+            return RestUtils.toResponse(400, e);
+        }
+    }
 
-		try {
-			var result = service.get(builderFactory, key);
-			return responseBuilder.get(result, key).build();
-		} catch (NotFoundException e) {
-			return RestUtils.toResponse(404, e);
-		} catch (InvalidArgumentException e) {
-			return RestUtils.toResponse(400, e);
-		}
-	}
-
-	@PATCH
-	@Path("{key}")
-	public Response update(
-			@PathParam("key") String _key,
-			String _changes) {
-		var key = _key;
-		var changes = builderFactory.of(Calendar.Patch.class, _changes);
-		try {
-			service.update(builderFactory, key, changes);
-			return responseBuilder.update(key, changes).build();
-		} catch (NotFoundException e) {
-			return RestUtils.toResponse(404, e);
-		} catch (InvalidArgumentException e) {
-			return RestUtils.toResponse(400, e);
-		}
-	}
-
-	@GET
-	@Path("{key}/view")
-	public Response eventView(
-			@PathParam("key") String _key,
-			@QueryParam("from") LocalDate _start,
-			@QueryParam("to") LocalDate _end,
-			@QueryParam("timezone") String _timezone,
-			@HeaderParam("timezone") String _resultTimeZone) {
-		var key = _key;
-		var start = _start;
-		var end = _end;
-		var timezone = _timezone == null ? null : ZoneId.of(_timezone);
-		var resultTimeZone = _resultTimeZone == null ? null : ZoneId.of(_resultTimeZone);
-
-		try {
-			var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
-			return responseBuilder.eventView(result, key, start, end, timezone, resultTimeZone).build();
-		} catch (NotFoundException e) {
-			return RestUtils.toResponse(404, e);
-		} catch (InvalidArgumentException e) {
-			return RestUtils.toResponse(400, e);
-		}
-	}
+    @GET
+    @Path("{key}/view")
+    public Response eventView(
+        @PathParam("key") String _key,
+        @QueryParam("from") LocalDate _start,
+        @QueryParam("to") LocalDate _end,
+        @QueryParam("timezone") String _timezone,
+        @HeaderParam("timezone") String _resultTimeZone) {
+        var key = _key;
+        var start = _start;
+        var end = _end;
+        var timezone = _timezone == null ? null : ZoneId.of(_timezone);
+        var resultTimeZone = _resultTimeZone == null ? null : ZoneId.of(_resultTimeZone);
+        try {
+            var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
+            return responseBuilder.eventView(result,key, start, end, timezone, resultTimeZone).build();
+        } catch(NotFoundException e) {
+            return RestUtils.toResponse(404, e);
+        } catch(InvalidArgumentException e) {
+            return RestUtils.toResponse(400, e);
+        }
+    }
 
 }

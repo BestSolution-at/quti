@@ -25,8 +25,8 @@ public interface CalendarService extends BaseService {
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone,
-			ZoneId resultTimeZone)
+	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
 			throws NotFoundException,
 			InvalidArgumentException;
+
 }
