@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.InvalidContentException;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarUtils;

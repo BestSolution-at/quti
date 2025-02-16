@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.InvalidContentException;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;

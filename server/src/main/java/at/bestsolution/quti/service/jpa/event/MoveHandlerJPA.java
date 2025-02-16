@@ -5,9 +5,9 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;

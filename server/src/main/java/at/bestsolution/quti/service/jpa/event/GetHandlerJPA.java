@@ -3,9 +3,9 @@ package at.bestsolution.quti.service.jpa.event;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventDTOUtil;

@@ -2,8 +2,8 @@ package at.bestsolution.quti.service.jpa.calendar;
 
 import java.util.Objects;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.impl.CalendarServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;

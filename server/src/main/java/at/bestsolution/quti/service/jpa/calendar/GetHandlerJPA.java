@@ -3,9 +3,9 @@ package at.bestsolution.quti.service.jpa.calendar;
 import java.util.List;
 import java.util.UUID;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.impl.CalendarServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarDTOUtil;

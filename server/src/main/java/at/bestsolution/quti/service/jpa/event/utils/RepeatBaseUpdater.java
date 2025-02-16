@@ -7,8 +7,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.function.Predicate;
 
-import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.InvalidContentException;
+import at.bestsolution.quti.service.Utils;
 import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.jpa.model.EventRepeatEntity;
 import jakarta.persistence.EntityManager;

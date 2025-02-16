@@ -1,12 +1,10 @@
-package at.bestsolution.quti;
+package at.bestsolution.quti.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.util.UUID;
-
-import at.bestsolution.quti.service.InvalidArgumentException;
 
 public class Utils {
 
