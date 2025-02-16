@@ -7,9 +7,6 @@ import java.time.temporal.ChronoField;
 import java.util.UUID;
 
 import at.bestsolution.quti.service.InvalidArgumentException;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonString;
-import jakarta.json.JsonValue.ValueType;
 
 public class Utils {
 
@@ -19,18 +16,6 @@ public class Utils {
 
 	public static ZonedDateTime atEndOfDay(ZonedDateTime datetime) {
 		return datetime.toLocalDateTime().with(LocalTime.parse("23:59:59")).atZone(datetime.getZone());
-	}
-
-	public static String getAsString(String name, JsonObject o) {
-		var value = o.get(name);
-		if (value.getValueType() == ValueType.STRING) {
-			return ((JsonString) o).getString();
-		}
-		return null;
-	}
-
-	public static String getPatchStringValue(JsonObject o) {
-		return getAsString("value", o);
 	}
 
 	public static LocalDate parseLocalDate(String date, String paramName) {
