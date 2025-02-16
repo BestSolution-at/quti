@@ -3,19 +3,18 @@ package at.bestsolution.quti.service.jpa.calendar;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.quti.service.BuilderFactory;
+import at.bestsolution.quti.service.impl.CalendarServiceImpl;
+import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.model.CalendarNew;
-import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.jpa.BaseHandler;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandlerJPA extends BaseHandler implements CalendarService.CreateHandler {
+public class CreateHandlerJPA extends BaseHandler implements CalendarServiceImpl.CreateHandler {
 
 	@Inject
 	public CreateHandlerJPA(EntityManager em) {
@@ -23,7 +22,7 @@ public class CreateHandlerJPA extends BaseHandler implements CalendarService.Cre
 	}
 
 	@Transactional
-	public Result<String> create(BuilderFactory factory, CalendarNew.Data calendar) {
+	public String create(BuilderFactory factory, CalendarNew.Data calendar) {
 		Objects.requireNonNull(calendar.name(), "name must not be null");
 
 		CalendarEntity c = new CalendarEntity();
@@ -31,6 +30,6 @@ public class CreateHandlerJPA extends BaseHandler implements CalendarService.Cre
 		c.owner = calendar.owner();
 		c.key = UUID.randomUUID();
 		em().persist(c);
-		return Result.ok(c.key.toString());
+		return c.key.toString();
 	}
 }

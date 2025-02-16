@@ -57,9 +57,9 @@ public class EventServiceImpl implements EventService {
             if ($response.statusCode() == 201 ) {
                 return ServiceUtils.mapString($response);
             } else if ($response.statusCode() == 404 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
+                throw new NotFoundException(ServiceUtils.mapString($response));
             } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {
@@ -67,7 +67,9 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    public Event.Data get(String calendar, String key, ZoneId timezone) {
+    public Event.Data get(String calendar, String key, ZoneId timezone)
+        throws NotFoundException,
+            InvalidArgumentException {
         Objects.requireNonNull(calendar, "calendar must not be null");
         Objects.requireNonNull(key, "key must not be null");
         Objects.requireNonNull(timezone, "timezone must not be null");
@@ -94,10 +96,44 @@ public class EventServiceImpl implements EventService {
             var $response = this.client.send($request, BodyHandlers.ofString());
             if ($response.statusCode() == 200 ) {
                 return ServiceUtils.mapObject($response, EventDataImpl::of);
-            } else if ($response.statusCode() == 401 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
+            } else if ($response.statusCode() == 404 ) {
+                throw new NotFoundException(ServiceUtils.mapString($response));
             } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
+            }
+            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+        } catch (IOException | InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public void update(String calendar, String key, Event.Patch changes) {
+        Objects.requireNonNull(calendar, "calendar must not be null");
+        Objects.requireNonNull(key, "key must not be null");
+        Objects.requireNonNull(changes, "changes must not be null");
+
+        var $path = "%s/api/calendar/%s/events/%s".formatted(
+            this.baseURI,
+            calendar,
+            key
+        );
+
+        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
+
+        var $uri = URI.create($path);
+        var $request = HttpRequest.newBuilder()
+                .uri($uri)
+                .method("PATCH", $body)
+                .build();
+
+        try {
+            var $response = this.client.send($request, BodyHandlers.ofString());
+            if ($response.statusCode() == 204 ) {
+                return;
+            } else if ($response.statusCode() == 404 ) {
+                throw new NotFoundException(ServiceUtils.mapString($response));
+            } else if ($response.statusCode() == 400 ) {
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {

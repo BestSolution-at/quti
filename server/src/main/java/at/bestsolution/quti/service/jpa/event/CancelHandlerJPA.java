@@ -8,20 +8,20 @@ import java.util.UUID;
 import org.jboss.logging.Logger;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CancelHandlerJPA extends BaseHandler implements EventService.CancelHandler {
+public class CancelHandlerJPA extends BaseHandler implements EventServiceImpl.CancelHandler {
 	private static final Logger LOG = Logger.getLogger(CancelHandlerJPA.class);
 
 	@Inject
@@ -30,32 +30,23 @@ public class CancelHandlerJPA extends BaseHandler implements EventService.Cancel
 	}
 
 	@Transactional
-	public Result<Void> cancel(BuilderFactory factory, String calendarKey, String eventKey) {
+	public void cancel(BuilderFactory factory, String calendarKey, String eventKey) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path")
 				: Utils.parseUUID(eventKey.substring(0, seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null)
+		var parsedOriginalDate = seriesSep == -1 ? null
 				: Utils.parseLocalDate(eventKey.substring(seriesSep + 1), "in path");
 
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
+		if (parsedOriginalDate == null) {
+			cancelSingleEvent(parsedCalendarKey, parsedEventKey);
+		} else {
+			cancelEventInSeries(parsedCalendarKey, parsedEventKey, parsedOriginalDate);
 		}
-		if (parsedEventKey.isNotOk()) {
-			return parsedEventKey.toAny();
-		}
-		if (parsedOriginalDate.isNotOk()) {
-			return parsedOriginalDate.toAny();
-		}
-
-		if (parsedOriginalDate.value() == null) {
-			return cancelSingleEvent(parsedCalendarKey.value(), parsedEventKey.value());
-		}
-		return cancelEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value());
 	}
 
-	private Result<Void> cancelSingleEvent(UUID calendarKey, UUID eventKey) {
+	private void cancelSingleEvent(UUID calendarKey, UUID eventKey) {
 		LOG.debugf("Canceling single event '%'", eventKey);
 		var em = em();
 		var event = EventUtils.event(em, calendarKey, eventKey);
@@ -72,11 +63,9 @@ public class CancelHandlerJPA extends BaseHandler implements EventService.Cancel
 		entity.event = event;
 
 		em.persist(entity);
-
-		return Result.OK;
 	}
 
-	private Result<Void> cancelEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original) {
+	private void cancelEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original) {
 		LOG.debugf("Canceling series event '%' on '%s'", eventKey, original);
 
 		var em = em();
@@ -86,14 +75,15 @@ public class CancelHandlerJPA extends BaseHandler implements EventService.Cancel
 
 		if (event == null) {
 			LOG.infof("Could not find an event '%s' in calendar '%s'", eventKey, calendarKey);
-			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+			throw new NotFoundException(
+					"No event with master-key '%s' was found in calendar '%s'".formatted(eventKey, calendarKey));
 		}
 
 		var startDatetime = ZonedDateTime.of(original, LocalTime.MIN, event.repeatPattern.recurrenceTimezone);
 		var endDatetime = ZonedDateTime.of(original, LocalTime.MAX, event.repeatPattern.recurrenceTimezone);
 
 		if (!RepeatUtils.fromRepeat(event, startDatetime, endDatetime).anyMatch(d -> d.equals(original))) {
-			return Result.notFound("Event is not repeated on the given date %s", original);
+			throw new NotFoundException("Event is not repeated on the given date %s".formatted(original));
 		}
 
 		var entity = event.modifications.stream()
@@ -107,7 +97,5 @@ public class CancelHandlerJPA extends BaseHandler implements EventService.Cancel
 		entity.event = event;
 
 		em.persist(entity);
-
-		return Result.OK;
 	}
 }

@@ -5,24 +5,24 @@ import java.util.Objects;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.CalendarEntity;
-import at.bestsolution.quti.service.jpa.model.EventEntity;
-import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
-import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.InvalidContentException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventRepeatDTOUtil;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
+import at.bestsolution.quti.service.model.EventNew;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandlerJPA extends BaseHandler implements EventService.CreateHandler {
+public class CreateHandlerJPA extends BaseHandler implements EventServiceImpl.CreateHandler {
 
 	@Inject
 	public CreateHandlerJPA(EntityManager em) {
@@ -36,14 +36,12 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 	}
 
 	@Transactional
-	public Result<String> create(BuilderFactory factory, String calendarKey, EventNew.Data event) {
+	public String create(BuilderFactory factory, String calendarKey, EventNew.Data event) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
-		}
+
 		var em = em();
 		var eventEntity = new EventEntity();
-		eventEntity.calendar = calendar(parsedCalendarKey.value());
+		eventEntity.calendar = calendar(parsedCalendarKey);
 		eventEntity.key = UUID.randomUUID();
 		eventEntity.title = event.title();
 		eventEntity.description = event.description();
@@ -54,11 +52,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 
 		if (event.repeat() != null) {
 			var rv = EventRepeatDTOUtil.createRepeatPattern(event.start().toLocalDate(), event.repeat());
-			if (!rv.isOk()) {
-				return rv.toAny();
-			}
-
-			eventEntity.repeatPattern = rv.value();
+			eventEntity.repeatPattern = rv;
 		}
 
 		List<EventReferenceEntity> references = List.of();
@@ -75,14 +69,11 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 					}).toList();
 
 			if (references.size() != event.referencedCalendars().size()) {
-				return Result.invalidContent("At least one calendar reference could not be resolved");
+				throw new InvalidContentException("At least one calendar reference could not be resolved");
 			}
 		}
 
-		var result = EventUtils.validateEvent(eventEntity);
-		if (!result.isOk()) {
-			return result.toAny();
-		}
+		EventUtils.validateEvent(eventEntity);
 
 		if (eventEntity.repeatPattern != null) {
 			em.persist(eventEntity.repeatPattern);
@@ -91,6 +82,6 @@ public class CreateHandlerJPA extends BaseHandler implements EventService.Create
 
 		references.forEach(em::persist);
 
-		return Result.ok(eventEntity.key.toString());
+		return eventEntity.key.toString();
 	}
 }

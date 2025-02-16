@@ -6,67 +6,57 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class SetDescriptionHandlerJPA extends BaseHandler implements EventService.SetDescriptionHandler {
+public class SetDescriptionHandlerJPA extends BaseHandler implements EventServiceImpl.DescriptionHandler {
 	@Inject
 	public SetDescriptionHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public Result<Void> setDescription(BuilderFactory factory, String calendarKey, String eventKey,
+	public void description(BuilderFactory factory, String calendarKey, String eventKey,
 			String description) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path")
 				: Utils.parseUUID(eventKey.substring(0, seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null)
+		var parsedOriginalDate = seriesSep == -1 ? null
 				: Utils.parseLocalDate(eventKey.substring(seriesSep + 1), "in path");
 
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
+		if (parsedOriginalDate == null) {
+			setDescriptionSingleEvent(parsedCalendarKey, parsedEventKey, description);
+		} else {
+			setDescriptionInSeries(parsedCalendarKey, parsedEventKey, parsedOriginalDate,
+					description);
 		}
-		if (parsedEventKey.isNotOk()) {
-			return parsedEventKey.toAny();
-		}
-		if (parsedOriginalDate.isNotOk()) {
-			return parsedOriginalDate.toAny();
-		}
-
-		if (parsedOriginalDate.value() == null) {
-			return setDescriptionSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), description);
-		}
-		return setDescriptionInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(),
-				description);
 	}
 
-	private Result<Void> setDescriptionSingleEvent(UUID calendarKey, UUID eventKey, String description) {
+	private void setDescriptionSingleEvent(UUID calendarKey, UUID eventKey, String description) {
 		var em = em();
 		var event = EventUtils.event(em, calendarKey, eventKey);
 		if (event == null) {
-			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+			throw new NotFoundException(
+					"No event with master-key '%s' was found in calendar '%s'".formatted(eventKey, calendarKey));
 		}
 
 		event.description = description;
 		em.persist(event);
-
-		return Result.OK;
 	}
 
-	private Result<Void> setDescriptionInSeries(UUID calendarKey, UUID eventKey, LocalDate original, String description) {
+	private void setDescriptionInSeries(UUID calendarKey, UUID eventKey, LocalDate original, String description) {
 		var em = em();
 		var event = EventUtils.event(em, calendarKey, eventKey);
 
@@ -74,7 +64,7 @@ public class SetDescriptionHandlerJPA extends BaseHandler implements EventServic
 		var endDatetime = ZonedDateTime.of(original, LocalTime.MAX, event.repeatPattern.recurrenceTimezone);
 
 		if (!RepeatUtils.fromRepeat(event, startDatetime, endDatetime).anyMatch(d -> d.equals(original))) {
-			return Result.notFound("Event is not repeated on the given date %s", original);
+			throw new NotFoundException("Event is not repeated on the given date %s".formatted(original));
 		}
 
 		var entity = event.modifications.stream()
@@ -89,7 +79,5 @@ public class SetDescriptionHandlerJPA extends BaseHandler implements EventServic
 		entity.description = description;
 
 		em.persist(entity);
-
-		return Result.OK;
 	}
 }

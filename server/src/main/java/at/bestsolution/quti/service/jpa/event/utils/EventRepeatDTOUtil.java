@@ -16,7 +16,7 @@ import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatRelativeYearlyEn
 import at.bestsolution.quti.service.jpa.model.repeat.EventRepeatWeeklyEntity;
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.InvalidContentException;
 import at.bestsolution.quti.service.model.EventRepeat;
 import at.bestsolution.quti.service.model.EventRepeatAbsoluteMonthly;
 import at.bestsolution.quti.service.model.EventRepeatAbsoluteYearly;
@@ -163,40 +163,40 @@ public class EventRepeatDTOUtil {
 		return repeatEntity;
 	}
 
-	public static Result<EventRepeatEntity> createRepeatPattern(LocalDate startDate, EventRepeat.Data repeat) {
+	public static EventRepeatEntity createRepeatPattern(LocalDate startDate, EventRepeat.Data repeat) {
 		if (repeat instanceof EventRepeatDataMixin r) {
 			if (r.interval() <= 0) {
-				return Result.invalidContent("Interval must be greater than 0");
+				throw new InvalidContentException("Interval must be greater than 0");
 			}
 		}
 
 		if (repeat instanceof EventRepeatDaily.Data) {
-			return Result.ok(fillDefaults(new EventRepeatDailyEntity(), startDate, repeat));
+			return fillDefaults(new EventRepeatDailyEntity(), startDate, repeat);
 		} else if (repeat instanceof EventRepeatWeekly.Data r) {
 			if (r.daysOfWeek().isEmpty()) {
-				return Result.invalidContent("Weekdays must not be empty");
+				throw new InvalidContentException("Weekdays must not be empty");
 			}
 			var repeatPatternEntity = fillDefaults(new EventRepeatWeeklyEntity(), startDate, repeat);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek();
-			return Result.ok(repeatPatternEntity);
+			return repeatPatternEntity;
 		} else if (repeat instanceof EventRepeatAbsoluteMonthly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteMonthlyEntity(), startDate, repeat);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth();
-			return Result.ok(repeatPatternEntity);
+			return repeatPatternEntity;
 		} else if (repeat instanceof EventRepeatAbsoluteYearly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatAbsoluteYearlyEntity(), startDate, repeat);
 			repeatPatternEntity.dayOfMonth = r.dayOfMonth();
 			repeatPatternEntity.month = r.month();
-			return Result.ok(repeatPatternEntity);
+			return repeatPatternEntity;
 		} else if (repeat instanceof EventRepeatRelativeMonthly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeMonthlyEntity(), startDate, repeat);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek();
-			return Result.ok(repeatPatternEntity);
+			return repeatPatternEntity;
 		} else if (repeat instanceof EventRepeatRelativeYearly.Data r) {
 			var repeatPatternEntity = fillDefaults(new EventRepeatRelativeYearlyEntity(), startDate, repeat);
 			repeatPatternEntity.daysOfWeek = r.daysOfWeek();
 			repeatPatternEntity.month = r.month();
-			return Result.ok(repeatPatternEntity);
+			return repeatPatternEntity;
 		}
 
 		throw new IllegalStateException(String.format("Unknown repeat type %s", repeat.getClass()));

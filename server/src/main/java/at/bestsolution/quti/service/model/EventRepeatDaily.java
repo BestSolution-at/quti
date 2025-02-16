@@ -3,6 +3,7 @@ package at.bestsolution.quti.service.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Optional;
 
 import at.bestsolution.quti.service.model.mixins.EventRepeatDataMixin;
 
@@ -26,9 +27,21 @@ public interface EventRepeatDaily {
 
 	}
 
-	public interface Patch extends EventRepeatDaily {
+	public interface Patch extends _Base.BaseData, EventRepeatDaily {
+		public Optional<Short> interval();
+
+		public _Base.Nillable<LocalDate> endDate();
+
+		public Optional<ZoneId> timeZone();
+
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatDaily.Patch> {
+		public PatchBuilder interval(short interval);
+
+		public PatchBuilder endDate(LocalDate endDate);
+
+		public PatchBuilder timeZone(ZoneId timeZone);
+
 	}
 }

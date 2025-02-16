@@ -132,7 +132,7 @@ public class EventResourceTest extends BaseTest {
 
 	@Test
 	void testGetRepeating() {
-		var data = given()
+		given()
 				.get(String.format("/api/calendar/%s/events/%s", basicCalendarKey, repeatingDailyEndlessKey))
 				.then()
 				.statusCode(200)
@@ -140,9 +140,7 @@ public class EventResourceTest extends BaseTest {
 				.body("repeat.@type", is("daily"))
 				.body("repeat.interval", is(1))
 				.body("repeat.timeZone", is("Europe/Vienna"))
-				.body("repeat.endDate", nullValue())
-				.extract()
-				.asString();
+				.body("repeat.endDate", nullValue());
 	}
 
 	@Test
@@ -162,6 +160,16 @@ public class EventResourceTest extends BaseTest {
 				.body("A custom description")
 				.put(String.format("/api/calendar/%s/events/%s/action/description", basicCalendarKey,
 						repeatingDailyEndlessKey + "_2024-01-01"))
+				.then()
+				.statusCode(204);
+	}
+
+	@Test
+	void testUpdateEvent() {
+		given()
+				.header("Content-Type", "application/json")
+				.body("{\"title\": \"Patched Title\"}")
+				.patch(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
 				.then()
 				.statusCode(204);
 	}

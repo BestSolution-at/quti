@@ -16,15 +16,19 @@ resource Calendar at '/api/calendar' {
             200
             404: NotFound
             400: InvalidArgument
-        }
-    // PATCH update
+    }
+    PATCH update		at '${key}' => {
+			204
+			404: NotFound
+			400: InvalidArgument
+		}
 }
 
 resource Event at '/api/calendar/${calendar}/events' {
     GET get         at '${key}'
         header-param timezone => {
         200
-        401: NotFound
+        404: NotFound
         400: InvalidArgument
     }
     POST create     at '' => {
@@ -32,6 +36,11 @@ resource Event at '/api/calendar/${calendar}/events' {
         404: NotFound
         400: InvalidArgument
     }
+		PATCH update		at '${key}' => {
+			204
+			404: NotFound
+      400: InvalidArgument
+		}
     DELETE delete   at '${key}'
     PUT endRepeat   at '${key}/action/end-repeat'
     PUT move        at '${key}/action/move'

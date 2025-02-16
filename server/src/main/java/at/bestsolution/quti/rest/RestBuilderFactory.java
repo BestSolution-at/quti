@@ -5,8 +5,10 @@ import jakarta.inject.Singleton;
 
 import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.rest.model.CalendarDataImpl;
+import at.bestsolution.quti.rest.model.CalendarDataPatchImpl;
 import at.bestsolution.quti.rest.model.CalendarNewDataImpl;
 import at.bestsolution.quti.rest.model.EventDataImpl;
+import at.bestsolution.quti.rest.model.EventDataPatchImpl;
 import at.bestsolution.quti.rest.model.EventNewDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatAbsoluteMonthlyDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatAbsoluteYearlyDataImpl;
@@ -42,6 +44,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == Calendar.DataBuilder.class) {
 			return type.cast(CalendarDataImpl.builder());
 		}
+		if (type == Calendar.PatchBuilder.class) {
+			return type.cast(CalendarDataPatchImpl.builder());
+		}
 		if (type == CalendarNew.DataBuilder.class) {
 			return type.cast(CalendarNewDataImpl.builder());
 		}
@@ -50,6 +55,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Event.DataBuilder.class) {
 			return type.cast(EventDataImpl.builder());
+		}
+		if (type == Event.PatchBuilder.class) {
+			return type.cast(EventDataPatchImpl.builder());
 		}
 		if (type == EventViewFilter.DataBuilder.class) {
 			return type.cast(EventViewFilterDataImpl.builder());
@@ -88,6 +96,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == Calendar.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CalendarDataImpl::of));
 		}
+		if (type == Calendar.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, CalendarDataPatchImpl::of));
+		}
 		if (type == CalendarNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CalendarNewDataImpl::of));
 		}
@@ -96,6 +107,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Event.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventDataImpl::of));
+		}
+		if (type == Event.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventDataPatchImpl::of));
 		}
 		if (type == EventViewFilter.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventViewFilterDataImpl::of));

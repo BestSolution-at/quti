@@ -198,6 +198,16 @@ service Calendar {
             NotFound        << if calendar with the given key is not found
             InvalidArgument << if the key is not an UUID
         ;
+		<*
+		 * update a calendar
+		 *
+		 * @param key - the calendar key
+		 * @param changes - the changes of the calendar
+		 *>
+		operation update(key: string, @patch changes: Calendar)
+			throws
+				NotFound
+				InvalidArgument;
 
     <*
      * get a view of all events in a date range
@@ -217,9 +227,6 @@ service Calendar {
         throws
             NotFound
             InvalidArgument;
-
-//    operation update(key: string, @patch changes: Calendar);
-/*   */
 }
 
 << Service to create and modify events in a calendar
@@ -236,9 +243,25 @@ service Event {
             NotFound
             InvalidArgument;
 
+		<*
+		 * get an event
+		 *
+		 * @param calendar - key of the calendar owning the event
+		 * @param key - key of the event
+		 * @param timezone - the timezone
+		 * @returns the event
+		 *>
+    operation get(calendar: string, key: string, timezone: ZoneId): Event
+			throws NotFound InvalidArgument;
 
-    operation get(calendar: string, key: string, timezone: ZoneId): Event;
-//    operation update(calendar: string, key: string, @patch changes: Event);
+		<*
+		 * update an event
+		 *
+		 * @param calendar - key of the calendar owning the event
+		 * @param key - key of the event
+		 * @param changes - the changes to apply
+		 *>
+    operation update(calendar: string, key: string, @patch changes: Event);
 
     <*
      * delete an event

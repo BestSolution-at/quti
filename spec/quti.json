@@ -844,6 +844,64 @@
         },
         {
           "@type": "Operation",
+          "name": "update",
+          "doc": " update a calendar",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "the calendar key",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "changes",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": true,
+              "variant": "record",
+              "type": "Calendar",
+              "doc": "the changes of the calendar"
+            }
+          ],
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
+          "meta": {
+            "rest": {
+              "method": "PATCH",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 204
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
           "name": "eventView",
           "doc": " get a view of all events in a date range",
           "parameters": [
@@ -1044,7 +1102,7 @@
         {
           "@type": "Operation",
           "name": "get",
-          "doc": "",
+          "doc": " get an event",
           "parameters": [
             {
               "@type": "Parameter",
@@ -1055,7 +1113,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "",
+              "doc": "key of the calendar owning the event",
               "meta": {
                 "rest": {
                   "name": "calendar",
@@ -1072,7 +1130,7 @@
               "patch": false,
               "variant": "builtin",
               "type": "string",
-              "doc": "",
+              "doc": "key of the event",
               "meta": {
                 "rest": {
                   "name": "key",
@@ -1089,7 +1147,7 @@
               "patch": false,
               "variant": "scalar",
               "type": "ZoneId",
-              "doc": "",
+              "doc": "the timezone",
               "meta": {
                 "rest": {
                   "name": "timezone",
@@ -1103,9 +1161,12 @@
             "array": false,
             "variant": "record",
             "type": "Event",
-            "doc": ""
+            "doc": "the event"
           },
-          "errors": [],
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -1115,7 +1176,79 @@
                   "statusCode": 200
                 },
                 {
-                  "statusCode": 401,
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "update",
+          "doc": " update an event",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the event",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "changes",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": true,
+              "variant": "record",
+              "type": "Event",
+              "doc": "the changes to apply"
+            }
+          ],
+          "errors": [],
+          "meta": {
+            "rest": {
+              "method": "PATCH",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 204
+                },
+                {
+                  "statusCode": 404,
                   "error": "NotFound"
                 },
                 {

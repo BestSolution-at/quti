@@ -3,6 +3,7 @@ package at.bestsolution.quti.service.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Optional;
 
 import at.bestsolution.quti.service.model.mixins.EventRepeatDataMixin;
 
@@ -30,9 +31,25 @@ public interface EventRepeatAbsoluteMonthly {
 
 	}
 
-	public interface Patch extends EventRepeatAbsoluteMonthly {
+	public interface Patch extends _Base.BaseData, EventRepeatAbsoluteMonthly {
+		public Optional<Short> dayOfMonth();
+
+		public Optional<Short> interval();
+
+		public _Base.Nillable<LocalDate> endDate();
+
+		public Optional<ZoneId> timeZone();
+
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatAbsoluteMonthly.Patch> {
+		public PatchBuilder dayOfMonth(short dayOfMonth);
+
+		public PatchBuilder interval(short interval);
+
+		public PatchBuilder endDate(LocalDate endDate);
+
+		public PatchBuilder timeZone(ZoneId timeZone);
+
 	}
 }

@@ -8,7 +8,9 @@ import java.time.ZonedDateTime;
 import at.bestsolution.quti.client.CalendarService;
 import at.bestsolution.quti.client.EventService;
 import at.bestsolution.quti.client.jdkhttp.JDKQutiClient;
+import at.bestsolution.quti.client.model.Calendar;
 import at.bestsolution.quti.client.model.CalendarNew;
+import at.bestsolution.quti.client.model.Event;
 import at.bestsolution.quti.client.model.EventNew;
 import at.bestsolution.quti.client.model.EventRepeatDaily;
 
@@ -26,6 +28,15 @@ public class Main {
 		System.err.println("Created calendar '%s'".formatted(calendarId));
 
 		var calendar = calendarService.get(calendarId);
+		System.err.println("Loaded calendar - Name: %s".formatted(calendar.name()));
+
+		var calendarPatchBuilder = client.builder(Calendar.PatchBuilder.class);
+		var calendarPatch = calendarPatchBuilder
+				.name("Sample Update calendar")
+				.build();
+		calendarService.update(calendarId, calendarPatch);
+
+		calendar = calendarService.get(calendarId);
 		System.err.println("Loaded calendar - Name: %s".formatted(calendar.name()));
 
 		var eventBuilder = client.builder(EventNew.DataBuilder.class);
@@ -50,6 +61,12 @@ public class Main {
 				ZonedDateTime.parse("2024-01-03T15:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-03T17:00:00+01:00[Europe/Vienna]"));
 		eventService.description(calendarId, eventId + "_2024-01-04", "Something special");
+
+		var eventPatchBuilder = client.builder(Event.PatchBuilder.class);
+		var eventPatch = eventPatchBuilder
+				.title("Sample Event Updated")
+				.build();
+		eventService.update(calendarId, eventId, eventPatch);
 
 		var events = calendarService.eventView(
 				calendarId,

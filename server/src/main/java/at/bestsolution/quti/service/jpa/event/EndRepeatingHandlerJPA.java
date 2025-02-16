@@ -6,8 +6,9 @@ import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.InvalidContentException;
+import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
 import jakarta.inject.Inject;
@@ -16,49 +17,38 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.EndRepeatingHandler {
+public class EndRepeatingHandlerJPA extends BaseHandler implements EventServiceImpl.EndRepeatHandler {
 	@Inject
 	public EndRepeatingHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public Result<Void> endRepeat(BuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
+	public void endRepeat(BuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate) {
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = Utils.parseUUID(eventKey, "in path");
 
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
-		}
-
-		if (parsedEventKey.isNotOk()) {
-			return parsedEventKey.toAny();
-		}
-
 		var em = em();
 
-		var event = EventUtils.event(em, parsedCalendarKey.value(), parsedEventKey.value());
+		var event = EventUtils.event(em, parsedCalendarKey, parsedEventKey);
 
 		if (event == null) {
-			return Result.notFound("No event with key '%s' was found in calendar '%s'", eventKey, calendarKey);
+			throw new NotFoundException("No event with key '%s' was found in calendar '%s'".formatted(eventKey, calendarKey));
 		} else if (event.repeatPattern == null) {
-			return Result.invalidContent("%s is not a repeating event", eventKey);
+			throw new InvalidContentException("%s is not a repeating event".formatted(eventKey));
 		}
 
 		var endDatetime = Utils
 				.atEndOfDay(ZonedDateTime.of(endDate, LocalTime.NOON, event.repeatPattern.recurrenceTimezone));
 
 		if (endDatetime.isBefore(event.repeatPattern.startDate)) {
-			return Result.invalidContent(
-					"Repeating end '%s' of '%s' is before the repeat start '%s'",
-					endDatetime.toLocalDate(),
-					eventKey,
-					event.repeatPattern.startDate.toLocalDate());
+			throw new InvalidContentException(
+					"Repeating end '%s' of '%s' is before the repeat start '%s'".formatted(endDatetime.toLocalDate(),
+							eventKey,
+							event.repeatPattern.startDate.toLocalDate()));
 		}
 		event.repeatPattern.endDate = endDatetime;
 
 		em.persist(event);
-
-		return Result.OK;
 	}
 }

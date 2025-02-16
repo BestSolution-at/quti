@@ -9,22 +9,26 @@ import at.bestsolution.quti.client.model.Event;
 import at.bestsolution.quti.client.model.EventNew;
 
 public interface EventService extends BaseService {
-	public String create(String calendar,EventNew.Data event)
+	public String create(String calendar, EventNew.Data event)
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public Event.Data get(String calendar,String key,ZoneId timezone);
+	public Event.Data get(String calendar, String key, ZoneId timezone)
+			throws NotFoundException,
+			InvalidArgumentException;
 
-	public void delete(String calendar,String key);
+	public void update(String calendar, String key, Event.Patch changes);
 
-	public void cancel(String calendar,String key);
+	public void delete(String calendar, String key);
 
-	public void uncancel(String calendar,String key);
+	public void cancel(String calendar, String key);
 
-	public void move(String calendar,String key,ZonedDateTime start,ZonedDateTime end);
+	public void uncancel(String calendar, String key);
 
-	public void endRepeat(String calendar,String key,LocalDate end);
+	public void move(String calendar, String key, ZonedDateTime start, ZonedDateTime end);
 
-	public void description(String calendar,String key,String description);
+	public void endRepeat(String calendar, String key, LocalDate end);
+
+	public void description(String calendar, String key, String description);
 
 }

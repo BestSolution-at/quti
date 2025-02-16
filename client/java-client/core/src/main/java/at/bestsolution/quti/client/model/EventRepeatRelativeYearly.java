@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 import at.bestsolution.quti.client.model.mixins.EventRepeatDataMixin;
 
@@ -37,9 +38,29 @@ public interface EventRepeatRelativeYearly {
 
 	}
 
-	public interface Patch extends EventRepeatRelativeYearly {
+	public interface Patch extends _Base.BaseData, EventRepeatRelativeYearly {
+		public Optional<List<DayOfWeek>> daysOfWeek();
+
+		public Optional<Month> month();
+
+		public Optional<Short> interval();
+
+		public _Base.Nillable<LocalDate> endDate();
+
+		public Optional<ZoneId> timeZone();
+
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatRelativeYearly.Patch> {
+		public PatchBuilder daysOfWeek(List<DayOfWeek> daysOfWeek);
+
+		public PatchBuilder month(Month month);
+
+		public PatchBuilder interval(short interval);
+
+		public PatchBuilder endDate(LocalDate endDate);
+
+		public PatchBuilder timeZone(ZoneId timeZone);
+
 	}
 }

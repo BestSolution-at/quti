@@ -6,20 +6,20 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
-import at.bestsolution.quti.service.Result;
+import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class MoveHandlerJPA extends BaseHandler implements EventService.MoveHandler {
+public class MoveHandlerJPA extends BaseHandler implements EventServiceImpl.MoveHandler {
 
 	@Inject
 	public MoveHandlerJPA(EntityManager em) {
@@ -27,63 +27,54 @@ public class MoveHandlerJPA extends BaseHandler implements EventService.MoveHand
 	}
 
 	@Transactional
-	public Result<Void> move(BuilderFactory factory, String calendarKey, String eventKey, ZonedDateTime start,
+	public void move(BuilderFactory factory, String calendarKey, String eventKey, ZonedDateTime start,
 			ZonedDateTime end) {
 		var seriesSep = eventKey.indexOf('_');
 
 		var parsedCalendarKey = Utils.parseUUID(calendarKey, "in path");
 		var parsedEventKey = seriesSep == -1 ? Utils.parseUUID(eventKey, "in path")
 				: Utils.parseUUID(eventKey.substring(0, seriesSep), "in path");
-		var parsedOriginalDate = seriesSep == -1 ? Result.<LocalDate>ok(null)
+		var parsedOriginalDate = seriesSep == -1 ? null
 				: Utils.parseLocalDate(eventKey.substring(seriesSep + 1), "in path");
 
-		if (parsedCalendarKey.isNotOk()) {
-			return parsedCalendarKey.toAny();
+		if (parsedOriginalDate == null) {
+			moveSingleEvent(parsedCalendarKey, parsedEventKey, start, end);
+		} else {
+			moveEventInSeries(parsedCalendarKey, parsedEventKey, parsedOriginalDate, start, end);
 		}
-		if (parsedEventKey.isNotOk()) {
-			return parsedEventKey.toAny();
-		}
-		if (parsedOriginalDate.isNotOk()) {
-			return parsedOriginalDate.toAny();
-		}
-
-		if (parsedOriginalDate.value() == null) {
-			return moveSingleEvent(parsedCalendarKey.value(), parsedEventKey.value(), start, end);
-		}
-		return moveEventInSeries(parsedCalendarKey.value(), parsedEventKey.value(), parsedOriginalDate.value(), start, end);
 	}
 
-	private Result<Void> moveSingleEvent(UUID calendarKey, UUID eventKey, ZonedDateTime start, ZonedDateTime end) {
+	private void moveSingleEvent(UUID calendarKey, UUID eventKey, ZonedDateTime start, ZonedDateTime end) {
 		var em = em();
 
 		var event = EventUtils.event(em, calendarKey, eventKey);
 
 		if (event == null) {
-			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+			throw new NotFoundException(
+					"No event with master-key '%s' was found in calendar '%s'".formatted(eventKey, calendarKey));
 		}
 
 		event.start = event.fullday ? Utils.atStartOfDay(start) : start;
 		event.end = event.fullday ? Utils.atEndOfDay(end) : end;
 		em.persist(event);
-
-		return Result.OK;
 	}
 
-	private Result<Void> moveEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start,
+	private void moveEventInSeries(UUID calendarKey, UUID eventKey, LocalDate original, ZonedDateTime start,
 			ZonedDateTime end) {
 		var em = em();
 
 		var event = EventUtils.event(em, calendarKey, eventKey);
 
 		if (event == null) {
-			return Result.notFound("No event with master-key '%s' was found in calendar '%s'", eventKey, calendarKey);
+			throw new NotFoundException(
+					"No event with master-key '%s' was found in calendar '%s'".formatted(eventKey, calendarKey));
 		}
 
 		var startDatetime = ZonedDateTime.of(original, LocalTime.MIN, event.repeatPattern.recurrenceTimezone);
 		var endDatetime = ZonedDateTime.of(original, LocalTime.MAX, event.repeatPattern.recurrenceTimezone);
 
 		if (!RepeatUtils.fromRepeat(event, startDatetime, endDatetime).anyMatch(d -> d.equals(original))) {
-			return Result.notFound("Event is not repeated on the given date %s", original);
+			throw new NotFoundException("Event is not repeated on the given date %s".formatted(original));
 		}
 
 		var entity = event.modifications.stream()
@@ -99,7 +90,5 @@ public class MoveHandlerJPA extends BaseHandler implements EventService.MoveHand
 		entity.end = event.fullday ? Utils.atEndOfDay(end) : end;
 
 		em.persist(entity);
-
-		return Result.OK;
 	}
 }
