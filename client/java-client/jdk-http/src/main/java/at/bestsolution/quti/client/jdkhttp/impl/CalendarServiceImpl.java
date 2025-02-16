@@ -55,7 +55,7 @@ public class CalendarServiceImpl implements CalendarService {
             if ($response.statusCode() == 201 ) {
                 return ServiceUtils.mapString($response);
             } else if ($response.statusCode() == 422 ) {
-                throw new InvalidContentException(ServiceUtils.mapString($response), null);
+                throw new InvalidContentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {
@@ -84,9 +84,9 @@ public class CalendarServiceImpl implements CalendarService {
             if ($response.statusCode() == 200 ) {
                 return ServiceUtils.mapObject($response, CalendarDataImpl::of);
             } else if ($response.statusCode() == 404 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
+                throw new NotFoundException(ServiceUtils.mapString($response));
             } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {
@@ -118,9 +118,9 @@ public class CalendarServiceImpl implements CalendarService {
             if ($response.statusCode() == 204 ) {
                 return;
             } else if ($response.statusCode() == 404 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
+                throw new NotFoundException(ServiceUtils.mapString($response));
             } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {
@@ -159,9 +159,9 @@ public class CalendarServiceImpl implements CalendarService {
             if ($response.statusCode() == 200 ) {
                 return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
             } else if ($response.statusCode() == 404 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
+                throw new NotFoundException(ServiceUtils.mapString($response));
             } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {
@@ -207,9 +207,9 @@ public class CalendarServiceImpl implements CalendarService {
             if ($response.statusCode() == 200 ) {
                 return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
             } else if ($response.statusCode() == 404 ) {
-                throw new NotFoundException(ServiceUtils.mapString($response), null);
+                throw new NotFoundException(ServiceUtils.mapString($response));
             } else if ($response.statusCode() == 400 ) {
-                throw new InvalidArgumentException(ServiceUtils.mapString($response), null);
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
             }
             throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
         } catch (IOException | InterruptedException e) {
