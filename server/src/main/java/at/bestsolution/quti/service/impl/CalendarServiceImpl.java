@@ -58,4 +58,22 @@ public class CalendarServiceImpl implements CalendarService {
 			ZoneId resultZone) {
 		return viewHandler.view(builderFactory, calendarKey, start, end, timezone, resultZone);
 	}
+
+	public interface CreateHandler {
+		public String create(BuilderFactory factory, CalendarNew.Data calendar);
+	}
+
+	public interface GetHandler {
+		public Calendar.Data get(BuilderFactory factory, String key);
+	}
+
+	public interface UpdateHandler {
+		public void update(BuilderFactory factory, String key, Calendar.Patch patch);
+	}
+
+	public interface ViewHandler {
+		public List<EventView.Data> view(BuilderFactory factory, String calendarKey, LocalDate start,
+				LocalDate end, ZoneId timezone, ZoneId resultZone);
+	}
+
 }

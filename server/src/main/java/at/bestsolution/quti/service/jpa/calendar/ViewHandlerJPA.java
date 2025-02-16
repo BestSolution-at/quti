@@ -12,21 +12,21 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.EventEntity;
-import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
-import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
-import at.bestsolution.quti.service.CalendarService;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.model.EventView;
+import at.bestsolution.quti.service.impl.CalendarServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
 import at.bestsolution.quti.service.jpa.calendar.utils.EventViewDTOUtil;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationMovedEntity;
+import at.bestsolution.quti.service.model.EventView;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarService.ViewHandler {
+public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServiceImpl.ViewHandler {
 
 	@Inject
 	public ViewHandlerJPA(EntityManager em) {

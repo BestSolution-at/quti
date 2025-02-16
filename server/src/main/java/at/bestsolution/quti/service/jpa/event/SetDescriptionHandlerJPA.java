@@ -6,20 +6,20 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.RepeatUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationGenericEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class SetDescriptionHandlerJPA extends BaseHandler implements EventService.SetDescriptionHandler {
+public class SetDescriptionHandlerJPA extends BaseHandler implements EventServiceImpl.SetDescriptionHandler {
 	@Inject
 	public SetDescriptionHandlerJPA(EntityManager em) {
 		super(em);

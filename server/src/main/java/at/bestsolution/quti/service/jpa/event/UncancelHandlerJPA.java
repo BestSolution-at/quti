@@ -6,19 +6,19 @@ import java.util.UUID;
 import org.jboss.logging.Logger;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.modification.EventModificationCanceledEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class UncancelHandlerJPA extends BaseHandler implements EventService.UncancelHandler {
+public class UncancelHandlerJPA extends BaseHandler implements EventServiceImpl.UncancelHandler {
 	private static final Logger LOG = Logger.getLogger(UncancelHandlerJPA.class);
 
 	@Inject

@@ -3,18 +3,18 @@ package at.bestsolution.quti.service.jpa.calendar;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.quti.service.BuilderFactory;
+import at.bestsolution.quti.service.impl.CalendarServiceImpl;
+import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;
 import at.bestsolution.quti.service.model.CalendarNew;
-import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.jpa.BaseHandler;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandlerJPA extends BaseHandler implements CalendarService.CreateHandler {
+public class CreateHandlerJPA extends BaseHandler implements CalendarServiceImpl.CreateHandler {
 
 	@Inject
 	public CreateHandlerJPA(EntityManager em) {

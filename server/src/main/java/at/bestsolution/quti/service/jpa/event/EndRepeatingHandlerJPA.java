@@ -6,9 +6,9 @@ import java.time.ZonedDateTime;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.InvalidContentException;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
 import jakarta.inject.Inject;
@@ -17,7 +17,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class EndRepeatingHandlerJPA extends BaseHandler implements EventService.EndRepeatingHandler {
+public class EndRepeatingHandlerJPA extends BaseHandler implements EventServiceImpl.EndRepeatingHandler {
 	@Inject
 	public EndRepeatingHandlerJPA(EntityManager em) {
 		super(em);

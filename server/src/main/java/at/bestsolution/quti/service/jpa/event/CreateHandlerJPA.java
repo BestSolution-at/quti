@@ -5,24 +5,24 @@ import java.util.Objects;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.CalendarEntity;
-import at.bestsolution.quti.service.jpa.model.EventEntity;
-import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.InvalidContentException;
-import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarUtils;
 import at.bestsolution.quti.service.jpa.event.utils.EventRepeatDTOUtil;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.jpa.model.EventReferenceEntity;
+import at.bestsolution.quti.service.model.EventNew;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class CreateHandlerJPA extends BaseHandler implements EventService.CreateHandler {
+public class CreateHandlerJPA extends BaseHandler implements EventServiceImpl.CreateHandler {
 
 	@Inject
 	public CreateHandlerJPA(EntityManager em) {

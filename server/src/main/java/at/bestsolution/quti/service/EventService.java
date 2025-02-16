@@ -29,41 +29,4 @@ public interface EventService {
 
 	public void update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch);
 
-	public interface CancelHandler {
-		public void cancel(BuilderFactory factory, String calendarKey, String eventKey);
-	}
-
-	public interface CreateHandler {
-		public String create(BuilderFactory factory, String calendarKey, EventNew.Data event);
-	}
-
-	public interface DeleteHandler {
-		public void delete(BuilderFactory factory, String calendarKey, String eventKey);
-	}
-
-	public interface EndRepeatingHandler {
-		public void endRepeat(BuilderFactory factory, String calendarKey, String eventKey, LocalDate endDate);
-	}
-
-	public interface GetHandler {
-		public Event.Data get(BuilderFactory factory, String calendarKey, String eventKey, ZoneId zone);
-	}
-
-	public interface MoveHandler {
-		public void move(BuilderFactory factory, String calendarKey, String eventKey, ZonedDateTime start,
-				ZonedDateTime end);
-	}
-
-	public interface SetDescriptionHandler {
-		public void setDescription(BuilderFactory factory, String calendarKey, String eventKey,
-				String description);
-	}
-
-	public interface UncancelHandler {
-		public void uncancel(BuilderFactory factory, String calendarKey, String eventKey);
-	}
-
-	public interface UpdateHandler {
-		public void update(BuilderFactory factory, String calendarKey, String eventKey, Event.Patch patch);
-	}
 }

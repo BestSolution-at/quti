@@ -4,19 +4,19 @@ import java.util.List;
 import java.util.UUID;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.CalendarEntity;
-import at.bestsolution.quti.service.model.Calendar;
-import at.bestsolution.quti.service.CalendarService;
-import at.bestsolution.quti.service.NotFoundException;
 import at.bestsolution.quti.service.BuilderFactory;
+import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.CalendarServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.calendar.utils.CalendarDTOUtil;
+import at.bestsolution.quti.service.jpa.model.CalendarEntity;
+import at.bestsolution.quti.service.model.Calendar;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class GetHandlerJPA extends BaseReadonlyHandler implements CalendarService.GetHandler {
+public class GetHandlerJPA extends BaseReadonlyHandler implements CalendarServiceImpl.GetHandler {
 
 	@Inject
 	public GetHandlerJPA(EntityManager em) {

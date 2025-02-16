@@ -1,14 +1,13 @@
 package at.bestsolution.quti.service.jpa.calendar;
 
-import at.bestsolution.quti.service.model.Calendar;
-import at.bestsolution.quti.service.CalendarService;
-
 import java.util.Objects;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
+import at.bestsolution.quti.service.impl.CalendarServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.model.CalendarEntity;
+import at.bestsolution.quti.service.model.Calendar;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
@@ -17,7 +16,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
 @Singleton
-public class UpdateHandlerJPA extends BaseHandler implements CalendarService.UpdateHandler {
+public class UpdateHandlerJPA extends BaseHandler implements CalendarServiceImpl.UpdateHandler {
 
 	@Inject
 	public UpdateHandlerJPA(EntityManager em) {

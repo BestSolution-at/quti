@@ -4,19 +4,19 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import at.bestsolution.quti.Utils;
-import at.bestsolution.quti.service.jpa.model.EventEntity;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.NotFoundException;
-import at.bestsolution.quti.service.model.Event;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseReadonlyHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventDTOUtil;
+import at.bestsolution.quti.service.jpa.model.EventEntity;
+import at.bestsolution.quti.service.model.Event;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class GetHandlerJPA extends BaseReadonlyHandler implements EventService.GetHandler {
+public class GetHandlerJPA extends BaseReadonlyHandler implements EventServiceImpl.GetHandler {
 
 	@Inject
 	public GetHandlerJPA(EntityManager em) {

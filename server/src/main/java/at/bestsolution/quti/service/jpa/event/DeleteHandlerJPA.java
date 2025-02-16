@@ -2,8 +2,8 @@ package at.bestsolution.quti.service.jpa.event;
 
 import at.bestsolution.quti.Utils;
 import at.bestsolution.quti.service.BuilderFactory;
-import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.NotFoundException;
+import at.bestsolution.quti.service.impl.EventServiceImpl;
 import at.bestsolution.quti.service.jpa.BaseHandler;
 import at.bestsolution.quti.service.jpa.event.utils.EventUtils;
 import jakarta.inject.Inject;
@@ -12,7 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class DeleteHandlerJPA extends BaseHandler implements EventService.DeleteHandler {
+public class DeleteHandlerJPA extends BaseHandler implements EventServiceImpl.DeleteHandler {
 
 	@Inject
 	public DeleteHandlerJPA(EntityManager em) {
