@@ -19,14 +19,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class SetDescriptionHandlerJPA extends BaseHandler implements EventServiceImpl.SetDescriptionHandler {
+public class SetDescriptionHandlerJPA extends BaseHandler implements EventServiceImpl.DescriptionHandler {
 	@Inject
 	public SetDescriptionHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
 	@Transactional
-	public void setDescription(BuilderFactory factory, String calendarKey, String eventKey,
+	public void description(BuilderFactory factory, String calendarKey, String eventKey,
 			String description) {
 		var seriesSep = eventKey.indexOf('_');
 

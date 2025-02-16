@@ -17,7 +17,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Singleton
-public class EndRepeatingHandlerJPA extends BaseHandler implements EventServiceImpl.EndRepeatingHandler {
+public class EndRepeatingHandlerJPA extends BaseHandler implements EventServiceImpl.EndRepeatHandler {
 	@Inject
 	public EndRepeatingHandlerJPA(EntityManager em) {
 		super(em);

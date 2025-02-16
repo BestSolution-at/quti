@@ -24,18 +24,18 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 	@Test
 	public void invalidCalendarKey() {
 		assertThrows(InvalidArgumentException.class,
-				() -> handler.setDescription(builderFactory, "abcd", simpleEventKey.toString(), "Abcd"));
+				() -> handler.description(builderFactory, "abcd", simpleEventKey.toString(), "Abcd"));
 	}
 
 	@Test
 	public void invalidEventKey() {
 		assertThrows(InvalidArgumentException.class,
-				() -> handler.setDescription(builderFactory, basicCalendarKey.toString(), "abcd", "Acbd"));
+				() -> handler.description(builderFactory, basicCalendarKey.toString(), "abcd", "Acbd"));
 	}
 
 	@Test
 	public void setDescriptionSingle() {
-		handler.setDescription(
+		handler.description(
 				builderFactory,
 				basicCalendarKey.toString(),
 				simpleEventKey.toString(),
@@ -47,7 +47,7 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 
 	@Test
 	public void setDescriptionRepeat() {
-		handler.setDescription(
+		handler.description(
 				builderFactory,
 				basicCalendarKey.toString(),
 				repeatingDailyEndlessKey.toString() + "_2024-01-01",
@@ -70,13 +70,13 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 
 	@Test
 	public void setDescriptionRepeatMulti() {
-		handler.setDescription(
+		handler.description(
 				builderFactory,
 				basicCalendarKey.toString(),
 				repeatingDailyEndlessKey.toString() + "_2024-01-01",
 				"A custom description");
 
-		handler.setDescription(
+		handler.description(
 				builderFactory,
 				basicCalendarKey.toString(),
 				repeatingDailyEndlessKey.toString() + "_2024-01-01",
@@ -98,7 +98,7 @@ public class SetDescriptionHandlerTest extends EventHandlerTest<SetDescriptionHa
 
 	@Test
 	public void invalidDate() {
-		assertThrows(NotFoundException.class, () -> handler.setDescription(
+		assertThrows(NotFoundException.class, () -> handler.description(
 				builderFactory,
 				basicCalendarKey.toString(),
 				repeatingDailyEndlessKey.toString() + "_2023-12-31",

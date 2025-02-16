@@ -26,14 +26,14 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 
 @Singleton
-public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServiceImpl.ViewHandler {
+public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServiceImpl.EventViewHandler {
 
 	@Inject
 	public ViewHandlerJPA(EntityManager em) {
 		super(em);
 	}
 
-	public List<EventView.Data> view(BuilderFactory factory, String calendarKey, LocalDate start,
+	public List<EventView.Data> eventView(BuilderFactory factory, String calendarKey, LocalDate start,
 			LocalDate end,
 			ZoneId timezone, ZoneId resultZone) {
 		Objects.requireNonNull(calendarKey, "calendarKey must not be null");
