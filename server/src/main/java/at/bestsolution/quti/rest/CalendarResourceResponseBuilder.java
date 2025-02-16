@@ -17,7 +17,7 @@ import at.bestsolution.quti.service.model.EventView;
 @Singleton
 public class CalendarResourceResponseBuilder {
 	public ResponseBuilder create(String result, CalendarNew.Data calendar) {
-		return Response.status(201).entity(result);
+		return Response.status(201).entity(_JsonUtils.encodeAsJsonString(result));
 	}
 
 	public ResponseBuilder get(Calendar.Data result, String key) {

@@ -16,7 +16,7 @@ import at.bestsolution.quti.service.model.EventNew;
 @Singleton
 public class EventResourceResponseBuilder {
 	public ResponseBuilder create(String result, String calendar, EventNew.Data event) {
-		return Response.status(201).entity(result);
+		return Response.status(201).entity(_JsonUtils.encodeAsJsonString(result));
 	}
 
 	public ResponseBuilder get(Event.Data result, String calendar, String key, ZoneId timezone) {
