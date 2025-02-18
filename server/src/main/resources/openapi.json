@@ -1,0 +1,1206 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Quti",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Calendar",
+      "description": " Service to create a calendar and query for its events"
+    },
+    {
+      "name": "Event",
+      "description": " Service to create and modify events in a calendar"
+    }
+  ],
+  "paths": {
+    "/api/calendar": {
+      "post": {
+        "tags": [
+          "Calendar"
+        ],
+        "description": " create a new calendar",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalendarNew"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "key of the new calendar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calendar/{key}": {
+      "get": {
+        "tags": [
+          "Calendar"
+        ],
+        "description": " get a calendar",
+        "parameters": [
+          {
+            "name": "key",
+            "description": "the calendar key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the calendar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Calendar"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Calendar"
+        ],
+        "description": " update a calendar",
+        "parameters": [
+          {
+            "name": "key",
+            "description": "the calendar key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Calendar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calendar/{key}/view": {
+      "get": {
+        "tags": [
+          "Calendar"
+        ],
+        "description": " get a view of all events in a date range",
+        "parameters": [
+          {
+            "name": "key",
+            "description": "the calendar key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "description": "the start date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+              "format": "date"
+            }
+          },
+          {
+            "name": "to",
+            "description": "the end date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+              "format": "date"
+            }
+          },
+          {
+            "name": "timezone",
+            "description": "the timezone the date is in",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timezone",
+            "description": "",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a list of events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventView"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "description": " create a new event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the new event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventNew"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "key of the new event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events/{key}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "description": " get an event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timezone",
+            "description": "the timezone",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Event"
+        ],
+        "description": " update an event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Event"
+        ],
+        "description": " delete an event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events/{key}/action/cancel": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "description": " cancel an event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events/{key}/action/uncancel": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "description": " uncancel an event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events/{key}/action/move": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "description": " move an event to a new time",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "format": "zoned-date-time"
+                  },
+                  "end": {
+                    "type": "string",
+                    "format": "zoned-date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events/{key}/action/end-repeat": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "description": " end a repeating event",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+                "format": "date"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/api/calendar/{calendar}/events/{key}/action/description": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "description": " set a description",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "description": "key of the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DayOfWeek": {
+        "type": "string",
+        "enum": [
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ]
+      },
+      "Month": {
+        "type": "string",
+        "enum": [
+          "JANUARY",
+          "FEBRUARY",
+          "MARCH",
+          "APRIL",
+          "MAY",
+          "JUNE",
+          "JULY",
+          "AUGUST",
+          "SEPTEMBER",
+          "OCTOBER",
+          "DECEMBER"
+        ]
+      },
+      "Calendar": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          }
+        }
+      },
+      "CalendarNew": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeatDaily": {
+        "type": "object",
+        "properties": {
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeatWeekly": {
+        "type": "object",
+        "properties": {
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeatAbsoluteMonthly": {
+        "type": "object",
+        "properties": {
+          "dayOfMonth": {
+            "type": "number",
+            "format": "int32"
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeatAbsoluteYearly": {
+        "type": "object",
+        "properties": {
+          "dayOfMonth": {
+            "type": "number",
+            "format": "int32"
+          },
+          "month": {
+            "$ref": "#/components/schemas/Month"
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeatRelativeMonthly": {
+        "type": "object",
+        "properties": {
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeatRelativeYearly": {
+        "type": "object",
+        "properties": {
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "month": {
+            "$ref": "#/components/schemas/Month"
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventRepeat": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/EventRepeatDaily"
+          },
+          {
+            "$ref": "#/components/schemas/EventRepeatWeekly"
+          },
+          {
+            "$ref": "#/components/schemas/EventRepeatAbsoluteMonthly"
+          },
+          {
+            "$ref": "#/components/schemas/EventRepeatAbsoluteYearly"
+          },
+          {
+            "$ref": "#/components/schemas/EventRepeatRelativeMonthly"
+          },
+          {
+            "$ref": "#/components/schemas/EventRepeatRelativeYearly"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "@type",
+          "mapping": {
+            "daily": "#/components/schemas/EventRepeatDaily",
+            "weekly": "#/components/schemas/EventRepeatWeekly",
+            "absolute-monthly": "#/components/schemas/EventRepeatAbsoluteMonthly",
+            "absolute-yearly": "#/components/schemas/EventRepeatAbsoluteYearly",
+            "relative-monthly": "#/components/schemas/EventRepeatRelativeMonthly",
+            "relative-yearly": "#/components/schemas/EventRepeatRelativeYearly"
+          }
+        }
+      },
+      "EventNew": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "fullday": {
+            "type": "boolean"
+          },
+          "repeat": {
+            "$ref": "#/components/schemas/EventRepeat"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "referencedCalendars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "fullday": {
+            "type": "boolean"
+          },
+          "repeat": {
+            "$ref": "#/components/schemas/EventRepeat"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "referencedCalendars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SingleEventView": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "calendarKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACCEPTED",
+              "CANCELED"
+            ]
+          },
+          "start": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "referencedCalendars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "SeriesMovedEventView": {
+        "type": "object",
+        "properties": {
+          "masterEventKey": {
+            "type": "string"
+          },
+          "originalStart": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "originalEnd": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "key": {
+            "type": "string"
+          },
+          "calendarKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACCEPTED",
+              "CANCELED"
+            ]
+          },
+          "start": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "referencedCalendars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "SeriesEventView": {
+        "type": "object",
+        "properties": {
+          "masterEventKey": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "calendarKey": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACCEPTED",
+              "CANCELED"
+            ]
+          },
+          "start": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "referencedCalendars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "@type": {
+            "type": "string"
+          }
+        }
+      },
+      "EventView": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SingleEventView"
+          },
+          {
+            "$ref": "#/components/schemas/SeriesMovedEventView"
+          },
+          {
+            "$ref": "#/components/schemas/SeriesEventView"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "@type",
+          "mapping": {
+            "single": "#/components/schemas/SingleEventView",
+            "series-moved": "#/components/schemas/SeriesMovedEventView",
+            "series": "#/components/schemas/SeriesEventView"
+          }
+        }
+      },
+      "EventViewFilter": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "fullday": {
+            "type": "boolean"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -43,7 +43,7 @@
         },
 				{
 						"name": "openapi",
-						"targetFolder": "../server/src/main/resources/openapi",
+						"targetFolder": "../server/src/main/resources",
 						"specFileName": "openapi",
 						"staticSpec": {
 							"info": {
