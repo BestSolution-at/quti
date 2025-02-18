@@ -748,7 +748,7 @@
         {
           "@type": "Operation",
           "name": "create",
-          "doc": " create a new calendar\n\nfoo Bar is eine dubar",
+          "doc": " create a new calendar",
           "parameters": [
             {
               "@type": "Parameter",

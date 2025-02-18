@@ -178,8 +178,6 @@ service Calendar {
     <*
      * create a new calendar
      *
-     * foo Bar is eine dubar
-     *
      * @param calendar - new calendar data
      * @returns key of the new calendar
      *>
