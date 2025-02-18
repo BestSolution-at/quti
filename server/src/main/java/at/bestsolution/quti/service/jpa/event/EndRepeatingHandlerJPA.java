@@ -48,6 +48,10 @@ public class EndRepeatingHandlerJPA extends BaseHandler implements EventServiceI
 							event.repeatPattern.startDate.toLocalDate()));
 		}
 		event.repeatPattern.endDate = endDatetime;
+		event.modifications
+				.stream()
+				.filter(m -> endDate.isBefore(m.date))
+				.forEach(m -> em.remove(m));
 
 		em.persist(event);
 	}
