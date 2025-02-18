@@ -40,6 +40,17 @@
                 "DayOfWeek": "java.time.DayOfWeek",
                 "Month": "java.time.Month"
             }
-        }
+        },
+				{
+						"name": "openapi",
+						"targetFolder": "../server/src/main/resources/openapi",
+						"specFileName": "openapi",
+						"staticSpec": {
+							"info": {
+								"title": "Quti",
+								"version": "1.0.0"
+							}
+						}
+				}
     ]
 }
