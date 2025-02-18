@@ -21,27 +21,27 @@ public abstract class EventHandlerTest<T extends BaseHandler> extends BaseHandle
 
 	public EventEntity event(UUID eventKey) {
 		return session
-			.createQuery("""
-				FROM
-					Event e
-				JOIN FETCH e.calendar
-				OUTER JOIN FETCH e.repeatPattern
-				OUTER JOIN FETCH e.references
-				WHERE
-					e.key = :key
-			""", EventEntity.class)
-			.setParameter("key", eventKey)
-			.getSingleResult();
+				.createQuery("""
+							FROM
+								Event e
+							JOIN FETCH e.calendar
+							OUTER JOIN FETCH e.repeatPattern
+							OUTER JOIN FETCH e.references
+							WHERE
+								e.key = :key
+						""", EventEntity.class)
+				.setParameter("key", eventKey)
+				.getSingleResult();
 	}
 
 	public List<EventModificationEntity> modifications(UUID eventKey) {
 		return session.createQuery("""
-			FROM
-				EventModification em
-			WHERE
-				em.event.key = :key
-		""", EventModificationEntity.class)
-		.setParameter("key", eventKey)
-		.getResultList();
+					FROM
+						EventModification em
+					WHERE
+						em.event.key = :key
+				""", EventModificationEntity.class)
+				.setParameter("key", eventKey)
+				.getResultList();
 	}
 }
