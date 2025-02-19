@@ -1,0 +1,267 @@
+.calendar-view {
+  --event-color-blue-bg: var(--spectrum-alias-text-color-blue-700, var(--spectrum-blue-700, var(--spectrum-semantic-blue-700-color-default)));
+  --event-color-blue-fg: var(--spectrum-alias-text-color-blue-1200, var(--spectrum-blue-1200, var(--spectrum-semantic-blue-1100-color-default)));
+
+  --event-color-red-bg: var(--spectrum-alias-text-color-red-700, var(--spectrum-red-700, var(--spectrum-semantic-red-700-color-default)));
+  --event-color-red-fg: var(--spectrum-alias-text-color-red-1200, var(--spectrum-red-1200, var(--spectrum-semantic-red-1100-color-default)));
+
+  --event-color-orange-bg: var(--spectrum-alias-text-color-orange-700, var(--spectrum-orange-700, var(--spectrum-semantic-orange-700-color-default)));
+  --event-color-orange-fg: var(--spectrum-alias-text-color-orange-1200, var(--spectrum-orange-1200, var(--spectrum-semantic-orange-1100-color-default)));
+
+  --event-color-green-bg: var(--spectrum-alias-text-color-green-700, var(--spectrum-green-700, var(--spectrum-semantic-green-700-color-default)));
+  --event-color-green-fg: var(--spectrum-alias-text-color-green-1200, var(--spectrum-green-1200, var(--spectrum-semantic-green-1100-color-default)));
+
+  --event-color-indigo-bg: var(--spectrum-alias-text-color-indigo-700, var(--spectrum-indigo-700, var(--spectrum-semantic-indigo-700-color-default)));
+  --event-color-indigo-fg: var(--spectrum-alias-text-color-indigo-1200, var(--spectrum-indigo-1200, var(--spectrum-semantic-indigo-1100-color-default)));
+
+  --event-color-celery-bg: var(--spectrum-alias-text-color-celery-700, var(--spectrum-celery-700, var(--spectrum-semantic-celery-700-color-default)));
+  --event-color-celery-fg: var(--spectrum-alias-text-color-celery-1200, var(--spectrum-celery-1200, var(--spectrum-semantic-celery-1100-color-default)));
+
+  --event-color-magenta-bg: var(--spectrum-alias-text-color-magenta-700, var(--spectrum-magenta-700, var(--spectrum-semantic-magenta-700-color-default)));
+  --event-color-magenta-fg: var(--spectrum-alias-text-color-magenta-1200, var(--spectrum-magenta-1200, var(--spectrum-semantic-magenta-1100-color-default)));
+
+  --event-color-yellow-bg: var(--spectrum-alias-text-color-yellow-700, var(--spectrum-yellow-700, var(--spectrum-semantic-yellow-700-color-default)));
+  --event-color-yellow-fg: var(--spectrum-alias-text-color-yellow-1200, var(--spectrum-yellow-1200, var(--spectrum-semantic-yellow-1100-color-default)));
+
+  --event-color-fuchsia-bg: var(--spectrum-alias-text-color-fuchsia-700, var(--spectrum-fuchsia-700, var(--spectrum-semantic-fuchsia-700-color-default)));
+  --event-color-fuchsia-fg: var(--spectrum-alias-text-color-fuchsia-1200, var(--spectrum-fuchsia-1200, var(--spectrum-semantic-fuchsia-1100-color-default)));
+
+  --event-color-seafoam-bg: var(--spectrum-alias-text-color-seafoam-700, var(--spectrum-seafoam-700, var(--spectrum-semantic-seafoam-700-color-default)));
+  --event-color-seafoam-fg: var(--spectrum-alias-text-color-seafoam-1200, var(--spectrum-seafoam-1200, var(--spectrum-semantic-seafoam-1100-color-default)));
+
+  --event-color-chartreuse-bg: var(--spectrum-alias-text-color-chartreuse-700, var(--spectrum-chartreuse-700, var(--spectrum-semantic-chartreuse-700-color-default)));
+  --event-color-chartreuse-fg: var(--spectrum-alias-text-color-chartreuse-1200, var(--spectrum-chartreuse-1200, var(--spectrum-semantic-chartreuse-1100-color-default)));
+
+  --event-color-purple-bg: var(--spectrum-alias-text-color-purple-700, var(--spectrum-purple-700, var(--spectrum-semantic-purple-700-color-default)));
+  --event-color-purple-fg: var(--spectrum-alias-text-color-purple-1200, var(--spectrum-purple-1200, var(--spectrum-semantic-purple-1100-color-default)));
+
+  --event-color-gray-bg: var(--spectrum-alias-text-color-gray-400, var(--spectrum-gray-400, var(--spectrum-semantic-gray-400-color-default)));
+  --event-color-gray-fg: var(--spectrum-alias-text-color-gray-700, var(--spectrum-gray-700, var(--spectrum-semantic-gray-700-color-default)));
+
+  --event-background-brightness-shift: var(--day-view-background-brighness-shift, 70%);
+}
+
+.header-today {
+  position: relative;
+}
+
+.header-today::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(var(--spectrum-alias-border-size-thin) * -1);
+  right:0;
+  border-top-style: solid;
+  border-top-width: 4px;
+  border-color: var(--spectrum-alias-text-color-blue-1000, var(--spectrum-blue-1000, var(--spectrum-semantic-blue-1000-color-default)));
+}
+
+.hours-grid {
+  position: relative;
+}
+
+.hours-grid::before {
+  content: '';
+  position: absolute;
+  top: calc( var( --work-day-start, 8) * 100% / var(--hours-count, 24) + 1px );
+  left: -1px;
+  right:0;
+  bottom: calc( 100% - var( --work-day-end, 17) * 100% / var(--hours-count, 24) );
+  background-color: var(--spectrum-alias-background-color-gray-50, var(--spectrum-global-color-gray-50, var(--spectrum-semantic-gray-50-color-background)));
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: var(--spectrum-alias-background-color-gray-300, var(--spectrum-global-color-gray-300, var(--spectrum-semantic-gray-300-color-background)));
+}
+
+.event,
+.day-event {
+  outline: none;
+
+  --event-color-bg: var(--event-color-blue-bg);
+  --event-color-fg: var(--event-color-blue-fg);
+
+  color: var(--event-color-fg);
+}
+
+.event.uncolored,
+.day-event.uncolored {
+  color: var(--spectrum-alias-text-color-gray-700, var(--spectrum-gray-900, var(--spectrum-semantic-gray-700-color-default)))
+}
+
+.day-event {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.day-event:focus {
+  color: white;
+}
+
+.day-event::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--event-color-bg);
+  border-radius: 2px;
+  opacity: 0.02;
+}
+
+.day-event:hover::before {
+  opacity: 0.12;
+}
+
+.day-event:focus::before {
+  opacity: 1;
+}
+
+.day-event::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-color: var(--event-color-bg);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+.event.type-blue,
+.day-event.type-blue {
+  --event-color-bg: var(--event-color-blue-bg);
+  --event-color-fg: var(--event-color-blue-fg);
+}
+
+.event.type-red,
+.day-event.type-red {
+  --event-color-bg: var(--event-color-red-bg);
+  --event-color-fg: var(--event-color-red-fg);
+}
+
+.event.type-orange,
+.day-event.type-orange {
+  --event-color-bg: var(--event-color-orange-bg);
+  --event-color-fg: var(--event-color-orange-fg);
+}
+
+.event.type-green,
+.day-event.type-green {
+  --event-color-bg: var(--event-color-green-bg);
+  --event-color-fg: var(--event-color-green-fg);
+}
+
+.event.type-indigo,
+.day-event.type-indigo {
+  --event-color-bg: var(--event-color-indigo-bg);
+  --event-color-fg: var(--event-color-indigo-fg);
+}
+
+.event.type-celery,
+.day-event.type-celery {
+  --event-color-bg: var(--event-color-celery-bg);
+  --event-color-fg: var(--event-color-celery-fg);
+}
+
+.event.type-magenta,
+.day-event.type-magenta {
+  --event-color-bg: var(--event-color-magenta-bg);
+  --event-color-fg: var(--event-color-magenta-fg);
+}
+
+.event.type-yellow,
+.day-event.type-yellow {
+  --event-color-bg: var(--event-color-yellow-bg);
+  --event-color-fg: var(--event-color-yellow-fg);
+}
+
+.event.type-fuchsia,
+.day-event.type-fuchsia {
+  --event-color-bg: var(--event-color-fuchsia-bg);
+  --event-color-fg: var(--event-color-fuchsia-fg);
+}
+
+.event.type-seafoam,
+.day-event.type-seafoam {
+  --event-color-bg: var(--event-color-seafoam-bg);
+  --event-color-fg: var(--event-color-seafoam-fg);
+}
+
+.event.type-chartreuse,
+.day-event.event.type-chartreuse {
+  --event-color-bg: var(--event-color-chartreuse-bg);
+  --event-color-fg: var(--event-color-chartreuse-fg);
+}
+
+.event.type-purple,
+.day-event.type-purple {
+  --event-color-bg: var(--event-color-purple-bg);
+  --event-color-fg: var(--event-color-purple-fg);
+}
+
+.event.type-canceled,
+.day-event.type-canceled {
+  --event-color-bg: var(--event-color-gray-bg);
+  --event-color-fg: var(--event-color-gray-fg);
+  text-decoration: line-through;
+}
+
+.event::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 4px;
+  right: 0;
+  bottom: 0;
+  background-color: var(--event-color-bg);
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background-color: color-mix(in srgb, var(--event-color-bg), var(--spectrum-gray-50) calc( var(--event-background-brightness-shift) - 10% ));
+}
+
+.event:hover::before {
+  background-color: color-mix(in srgb, var(--event-color-bg), var(--spectrum-gray-50) var(--event-background-brightness-shift));
+}
+
+.event:focus,
+.event:focus button,
+.event button:hover {
+  color: white;
+  z-index: 1;
+}
+
+.event button:hover {
+  background-color: var(--event-color-fg);
+}
+
+.event button {
+  border-radius: 50%;
+  display: inline-flex;
+  padding: 2px;
+  background-color: transparent;
+  border: none;
+  color: var(--event-color-fg);
+  outline: none;
+}
+
+.event:focus::before {
+  background-color: var(--event-color-bg);
+}
+
+.event-text-positioner {
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.event:focus .event-text-positioner {
+  overflow: visible;
+  max-height: unset;
+}
+
+.event:focus .event-text {
+  background-color: var(--event-color-bg);
+}
