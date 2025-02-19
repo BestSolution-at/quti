@@ -1,6 +1,5 @@
 import {
 	CSSProperties,
-	JSX,
 	Children as ReactChildren,
 	ReactElement,
 	ReactNode,
@@ -28,7 +27,7 @@ import {
 
 export function SpectrumFlex<C extends ColorVersion = 5>(
 	props: SpectrumFlexProperties<C>,
-): JSX.Element {
+): ReactNode {
 	const { styleProps } = useStyleProps(props, viewStyleProps);
 
 	const finalStyles: CSSProperties = {
@@ -244,7 +243,7 @@ function isFlexGapSupported() {
 
 export function SpectrumResponsiveItem(
 	props: ReactPropsWithChildren<SpectrumResponsiveItemProps>,
-): JSX.Element {
+): ReactNode {
 	return <>{props.children}</>;
 }
 
