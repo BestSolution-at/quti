@@ -7,14 +7,14 @@ import {
 } from '@internationalized/date';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { SpectrumMultiDayView } from '../src/SpectrumDayView';
+import { QutiMultiDayView } from '../src/SpectrumDayView';
 
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
 	title: 'Example/MultiDayView',
-	component: SpectrumMultiDayView,
+	component: QutiMultiDayView,
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
 		layout: 'centered',
@@ -44,7 +44,7 @@ const meta = {
 			);
 		},
 	],
-} satisfies Meta<typeof SpectrumMultiDayView>;
+} satisfies Meta<typeof QutiMultiDayView>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

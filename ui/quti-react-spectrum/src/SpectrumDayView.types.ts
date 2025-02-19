@@ -16,41 +16,41 @@ export type SCALE =
 	| '5-min';
 export type COMPACTNESS = 'default' | 'medium' | 'compact';
 
-export type CalendarActionItem = {
+export type QutiActionItem = {
 	key: string;
 	label: string;
 };
-export interface SpectrumDayViewProperties {
+export interface QutiDayViewProperties {
 	date: CalendarDate;
 	scale?: SCALE;
-	entries?: SpectrumTimeEvent[];
-	fullDayEntries?: SpectrumDayEvent[];
+	entries?: QutiTimeEvent[];
+	fullDayEntries?: QutiDayEvent[];
 	defaultScroll?: number;
 	workhours?: Range<number>;
 	hours?: Range<number>;
-	actions?: CalendarActionItem[];
+	actions?: QutiActionItem[];
 	compactness?: COMPACTNESS;
 	onAction?: (key: React.Key, date: CalendarDate, time: number) => void;
 	noColoredEventText?: boolean;
-	moreInfoRenderer?: (eventEntry: SpectrumTimeEvent) => ReactNode | undefined;
+	moreInfoRenderer?: (eventEntry: QutiTimeEvent) => ReactNode | undefined;
 	bankholiday?: (date: CalendarDate) => string | undefined;
 }
 
-export interface SpectrumMultiDayViewProperties {
+export interface QutiMultiDayViewProperties {
 	dates: CalendarDate[];
 	scale?: SCALE;
-	entries?: SpectrumTimeEvent[];
-	fullDayEntries?: SpectrumDayEvent[];
+	entries?: QutiTimeEvent[];
+	fullDayEntries?: QutiDayEvent[];
 	defaultScroll?: number;
 	workhours?: Range<number>;
 	hours?: Range<number>;
-	actions?: CalendarActionItem[];
+	actions?: QutiActionItem[];
 	showAgenda?: boolean;
 	weekareaText?: string;
 	compactness?: COMPACTNESS;
 	noColoredEventText?: boolean;
 	onAction?: (key: React.Key, date: CalendarDate, time: number) => void;
-	moreInfoRenderer?: (eventEntry: SpectrumTimeEvent) => ReactNode | undefined;
+	moreInfoRenderer?: (eventEntry: QutiTimeEvent) => ReactNode | undefined;
 	bankholiday?: (date: CalendarDate) => string | undefined;
 }
 
@@ -68,13 +68,13 @@ export type EntryColor =
 	| 'chartreuse'
 	| 'purple';
 
-export interface SpectrumTimeEvent {
+export interface QutiTimeEvent {
 	readonly key: string;
 	readonly color: EntryColor;
 	readonly start: CalendarDateTime;
 	readonly end: CalendarDateTime;
 	readonly title: string;
-	readonly actions?: CalendarActionItem[];
+	readonly actions?: QutiActionItem[];
 	readonly onAction?: (key: React.Key) => void;
 	readonly icon?: string;
 	readonly canceled?: boolean;
@@ -84,13 +84,13 @@ export interface SpectrumTimeEvent {
 	}[];
 }
 
-export interface SpectrumDayEvent {
+export interface QutiDayEvent {
 	readonly key: string;
 	readonly color: EntryColor;
 	readonly start: CalendarDate | CalendarDateTime;
 	readonly end: CalendarDate | CalendarDateTime;
 	readonly title: string;
-	readonly actions?: CalendarActionItem[];
+	readonly actions?: QutiActionItem[];
 	readonly onAction?: (key: React.Key) => void;
 	readonly icon?: string;
 	readonly canceled?: boolean;

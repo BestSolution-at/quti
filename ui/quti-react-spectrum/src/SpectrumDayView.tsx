@@ -49,13 +49,13 @@ import { useResizeObserver } from '@react-aria/utils';
 
 import {
 	COMPACTNESS,
-	CalendarActionItem,
+	QutiActionItem,
 	Range,
 	SCALE,
-	SpectrumDayEvent,
-	SpectrumDayViewProperties,
-	SpectrumMultiDayViewProperties,
-	SpectrumTimeEvent,
+	QutiDayEvent,
+	QutiDayViewProperties,
+	QutiMultiDayViewProperties,
+	QutiTimeEvent,
 } from './SpectrumDayView.types';
 
 import {
@@ -140,12 +140,12 @@ function hoursFromRange(range?: Range<number>) {
 }
 
 export interface SpectrumCalenderScrollRef {
-	scrollToEvent(event: SpectrumTimeEvent): void;
+	scrollToEvent(event: QutiTimeEvent): void;
 	scrollToDayStart(): void;
 }
 
 export function _SpectrumDayView(
-	props: SpectrumDayViewProperties,
+	props: QutiDayViewProperties,
 	ref: Ref<SpectrumCalenderScrollRef>,
 ) {
 	const workhours: Range<number> = useMemo(
@@ -159,7 +159,7 @@ export function _SpectrumDayView(
 	const scrollDiv = useRef<HTMLDivElement>(null);
 
 	const scrollRef = {
-		scrollToEvent: (evt: SpectrumDayEvent) => {
+		scrollToEvent: (evt: QutiDayEvent) => {
 			const target = scrollDiv.current?.querySelector(
 				`[id='event-${evt.key}']`,
 			);
@@ -258,7 +258,7 @@ export function _SpectrumDayView(
 	);
 }
 
-function SingleDayFull(props: { event: SpectrumDayEvent }) {
+function SingleDayFull(props: { event: QutiDayEvent }) {
 	const className = 'day-event type-' + props.event.color;
 	return (
 		<SpectrumFlex
@@ -277,10 +277,10 @@ function SingleDayFull(props: { event: SpectrumDayEvent }) {
 	);
 }
 
-export const SpectrumDayView = forwardRef(_SpectrumDayView);
+export const QutiDayView = forwardRef(_SpectrumDayView);
 
 export function _SpectrumMultiDayView(
-	props: SpectrumMultiDayViewProperties,
+	props: QutiMultiDayViewProperties,
 	ref: Ref<SpectrumCalenderScrollRef>,
 ) {
 	const workhours: Range<number> = useMemo(
@@ -324,7 +324,7 @@ export function _SpectrumMultiDayView(
 	});
 
 	const scrollRef = {
-		scrollToEvent: (evt: SpectrumDayEvent) => {
+		scrollToEvent: (evt: QutiDayEvent) => {
 			const target = scrollDiv.current?.querySelector(
 				`[id='event-${evt.key}']`,
 			);
@@ -553,7 +553,7 @@ export function _SpectrumMultiDayView(
 								padding: 10,
 							}}
 						>
-							<SpectrumAgenda
+							<QutiAgenda
 								dates={dates}
 								entries={props.entries}
 								fullDayEntries={props.fullDayEntries}
@@ -618,7 +618,7 @@ export function _SpectrumMultiDayView(
 						borderStartWidth="thin"
 					>
 						<View padding="size-100" flexGrow={1}>
-							<SpectrumAgenda
+							<QutiAgenda
 								dates={dates}
 								entries={props.entries}
 								fullDayEntries={props.fullDayEntries}
@@ -631,10 +631,10 @@ export function _SpectrumMultiDayView(
 	);
 }
 
-export function SpectrumAgenda(props: {
+export function QutiAgenda(props: {
 	dates: CalendarDate[];
-	entries?: SpectrumTimeEvent[];
-	fullDayEntries?: SpectrumDayEvent[];
+	entries?: QutiTimeEvent[];
+	fullDayEntries?: QutiDayEvent[];
 }) {
 	return (
 		<Grid columns="6em 1fr" width="100%" flexGrow={1}>
@@ -652,8 +652,8 @@ export function SpectrumAgenda(props: {
 
 function SpectrumAgendaDay(props: {
 	date: CalendarDate;
-	entries?: SpectrumTimeEvent[];
-	fullDayEntries?: SpectrumDayEvent[];
+	entries?: QutiTimeEvent[];
+	fullDayEntries?: QutiDayEvent[];
 }) {
 	const filter = (e: {
 		start: CalendarDate | CalendarDateTime;
@@ -738,7 +738,7 @@ function SpectrumAgendaDay(props: {
 	);
 }
 
-function SpectrumAgendaEntry(props: { entry: SpectrumTimeEvent }) {
+function SpectrumAgendaEntry(props: { entry: QutiTimeEvent }) {
 	const [open, setOpen] = useState(false);
 
 	const backgroundColor = (props.entry.color + '-100') as ColorValueV6;
@@ -831,7 +831,7 @@ function SpectrumAgendaEntry(props: { entry: SpectrumTimeEvent }) {
 	return eventEntry;
 }
 
-function SpectrumAgendaDayEntry(props: { entry: SpectrumDayEvent }) {
+function SpectrumAgendaDayEntry(props: { entry: QutiDayEvent }) {
 	const backgroundColor = (props.entry.color + '-100') as ColorValueV6;
 	const borderColor = (props.entry.color + '-1000') as ColorValueV6;
 	const textColor = (props.entry.color + '-1100') as ColorValueV6;
@@ -875,11 +875,11 @@ function SpectrumAgendaDayEntry(props: { entry: SpectrumDayEvent }) {
 	);
 }
 
-export const SpectrumMultiDayView = forwardRef(_SpectrumMultiDayView);
+export const QutiMultiDayView = forwardRef(_SpectrumMultiDayView);
 
 function FullDayEvents(props: {
 	dates: CalendarDate[];
-	layout: LaneLayout<LaneLayoutEntry<SpectrumDayEvent>>;
+	layout: LaneLayout<LaneLayoutEntry<QutiDayEvent>>;
 	noColoredEventText: boolean;
 }) {
 	const height =
@@ -973,14 +973,14 @@ function Content(props: {
 	base: number;
 	date: CalendarDate;
 	scale?: SCALE;
-	entries?: SpectrumTimeEvent[];
+	entries?: QutiTimeEvent[];
 	workhours: Range<number>;
 	hours: number[];
-	actions?: CalendarActionItem[];
+	actions?: QutiActionItem[];
 	compatness: COMPACTNESS;
 	noColoredEventText: boolean;
 	onAction?: (key: React.Key, date: CalendarDate, time: number) => void;
-	moreInfoRenderer?: (eventEntry: SpectrumTimeEvent) => ReactNode | undefined;
+	moreInfoRenderer?: (eventEntry: QutiTimeEvent) => ReactNode | undefined;
 }) {
 	const compute = () => {
 		if (props.entries === undefined) {
@@ -1119,7 +1119,7 @@ function HourSegment(props: {
 	showText: boolean;
 	workhours: Range<number>;
 	hours: number[];
-	actions?: CalendarActionItem[];
+	actions?: QutiActionItem[];
 	onAction?: (key: React.Key, date: CalendarDate, time: number) => void;
 }) {
 	const segment = 100 / props.hours.length;
@@ -1277,7 +1277,7 @@ function HourSegment(props: {
 function ContextMenu(props: {
 	date: CalendarDate;
 	time: number;
-	actions?: CalendarActionItem[];
+	actions?: QutiActionItem[];
 	onAction?: (key: React.Key, date: CalendarDate, time: number) => void;
 }) {
 	const [open, setOpen] = useState(false);
@@ -1321,7 +1321,7 @@ function FullDayEntry(props: {
 	startDate: CalendarDate;
 	endDate: CalendarDate;
 	maxLanes: number;
-	layoutEntry: LaneLayoutEntry<SpectrumDayEvent>;
+	layoutEntry: LaneLayoutEntry<QutiDayEvent>;
 	noColoredEventText: boolean;
 }) {
 	const [open, setOpen] = useState(false);
@@ -1439,12 +1439,12 @@ function FullDayEntry(props: {
 }
 
 function DayEntry(props: {
-	layoutEntry: LaneLayoutEntry<SpectrumTimeEvent>;
+	layoutEntry: LaneLayoutEntry<QutiTimeEvent>;
 	startShift: number;
 	maxLanes: number;
 	compactness: COMPACTNESS;
 	noColoredEventText: boolean;
-	moreInfoRenderer?: (eventEntry: SpectrumTimeEvent) => ReactNode | undefined;
+	moreInfoRenderer?: (eventEntry: QutiTimeEvent) => ReactNode | undefined;
 }) {
 	const eventDiv = useRef<HTMLDivElement>(null);
 	const [fontSize, setFontSize] = useState('1.0em');
@@ -1617,8 +1617,8 @@ function DayEntry(props: {
 function computeDayLayout(
 	startDate: CalendarDate,
 	days: number,
-	entries: readonly SpectrumDayEvent[],
-): LaneLayout<LaneLayoutEntry<SpectrumDayEvent>> {
+	entries: readonly QutiDayEvent[],
+): LaneLayout<LaneLayoutEntry<QutiDayEvent>> {
 	return computeLaneLayout(
 		entries.map((event) => toDayLayoutEntry(startDate, days, event)),
 	);
@@ -1626,9 +1626,9 @@ function computeDayLayout(
 
 function computeTimeLayout(
 	date: CalendarDate,
-	entries: readonly SpectrumTimeEvent[],
+	entries: readonly QutiTimeEvent[],
 	hoursCount: number,
-): LaneLayout<LaneLayoutEntry<SpectrumTimeEvent>> {
+): LaneLayout<LaneLayoutEntry<QutiTimeEvent>> {
 	return computeLaneLayout(
 		entries.map((event) => toTimeLayoutEntry(date, event, hoursCount)),
 	);
@@ -1642,9 +1642,9 @@ function toTimeFraction(time: Time, hoursCount: number) {
 
 function toTimeLayoutEntry(
 	date: CalendarDate,
-	e: SpectrumTimeEvent,
+	e: QutiTimeEvent,
 	hoursCount: number,
-): LaneLayoutEntry<SpectrumTimeEvent> {
+): LaneLayoutEntry<QutiTimeEvent> {
 	const from = isSameDay(date, e.start) ? toTime(e.start) : parseTime('00:00');
 	const to = isSameDay(date, e.end) ? toTime(e.end) : parseTime('24:00');
 	return {
@@ -1664,8 +1664,8 @@ function toDayFraction(totalDays: number, day: number) {
 function toDayLayoutEntry(
 	start: CalendarDate,
 	totalDays: number,
-	e: SpectrumDayEvent,
-): LaneLayoutEntry<SpectrumDayEvent> {
+	e: QutiDayEvent,
+): LaneLayoutEntry<QutiDayEvent> {
 	const from = Math.max(
 		0,
 		Duration.between(start, toCalendarDate(e.start)).toDays(),

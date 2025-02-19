@@ -1,16 +1,12 @@
-export {
-	SpectrumMultiDayView,
-	SpectrumDayView,
-	SpectrumAgenda,
-} from './SpectrumDayView';
+export { QutiMultiDayView, QutiDayView, QutiAgenda } from './SpectrumDayView';
 export type {
 	COMPACTNESS,
-	CalendarActionItem,
+	QutiActionItem,
 	EntryColor,
 	Range,
 	SCALE,
-	SpectrumDayEvent,
-	SpectrumDayViewProperties,
-	SpectrumMultiDayViewProperties,
-	SpectrumTimeEvent,
+	QutiDayEvent,
+	QutiDayViewProperties,
+	QutiMultiDayViewProperties,
+	QutiTimeEvent,
 } from './SpectrumDayView.types';
