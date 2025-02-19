@@ -53,6 +53,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
 	args: {
 		dates: [
+			parseDate('2023-12-31'),
 			parseDate('2024-01-01'),
 			parseDate('2024-01-02'),
 			parseDate('2024-01-03'),
