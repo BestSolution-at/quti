@@ -1,4 +1,4 @@
-import { CSSProperties, JSX, useEffect, useState } from 'react';
+import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 
 import { ColorValue, ColorValueV6, ColorVersion } from '@react-types/shared';
 import {
@@ -7,7 +7,7 @@ import {
 	useStyleProps,
 } from '@react-spectrum/utils';
 import { Text } from '@adobe/react-spectrum';
-import { SpectrumTextProperties } from './SpectrumText.types';
+import { ExtendedTextProperties } from './ExtendedText.types';
 
 // reuse React baseStyleProps, but remove attributes which are supported and forwarded directly
 // to avoid adding duplicates in the UNSAFE_style
@@ -21,9 +21,9 @@ const textStyleProps: StyleHandlers = Object.keys(baseStyleProps).reduce(
 	{} as StyleHandlers,
 );
 
-export function SpectrumText<T, C extends ColorVersion = 5>(
-	props: SpectrumTextProperties<T, C>,
-): JSX.Element {
+export function ExtendedText<T, C extends ColorVersion = 5>(
+	props: ExtendedTextProperties<T, C>,
+): ReactNode {
 	const { styleProps } = useStyleProps(props, textStyleProps);
 
 	const [value, setValue] = useState(props.value);
@@ -88,5 +88,3 @@ function spectrumColorToCssValue6(color: ColorValueV6): string {
 	// see https://github.com/adobe/react-spectrum/blob/61de930401cac9868ac18a9a475ea1cda9453356/packages/@react-spectrum/utils/src/styleProps.ts#L134-L136
 	return `var(--spectrum-alias-text-color-${color}, var(--spectrum-${color}, var(--spectrum-semantic-${color}-color-default)))`;
 }
-
-// var(--spectrum-alias-text-color-red-400, var(--spectrum-global-color-red-400, var(--spectrum-semantic-red-400-color-default)))

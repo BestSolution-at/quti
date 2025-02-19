@@ -1,4 +1,6 @@
-export { QutiMultiDayView, QutiDayView, QutiAgenda } from './SpectrumDayView';
+export { QutiDayView } from './DayView';
+export { QutiMultiDayView } from './MultiDayView';
+export { QutiAgendaView } from './AgendaView';
 export type {
 	COMPACTNESS,
 	QutiActionItem,
@@ -9,4 +11,4 @@ export type {
 	QutiDayViewProperties,
 	QutiMultiDayViewProperties,
 	QutiTimeEvent,
-} from './SpectrumDayView.types';
+} from './View.types';

@@ -11,7 +11,7 @@ type TextColor = {
 	6: ColorValueV6;
 };
 
-export interface SpectrumTextProperties<T, C extends ColorVersion>
+export interface ExtendedTextProperties<T, C extends ColorVersion>
 	extends StyleProps {
 	value: T;
 	formatter?: (val: T | undefined) => string;

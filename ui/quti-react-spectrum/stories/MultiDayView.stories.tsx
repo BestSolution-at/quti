@@ -7,7 +7,7 @@ import {
 } from '@internationalized/date';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { QutiMultiDayView } from '../src/SpectrumDayView';
+import { QutiMultiDayView } from '../src/MultiDayView';
 
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
 
