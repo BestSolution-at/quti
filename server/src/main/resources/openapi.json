@@ -125,7 +125,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Calendar"
+                "$ref": "#/components/schemas/CalendarPatch"
               }
             }
           }
@@ -408,7 +408,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Event"
+                "$ref": "#/components/schemas/EventPatch"
               }
             }
           }
@@ -718,6 +718,22 @@
           "owner": {
             "type": "string"
           }
+        },
+        "required": [
+          "key",
+          "owner"
+        ]
+      },
+      "CalendarPatch": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string",
+            "nullable": true
+          }
         }
       },
       "CalendarNew": {
@@ -729,7 +745,10 @@
           "owner": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "owner"
+        ]
       },
       "EventRepeatDaily": {
         "type": "object",
@@ -747,6 +766,27 @@
             "type": "string"
           },
           "@type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "endDate"
+        ]
+      },
+      "EventRepeatDailyPatch": {
+        "type": "object",
+        "properties": {
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date",
+            "nullable": true
+          },
+          "timeZone": {
             "type": "string"
           }
         }
@@ -775,6 +815,33 @@
           "@type": {
             "type": "string"
           }
+        },
+        "required": [
+          "endDate"
+        ]
+      },
+      "EventRepeatWeeklyPatch": {
+        "type": "object",
+        "properties": {
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date",
+            "nullable": true
+          },
+          "timeZone": {
+            "type": "string"
+          }
         }
       },
       "EventRepeatAbsoluteMonthly": {
@@ -797,6 +864,31 @@
             "type": "string"
           },
           "@type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "endDate"
+        ]
+      },
+      "EventRepeatAbsoluteMonthlyPatch": {
+        "type": "object",
+        "properties": {
+          "dayOfMonth": {
+            "type": "number",
+            "format": "int32"
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date",
+            "nullable": true
+          },
+          "timeZone": {
             "type": "string"
           }
         }
@@ -826,6 +918,34 @@
           "@type": {
             "type": "string"
           }
+        },
+        "required": [
+          "endDate"
+        ]
+      },
+      "EventRepeatAbsoluteYearlyPatch": {
+        "type": "object",
+        "properties": {
+          "dayOfMonth": {
+            "type": "number",
+            "format": "int32"
+          },
+          "month": {
+            "$ref": "#/components/schemas/Month"
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date",
+            "nullable": true
+          },
+          "timeZone": {
+            "type": "string"
+          }
         }
       },
       "EventRepeatRelativeMonthly": {
@@ -850,6 +970,33 @@
             "type": "string"
           },
           "@type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "endDate"
+        ]
+      },
+      "EventRepeatRelativeMonthlyPatch": {
+        "type": "object",
+        "properties": {
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date",
+            "nullable": true
+          },
+          "timeZone": {
             "type": "string"
           }
         }
@@ -879,6 +1026,36 @@
             "type": "string"
           },
           "@type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "endDate"
+        ]
+      },
+      "EventRepeatRelativeYearlyPatch": {
+        "type": "object",
+        "properties": {
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          },
+          "month": {
+            "$ref": "#/components/schemas/Month"
+          },
+          "interval": {
+            "type": "number",
+            "format": "int32"
+          },
+          "endDate": {
+            "type": "string",
+            "pattern": "\\d\\d\\d\\d-\\d\\d-\\d\\d",
+            "format": "date",
+            "nullable": true
+          },
+          "timeZone": {
             "type": "string"
           }
         }
@@ -951,7 +1128,12 @@
               "type": "string"
             }
           }
-        }
+        },
+        "required": [
+          "description",
+          "fullday",
+          "repeat"
+        ]
       },
       "Event": {
         "type": "object",
@@ -978,6 +1160,52 @@
           },
           "repeat": {
             "$ref": "#/components/schemas/EventRepeat"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "referencedCalendars": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "key",
+          "description",
+          "fullday",
+          "repeat"
+        ]
+      },
+      "EventPatch": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "start": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "fullday": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "repeat": {
+            "$ref": "#/components/schemas/EventRepeat",
+            "nullable": true
           },
           "tags": {
             "type": "array",
@@ -1041,7 +1269,10 @@
           "@type": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "key"
+        ]
       },
       "SeriesMovedEventView": {
         "type": "object",
@@ -1102,7 +1333,10 @@
           "@type": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "key"
+        ]
       },
       "SeriesEventView": {
         "type": "object",
@@ -1155,7 +1389,10 @@
           "@type": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "key"
+        ]
       },
       "EventView": {
         "oneOf": [
@@ -1199,7 +1436,14 @@
               "type": "string"
             }
           }
-        }
+        },
+        "required": [
+          "owner",
+          "title",
+          "description",
+          "fullday",
+          "tags"
+        ]
       }
     }
   }
