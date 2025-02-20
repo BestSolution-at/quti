@@ -52,5 +52,5 @@
     "stylelint-config-standard": "^36.0.0",
     "stylelint-formatter-gitlab": "^1.0.2"
   },
-  "license": "GPL"
+  "license": "GPL-3.0"
 }
