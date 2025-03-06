@@ -4,9 +4,11 @@ package at.bestsolution.quti.service;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.model.EventSearch;
 
 public interface EventService {
 	public String create(BuilderFactory _factory, String calendar, EventNew.Data event)
@@ -16,6 +18,9 @@ public interface EventService {
 	public Event.Data get(BuilderFactory _factory, String calendar, String key, ZoneId timezone)
 			throws NotFoundException,
 			InvalidArgumentException;
+
+	public List<Event.Data> search(BuilderFactory _factory, String calendar, EventSearch.Data filter, ZoneId timezone)
+			throws InvalidArgumentException;
 
 	public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes);
 

@@ -169,6 +169,18 @@ record EventViewFilter {
     tags?: string[]
 }
 
+record EventSearch {
+	// fullday?: boolean
+	tags?: string[]
+	startRange?: DateTimeRange
+	endRange?: DateTimeRange
+}
+
+record DateTimeRange {
+	min?: zoned-date-time
+	max?: zoned-date-time
+}
+
 error NotFound;
 error InvalidContent;
 error InvalidArgument;
@@ -251,6 +263,15 @@ service Event {
 		 *>
     operation get(calendar: string, key: string, timezone: ZoneId): Event
 			throws NotFound InvalidArgument;
+
+		<*
+		 * @param calendar - key of the calendar owning the event
+		 * @param filter - filter to apply on the search
+		 * @param timezone -  the timezone the date-time is in
+		 * @return all events matchinf the filter
+		 *>
+		operation search(calendar: string, filter: EventSearch, timezone?: ZoneId): Event[]
+			throws InvalidArgument;
 
 		<*
 		 * update an event

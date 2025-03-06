@@ -4,6 +4,7 @@ package at.bestsolution.quti.rest;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.model.EventSearch;
 
 @Singleton
 public class EventResourceResponseBuilder {
@@ -20,6 +22,10 @@ public class EventResourceResponseBuilder {
 	}
 
 	public ResponseBuilder get(Event.Data result, String calendar, String key, ZoneId timezone) {
+		return Response.status(200).entity(_JsonUtils.toJsonString(result, false));
+	}
+
+	public ResponseBuilder search(List<Event.Data> result, String calendar, EventSearch.Data filter, ZoneId timezone) {
 		return Response.status(200).entity(_JsonUtils.toJsonString(result, false));
 	}
 

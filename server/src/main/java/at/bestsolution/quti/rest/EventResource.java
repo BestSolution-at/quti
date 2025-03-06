@@ -24,6 +24,7 @@ import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.InvalidArgumentException;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.model.EventSearch;
 import at.bestsolution.quti.service.NotFoundException;
 
 @ApplicationScoped
@@ -71,6 +72,23 @@ public class EventResource {
             return responseBuilder.get(result,calendar, key, timezone).build();
         } catch(NotFoundException e) {
             return _RestUtils.toResponse(404, e);
+        } catch(InvalidArgumentException e) {
+            return _RestUtils.toResponse(400, e);
+        }
+    }
+
+    @PUT
+    @Path("search")
+    public Response search(
+        @PathParam("calendar") String _calendar,
+        String _filter,
+        @HeaderParam("timezone") String _timezone) {
+        var calendar = _calendar;
+        var filter = builderFactory.of(EventSearch.Data.class, _filter);
+        var timezone = _timezone == null ? null : ZoneId.of(_timezone);
+        try {
+            var result = service.search(builderFactory, calendar, filter, timezone);
+            return responseBuilder.search(result,calendar, filter, timezone).build();
         } catch(InvalidArgumentException e) {
             return _RestUtils.toResponse(400, e);
         }

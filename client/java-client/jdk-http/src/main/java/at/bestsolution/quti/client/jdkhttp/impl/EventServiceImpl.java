@@ -10,6 +10,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -21,6 +22,7 @@ import at.bestsolution.quti.client.jdkhttp.impl.model._JsonUtils;
 import at.bestsolution.quti.client.jdkhttp.impl.model.EventDataImpl;
 import at.bestsolution.quti.client.model.Event;
 import at.bestsolution.quti.client.model.EventNew;
+import at.bestsolution.quti.client.model.EventSearch;
 import at.bestsolution.quti.client.NotFoundException;
 
 public class EventServiceImpl implements EventService {
@@ -106,6 +108,78 @@ public class EventServiceImpl implements EventService {
             throw new IllegalStateException(e);
         }
     }
+
+    public List<Event.Data> search(String calendar, EventSearch.Data filter)
+        throws InvalidArgumentException {
+        Objects.requireNonNull(calendar, "calendar must not be null");
+        Objects.requireNonNull(filter, "filter must not be null");
+
+        var $path = "%s/api/calendar/%s/events/search".formatted(
+            this.baseURI,
+            calendar
+        );
+
+        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
+
+        var $uri = URI.create($path);
+        var $request = HttpRequest.newBuilder()
+                .uri($uri)
+                .header("Content-Type", "application/json")
+                .PUT($body)
+                .build();
+
+        try {
+            var $response = this.client.send($request, BodyHandlers.ofString());
+            if ($response.statusCode() == 200 ) {
+                return ServiceUtils.mapObjects($response, EventDataImpl::of);
+            } else if ($response.statusCode() == 400 ) {
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
+            }
+            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+        } catch (IOException | InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public List<Event.Data> search(String calendar, EventSearch.Data filter, ZoneId timezone)
+        throws InvalidArgumentException {
+        Objects.requireNonNull(calendar, "calendar must not be null");
+        Objects.requireNonNull(filter, "filter must not be null");
+        Objects.requireNonNull(timezone, "timezone must not be null");
+
+        var $path = "%s/api/calendar/%s/events/search".formatted(
+            this.baseURI,
+            calendar
+        );
+
+        var $headerParams = Map.of(
+            "timezone",Objects.toString(timezone)
+        );
+        var $headers = ServiceUtils.toHeaders($headerParams);
+
+        var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
+
+        var $uri = URI.create($path);
+        var $request = HttpRequest.newBuilder()
+                .uri($uri)
+                .headers($headers)
+                .header("Content-Type", "application/json")
+                .PUT($body)
+                .build();
+
+        try {
+            var $response = this.client.send($request, BodyHandlers.ofString());
+            if ($response.statusCode() == 200 ) {
+                return ServiceUtils.mapObjects($response, EventDataImpl::of);
+            } else if ($response.statusCode() == 400 ) {
+                throw new InvalidArgumentException(ServiceUtils.mapString($response));
+            }
+            throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+        } catch (IOException | InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
 
     public void update(String calendar, String key, Event.Patch changes) {
         Objects.requireNonNull(calendar, "calendar must not be null");

@@ -471,6 +471,68 @@
         }
       }
     },
+    "/api/calendar/{calendar}/events/search": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "calendar",
+            "description": "key of the calendar owning the event",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timezone",
+            "description": "the timezone the date",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventSearch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/calendar/{calendar}/events/{key}/action/cancel": {
       "put": {
         "tags": [
@@ -1443,6 +1505,45 @@
           "description",
           "fullday",
           "tags"
+        ]
+      },
+      "EventSearch": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "startRange": {
+            "$ref": "#/components/schemas/DateTimeRange"
+          },
+          "endRange": {
+            "$ref": "#/components/schemas/DateTimeRange"
+          }
+        },
+        "required": [
+          "tags",
+          "startRange",
+          "endRange"
+        ]
+      },
+      "DateTimeRange": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "string",
+            "format": "zoned-date-time"
+          },
+          "max": {
+            "type": "string",
+            "format": "zoned-date-time"
+          }
+        },
+        "required": [
+          "min",
+          "max"
         ]
       }
     }

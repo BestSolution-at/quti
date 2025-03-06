@@ -41,6 +41,11 @@ resource Event at '/api/calendar/${calendar}/events' {
 			404: NotFound
       400: InvalidArgument
 		}
+		PUT search at 'search'
+				header-param timezone => {
+				200
+				400: InvalidArgument
+		}
     DELETE delete   at '${key}'
     PUT endRepeat   at '${key}/action/end-repeat'
     PUT move        at '${key}/action/move'

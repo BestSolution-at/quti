@@ -737,6 +737,77 @@
           "doc": ""
         }
       ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "EventSearch",
+      "patchable": false,
+      "mixins": [],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "tags",
+          "array": true,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "startRange",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "record",
+          "type": "DateTimeRange",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "endRange",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "record",
+          "type": "DateTimeRange",
+          "doc": ""
+        }
+      ]
+    },
+    {
+      "@type": "RecordType",
+      "name": "DateTimeRange",
+      "patchable": false,
+      "mixins": [],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "min",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "max",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time",
+          "doc": ""
+        }
+      ]
     }
   ],
   "services": [
@@ -1178,6 +1249,83 @@
                 {
                   "statusCode": 404,
                   "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "search",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "calendar",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "key of the calendar owning the event",
+              "meta": {
+                "rest": {
+                  "name": "calendar",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "filter",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "record",
+              "type": "EventSearch",
+              "doc": "filter to apply on the search"
+            },
+            {
+              "@type": "Parameter",
+              "name": "timezone",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "scalar",
+              "type": "ZoneId",
+              "doc": "the timezone the date",
+              "meta": {
+                "rest": {
+                  "name": "timezone",
+                  "source": "header"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": true,
+            "variant": "record",
+            "type": "Event",
+            "doc": ""
+          },
+          "errors": [
+            "InvalidArgument"
+          ],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "search",
+              "results": [
+                {
+                  "statusCode": 200
                 },
                 {
                   "statusCode": 400,

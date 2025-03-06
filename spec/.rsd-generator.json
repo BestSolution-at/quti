@@ -51,6 +51,10 @@
 								"version": "1.0.0"
 							}
 						}
+				},
+				{
+					"name": "typescript-client-api",
+					"targetFolder": "../demo-deno"
 				}
     ]
 }

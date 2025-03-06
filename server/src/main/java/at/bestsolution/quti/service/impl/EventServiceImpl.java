@@ -4,6 +4,7 @@ package at.bestsolution.quti.service.impl;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 import jakarta.inject.Singleton;
 
@@ -12,12 +13,14 @@ import at.bestsolution.quti.service.EventService;
 import at.bestsolution.quti.service.InvalidArgumentException;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
+import at.bestsolution.quti.service.model.EventSearch;
 import at.bestsolution.quti.service.NotFoundException;
 
 @Singleton
 public class EventServiceImpl implements EventService {
 	private final CreateHandler createHandler;
 	private final GetHandler getHandler;
+	private final SearchHandler searchHandler;
 	private final UpdateHandler updateHandler;
 	private final DeleteHandler deleteHandler;
 	private final CancelHandler cancelHandler;
@@ -26,9 +29,10 @@ public class EventServiceImpl implements EventService {
 	private final EndRepeatHandler endRepeatHandler;
 	private final DescriptionHandler descriptionHandler;
 
-	public EventServiceImpl(CreateHandler createHandler, GetHandler getHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, CancelHandler cancelHandler, UncancelHandler uncancelHandler, MoveHandler moveHandler, EndRepeatHandler endRepeatHandler, DescriptionHandler descriptionHandler) {
+	public EventServiceImpl(CreateHandler createHandler, GetHandler getHandler, SearchHandler searchHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, CancelHandler cancelHandler, UncancelHandler uncancelHandler, MoveHandler moveHandler, EndRepeatHandler endRepeatHandler, DescriptionHandler descriptionHandler) {
 		this.createHandler = createHandler;
 		this.getHandler = getHandler;
+		this.searchHandler = searchHandler;
 		this.updateHandler = updateHandler;
 		this.deleteHandler = deleteHandler;
 		this.cancelHandler = cancelHandler;
@@ -50,6 +54,12 @@ public class EventServiceImpl implements EventService {
 			throws NotFoundException,
 			InvalidArgumentException{
 		return getHandler.get(_factory, calendar, key, timezone);
+	}
+
+	@Override
+	public List<Event.Data> search(BuilderFactory _factory, String calendar, EventSearch.Data filter, ZoneId timezone)
+			throws InvalidArgumentException{
+		return searchHandler.search(_factory, calendar, filter, timezone);
 	}
 
 	@Override
@@ -96,6 +106,10 @@ public class EventServiceImpl implements EventService {
 		public Event.Data get(BuilderFactory _factory, String calendar, String key, ZoneId timezone)
 				throws NotFoundException,
 				InvalidArgumentException;
+	}
+	public interface SearchHandler {
+		public List<Event.Data> search(BuilderFactory _factory, String calendar, EventSearch.Data filter, ZoneId timezone)
+				throws InvalidArgumentException;
 	}
 	public interface UpdateHandler {
 		public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes);

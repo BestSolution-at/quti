@@ -7,6 +7,7 @@ import at.bestsolution.quti.rest.model._JsonUtils;
 import at.bestsolution.quti.rest.model.CalendarDataImpl;
 import at.bestsolution.quti.rest.model.CalendarDataPatchImpl;
 import at.bestsolution.quti.rest.model.CalendarNewDataImpl;
+import at.bestsolution.quti.rest.model.DateTimeRangeDataImpl;
 import at.bestsolution.quti.rest.model.EventDataImpl;
 import at.bestsolution.quti.rest.model.EventDataPatchImpl;
 import at.bestsolution.quti.rest.model.EventNewDataImpl;
@@ -16,6 +17,7 @@ import at.bestsolution.quti.rest.model.EventRepeatDailyDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatRelativeMonthlyDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatRelativeYearlyDataImpl;
 import at.bestsolution.quti.rest.model.EventRepeatWeeklyDataImpl;
+import at.bestsolution.quti.rest.model.EventSearchDataImpl;
 import at.bestsolution.quti.rest.model.EventViewFilterDataImpl;
 import at.bestsolution.quti.rest.model.SeriesEventViewDataImpl;
 import at.bestsolution.quti.rest.model.SeriesMovedEventViewDataImpl;
@@ -24,6 +26,7 @@ import at.bestsolution.quti.service.BuilderFactory;
 import at.bestsolution.quti.service.model._Base;
 import at.bestsolution.quti.service.model.Calendar;
 import at.bestsolution.quti.service.model.CalendarNew;
+import at.bestsolution.quti.service.model.DateTimeRange;
 import at.bestsolution.quti.service.model.Event;
 import at.bestsolution.quti.service.model.EventNew;
 import at.bestsolution.quti.service.model.EventRepeatAbsoluteMonthly;
@@ -32,6 +35,7 @@ import at.bestsolution.quti.service.model.EventRepeatDaily;
 import at.bestsolution.quti.service.model.EventRepeatRelativeMonthly;
 import at.bestsolution.quti.service.model.EventRepeatRelativeYearly;
 import at.bestsolution.quti.service.model.EventRepeatWeekly;
+import at.bestsolution.quti.service.model.EventSearch;
 import at.bestsolution.quti.service.model.EventViewFilter;
 import at.bestsolution.quti.service.model.SeriesEventView;
 import at.bestsolution.quti.service.model.SeriesMovedEventView;
@@ -61,6 +65,12 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == EventViewFilter.DataBuilder.class) {
 			return type.cast(EventViewFilterDataImpl.builder());
+		}
+		if (type == EventSearch.DataBuilder.class) {
+			return type.cast(EventSearchDataImpl.builder());
+		}
+		if (type == DateTimeRange.DataBuilder.class) {
+			return type.cast(DateTimeRangeDataImpl.builder());
 		}
 		if (type == EventRepeatDaily.DataBuilder.class) {
 			return type.cast(EventRepeatDailyDataImpl.builder());
@@ -113,6 +123,12 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == EventViewFilter.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventViewFilterDataImpl::of));
+		}
+		if (type == EventSearch.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventSearchDataImpl::of));
+		}
+		if (type == DateTimeRange.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, DateTimeRangeDataImpl::of));
 		}
 		if (type == EventRepeatDaily.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventRepeatDailyDataImpl::of));
