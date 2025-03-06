@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -145,6 +146,7 @@ public class BaseTest {
 		event.description = "A simple none repeating event";
 		event.start = ZonedDateTime.parse("2024-01-10T07:00:00+01:00[Europe/Vienna]");
 		event.end = ZonedDateTime.parse("2024-01-10T13:00:00+01:00[Europe/Vienna]");
+		event.tags = List.of("sample-tag-1");
 		em.persist(event);
 
 		simpleEventKey = event.key;
@@ -169,7 +171,6 @@ public class BaseTest {
 
 		simpleEventCanceledKey = event.key;
 	}
-
 
 	private void createSimpleSummerEvent(CalendarEntity calendar) {
 		var event = new EventEntity();
