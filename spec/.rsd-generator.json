@@ -55,6 +55,11 @@
 				{
 					"name": "typescript-client-api",
 					"targetFolder": "../demo-deno"
+				},
+				{
+					"name": "typescript-rest-client-fetch",
+					"targetFolder": "../demo-deno/services",
+					"apiNamespacePath": "../index.ts"
 				}
     ]
 }
