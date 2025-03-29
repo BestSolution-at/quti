@@ -19,7 +19,12 @@ export function ifDefined<T>(value: T | undefined, block: (v: T) => void) {
 	}
 }
 
-export function execute<T>(value: T, block: () => void): T {
-	block();
+export function safeExecute<T>(value: T, block: () => void): T {
+	try {
+		block();
+	} catch (e) {
+		console.error('Failed running block', e);
+	}
+
 	return value;
 }

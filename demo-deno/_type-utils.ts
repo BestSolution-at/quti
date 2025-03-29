@@ -307,86 +307,24 @@ export type RSDError<T> = {
 	_type: T;
 };
 
-export type Fetch = typeof fetch;
-export type ServiceProps<T> = {
-	baseUrl: string;
-	fetchAPI?: Fetch;
-	typeCheck?: boolean;
-	lifecycleHandlers?: {
-		preFetch?: (method: string) => RequestInit;
-		onSuccess?: (method: string, value: unknown) => void;
-		onError?: (method: string, err: RSDError<T>) => void;
-		onCatch?: (method: string, err: unknown) => void;
-		final?: (method: string) => void;
-	};
-};
-
 export const None: unique symbol = Symbol('None');
 export type NoneType = typeof None;
+export const Void: unique symbol = Symbol('Void');
+export type VoidType = typeof Void;
 
-export function isOk<T, E>(
-	value: Result<T, E>
-): value is {
-	readonly Ok: T;
-	readonly Err: NoneType;
-} {
-	return value.Ok !== None;
+export function isOk<T, E>(value: Result<T, E>): value is [T, NoneType] {
+	return value[0] !== None;
 }
 
-export type Result<T, E> =
-	| {
-			readonly Ok: T;
-			readonly Err: NoneType;
-	  }
-	| { readonly Ok: NoneType; readonly Err: E };
+type Ok<T> = readonly [T, NoneType];
+type Err<E> = readonly [NoneType, E];
 
-export function OK<T, E>(value: T): Result<T, E> {
-	return {
-		Ok: value,
-		Err: None,
-	};
+export type Result<T, E> = Ok<T> | Err<E>;
+
+export function OK<T>(value: T): Ok<T> {
+	return [value, None];
 }
 
-export function ERR<T, E>(err: E): Result<T, E> {
-	return {
-		Ok: None,
-		Err: err,
-	};
-}
-
-type IfThen<T, E> = {
-	then: (block: (v: T) => void) => { else: (block: (v: E) => void) => void };
-	map: <U>(block: (v: T) => U) => IfThen<U, E>;
-};
-
-export function If<T, E>(result: Result<T, E>): IfThen<T, E> {
-	return {
-		map: <U>(block: (v: T) => U) => {
-			const { Ok, Err } = result;
-			if (Ok !== None) {
-				return If(OK(block(Ok)));
-			}
-			return If(ERR(Err)) as IfThen<U, E>;
-		},
-		then: (block: (v: T) => void) => {
-			const { Ok, Err } = result;
-			if (Ok !== None) {
-				block(Ok);
-				return {
-					else: () => {
-						// Nothing
-					},
-				};
-			}
-
-			return {
-				else: (block: (v: E) => void) => {
-					if (Err !== None) {
-						return block(Err);
-					}
-					console.error('Should not get here');
-				},
-			};
-		},
-	};
+export function ERR<E>(err: E): Err<E> {
+	return [None, err];
 }
