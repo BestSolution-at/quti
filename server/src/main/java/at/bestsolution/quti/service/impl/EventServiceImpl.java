@@ -63,7 +63,9 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes){
+	public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes)
+			throws NotFoundException,
+			InvalidArgumentException{
 		updateHandler.update(_factory, calendar, key, changes);
 	}
 
@@ -112,7 +114,9 @@ public class EventServiceImpl implements EventService {
 				throws InvalidArgumentException;
 	}
 	public interface UpdateHandler {
-		public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes);
+		public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes)
+				throws NotFoundException,
+				InvalidArgumentException;
 	}
 	public interface DeleteHandler {
 		public void delete(BuilderFactory _factory, String calendar, String key);

@@ -22,7 +22,9 @@ public interface EventService {
 	public List<Event.Data> search(BuilderFactory _factory, String calendar, EventSearch.Data filter, ZoneId timezone)
 			throws InvalidArgumentException;
 
-	public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes);
+	public void update(BuilderFactory _factory, String calendar, String key, Event.Patch changes)
+			throws NotFoundException,
+			InvalidArgumentException;
 
 	public void delete(BuilderFactory _factory, String calendar, String key);
 

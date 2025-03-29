@@ -25,7 +25,9 @@ public interface EventService extends BaseService {
 	public List<Event.Data> search(String calendar, EventSearch.Data filter, ZoneId timezone)
 			throws InvalidArgumentException;
 
-	public void update(String calendar, String key, Event.Patch changes);
+	public void update(String calendar, String key, Event.Patch changes)
+			throws NotFoundException,
+			InvalidArgumentException;
 
 	public void delete(String calendar, String key);
 

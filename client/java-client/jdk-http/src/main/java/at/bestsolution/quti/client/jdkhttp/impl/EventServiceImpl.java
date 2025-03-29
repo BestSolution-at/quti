@@ -181,7 +181,9 @@ public class EventServiceImpl implements EventService {
     }
 
 
-    public void update(String calendar, String key, Event.Patch changes) {
+    public void update(String calendar, String key, Event.Patch changes)
+        throws NotFoundException,
+            InvalidArgumentException {
         Objects.requireNonNull(calendar, "calendar must not be null");
         Objects.requireNonNull(key, "key must not be null");
         Objects.requireNonNull(changes, "changes must not be null");

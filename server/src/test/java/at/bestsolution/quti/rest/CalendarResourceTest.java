@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.BaseTest;
