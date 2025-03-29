@@ -280,7 +280,8 @@ service Event {
 		 * @param key - key of the event
 		 * @param changes - the changes to apply
 		 *>
-    operation update(calendar: string, key: string, @patch changes: Event);
+    operation update(calendar: string, key: string, @patch changes: Event)
+			throws NotFound InvalidArgument;
 
     <*
      * delete an event

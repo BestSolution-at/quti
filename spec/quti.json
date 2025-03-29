@@ -1386,7 +1386,10 @@
               "doc": "the changes to apply"
             }
           ],
-          "errors": [],
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
           "meta": {
             "rest": {
               "method": "PATCH",
