@@ -1,0 +1,92 @@
+export const metadata = {
+  title: 'Calendar',
+  description:
+    'On this page, we’ll dive into the different calendar endpoints you can use to manage calendars programmatically.',
+}
+
+# Calendar
+
+On this page we'll dive in the calendar endpoints you
+can use to create/modify/delete calendars and query for
+events
+
+## The new calendar model
+
+The new calendar model is used to create a calendar
+
+### Properties
+
+<Properties>
+	<Property name="name" type="string">
+    Name of the calendar
+	</Property>
+</Properties>
+
+## The calendar model
+
+The calendar model holds all information about a calendar
+
+## The calendar patch model
+
+The calendar patch model allows user to apply partial updates on a calendar
+
+---
+
+## Create a calendar {{ tag: 'POST', label: '/calendar' }}
+
+<Row>
+	<Col>
+		This endpoint allows you to create a new calendar
+
+		### Required attributes
+
+		<Properties>
+			<Property name="calendar" type="CalendarNew">
+				The data for the new calendar
+			</Property>
+		</Properties>
+	</Col>
+	<Col sticky>
+		<CodeGroup title="Request" tag="POST" label="/calendar">
+			```bash {{ title: 'cURL' }}
+			curl ...
+			```
+			```java {{ title: 'Java' }}
+			import at.bestsolution.quti.client.CalendarService;
+			...
+			var client = JDKQutiClient
+				.create(URI.create("http://localhost:8080"));
+			var calendarService = client
+				.service(CalendarService.class);
+
+			var builder = client
+				.builder(CalendarNew.DataBuilder.class);
+			var dto = builder
+				.name("Quti Calendar")
+				.owner("John Doe")
+				.build();
+			var calendarId = calendarService.create(dto);
+			```
+			```typescript
+			import { createCalendarService } from '@quti/cal';
+
+			const service = createCalendarService({
+				baseUrl: 'http://127.0.0.1:8083',
+			});
+
+			const [calendarId, errorCreate] = await service.create({
+				name: 'Quti Calendar',
+				owner: 'John Doe',
+			});
+			```
+		</CodeGroup>
+	</Col>
+</Row>
+
+## Get a calendar {{ tag: 'GET', label: '/calendar/:id' }}
+
+## Update a calendar {{ tag: 'PATCH', label: '/calendar/:id' }}
+
+## Delete a calendar {{ tag: 'DELETE', label: '/calendar/:id' }}
+
+## View events in calendar {{ tag: 'GET', label: '/calendar/:id/view' }}
