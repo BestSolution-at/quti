@@ -866,6 +866,13 @@
           "errors": [
             "InvalidContent"
           ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "InvalidContent",
+              "doc": "if the passed calendar data is not valid (eg not all required props filled)"
+            }
+          ],
           "meta": {
             "rest": {
               "method": "POST",
@@ -915,6 +922,18 @@
           "errors": [
             "NotFound",
             "InvalidArgument"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if the key is not an UUID"
+            }
           ],
           "meta": {
             "rest": {
@@ -973,6 +992,18 @@
           "errors": [
             "NotFound",
             "InvalidArgument"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if the key is not an UUID"
+            }
           ],
           "meta": {
             "rest": {
@@ -1096,6 +1127,18 @@
             "NotFound",
             "InvalidArgument"
           ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if one of the parameters is invalid"
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -1172,6 +1215,18 @@
           "errors": [
             "NotFound",
             "InvalidArgument"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if the calendar parameter is not an UUID"
+            }
           ],
           "meta": {
             "rest": {
@@ -1261,6 +1316,18 @@
             "NotFound",
             "InvalidArgument"
           ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found, or the event key is not found in the given calendar"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if one of the parameters is invalid"
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -1342,6 +1409,13 @@
           "errors": [
             "InvalidArgument"
           ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if one of the parameters is invalid"
+            }
+          ],
           "meta": {
             "rest": {
               "method": "PUT",
@@ -1413,6 +1487,18 @@
             "NotFound",
             "InvalidArgument"
           ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found, or the event key is not found in the given calendar"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if one of the parameters is invalid"
+            }
+          ],
           "meta": {
             "rest": {
               "method": "PATCH",
@@ -1474,6 +1560,7 @@
             }
           ],
           "errors": [],
+          "operationErrors": [],
           "meta": {
             "rest": {
               "method": "DELETE",
@@ -1523,6 +1610,7 @@
             }
           ],
           "errors": [],
+          "operationErrors": [],
           "meta": {
             "rest": {
               "method": "PUT",
@@ -1572,6 +1660,7 @@
             }
           ],
           "errors": [],
+          "operationErrors": [],
           "meta": {
             "rest": {
               "method": "PUT",
@@ -1643,6 +1732,7 @@
             }
           ],
           "errors": [],
+          "operationErrors": [],
           "meta": {
             "rest": {
               "method": "PUT",
@@ -1703,6 +1793,7 @@
             }
           ],
           "errors": [],
+          "operationErrors": [],
           "meta": {
             "rest": {
               "method": "PUT",
@@ -1763,6 +1854,7 @@
             }
           ],
           "errors": [],
+          "operationErrors": [],
           "meta": {
             "rest": {
               "method": "PUT",

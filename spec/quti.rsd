@@ -195,7 +195,8 @@ service Calendar {
      *>
     operation create(calendar: CalendarNew): string
         throws
-            InvalidContent;
+            InvalidContent << if the passed calendar data is not valid (eg not all required props filled)
+				;
 
     <*
      * get a calendar
@@ -205,8 +206,8 @@ service Calendar {
      *>
     operation get(key: string): Calendar
         throws
-            NotFound        << if calendar with the given key is not found
-            InvalidArgument << if the key is not an UUID
+          NotFound        << if calendar with the given key is not found
+          InvalidArgument << if the key is not an UUID
         ;
 		<*
 		 * update a calendar
@@ -216,8 +217,9 @@ service Calendar {
 		 *>
 		operation update(key: string, @patch changes: Calendar)
 			throws
-				NotFound
-				InvalidArgument;
+				NotFound				<< if calendar with the given key is not found
+				InvalidArgument << if the key is not an UUID
+			;
 
     <*
      * get a view of all events in a date range
@@ -235,8 +237,9 @@ service Calendar {
         timezone: ZoneId,
         resultTimeZone?: ZoneId): EventView[]
         throws
-            NotFound
-            InvalidArgument;
+          NotFound				<< if calendar with the given key is not found
+          InvalidArgument << if one of the parameters is invalid
+				;
 }
 
 << Service to create and modify events in a calendar
@@ -250,8 +253,9 @@ service Event {
      *>
     operation create(calendar: string, event: EventNew): string
         throws
-            NotFound
-            InvalidArgument;
+					NotFound				<< if calendar with the given key is not found
+					InvalidArgument	<< if the calendar parameter is not an UUID
+				;
 
 		<*
 		 * get an event
@@ -262,7 +266,10 @@ service Event {
 		 * @returns the event
 		 *>
     operation get(calendar: string, key: string, timezone: ZoneId): Event
-			throws NotFound InvalidArgument;
+				throws
+					NotFound				<< if calendar with the given key is not found, or the event key is not found in the given calendar
+					InvalidArgument	<< if one of the parameters is invalid
+				;
 
 		<*
 		 * @param calendar - key of the calendar owning the event
@@ -271,7 +278,8 @@ service Event {
 		 * @return all events matchinf the filter
 		 *>
 		operation search(calendar: string, filter: EventSearch, timezone?: ZoneId): Event[]
-			throws InvalidArgument;
+				throws InvalidArgument << if one of the parameters is invalid
+			;
 
 		<*
 		 * update an event
@@ -281,7 +289,10 @@ service Event {
 		 * @param changes - the changes to apply
 		 *>
     operation update(calendar: string, key: string, @patch changes: Event)
-			throws NotFound InvalidArgument;
+			throws
+				NotFound << if calendar with the given key is not found, or the event key is not found in the given calendar
+				InvalidArgument << if one of the parameters is invalid
+			;
 
     <*
      * delete an event
