@@ -8,7 +8,7 @@ export type ServiceProps<T> = {
 	lifecycleHandlers?: {
 		preFetch?: (method: string) => RequestInit | Promise<RequestInit>;
 		onSuccess?: (method: string, value: unknown) => void;
-		onError?: (method: string, err: api.utils.RSDError<T>) => void;
+		onError?: (method: string, err: api.result.RSDError<T>) => void;
 		onCatch?: (method: string, err: unknown) => void;
 		final?: (method: string) => void;
 	};
