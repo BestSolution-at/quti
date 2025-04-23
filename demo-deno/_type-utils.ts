@@ -30,6 +30,14 @@ export function isArray(value: unknown): value is Array<unknown> {
 	return isNotNull(value) && isDefined(value) && Array.isArray(value);
 }
 
+export function isRecord(value: unknown): value is Record<string, unknown> {
+	return isNotNull(value) && typeof value === 'object' && !isArray(value);
+}
+
+export function isString(value: unknown): value is string {
+	return typeof value === 'string';
+}
+
 export function isStringType<T extends string>(
 	value: unknown,
 	type: T
@@ -41,6 +49,12 @@ export function createIsStringTypeGuard<T extends string>(
 	type: T
 ): (v: unknown) => v is T {
 	return (v) => isStringType(v, type);
+}
+
+export function createTypedArrayGuard<T>(
+	guard: (v: unknown) => v is T
+): (v: unknown) => v is T[] {
+	return (v) => isTypedArray(v, guard);
 }
 
 export function isTypedArray<T>(
@@ -55,20 +69,6 @@ export function isTypedArray<T>(
 		return value.find(guard) === undefined;
 	}
 	return false;
-}
-
-export function createTypedArrayGuard<T>(
-	guard: (v: unknown) => v is T
-): (v: unknown) => v is T[] {
-	return (v) => isTypedArray(v, guard);
-}
-
-export function isRecord(value: unknown): value is Record<string, unknown> {
-	return isNotNull(value) && typeof value === 'object' && !isArray(value);
-}
-
-export function isString(value: unknown): value is string {
-	return typeof value === 'string';
 }
 
 export class PropertyCheckError extends Error {
