@@ -1,0 +1,106 @@
+scalar UUID;
+scalar ZoneId;
+scalar Month;
+scalar DayOfWeek;
+
+entity Calendar {
+	@id ca_id: 				long 		as id
+	@rev ca_version: 	long 		as version
+
+	ca_key: 					UUID 		as key
+	ca_name:  				string 	as name
+	ca_owner: 				string? as owner
+
+	one-to-many Event.ev_fk_calendar 					as events
+	one-to-many EventReference.er_fk_calendar as eventReferences
+
+	unique-key calendar_uq_key ( ca_key )
+}
+
+entity Event {
+	@id ev_id: 				long 		as id
+	@rev ev_version: 	long 		as version
+
+	ev_key: 					UUID 						as key
+	ev_title: 				string 					as title
+	ev_description: 	string					as description
+	ev_start:					zoned-date-time as start
+	ev_end:						zoned-date-time as end
+	ev_tags:					string[]				as tags
+	ev_fullday:				boolean					as fullday
+
+	many-to-one ev_fk_calendar: 			Calendar 		as calendar
+	one-to-one ev_fk_repeat_pattern: 	EventRepeat as repeatPattern
+
+	one-to-many EventReference.er_fk_event 		as eventReferences
+	one-to-many EventModification.em_fk_event as modifications
+
+	unique-key event_uq_key ( ev_key )
+	unique-key event_uq_fk_repeat_pattern( ev_fk_repeat_pattern )
+}
+
+entity EventReference {
+	many-to-one er_fk_calendar: Calendar 	as calendar
+	many-to-one er_fk_event: 		Event 		as event
+}
+
+entity EventModification {
+	@id em_id: 	long				as id
+	em_date: 		local-date 	as date
+
+	many-to-one em_fk_event: Event as event
+
+	descriminated-by em_type: int as type
+}
+
+entity EventModificationCanceled extends EventModification(1) {
+
+}
+
+entity EventModificationGeneric extends EventModification(2) {
+	em_description: string as description
+}
+
+entity EventModificationMoved extends EventModification(3) {
+	em_start: zoned-date-time 	as start
+	em_end: 	zoned-date-time 	as end
+}
+
+entity EventRepeat {
+	@id er_id: long 	as id
+
+	er_interval: 			short 						as interval
+	er_recurrence_tz: ZoneId 						as recurrenceTimezone
+	er_start: 				zoned-date-time		as startDate
+	er_end: 					zoned-date-time		as endDate
+
+	// one-to-one Event.repeatPattern as event
+
+	descriminated-by er_type: int as type
+}
+
+entity EventRepeatAbsoluteMonthly extends EventRepeat(1) {
+	er_day_of_month: short	as dayOfMonth
+}
+
+entity EventRepeatAbsoluteYearly extends EventRepeat(2) {
+	er_day_of_month: 	short as dayOfMonth
+	er_month: 				Month as month
+}
+
+entity EventRepeatDaily extends EventRepeat(3) {
+
+}
+
+entity EventRepeatRelativeMonthly extends EventRepeat(4) {
+	er_days_of_week: DayOfWeek[] as daysOfWeek
+}
+
+entity EventRepeatRelativeYearly extends EventRepeat(5) {
+	er_days_of_week: 	DayOfWeek[] as daysOfWeek
+	er_month: 				Month 			as month
+}
+
+entity EventRepeatWeekly extends EventRepeat(6) {
+	er_days_of_week: DayOfWeek[] as daysOfWeek
+}
