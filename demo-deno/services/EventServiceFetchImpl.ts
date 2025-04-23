@@ -31,19 +31,19 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
 			if($response.status === 201) {
 				const $data = await $response.json();
-				return safeExecute(api.utils.OK($data), () => onSuccess?.('create', $data));
+				return safeExecute(api.result.OK($data), () => onSuccess?.('create', $data));
 			} else if($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('create', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('create', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -72,19 +72,19 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventSer
 			if($response.status === 200) {
 				const $data = await $response.json();
 				const $result = api.model.EventFromJSON($data);
-				return safeExecute(api.utils.OK($result), () => onSuccess?.('get', $result));
+				return safeExecute(api.result.OK($result), () => onSuccess?.('get', $result));
 			} else if($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('get', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('get', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -116,13 +116,13 @@ function fnSearch(props: ServiceProps<api.service.ErrorType>): api.service.Event
 					throw new Error('Invalid result');
 				}
 				const $result = $data.map(api.model.EventFromJSON);
-				return safeExecute(api.utils.OK($result), () => onSuccess?.('search', $result));
+				return safeExecute(api.result.OK($result), () => onSuccess?.('search', $result));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('search', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('search', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -148,19 +148,19 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $body = JSON.stringify(api.model.EventPatchToJSON(changes));
 			const $response = await fetchAPI($path, { ...$init, method: 'PATCH', body: $body });
 			if($response.status === 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('update', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('update', api.result.Void));
 			} else if($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('update', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('update', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -186,7 +186,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $response = await fetchAPI($path, { ...$init, method: 'DELETE' });
 
 			if ($response.status == 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('delete', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('delete', api.result.Void));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -212,7 +212,7 @@ function fnCancel(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $response = await fetchAPI($path, { ...$init, method: 'PUT' });
 
 			if ($response.status == 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('cancel', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('cancel', api.result.Void));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -238,7 +238,7 @@ function fnUncancel(props: ServiceProps<api.service.ErrorType>): api.service.Eve
 			const $response = await fetchAPI($path, { ...$init, method: 'PUT' });
 
 			if ($response.status == 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('uncancel', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('uncancel', api.result.Void));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -267,7 +267,7 @@ function fnMove(props: ServiceProps<api.service.ErrorType>): api.service.EventSe
 			});
 			const $response = await fetchAPI($path, { ...$init, method: 'PUT', body: $body });
 			if ($response.status == 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('move', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('move', api.result.Void));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -293,7 +293,7 @@ function fnEndRepeat(props: ServiceProps<api.service.ErrorType>): api.service.Ev
 			const $body = `${end}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'PUT', body: $body });
 			if ($response.status == 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('endRepeat', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('endRepeat', api.result.Void));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -319,7 +319,7 @@ function fnDescription(props: ServiceProps<api.service.ErrorType>): api.service.
 			const $body = `${description}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'PUT', body: $body });
 			if ($response.status == 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('description', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('description', api.result.Void));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {

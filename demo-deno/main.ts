@@ -1,4 +1,3 @@
-import { None } from './_type-utils.ts';
 import { api } from './index.ts';
 import { createCalendarService } from './services/CalendarServiceFetchImpl.ts';
 import { createEventService } from './services/EventServiceFetchImpl.ts';
@@ -16,14 +15,14 @@ async function runDemo() {
 		owner: 'Denoland',
 	});
 
-	if (calendarId === None) {
+	if (calendarId === api.result.None) {
 		console.error('Failed to created calender. Error:', errorCreate.message);
 		return;
 	}
 	console.log(`Created calendar - ID: ${calendarId}`);
 
 	const [calendar, getError] = await calendarService.get(calendarId);
-	if (calendar === None) {
+	if (calendar === api.result.None) {
 		console.error('Failed to load calendar. Error:', getError.message);
 		return;
 	}
@@ -34,13 +33,13 @@ async function runDemo() {
 		name: 'Sample Update calendar',
 	});
 
-	if (updateError !== None) {
+	if (updateError !== api.result.None) {
 		console.log('Update failed. Error:', updateError.message);
 		return;
 	}
 
 	const [calendar2, getError2] = await calendarService.get(calendarId);
-	if (calendar2 === None) {
+	if (calendar2 === api.result.None) {
 		console.error('Failed to load calendar. Error:', getError2.message);
 		return;
 	}
@@ -65,7 +64,7 @@ async function runDemo() {
 		newEvent
 	);
 
-	if (eventId === None) {
+	if (eventId === api.result.None) {
 		console.error('Failed to create event', eventCreateError.message);
 		return;
 	}
@@ -75,7 +74,7 @@ async function runDemo() {
 		calendarId,
 		eventId + '_2024-01-02'
 	);
-	if (cancel === None) {
+	if (cancel === api.result.None) {
 		console.error('Failed to cancel.');
 		return;
 	}
@@ -86,7 +85,7 @@ async function runDemo() {
 		'2024-01-03T15:00:00+01:00[Europe/Vienna]',
 		'2024-01-03T17:00:00+01:00[Europe/Vienna]'
 	);
-	if (move === None) {
+	if (move === api.result.None) {
 		console.error('Failed move');
 		return;
 	}
@@ -96,7 +95,7 @@ async function runDemo() {
 		'Something special'
 	);
 
-	if (description === None) {
+	if (description === api.result.None) {
 		console.error('Failed description change');
 		return;
 	}
@@ -109,7 +108,7 @@ async function runDemo() {
 		}
 	);
 
-	if (evUpdate === None) {
+	if (evUpdate === api.result.None) {
 		console.error('Failed update. Error: ', evUpdateError.message);
 	}
 
@@ -120,7 +119,7 @@ async function runDemo() {
 			'2024-01-05',
 			'Europe/Vienna'
 		);
-		if (events === None) {
+		if (events === api.result.None) {
 			console.error('Failed to fetch events: Error:', eventsError.message);
 			return;
 		}
@@ -134,7 +133,7 @@ async function runDemo() {
 		calendarId,
 		eventId + '_2024-01-02'
 	);
-	if (uncancel === None) {
+	if (uncancel === api.result.None) {
 		console.error('Failed to uncancel');
 		return;
 	}
@@ -148,7 +147,7 @@ async function runDemo() {
 			'2024-01-05',
 			'Europe/Vienna'
 		);
-		if (events === None) {
+		if (events === api.result.None) {
 			console.error('Failed to fetch events: Error:', eventsError.message);
 			return;
 		}

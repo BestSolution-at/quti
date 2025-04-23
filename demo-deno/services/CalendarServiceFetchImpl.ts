@@ -25,13 +25,13 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Calen
 			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
 			if($response.status === 201) {
 				const $data = await $response.json();
-				return safeExecute(api.utils.OK($data), () => onSuccess?.('create', $data));
+				return safeExecute(api.result.OK($data), () => onSuccess?.('create', $data));
 			} else if($response.status === 422) {
 				const err = {
 					_type: 'InvalidContent',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('create', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -59,19 +59,19 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.Calendar
 			if($response.status === 200) {
 				const $data = await $response.json();
 				const $result = api.model.CalendarFromJSON($data);
-				return safeExecute(api.utils.OK($result), () => onSuccess?.('get', $result));
+				return safeExecute(api.result.OK($result), () => onSuccess?.('get', $result));
 			} else if($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('get', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('get', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -97,19 +97,19 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Calen
 			const $body = JSON.stringify(api.model.CalendarPatchToJSON(changes));
 			const $response = await fetchAPI($path, { ...$init, method: 'PATCH', body: $body });
 			if($response.status === 204) {
-				return safeExecute(api.utils.OK(api.utils.Void), () => onSuccess?.('update', api.utils.Void));
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('update', api.result.Void));
 			} else if($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('update', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('update', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
@@ -145,19 +145,19 @@ function fnEventView(props: ServiceProps<api.service.ErrorType>): api.service.Ca
 					throw new Error('Invalid result');
 				}
 				const $result = $data.map(api.model.EventViewFromJSON);
-				return safeExecute(api.utils.OK($result), () => onSuccess?.('eventView', $result));
+				return safeExecute(api.result.OK($result), () => onSuccess?.('eventView', $result));
 			} else if($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('eventView', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('eventView', err));
 			} else if($response.status === 400) {
 				const err = {
 					_type: 'InvalidArgument',
 					message: await $response.text(),
 				} as const;
-				return safeExecute(api.utils.ERR(err), () => onError?.('eventView', err));
+				return safeExecute(api.result.ERR(err), () => onError?.('eventView', err));
 			}
 			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
 		} catch(e) {
