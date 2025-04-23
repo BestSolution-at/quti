@@ -316,8 +316,8 @@ export function isOk<T, E>(value: Result<T, E>): value is [T, NoneType] {
 	return value[0] !== None;
 }
 
-type Ok<T> = readonly [T, NoneType];
-type Err<E> = readonly [NoneType, E];
+type Ok<T> = readonly [ok: T, error: NoneType];
+type Err<E> = readonly [ok: NoneType, error: E];
 
 export type Result<T, E> = Ok<T> | Err<E>;
 
