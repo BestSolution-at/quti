@@ -8,12 +8,108 @@ export const metadata = {
 
 export const sections = [
   { title: 'Official libraries', id: 'official-libraries' },
+	{ title: 'Java', id: 'java' },
+	{ title: 'TypeScript/JavaScript', id: 'type-script-java-script' },
 ]
 
-# Protocol SDKs
+# Quti SDKs
 
 The recommended way to interact with the Quti API is by using one of our official SDKs.
 Today, Quti offers fine-tuned Java and Typescript/JavaScript libraries to make your
 life easier and give you the best experience when consuming the API. {{ className: 'lead' }}
 
 <Libraries />
+
+## Java
+----
+The central API to interface with the Quti-Server is the `JDKQutiClient` who supports the creation of:
+
+- Service instances to access a resource
+- Builder instances to create DTOs you want pass to the server (eg a new calender, event, ...)
+
+```java
+import at.bestsolution.quti.client.jdkhttp.JDKQutiClient;
+...
+var client = JDKQutiClient.create(URI.create("http://localhost:8083"));
+```
+
+Once you have an have create the client instance you can create service instances.
+
+```java
+...
+import at.bestsolution.quti.client.CalendarService;
+...
+var calendar = client.service(CalendarService.class);
+```
+
+you can use to invoke Quti-Services
+
+```java
+...
+import at.bestsolution.quti.client.InvalidArgumentException;
+import at.bestsolution.quti.client.InvalidContentException;
+...
+try {
+	var calendar = calendarService.get("....");
+} catch(NotFoundException e) {
+	// The calender with the provide ID does not exist
+} catch(InvalidArgumentException e) {
+	// The calender ID you passed is invalid (hint it has to be an UUID)
+} catch(IllegalStateException e) {
+	if( e.getCause() == null ) {
+		// The server sent an undocumented Status Code for the API Call
+	} else {
+		// You can inspect the cause eg there might have been an IOException because of network problems
+	}
+}
+```
+
+As the Quti-API only contains interfaces so you have to use a `Builder` to create objects. The following
+example illustrates this by creating a new calendar.
+
+```java
+var b = client.builder(CalendarNew.DataBuilder.class);
+var dto = b
+	.name("Sample Calendar")
+	.owner("John Doe");
+	.build();
+var id = calendar.create(dto);
+```
+
+## TypeScript/JavaScript
+----
+
+To interface with the Quti-Server the first thing you need
+to create is a service instance
+
+```ts
+const calendarService = createCalendarService({
+	baseUrl: 'http://127.0.0.1:8083',
+});
+```
+
+With this service object you can call the Quti API like this:
+
+```ts
+try {
+	const [calendar, err] = await calendar.get("....");
+	if(err !== api.result.None) {
+		if(isNotFoundError(err)) {
+			// The calender with the provide ID does not exist
+		} else {
+			// The calender ID you passed is invalid (hint it has to be an UUID)
+		}
+		return;
+	}
+	console.log("The calendar:", calendar);
+} catch(e) {
+	// The server sent an undocumented Status Code for the API Call
+	// or there was a technical error like a network problem
+}
+```
+
+As you may have noted the Typescript/JavaScript API distinguish 2 error types:
+- Documented domain errors
+- Undocumented (technical) error
+
+and forces you to handle at least the domain errors.

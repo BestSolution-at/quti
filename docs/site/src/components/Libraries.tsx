@@ -12,14 +12,14 @@ import logoTS from '@/images/logos/ts.svg'
 
 const libraries = [
 	{
-		href: '#',
+		href: '#java',
 		name: 'Java',
 		description:
 			'One of the most used languages for business applications. This SDK allows to access Quti from your Java application',
 		logo: logoJava,
 	},
 	{
-		href: '#',
+		href: '#type-script-java-script',
 		name: 'Typescript/JavaScript',
 		description:
 			'The languages of the web. This SDK allows you to directly interface with Quti from a your web application',
