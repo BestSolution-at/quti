@@ -7,7 +7,6 @@ export type NonUndefined = NonNullable<unknown> | null;
 
 export type Ok<T extends NonUndefined> = readonly [ok: T, err: null];
 export type Err<E extends RSDError> = readonly [ok: undefined, err: E];
-
 export type Result<T extends NonUndefined, E extends RSDError> = Ok<T> | Err<E>;
 
 export type RSDError<T = string> = {
