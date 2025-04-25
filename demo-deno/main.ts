@@ -1,6 +1,38 @@
-import { api } from './index.ts';
+import { api, $ } from './index.ts';
 import { createCalendarService } from './services/CalendarServiceFetchImpl.ts';
 import { createEventService } from './services/EventServiceFetchImpl.ts';
+
+/*
+const _S: unique symbol = Symbol('S');
+type _SType = typeof _S;
+
+type O<X> = [value: X, status: true];
+type E<X> = [error: X, status: false];
+
+type R<T, X> = O<T> | E<X>;
+
+async function blub(): Promise<R<_SType, string>> {
+	return [_S, true];
+}
+
+export async function _<X, Y>(source: Promise<R<X, Y>>): Promise<X> {
+	const [o, r] = await source;
+	if (r !== null) {
+		throw r;
+	}
+	throw o;
+}
+
+const [rv, s] = await blub();
+
+if (s) {
+	console.log(v);
+} else {
+	console.log(v);
+}
+
+const f = await _(blub());
+console.log(f);*/
 
 async function runDemo() {
 	const calendarService = createCalendarService({
@@ -15,14 +47,17 @@ async function runDemo() {
 		owner: 'Denoland',
 	});
 
-	if (calendarId === api.result.None) {
+	if (errorCreate) {
 		console.error('Failed to created calender. Error:', errorCreate.message);
 		return;
 	}
 	console.log(`Created calendar - ID: ${calendarId}`);
 
+	const xxx = await $(calendarService.get(calendarId));
+	console.log(xxx.key);
+
 	const [calendar, getError] = await calendarService.get(calendarId);
-	if (calendar === api.result.None) {
+	if (calendar === undefined) {
 		console.error('Failed to load calendar. Error:', getError.message);
 		return;
 	}
@@ -33,13 +68,13 @@ async function runDemo() {
 		name: 'Sample Update calendar',
 	});
 
-	if (updateError !== api.result.None) {
+	if (updateError) {
 		console.log('Update failed. Error:', updateError.message);
 		return;
 	}
 
 	const [calendar2, getError2] = await calendarService.get(calendarId);
-	if (calendar2 === api.result.None) {
+	if (getError2) {
 		console.error('Failed to load calendar. Error:', getError2.message);
 		return;
 	}
@@ -64,17 +99,27 @@ async function runDemo() {
 		newEvent
 	);
 
-	if (eventId === api.result.None) {
+	if (eventCreateError) {
 		console.error('Failed to create event', eventCreateError.message);
 		return;
 	}
 	console.log(`Created event - ID: ${eventId}`);
 
+	const yyyy = await $(
+		eventService.cancel(calendarId, eventId + '_2024-01-02')
+	);
+
+	if (yyyy === api.result.Void) {
+		// xxxx
+	}
+
+	console.log(yyyy);
+
 	const [cancel] = await eventService.cancel(
 		calendarId,
 		eventId + '_2024-01-02'
 	);
-	if (cancel === api.result.None) {
+	if (cancel === undefined) {
 		console.error('Failed to cancel.');
 		return;
 	}
@@ -85,7 +130,7 @@ async function runDemo() {
 		'2024-01-03T15:00:00+01:00[Europe/Vienna]',
 		'2024-01-03T17:00:00+01:00[Europe/Vienna]'
 	);
-	if (move === api.result.None) {
+	if (move === undefined) {
 		console.error('Failed move');
 		return;
 	}
@@ -95,7 +140,7 @@ async function runDemo() {
 		'Something special'
 	);
 
-	if (description === api.result.None) {
+	if (description === undefined) {
 		console.error('Failed description change');
 		return;
 	}
@@ -108,7 +153,7 @@ async function runDemo() {
 		}
 	);
 
-	if (evUpdate === api.result.None) {
+	if (evUpdate === undefined) {
 		console.error('Failed update. Error: ', evUpdateError.message);
 	}
 
@@ -119,7 +164,7 @@ async function runDemo() {
 			'2024-01-05',
 			'Europe/Vienna'
 		);
-		if (events === api.result.None) {
+		if (events === undefined) {
 			console.error('Failed to fetch events: Error:', eventsError.message);
 			return;
 		}
@@ -133,7 +178,8 @@ async function runDemo() {
 		calendarId,
 		eventId + '_2024-01-02'
 	);
-	if (uncancel === api.result.None) {
+
+	if (uncancel === undefined) {
 		console.error('Failed to uncancel');
 		return;
 	}
@@ -147,7 +193,7 @@ async function runDemo() {
 			'2024-01-05',
 			'Europe/Vienna'
 		);
-		if (events === api.result.None) {
+		if (events === undefined) {
 			console.error('Failed to fetch events: Error:', eventsError.message);
 			return;
 		}
@@ -164,7 +210,7 @@ if (import.meta.main) {
 	//const key = 'bec0c3f5-8a84-40e2-be70-75700fed8810';
 
 	try {
-		await runDemo();
+		//await runDemo();
 	} catch (e) {
 		console.error('Technical failure', e);
 	}
