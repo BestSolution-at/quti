@@ -93,7 +93,7 @@ With this service object you can call the Quti API like this:
 ```ts
 try {
 	const [calendar, err] = await calendar.get("....");
-	if(err !== api.result.None) {
+	if(err) {
 		if(isNotFoundError(err)) {
 			// The calender with the provide ID does not exist
 		} else {
