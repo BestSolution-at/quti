@@ -33,10 +33,13 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Calen
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
 			}
-			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			return api.result.ERR(err);
 		} catch(e) {
 			onCatch?.('create', e)
-			throw e;
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			return api.result.ERR(err);
 		} finally {
 			final?.('create');
 		}
@@ -73,10 +76,13 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.Calendar
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			}
-			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			return api.result.ERR(err);
 		} catch(e) {
 			onCatch?.('get', e)
-			throw e;
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			return api.result.ERR(err);
 		} finally {
 			final?.('get');
 		}
@@ -111,10 +117,13 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Calen
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			}
-			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			return api.result.ERR(err);
 		} catch(e) {
 			onCatch?.('update', e)
-			throw e;
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			return api.result.ERR(err);
 		} finally {
 			final?.('update');
 		}
@@ -159,10 +168,13 @@ function fnEventView(props: ServiceProps<api.service.ErrorType>): api.service.Ca
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('eventView', err));
 			}
-			throw new Error(`Unsupported return status: ${$response.status}. The status text was: ${$response.statusText}`);
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			return api.result.ERR(err);
 		} catch(e) {
 			onCatch?.('eventView', e)
-			throw e;
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			return api.result.ERR(err);
 		} finally {
 			final?.('eventView');
 		}
