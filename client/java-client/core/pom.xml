@@ -8,7 +8,7 @@
 	<artifactId>calendar-client-core</artifactId>
 	<parent>
 		<groupId>at.bestsolution.quti</groupId>
-		<artifactId>client</artifactId>
+		<artifactId>calendar-client</artifactId>
 		<version>${revision}</version>
 	</parent>
 </project>
