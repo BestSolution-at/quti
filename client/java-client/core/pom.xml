@@ -5,10 +5,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.bestsolution.quti</groupId>
-	<artifactId>client-core</artifactId>
+	<artifactId>calendar-client-core</artifactId>
 	<parent>
-        <groupId>at.bestsolution.quti</groupId>
-        <artifactId>client</artifactId>
-        <version>${revision}</version>
-    </parent>
+		<groupId>at.bestsolution.quti</groupId>
+		<artifactId>client</artifactId>
+		<version>${revision}</version>
+	</parent>
 </project>
