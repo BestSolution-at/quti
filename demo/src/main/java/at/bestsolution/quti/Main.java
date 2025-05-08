@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import at.bestsolution.quti.client.CalendarService;
-import at.bestsolution.quti.client.EventService;
-import at.bestsolution.quti.client.jdkhttp.JDKQutiClient;
-import at.bestsolution.quti.client.model.Calendar;
-import at.bestsolution.quti.client.model.CalendarNew;
-import at.bestsolution.quti.client.model.Event;
-import at.bestsolution.quti.client.model.EventNew;
-import at.bestsolution.quti.client.model.EventRepeatDaily;
+import at.bestsolution.quti.calendar.client.CalendarService;
+import at.bestsolution.quti.calendar.client.EventService;
+import at.bestsolution.quti.calendar.client.jdkhttp.JDKQutiClient;
+import at.bestsolution.quti.calendar.client.model.Calendar;
+import at.bestsolution.quti.calendar.client.model.CalendarNew;
+import at.bestsolution.quti.calendar.client.model.Event;
+import at.bestsolution.quti.calendar.client.model.EventNew;
+import at.bestsolution.quti.calendar.client.model.EventRepeatDaily;
 
 public class Main {
 	public static void main(String[] args) {

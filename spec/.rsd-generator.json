@@ -4,7 +4,7 @@
         {
             "name": "java-client-api",
             "targetFolder": "../client/java-client/core/src/main/java",
-            "rootPackageName": "at.bestsolution.quti.client",
+            "rootPackageName": "at.bestsolution.quti.calendar.client",
             "nativeTypeSubstitues": {
                 "ZoneId": "java.time.ZoneId",
                 "DayOfWeek": "java.time.DayOfWeek",
@@ -14,7 +14,7 @@
         {
             "name": "java-rest-client-jdk",
             "targetFolder": "../client/java-client/jdk-http/src/main/java",
-            "rootPackageName": "at.bestsolution.quti.client",
+            "rootPackageName": "at.bestsolution.quti.calendar.client",
             "nativeTypeSubstitues": {
                 "ZoneId": "java.time.ZoneId",
                 "DayOfWeek": "java.time.DayOfWeek",
@@ -24,7 +24,7 @@
         {
             "name": "java-server-base",
             "targetFolder": "../server/src/main/java",
-            "rootPackageName": "at.bestsolution.quti",
+            "rootPackageName": "at.bestsolution.quti.calendar",
             "nativeTypeSubstitues": {
                 "ZoneId": "java.time.ZoneId",
                 "DayOfWeek": "java.time.DayOfWeek",
@@ -34,7 +34,7 @@
         {
             "name": "java-server-jakarta-ws",
             "targetFolder": "../server/src/main/java",
-            "rootPackageName": "at.bestsolution.quti",
+            "rootPackageName": "at.bestsolution.quti.calendar",
             "nativeTypeSubstitues": {
                 "ZoneId": "java.time.ZoneId",
                 "DayOfWeek": "java.time.DayOfWeek",
