@@ -120,8 +120,8 @@ public class EventDataImpl extends _BaseDataImpl implements Event.Data {
 			return this;
 		}
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat.Data> block) {
+
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block) {
 			EventRepeat.DataBuilder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();

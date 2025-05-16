@@ -11,34 +11,55 @@ import at.bestsolution.quti.calendar.client.model.EventNew;
 import at.bestsolution.quti.calendar.client.model.EventSearch;
 
 public interface EventService extends BaseService {
-	public String create(String calendar, EventNew.Data event)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public String create(
+			String calendar, 
+			EventNew.Data event) throws NotFoundException, NotFoundException;
 
-	public Event.Data get(String calendar, String key, ZoneId timezone)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public Event.Data get(
+			String calendar, 
+			String key, 
+			ZoneId timezone) throws NotFoundException, NotFoundException;
 
-	public List<Event.Data> search(String calendar, EventSearch.Data filter)
-			throws InvalidArgumentException;
+	public List<Event.Data> search(
+			String calendar, 
+			EventSearch.Data filter) throws InvalidArgumentException;
 
-	public List<Event.Data> search(String calendar, EventSearch.Data filter, ZoneId timezone)
-			throws InvalidArgumentException;
+	public List<Event.Data> search(
+			String calendar, 
+			EventSearch.Data filter, 
+			ZoneId timezone) throws InvalidArgumentException;
 
-	public void update(String calendar, String key, Event.Patch changes)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public void update(
+			String calendar, 
+			String key, 
+			Event.Patch changes) throws NotFoundException, NotFoundException;
 
-	public void delete(String calendar, String key);
+	public void delete(
+			String calendar, 
+			String key);
 
-	public void cancel(String calendar, String key);
+	public void cancel(
+			String calendar, 
+			String key);
 
-	public void uncancel(String calendar, String key);
+	public void uncancel(
+			String calendar, 
+			String key);
 
-	public void move(String calendar, String key, ZonedDateTime start, ZonedDateTime end);
+	public void move(
+			String calendar, 
+			String key, 
+			ZonedDateTime start, 
+			ZonedDateTime end);
 
-	public void endRepeat(String calendar, String key, LocalDate end);
+	public void endRepeat(
+			String calendar, 
+			String key, 
+			LocalDate end);
 
-	public void description(String calendar, String key, String description);
+	public void description(
+			String calendar, 
+			String key, 
+			String description);
 
 }

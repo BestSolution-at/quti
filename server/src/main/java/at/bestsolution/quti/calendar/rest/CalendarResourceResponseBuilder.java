@@ -28,8 +28,7 @@ public class CalendarResourceResponseBuilder {
 		return Response.status(204);
 	}
 
-	public ResponseBuilder eventView(List<EventView.Data> result, String key, LocalDate start, LocalDate end,
-			ZoneId timezone, ZoneId resultTimeZone) {
+	public ResponseBuilder eventView(List<EventView.Data> result, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone) {
 		return Response.status(200).entity(_JsonUtils.toJsonString(result, false));
 	}
 

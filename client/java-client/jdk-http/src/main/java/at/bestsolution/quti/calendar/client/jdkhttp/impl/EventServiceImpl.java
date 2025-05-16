@@ -62,8 +62,7 @@ public class EventServiceImpl implements EventService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -101,8 +100,7 @@ public class EventServiceImpl implements EventService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -133,8 +131,7 @@ public class EventServiceImpl implements EventService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -171,8 +168,7 @@ public class EventServiceImpl implements EventService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -207,8 +203,7 @@ public class EventServiceImpl implements EventService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -234,8 +229,7 @@ public class EventServiceImpl implements EventService {
 			if ($response.statusCode() == 204) {
 				return;
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -264,8 +258,7 @@ public class EventServiceImpl implements EventService {
 			if ($response.statusCode() == 204) {
 				return;
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -294,8 +287,7 @@ public class EventServiceImpl implements EventService {
 			if ($response.statusCode() == 204) {
 				return;
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -329,8 +321,7 @@ public class EventServiceImpl implements EventService {
 			if ($response.statusCode() == 204) {
 				return;
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -360,8 +351,7 @@ public class EventServiceImpl implements EventService {
 			if ($response.statusCode() == 204) {
 				return;
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -391,8 +381,7 @@ public class EventServiceImpl implements EventService {
 			if ($response.statusCode() == 204) {
 				return;
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}

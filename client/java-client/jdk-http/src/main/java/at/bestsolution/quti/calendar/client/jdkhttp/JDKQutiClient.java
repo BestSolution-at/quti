@@ -65,14 +65,10 @@ public class JDKQutiClient implements QutiClient {
 		registerBuilderCreator(CalendarNew.DataBuilder.class, CalendarNewDataImpl.DataBuilderImpl::new);
 		registerBuilderCreator(EventRepeatDaily.DataBuilder.class, EventRepeatDailyDataImpl.DataBuilderImpl::new);
 		registerBuilderCreator(EventRepeatWeekly.DataBuilder.class, EventRepeatWeeklyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteMonthly.DataBuilder.class,
-				EventRepeatAbsoluteMonthlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteYearly.DataBuilder.class,
-				EventRepeatAbsoluteYearlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeMonthly.DataBuilder.class,
-				EventRepeatRelativeMonthlyDataImpl.DataBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeYearly.DataBuilder.class,
-				EventRepeatRelativeYearlyDataImpl.DataBuilderImpl::new);
+		registerBuilderCreator(EventRepeatAbsoluteMonthly.DataBuilder.class, EventRepeatAbsoluteMonthlyDataImpl.DataBuilderImpl::new);
+		registerBuilderCreator(EventRepeatAbsoluteYearly.DataBuilder.class, EventRepeatAbsoluteYearlyDataImpl.DataBuilderImpl::new);
+		registerBuilderCreator(EventRepeatRelativeMonthly.DataBuilder.class, EventRepeatRelativeMonthlyDataImpl.DataBuilderImpl::new);
+		registerBuilderCreator(EventRepeatRelativeYearly.DataBuilder.class, EventRepeatRelativeYearlyDataImpl.DataBuilderImpl::new);
 		registerBuilderCreator(EventNew.DataBuilder.class, EventNewDataImpl.DataBuilderImpl::new);
 		registerBuilderCreator(Event.DataBuilder.class, EventDataImpl.DataBuilderImpl::new);
 		registerBuilderCreator(SingleEventView.DataBuilder.class, SingleEventViewDataImpl.DataBuilderImpl::new);
@@ -85,14 +81,10 @@ public class JDKQutiClient implements QutiClient {
 		registerBuilderCreator(Calendar.PatchBuilder.class, CalendarDataPatchImpl.PatchBuilderImpl::new);
 		registerBuilderCreator(EventRepeatDaily.PatchBuilder.class, EventRepeatDailyDataPatchImpl.PatchBuilderImpl::new);
 		registerBuilderCreator(EventRepeatWeekly.PatchBuilder.class, EventRepeatWeeklyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteMonthly.PatchBuilder.class,
-				EventRepeatAbsoluteMonthlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatAbsoluteYearly.PatchBuilder.class,
-				EventRepeatAbsoluteYearlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeMonthly.PatchBuilder.class,
-				EventRepeatRelativeMonthlyDataPatchImpl.PatchBuilderImpl::new);
-		registerBuilderCreator(EventRepeatRelativeYearly.PatchBuilder.class,
-				EventRepeatRelativeYearlyDataPatchImpl.PatchBuilderImpl::new);
+		registerBuilderCreator(EventRepeatAbsoluteMonthly.PatchBuilder.class, EventRepeatAbsoluteMonthlyDataPatchImpl.PatchBuilderImpl::new);
+		registerBuilderCreator(EventRepeatAbsoluteYearly.PatchBuilder.class, EventRepeatAbsoluteYearlyDataPatchImpl.PatchBuilderImpl::new);
+		registerBuilderCreator(EventRepeatRelativeMonthly.PatchBuilder.class, EventRepeatRelativeMonthlyDataPatchImpl.PatchBuilderImpl::new);
+		registerBuilderCreator(EventRepeatRelativeYearly.PatchBuilder.class, EventRepeatRelativeYearlyDataPatchImpl.PatchBuilderImpl::new);
 		registerBuilderCreator(Event.PatchBuilder.class, EventDataPatchImpl.PatchBuilderImpl::new);
 
 		registerServiceCreator(CalendarService.class, CalendarServiceImpl::new);

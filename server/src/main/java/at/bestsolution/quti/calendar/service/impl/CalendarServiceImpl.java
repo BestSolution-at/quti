@@ -23,8 +23,7 @@ public class CalendarServiceImpl implements CalendarService {
 	private final UpdateHandler updateHandler;
 	private final EventViewHandler eventViewHandler;
 
-	public CalendarServiceImpl(CreateHandler createHandler, GetHandler getHandler, UpdateHandler updateHandler,
-			EventViewHandler eventViewHandler) {
+	public CalendarServiceImpl(CreateHandler createHandler, GetHandler getHandler, UpdateHandler updateHandler, EventViewHandler eventViewHandler) {
 		this.createHandler = createHandler;
 		this.getHandler = getHandler;
 		this.updateHandler = updateHandler;
@@ -52,8 +51,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end,
-			ZoneId timezone, ZoneId resultTimeZone)
+	public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
 			throws NotFoundException,
 			InvalidArgumentException {
 		return eventViewHandler.eventView(_factory, key, start, end, timezone, resultTimeZone);
@@ -77,9 +75,9 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	public interface EventViewHandler {
-		public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end,
-				ZoneId timezone, ZoneId resultTimeZone)
+		public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
 				throws NotFoundException,
 				InvalidArgumentException;
 	}
+
 }

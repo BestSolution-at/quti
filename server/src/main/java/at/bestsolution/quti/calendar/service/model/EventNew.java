@@ -41,8 +41,7 @@ public interface EventNew {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 

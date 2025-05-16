@@ -46,8 +46,7 @@ public interface Event {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 
@@ -87,8 +86,7 @@ public interface Event {
 
 		public PatchBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> PatchBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
 
 		public PatchBuilder tags(List<String> tags);
 

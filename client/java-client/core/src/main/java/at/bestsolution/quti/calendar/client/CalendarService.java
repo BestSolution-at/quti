@@ -10,24 +10,25 @@ import at.bestsolution.quti.calendar.client.model.CalendarNew;
 import at.bestsolution.quti.calendar.client.model.EventView;
 
 public interface CalendarService extends BaseService {
-	public String create(CalendarNew.Data calendar)
-			throws InvalidContentException;
+	public String create(CalendarNew.Data calendar) throws InvalidContentException;
 
-	public Calendar.Data get(String key)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public Calendar.Data get(String key) throws NotFoundException, NotFoundException;
 
-	public void update(String key, Calendar.Patch changes)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public void update(
+			String key, 
+			Calendar.Patch changes) throws NotFoundException, NotFoundException;
 
-	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public List<EventView.Data> eventView(
+			String key, 
+			LocalDate start, 
+			LocalDate end, 
+			ZoneId timezone) throws NotFoundException, NotFoundException;
 
-	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone,
-			ZoneId resultTimeZone)
-			throws NotFoundException,
-			InvalidArgumentException;
+	public List<EventView.Data> eventView(
+			String key, 
+			LocalDate start, 
+			LocalDate end, 
+			ZoneId timezone, 
+			ZoneId resultTimeZone) throws NotFoundException, NotFoundException;
 
 }

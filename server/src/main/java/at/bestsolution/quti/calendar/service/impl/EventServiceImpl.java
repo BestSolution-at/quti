@@ -29,10 +29,7 @@ public class EventServiceImpl implements EventService {
 	private final EndRepeatHandler endRepeatHandler;
 	private final DescriptionHandler descriptionHandler;
 
-	public EventServiceImpl(CreateHandler createHandler, GetHandler getHandler, SearchHandler searchHandler,
-			UpdateHandler updateHandler, DeleteHandler deleteHandler, CancelHandler cancelHandler,
-			UncancelHandler uncancelHandler, MoveHandler moveHandler, EndRepeatHandler endRepeatHandler,
-			DescriptionHandler descriptionHandler) {
+	public EventServiceImpl(CreateHandler createHandler, GetHandler getHandler, SearchHandler searchHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, CancelHandler cancelHandler, UncancelHandler uncancelHandler, MoveHandler moveHandler, EndRepeatHandler endRepeatHandler, DescriptionHandler descriptionHandler) {
 		this.createHandler = createHandler;
 		this.getHandler = getHandler;
 		this.searchHandler = searchHandler;
@@ -148,4 +145,5 @@ public class EventServiceImpl implements EventService {
 	public interface DescriptionHandler {
 		public void description(BuilderFactory _factory, String calendar, String key, String description);
 	}
+
 }

@@ -36,8 +36,7 @@ public class EventResource {
 	private final EventResourceResponseBuilder responseBuilder;
 
 	@Inject
-	public EventResource(EventService service, EventResourceResponseBuilder responseBuilder,
-			RestBuilderFactory builderFactory) {
+	public EventResource(EventService service, EventResourceResponseBuilder responseBuilder, RestBuilderFactory builderFactory) {
 		this.builderFactory = builderFactory;
 		this.service = service;
 		this.responseBuilder = responseBuilder;

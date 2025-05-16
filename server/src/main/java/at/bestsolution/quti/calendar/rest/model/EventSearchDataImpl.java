@@ -55,8 +55,8 @@ public class EventSearchDataImpl extends _BaseDataImpl implements EventSearch.Da
 			return this;
 		}
 
-		public <T extends DateTimeRange.DataBuilder> DataBuilder withStartRange(Class<T> clazz,
-				Function<T, DateTimeRange.Data> block) {
+
+		public <T extends DateTimeRange.DataBuilder> DataBuilder withStartRange(Class<T> clazz, Function<T, DateTimeRange.Data> block) {
 			var b = DateTimeRangeDataImpl.builder();
 			return startRange(block.apply(clazz.cast(b)));
 		}
@@ -69,8 +69,8 @@ public class EventSearchDataImpl extends _BaseDataImpl implements EventSearch.Da
 			return this;
 		}
 
-		public <T extends DateTimeRange.DataBuilder> DataBuilder withEndRange(Class<T> clazz,
-				Function<T, DateTimeRange.Data> block) {
+
+		public <T extends DateTimeRange.DataBuilder> DataBuilder withEndRange(Class<T> clazz, Function<T, DateTimeRange.Data> block) {
 			var b = DateTimeRangeDataImpl.builder();
 			return endRange(block.apply(clazz.cast(b)));
 		}

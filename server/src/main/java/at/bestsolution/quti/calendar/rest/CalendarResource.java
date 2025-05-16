@@ -33,8 +33,7 @@ public class CalendarResource {
 	private final CalendarResourceResponseBuilder responseBuilder;
 
 	@Inject
-	public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder,
-			RestBuilderFactory builderFactory) {
+	public CalendarResource(CalendarService service, CalendarResourceResponseBuilder responseBuilder, RestBuilderFactory builderFactory) {
 		this.builderFactory = builderFactory;
 		this.service = service;
 		this.responseBuilder = responseBuilder;

@@ -20,13 +20,11 @@ public interface EventSearch {
 
 		public DataBuilder startRange(DateTimeRange.Data startRange);
 
-		public <T extends DateTimeRange.DataBuilder> DataBuilder withStartRange(Class<T> clazz,
-				Function<T, DateTimeRange.Data> block);
+		public <T extends DateTimeRange.DataBuilder> DataBuilder withStartRange(Class<T> clazz, Function<T, DateTimeRange.Data> block);
 
 		public DataBuilder endRange(DateTimeRange.Data endRange);
 
-		public <T extends DateTimeRange.DataBuilder> DataBuilder withEndRange(Class<T> clazz,
-				Function<T, DateTimeRange.Data> block);
+		public <T extends DateTimeRange.DataBuilder> DataBuilder withEndRange(Class<T> clazz, Function<T, DateTimeRange.Data> block);
 
 	}
 }

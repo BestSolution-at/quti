@@ -56,8 +56,7 @@ public class CalendarServiceImpl implements CalendarService {
 			} else if ($response.statusCode() == 422) {
 				throw new InvalidContentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -87,8 +86,7 @@ public class CalendarServiceImpl implements CalendarService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -121,8 +119,7 @@ public class CalendarServiceImpl implements CalendarService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -161,15 +158,13 @@ public class CalendarServiceImpl implements CalendarService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone,
-			ZoneId resultTimeZone)
+	public List<EventView.Data> eventView(String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
 			throws NotFoundException,
 			InvalidArgumentException {
 		Objects.requireNonNull(key, "key must not be null");
@@ -208,11 +203,9 @@ public class CalendarServiceImpl implements CalendarService {
 			} else if ($response.statusCode() == 400) {
 				throw new InvalidArgumentException(ServiceUtils.mapString($response));
 			}
-			throw new IllegalStateException(
-					String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
 		} catch (IOException | InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
 	}
-
 }

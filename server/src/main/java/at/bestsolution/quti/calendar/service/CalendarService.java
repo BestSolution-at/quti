@@ -21,8 +21,7 @@ public interface CalendarService {
 			throws NotFoundException,
 			InvalidArgumentException;
 
-	public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end,
-			ZoneId timezone, ZoneId resultTimeZone)
+	public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
 			throws NotFoundException,
 			InvalidArgumentException;
 
