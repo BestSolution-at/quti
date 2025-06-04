@@ -59,7 +59,7 @@
 				},
 				{
 					"name": "typescript-rest-client-fetch",
-					"targetFolder": "../demo-deno/services",
+					"targetFolder": "../demo-deno",
 					"allowImportingTsExtensions": true,
 					"apiNamespacePath": "../index.ts"
 				},
@@ -69,7 +69,7 @@
 				},
 				{
 					"name": "typescript-rest-client-fetch",
-					"targetFolder": "../client/javascript-client/src/services",
+					"targetFolder": "../client/javascript-client/src",
 					"apiNamespacePath": "../index.ts"
 				}
     ]
