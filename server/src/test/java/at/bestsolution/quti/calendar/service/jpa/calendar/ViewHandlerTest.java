@@ -214,6 +214,72 @@ public class ViewHandlerTest extends CalendarHandlerTest<ViewHandlerJPA> {
 				ZoneId.of("Europe/Vienna"),
 				ZoneId.of("Europe/Vienna"));
 		assertEquals(1, result.size());
+
+		result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2023-12-31"),
+				LocalDate.parse("2024-01-02"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+
+		result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2023-12-31"),
+				LocalDate.parse("2024-01-21"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+
+		result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2023-01-05"),
+				LocalDate.parse("2024-01-21"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+	}
+
+	@Test
+	public void testFulldaySimpleEventsSingleDay() {
+		var result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2024-01-01"),
+				LocalDate.parse("2024-01-01"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+
+		result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2024-01-20"),
+				LocalDate.parse("2024-01-20"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(1, result.size());
+
+		result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2023-12-31"),
+				LocalDate.parse("2023-12-31"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(0, result.size());
+
+		result = handler.eventView(
+				builderFactory,
+				fulldayCalendarKey.toString(),
+				LocalDate.parse("2024-01-21"),
+				LocalDate.parse("2024-01-21"),
+				ZoneId.of("Europe/Vienna"),
+				ZoneId.of("Europe/Vienna"));
+		assertEquals(0, result.size());
 	}
 
 	@Test

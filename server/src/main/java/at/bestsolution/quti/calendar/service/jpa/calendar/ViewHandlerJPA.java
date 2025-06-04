@@ -52,7 +52,7 @@ public class ViewHandlerJPA extends BaseReadonlyHandler implements CalendarServi
 		}
 
 		var startDatetime = ZonedDateTime.of(start, LocalTime.MIN, timezone);
-		var endDatetime = ZonedDateTime.of(end, LocalTime.MAX, timezone);
+		var endDatetime = Utils.atEndOfDay(ZonedDateTime.of(end, LocalTime.MAX, timezone));
 
 		var result = new ArrayList<EventView.Data>();
 		result.addAll(findOneTimeEvents(factory, parsedCalendarKey, startDatetime, endDatetime, resultZone));
