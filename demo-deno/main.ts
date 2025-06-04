@@ -1,6 +1,4 @@
-import { api, $ } from './index.ts';
-import { createCalendarService } from './services/CalendarServiceFetchImpl.ts';
-import { createEventService } from './services/EventServiceFetchImpl.ts';
+import { api, $, createCalendarService, createEventService } from './index.ts';
 
 /*
 const _S: unique symbol = Symbol('S');
