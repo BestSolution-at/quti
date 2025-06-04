@@ -2,7 +2,7 @@
 import { api } from '../index.ts';
 
 export type Fetch = typeof fetch;
-export type ServiceProps<T> = {
+export type ServiceProps<T extends string = string> = {
 	baseUrl: string;
 	fetchAPI?: Fetch;
 	lifecycleHandlers?: {
