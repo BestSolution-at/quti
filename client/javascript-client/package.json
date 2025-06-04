@@ -1,26 +1,32 @@
 {
-  "name": "@bestsolution/quti-calendar",
-  "version": "0.7.0",
-  "description": "Quti client for Typescript/JavaScript",
-  "keywords": [
-    "quti",
-    "calendar"
-  ],
-  "homepage": "https://github.com/BestSolution-at/quti",
-  "bugs": {
-    "url": "https://github.com/BestSolution-at/quti/issues"
-  },
-  "author": "Tom Schindl <tom@bestsolution.at> (https://bestsolution.at)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BestSolution-at/quti.git"
-  },
-  "files": [
-    "dist"
-  ],
-  "type": "module",
-  "license": "Apache 2.0",
-  "devDependencies": {
-    "typescript": "^5.8.3"
-  }
+	"name": "@bestsolution/quti-calendar",
+	"version": "0.7.0",
+	"description": "Quti client for Typescript/JavaScript",
+	"keywords": [
+		"quti",
+		"calendar"
+	],
+	"homepage": "https://github.com/BestSolution-at/quti",
+	"bugs": {
+		"url": "https://github.com/BestSolution-at/quti/issues"
+	},
+	"author": "Tom Schindl <tom@bestsolution.at> (https://bestsolution.at)",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BestSolution-at/quti.git"
+	},
+	"files": [
+		"dist"
+	],
+	"type": "module",
+	"license": "Apache 2.0",
+	"devDependencies": {
+		"prettier": "^3.5.3",
+		"typescript": "^5.8.3"
+	},
+	"scripts": {
+		"build": "tsc",
+		"ci": "npm run build",
+		"format": "prettier --write ."
+	}
 }
