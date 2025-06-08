@@ -91,25 +91,20 @@ const calendarService = createCalendarService({
 With this service object you can call the Quti API like this:
 
 ```ts
-try {
+
 	const [calendar, err] = await calendar.get("....");
-	if(err) {
-		if(isNotFoundError(err)) {
+	if (err) {
+		if (isNotFoundError(err)) {
 			// The calender with the provide ID does not exist
-		} else {
+		} else if(isInvalidArgumentError(error)) {
 			// The calender ID you passed is invalid (hint it has to be an UUID)
+		} else {
+			// Technical error
 		}
 		return;
 	}
 	console.log("The calendar:", calendar);
-} catch(e) {
-	// The server sent an undocumented Status Code for the API Call
-	// or there was a technical error like a network problem
-}
 ```
 
-As you may have noted the Typescript/JavaScript API distinguish 2 error types:
-- Documented domain errors
-- Undocumented (technical) error
-
-and forces you to handle at least the domain errors.
+You notice that the `await` is not wrapped in a try-catch-block. The API is inspired
+by error handling in `rust` and does not favor exceptions.

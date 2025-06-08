@@ -6,11 +6,43 @@ export const metadata = {
 
 # Quickstart
 
-This guide will get you all set up and ready to use the Protocol API. We'll cover how to get started using one of our API clients and how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of our powerful REST API. {{ className: 'lead' }}
+This guide will get you all set up and ready to use the Quti Calendar API. We'll cover how to get started using one of our API clients and
+how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of
+our powerful REST API. {{ className: 'lead' }}
 
-<Note>
+{/*<Note>
   Before you can make requests to the Protocol API, you will need to grab your
   API key from your dashboard. You find it under [Settings &raquo; API](#).
+</Note>*/}
+
+## Setup a Quti Calendar Server
+
+Before you can start makeing requests you need to setup a Quti Calendar instance. The first thing you'll need is
+a PostgreSQL Database.
+
+```bash
+docker run --rm=true \
+ --name postgres-quarkus-hibernate \
+ -e POSTGRES_USER=hibernate \
+ -e POSTGRES_PASSWORD=hibernate \
+ -e POSTGRES_DB=quti \
+ -p 5433:5432 postgres:16.2
+```
+
+The next step is to launch the Quti Calendar Server
+
+```bash
+curl ...
+./server-${release}-runner \
+ -Dquarkus.datasource.username=hibernate \
+ -Dquarkus.datasource.password=hibernate \
+ -Dquarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5433/quti \
+ -Dquarkus.hibernate-orm.schema-management.strategy=drop-and-create
+```
+
+<Note>
+Note that the properties passed need be the same you used when setting up the database and
+the last parameter should be passed only upon first start or if you want to erase all data.
 </Note>
 
 ## Choose your client
