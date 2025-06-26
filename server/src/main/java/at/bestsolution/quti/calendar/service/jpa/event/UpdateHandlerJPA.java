@@ -99,12 +99,12 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 				.map(UUID::fromString)
 				.map(key -> CalendarUtils.calendar(em, key))
 				.filter(Objects::nonNull)
-				.map(calendar -> {
+				.forEach(calendar -> {
 					var ref = new EventReferenceEntity();
 					ref.calendar = calendar;
 					ref.event = entity;
-					return ref;
-				}).toList();
+					em.persist(ref);
+				});
 		;
 	}
 
