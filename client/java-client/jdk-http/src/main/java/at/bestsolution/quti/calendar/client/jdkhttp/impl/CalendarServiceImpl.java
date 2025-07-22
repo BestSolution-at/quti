@@ -37,7 +37,7 @@ public class CalendarServiceImpl implements CalendarService {
 			throws InvalidContentException {
 		Objects.requireNonNull(calendar, "calendar must not be null");
 
-		var $path = "%s/api/calendar/".formatted(
+		var $path = "%s/api/calendar".formatted(
 				this.baseURI);
 
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(calendar, false));

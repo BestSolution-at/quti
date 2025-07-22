@@ -40,7 +40,7 @@ public class EventServiceImpl implements EventService {
 		Objects.requireNonNull(calendar, "calendar must not be null");
 		Objects.requireNonNull(event, "event must not be null");
 
-		var $path = "%s/api/calendar/%s/events/".formatted(
+		var $path = "%s/api/calendar/%s/events".formatted(
 				this.baseURI,
 				calendar);
 
