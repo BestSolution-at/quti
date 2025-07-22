@@ -45,15 +45,15 @@ public class EventServiceImpl implements EventService {
 				calendar);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.POST($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.POST($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 201) {
 				return ServiceUtils.mapString($response);
@@ -85,13 +85,13 @@ public class EventServiceImpl implements EventService {
 		var $headers = ServiceUtils.toHeaders($headerParams);
 
 		var $uri = URI.create($path);
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.headers($headers)
-				.GET()
-				.build();
-
 		try {
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.headers($headers)
+					.GET()
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObject($response, EventDataImpl::of);
@@ -116,15 +116,15 @@ public class EventServiceImpl implements EventService {
 				calendar);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObjects($response, EventDataImpl::of);
@@ -152,16 +152,16 @@ public class EventServiceImpl implements EventService {
 		var $headers = ServiceUtils.toHeaders($headerParams);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.headers($headers)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.headers($headers)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObjects($response, EventDataImpl::of);
@@ -187,14 +187,14 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.method("PATCH", $body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.method("PATCH", $body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -219,12 +219,12 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.DELETE()
-				.build();
-
 		try {
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.DELETE()
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -245,15 +245,15 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString("");
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString("");
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -274,15 +274,15 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString("");
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString("");
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -305,18 +305,18 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $builder = Json.createObjectBuilder();
-		$builder = $builder.add("start", start.toString());
-		$builder = $builder.add("end", end.toString());
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString($builder.build(), false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $builder = Json.createObjectBuilder();
+			$builder = $builder.add("start", start.toString());
+			$builder = $builder.add("end", end.toString());
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString($builder.build(), false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -338,15 +338,15 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(String.format("\"%s\"", end));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(String.format("\"%s\"", end));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -368,15 +368,15 @@ public class EventServiceImpl implements EventService {
 				key);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(String.format("\"%s\"", description));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.PUT($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(String.format("\"%s\"", description));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.PUT($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;

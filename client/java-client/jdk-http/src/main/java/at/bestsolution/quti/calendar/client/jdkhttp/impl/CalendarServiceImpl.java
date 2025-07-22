@@ -41,15 +41,15 @@ public class CalendarServiceImpl implements CalendarService {
 				this.baseURI);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(calendar, false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.header("Content-Type", "application/json")
-				.POST($body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(calendar, false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", "application/json")
+					.POST($body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 201) {
 				return ServiceUtils.mapString($response);
@@ -72,12 +72,12 @@ public class CalendarServiceImpl implements CalendarService {
 				key);
 
 		var $uri = URI.create($path);
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.GET()
-				.build();
-
 		try {
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.GET()
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObject($response, CalendarDataImpl::of);
@@ -103,14 +103,14 @@ public class CalendarServiceImpl implements CalendarService {
 				key);
 
 		var $uri = URI.create($path);
-		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
-
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.method("PATCH", $body)
-				.build();
-
 		try {
+			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.method("PATCH", $body)
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 204) {
 				return;
@@ -144,12 +144,12 @@ public class CalendarServiceImpl implements CalendarService {
 		var $queryParamString = ServiceUtils.toURLQueryPart($queryParams);
 
 		var $uri = URI.create($path + $queryParamString);
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.GET()
-				.build();
-
 		try {
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.GET()
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
@@ -188,13 +188,13 @@ public class CalendarServiceImpl implements CalendarService {
 		var $headers = ServiceUtils.toHeaders($headerParams);
 
 		var $uri = URI.create($path + $queryParamString);
-		var $request = HttpRequest.newBuilder()
-				.uri($uri)
-				.headers($headers)
-				.GET()
-				.build();
-
 		try {
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.headers($headers)
+					.GET()
+					.build();
+
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
