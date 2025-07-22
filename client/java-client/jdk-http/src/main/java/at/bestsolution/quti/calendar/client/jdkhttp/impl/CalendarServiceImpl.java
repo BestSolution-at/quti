@@ -40,9 +40,9 @@ public class CalendarServiceImpl implements CalendarService {
 		var $path = "%s/api/calendar".formatted(
 				this.baseURI);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(calendar, false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -102,9 +102,9 @@ public class CalendarServiceImpl implements CalendarService {
 				this.baseURI,
 				key);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.method("PATCH", $body)

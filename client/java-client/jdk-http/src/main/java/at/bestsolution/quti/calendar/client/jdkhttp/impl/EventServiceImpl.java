@@ -44,9 +44,9 @@ public class EventServiceImpl implements EventService {
 				this.baseURI,
 				calendar);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -115,9 +115,9 @@ public class EventServiceImpl implements EventService {
 				this.baseURI,
 				calendar);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -151,9 +151,9 @@ public class EventServiceImpl implements EventService {
 				"timezone", Objects.toString(timezone));
 		var $headers = ServiceUtils.toHeaders($headerParams);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.headers($headers)
@@ -186,9 +186,9 @@ public class EventServiceImpl implements EventService {
 				calendar,
 				key);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.method("PATCH", $body)
@@ -244,9 +244,9 @@ public class EventServiceImpl implements EventService {
 				calendar,
 				key);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString("");
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -273,9 +273,9 @@ public class EventServiceImpl implements EventService {
 				calendar,
 				key);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString("");
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -304,12 +304,12 @@ public class EventServiceImpl implements EventService {
 				calendar,
 				key);
 
+		var $uri = URI.create($path);
 		var $builder = Json.createObjectBuilder();
 		$builder = $builder.add("start", start.toString());
 		$builder = $builder.add("end", end.toString());
 		var $body = BodyPublishers.ofString(_JsonUtils.toJsonString($builder.build(), false));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -337,9 +337,9 @@ public class EventServiceImpl implements EventService {
 				calendar,
 				key);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(String.format("\"%s\"", end));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
@@ -367,9 +367,9 @@ public class EventServiceImpl implements EventService {
 				calendar,
 				key);
 
+		var $uri = URI.create($path);
 		var $body = BodyPublishers.ofString(String.format("\"%s\"", description));
 
-		var $uri = URI.create($path);
 		var $request = HttpRequest.newBuilder()
 				.uri($uri)
 				.header("Content-Type", "application/json")
