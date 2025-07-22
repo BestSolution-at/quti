@@ -612,6 +612,10 @@ public class _JsonUtils {
 		return value.stream().map(Object::toString).collect(toStringArray());
 	}
 
+	public static <T> JsonArray toJsonValueArray(List<T> value, Function<T, JsonValue> jsonValueConverter) {
+		return value.stream().collect(toArray(jsonValueConverter));
+	}
+
 	public static <T> Collector<T, ?, JsonArray> toArray(Function<T, JsonValue> jsonValueConverter) {
 		return Collector.of(
 				Json::createArrayBuilder,

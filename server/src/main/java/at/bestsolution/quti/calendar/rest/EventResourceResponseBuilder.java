@@ -17,16 +17,16 @@ import at.bestsolution.quti.calendar.service.model.EventSearch;
 
 @Singleton
 public class EventResourceResponseBuilder {
-	public ResponseBuilder create(String result, String calendar, EventNew.Data event) {
-		return Response.status(201).entity(_JsonUtils.encodeAsJsonString(result));
+	public ResponseBuilder create(String $result, String calendar, EventNew.Data event) {
+		return Response.status(201).entity(_JsonUtils.encodeAsJsonString($result));
 	}
 
-	public ResponseBuilder get(Event.Data result, String calendar, String key, ZoneId timezone) {
-		return Response.status(200).entity(_JsonUtils.toJsonString(result, false));
+	public ResponseBuilder get(Event.Data $result, String calendar, String key, ZoneId timezone) {
+		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder search(List<Event.Data> result, String calendar, EventSearch.Data filter, ZoneId timezone) {
-		return Response.status(200).entity(_JsonUtils.toJsonString(result, false));
+	public ResponseBuilder search(List<Event.Data> $result, String calendar, EventSearch.Data filter, ZoneId timezone) {
+		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
 	public ResponseBuilder update(String calendar, String key, Event.Patch changes) {
