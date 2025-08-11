@@ -7,16 +7,12 @@ export type DateTimeRange = {
 };
 
 export function isDateTimeRange(value: unknown): value is DateTimeRange {
-	return (
-		isRecord(value) &&
+	return isRecord(value) &&
 		checkOptProp(value, 'min', isString) &&
-		checkOptProp(value, 'max', isString)
-	);
+		checkOptProp(value, 'max', isString);
 }
 
-export function DateTimeRangeFromJSON(
-	value: Record<string, unknown>,
-): DateTimeRange {
+export function DateTimeRangeFromJSON(value: Record<string, unknown>): DateTimeRange {
 	const min = propValue('min', value, isString, 'optional');
 	const max = propValue('max', value, isString, 'optional');
 	return {
@@ -25,9 +21,7 @@ export function DateTimeRangeFromJSON(
 	};
 }
 
-export function DateTimeRangeToJSON(
-	value: DateTimeRange,
-): Record<string, unknown> {
+export function DateTimeRangeToJSON(value: DateTimeRange): Record<string, unknown> {
 	const min = value.min;
 	const max = value.max;
 
@@ -36,3 +30,4 @@ export function DateTimeRangeToJSON(
 		max,
 	};
 }
+

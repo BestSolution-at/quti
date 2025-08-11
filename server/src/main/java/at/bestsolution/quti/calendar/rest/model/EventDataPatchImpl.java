@@ -25,6 +25,10 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		super(data);
 	}
 
+	public String key() {
+		return _JsonUtils.mapString(data, "key");
+	}
+
 	public Optional<String> title() {
 		return _JsonUtils.mapOptString(data, "title");
 	}
@@ -59,6 +63,11 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 
 	public static class PatchBuilderImpl implements Event.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
+
+		public PatchBuilder key(String key) {
+			$builder.add("key", key);
+			return this;
+		}
 
 		@Override
 		public PatchBuilder title(String title) {

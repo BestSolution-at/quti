@@ -15,6 +15,10 @@ public class CalendarDataPatchImpl extends _BaseDataImpl implements Calendar.Pat
 		super(data);
 	}
 
+	public String key() {
+		return _JsonUtils.mapString(data, "key");
+	}
+
 	public Optional<String> name() {
 		return _JsonUtils.mapOptString(data, "name");
 	}
@@ -25,6 +29,11 @@ public class CalendarDataPatchImpl extends _BaseDataImpl implements Calendar.Pat
 
 	public static class PatchBuilderImpl implements Calendar.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
+
+		public PatchBuilder key(String key) {
+			$builder.add("key", key);
+			return this;
+		}
 
 		@Override
 		public PatchBuilder name(String name) {

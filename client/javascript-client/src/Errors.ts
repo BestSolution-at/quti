@@ -2,20 +2,9 @@
 import type { RSDError } from './_result-utils.js';
 import { checkProp, isNumber, isRecord, isString } from './_type-utils.js';
 
-const errorTypes = new Set([
-	'_Native',
-	'_Status',
-	'NotFound',
-	'InvalidContent',
-	'InvalidArgument',
-]);
+const errorTypes = new Set(['_Native', '_Status', 'NotFound', 'InvalidContent', 'InvalidArgument']);
 
-export type ErrorType =
-	| '_Native'
-	| '_Status'
-	| 'NotFound'
-	| 'InvalidContent'
-	| 'InvalidArgument';
+export type ErrorType = '_Native' | '_Status' | 'NotFound' | 'InvalidContent' | 'InvalidArgument';
 
 export function isKnownRSDError(value: unknown): value is RSDError<ErrorType> {
 	return (
@@ -35,12 +24,8 @@ export type StatusRSDError = RSDError<'_Status'> & {
 };
 
 export type NotFoundError = RSDError<'NotFound'> & { message: string };
-export type InvalidContentError = RSDError<'InvalidContent'> & {
-	message: string;
-};
-export type InvalidArgumentError = RSDError<'InvalidArgument'> & {
-	message: string;
-};
+export type InvalidContentError = RSDError<'InvalidContent'> & { message: string };
+export type InvalidArgumentError = RSDError<'InvalidArgument'> & { message: string };
 
 export function isNativeError(value: unknown): value is NativeRSDError {
 	return (
@@ -63,25 +48,21 @@ export function isStatusError(value: unknown): value is StatusRSDError {
 export function isNotFoundError(value: unknown): value is NotFoundError {
 	return (
 		isRecord(value) &&
-		checkProp(value, '_type', (v) => v === 'NotFound') &&
+		checkProp(value, '_type', v => v === 'NotFound') &&
 		checkProp(value, 'message', isString)
 	);
 }
-export function isInvalidContentError(
-	value: unknown,
-): value is InvalidContentError {
+export function isInvalidContentError(value: unknown): value is InvalidContentError {
 	return (
 		isRecord(value) &&
-		checkProp(value, '_type', (v) => v === 'InvalidContent') &&
+		checkProp(value, '_type', v => v === 'InvalidContent') &&
 		checkProp(value, 'message', isString)
 	);
 }
-export function isInvalidArgumentError(
-	value: unknown,
-): value is InvalidArgumentError {
+export function isInvalidArgumentError(value: unknown): value is InvalidArgumentError {
 	return (
 		isRecord(value) &&
-		checkProp(value, '_type', (v) => v === 'InvalidArgument') &&
+		checkProp(value, '_type', v => v === 'InvalidArgument') &&
 		checkProp(value, 'message', isString)
 	);
 }

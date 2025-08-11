@@ -3,6 +3,8 @@ package at.bestsolution.quti.calendar.client.jdkhttp.impl.model;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -625,6 +627,9 @@ public class _JsonUtils {
 	}
 
 	public static String toJsonString(Object o, boolean pretty) {
+		if (o == null) {
+			return "null";
+		}
 		if (o instanceof List<?> list) {
 			var writer = new StringWriter();
 			var config = Map.of(JsonGenerator.PRETTY_PRINTING, pretty);
@@ -635,8 +640,24 @@ public class _JsonUtils {
 			list.forEach(e -> {
 				if (e instanceof _BaseDataImpl b) {
 					generator.write(b.data);
+				} else if (e == null) {
+					generator.writeNull();
+				} else if (e instanceof Number n) {
+					if (e instanceof Float || e instanceof Double) {
+						generator.write(n.doubleValue());
+					} else if (e instanceof BigDecimal v) {
+						generator.write(v);
+					} else if (e instanceof BigInteger v) {
+						generator.write(v);
+					} else if (e instanceof Long) {
+						generator.write(n.longValue());
+					} else {
+						generator.write(n.intValue());
+					}
+				} else if (e instanceof Boolean v) {
+					generator.write(v);
 				} else {
-					throw new IllegalStateException();
+					generator.write(e.toString());
 				}
 			});
 			generator.writeEnd();

@@ -19,9 +19,7 @@ export function isRSDError(value: unknown): value is RSDError {
 	return isRecord(value) && checkProp(value, '_type', isString);
 }
 
-export function isOk<T extends NonUndefined, E extends RSDError>(
-	value: Result<T, E>,
-): value is Ok<T> {
+export function isOk<T extends NonUndefined, E extends RSDError>(value: Result<T, E>): value is Ok<T> {
 	const [err] = value;
 	return err === null;
 }
@@ -34,12 +32,11 @@ export function ERR<E extends RSDError>(err: E): Err<E> {
 	return [undefined, err];
 }
 
-export async function $<X extends NonUndefined, Y extends RSDError>(
-	source: Promise<Result<X, Y>>,
-): Promise<X> {
+export async function $<X extends NonUndefined, Y extends RSDError>(source: Promise<Result<X, Y>>): Promise<X> {
 	const [o, r] = await source;
 	if (r !== null) {
 		throw r;
 	}
 	throw o;
 }
+

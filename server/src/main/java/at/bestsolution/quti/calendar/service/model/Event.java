@@ -55,6 +55,8 @@ public interface Event {
 	}
 
 	public interface Patch extends _Base.BaseData, Event {
+		public String key();
+
 		public Optional<String> title();
 
 		public _Base.Nillable<String> description();
@@ -74,6 +76,8 @@ public interface Event {
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Event.Patch> {
+		public PatchBuilder key(String key);
+
 		public PatchBuilder title(String title);
 
 		public PatchBuilder description(String description);

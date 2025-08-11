@@ -783,7 +783,7 @@
         },
         "required": [
           "key",
-          "owner"
+          "name"
         ]
       },
       "CalendarPatch": {
@@ -809,7 +809,7 @@
           }
         },
         "required": [
-          "owner"
+          "name"
         ]
       },
       "EventRepeatDaily": {
@@ -832,7 +832,8 @@
           }
         },
         "required": [
-          "endDate"
+          "interval",
+          "timeZone"
         ]
       },
       "EventRepeatDailyPatch": {
@@ -879,7 +880,9 @@
           }
         },
         "required": [
-          "endDate"
+          "daysOfWeek",
+          "interval",
+          "timeZone"
         ]
       },
       "EventRepeatWeeklyPatch": {
@@ -930,7 +933,9 @@
           }
         },
         "required": [
-          "endDate"
+          "dayOfMonth",
+          "interval",
+          "timeZone"
         ]
       },
       "EventRepeatAbsoluteMonthlyPatch": {
@@ -982,7 +987,10 @@
           }
         },
         "required": [
-          "endDate"
+          "dayOfMonth",
+          "month",
+          "interval",
+          "timeZone"
         ]
       },
       "EventRepeatAbsoluteYearlyPatch": {
@@ -1036,7 +1044,9 @@
           }
         },
         "required": [
-          "endDate"
+          "daysOfWeek",
+          "interval",
+          "timeZone"
         ]
       },
       "EventRepeatRelativeMonthlyPatch": {
@@ -1092,7 +1102,10 @@
           }
         },
         "required": [
-          "endDate"
+          "daysOfWeek",
+          "month",
+          "interval",
+          "timeZone"
         ]
       },
       "EventRepeatRelativeYearlyPatch": {
@@ -1192,9 +1205,11 @@
           }
         },
         "required": [
-          "description",
-          "fullday",
-          "repeat"
+          "title",
+          "start",
+          "end",
+          "tags",
+          "referencedCalendars"
         ]
       },
       "Event": {
@@ -1238,9 +1253,11 @@
         },
         "required": [
           "key",
-          "description",
-          "fullday",
-          "repeat"
+          "title",
+          "start",
+          "end",
+          "tags",
+          "referencedCalendars"
         ]
       },
       "EventPatch": {
@@ -1333,7 +1350,16 @@
           }
         },
         "required": [
-          "key"
+          "key",
+          "calendarKey",
+          "title",
+          "description",
+          "owner",
+          "status",
+          "start",
+          "end",
+          "tags",
+          "referencedCalendars"
         ]
       },
       "SeriesMovedEventView": {
@@ -1397,7 +1423,19 @@
           }
         },
         "required": [
-          "key"
+          "masterEventKey",
+          "originalStart",
+          "originalEnd",
+          "key",
+          "calendarKey",
+          "title",
+          "description",
+          "owner",
+          "status",
+          "start",
+          "end",
+          "tags",
+          "referencedCalendars"
         ]
       },
       "SeriesEventView": {
@@ -1453,7 +1491,17 @@
           }
         },
         "required": [
-          "key"
+          "masterEventKey",
+          "key",
+          "calendarKey",
+          "title",
+          "description",
+          "owner",
+          "status",
+          "start",
+          "end",
+          "tags",
+          "referencedCalendars"
         ]
       },
       "EventView": {
@@ -1499,13 +1547,7 @@
             }
           }
         },
-        "required": [
-          "owner",
-          "title",
-          "description",
-          "fullday",
-          "tags"
-        ]
+        "required": []
       },
       "EventSearch": {
         "type": "object",
@@ -1523,11 +1565,7 @@
             "$ref": "#/components/schemas/DateTimeRange"
           }
         },
-        "required": [
-          "tags",
-          "startRange",
-          "endRange"
-        ]
+        "required": []
       },
       "DateTimeRange": {
         "type": "object",
@@ -1541,10 +1579,7 @@
             "format": "zoned-date-time"
           }
         },
-        "required": [
-          "min",
-          "max"
-        ]
+        "required": []
       }
     }
   }

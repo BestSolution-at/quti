@@ -26,6 +26,8 @@ public interface Calendar {
 	}
 
 	public interface Patch extends _Base.BaseData, Calendar {
+		public String key();
+
 		public Optional<String> name();
 
 		public _Base.Nillable<String> owner();
@@ -33,6 +35,8 @@ public interface Calendar {
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Calendar.Patch> {
+		public PatchBuilder key(String key);
+
 		public PatchBuilder name(String name);
 
 		public PatchBuilder owner(String owner);

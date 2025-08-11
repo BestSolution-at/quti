@@ -46,11 +46,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(event, false));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.POST($body)
 					.build();
 
@@ -117,11 +118,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 
@@ -153,12 +155,13 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(filter, false));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
 					.headers($headers)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 
@@ -188,10 +191,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
+					.header("Content-Type", $contentType)
 					.method("PATCH", $body)
 					.build();
 
@@ -246,11 +251,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString("");
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 
@@ -275,11 +281,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString("");
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 
@@ -306,6 +313,7 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $builder = Json.createObjectBuilder();
 			$builder = $builder.add("start", start.toString());
 			$builder = $builder.add("end", end.toString());
@@ -313,7 +321,7 @@ public class EventServiceImpl implements EventService {
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 
@@ -339,11 +347,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(String.format("\"%s\"", end));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 
@@ -369,11 +378,12 @@ public class EventServiceImpl implements EventService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(String.format("\"%s\"", description));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.PUT($body)
 					.build();
 

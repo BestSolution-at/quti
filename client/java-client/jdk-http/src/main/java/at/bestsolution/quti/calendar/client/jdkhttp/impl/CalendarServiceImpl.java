@@ -42,11 +42,12 @@ public class CalendarServiceImpl implements CalendarService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(calendar, false));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
-					.header("Content-Type", "application/json")
+					.header("Content-Type", $contentType)
 					.POST($body)
 					.build();
 
@@ -104,10 +105,12 @@ public class CalendarServiceImpl implements CalendarService {
 
 		var $uri = URI.create($path);
 		try {
+			var $contentType = "application/json";
 			var $body = BodyPublishers.ofString(_JsonUtils.toJsonString(changes, false));
 
 			var $request = HttpRequest.newBuilder()
 					.uri($uri)
+					.header("Content-Type", $contentType)
 					.method("PATCH", $body)
 					.build();
 

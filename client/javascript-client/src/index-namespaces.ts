@@ -2,4 +2,4 @@
 export * as model from './model/index.js';
 export * as service from './index-service.js';
 export * as utils from './_type-utils.js';
-export * as result from './_result-utils.js';
+export * as result from './_result-utils.js'
