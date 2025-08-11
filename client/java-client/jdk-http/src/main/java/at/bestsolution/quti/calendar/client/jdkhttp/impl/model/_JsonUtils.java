@@ -614,14 +614,14 @@ public class _JsonUtils {
 		return value.stream().map(Object::toString).collect(toStringArray());
 	}
 
-	public static <T> JsonArray toJsonValueArray(List<T> value, Function<T, JsonValue> jsonValueConverter) {
+	public static <T> JsonArray toJsonValueArray(List<T> value, Function<T, ? extends JsonValue> jsonValueConverter) {
 		return value.stream().collect(toArray(jsonValueConverter));
 	}
 
-	public static <T> Collector<T, ?, JsonArray> toArray(Function<T, JsonValue> jsonValueConverter) {
+	public static <T> Collector<T, ?, JsonArray> toArray(Function<T, ? extends JsonValue> jsonValueConverter) {
 		return Collector.of(
 				Json::createArrayBuilder,
-				(b, v) -> jsonValueConverter.apply(v),
+				(b, v) -> b.add(jsonValueConverter.apply(v)),
 				JsonArrayBuilder::add,
 				JsonArrayBuilder::build);
 	}

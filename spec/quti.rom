@@ -74,8 +74,6 @@ entity EventRepeat {
 	er_start: 				zoned-date-time		as startDate
 	er_end: 					zoned-date-time		as endDate
 
-	// one-to-one Event.repeatPattern as event
-
 	descriminated-by er_type: int as type
 }
 

@@ -102,13 +102,17 @@ public class JDKQutiClient implements QutiClient {
 	private final URI baseURI;
 	private final HttpClient httpClient;
 
-	JDKQutiClient(URI baseURI) {
+	JDKQutiClient(URI baseURI, Supplier<HttpClient> httpClientSupplier) {
 		this.baseURI = baseURI;
-		this.httpClient = HttpClient.newHttpClient();
+		this.httpClient = httpClientSupplier.get();
 	}
 
 	public static QutiClient create(URI baseURI) {
-		return new JDKQutiClient(baseURI);
+		return new JDKQutiClient(baseURI, HttpClient::newHttpClient);
+	}
+
+	public static QutiClient create(URI baseURI, Supplier<HttpClient> httpClientSupplier) {
+		return new JDKQutiClient(baseURI, httpClientSupplier);
 	}
 
 	@SuppressWarnings("unchecked")
