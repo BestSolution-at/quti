@@ -67,7 +67,9 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		patch.start().ifPresent(v -> handleStartChange(em, entity, v));
 		patch.end().ifPresent(entity::end);
 
-		patch.referencedCalendars().ifPresent(refs -> handleReferencedCalendardChange(em, entity, refs));
+		patch.referencedCalendars()
+				.ifPresent(refs -> refs.acceptOne(e -> handleReferencedCalendardChange(em, entity, e.elements()),
+						d -> new UnsupportedOperationException("Delta-Change not yet implemented")));
 		patch.repeat().accept(r -> handleRepeatChange(em, entity, r));
 
 		EventUtils.validateEvent(entity);

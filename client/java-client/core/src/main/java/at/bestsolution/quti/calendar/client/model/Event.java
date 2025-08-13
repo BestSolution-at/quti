@@ -69,9 +69,9 @@ public interface Event {
 
 		public _Base.Nillable<EventRepeat.Data> repeat();
 
-		public Optional<List<String>> tags();
+		public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags();
 
-		public Optional<List<String>> referencedCalendars();
+		public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> referencedCalendars();
 
 	}
 
@@ -92,9 +92,15 @@ public interface Event {
 
 		public <T extends EventRepeat.DataBuilder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
 
-		public PatchBuilder tags(List<String> tags);
+		public PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags);
 
-		public PatchBuilder referencedCalendars(List<String> referencedCalendars);
+		public PatchBuilder tags(List<String> additions, List<String> removals);
+		public PatchBuilder tags(List<String> elements);
+
+		public PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars);
+
+		public PatchBuilder referencedCalendars(List<String> additions, List<String> removals);
+		public PatchBuilder referencedCalendars(List<String> elements);
 
 	}
 }

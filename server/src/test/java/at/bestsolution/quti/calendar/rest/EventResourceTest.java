@@ -173,4 +173,21 @@ public class EventResourceTest extends BaseTest {
 				.then()
 				.statusCode(204);
 	}
+
+	@Test
+	void testUpdateReferencesEvent() {
+		given()
+				.header("Content-Type", "application/json")
+				.body("""
+						{
+							"title": "Patched Title",
+							"referencedCalendars": {
+								"elements": ["%s"]
+							}
+						}
+						""".formatted(referenceCalendarKey.toString()))
+				.patch(String.format("/api/calendar/%s/events/%s", basicCalendarKey, simpleEventKey))
+				.then()
+				.statusCode(204);
+	}
 }

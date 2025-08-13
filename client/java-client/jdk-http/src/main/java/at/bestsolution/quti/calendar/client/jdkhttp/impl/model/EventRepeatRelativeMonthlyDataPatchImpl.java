@@ -10,6 +10,7 @@ import java.util.Optional;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonString;
 
 import at.bestsolution.quti.calendar.client.model._Base;
 import at.bestsolution.quti.calendar.client.model.EventRepeatRelativeMonthly;
@@ -19,8 +20,8 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		super(data);
 	}
 
-	public Optional<List<DayOfWeek>> daysOfWeek() {
-		return _JsonUtils.mapOptLiterals(data, "daysOfWeek", DayOfWeek::valueOf);
+	public Optional<_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>>> daysOfWeek() {
+		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeImpl.of(o, v -> DayOfWeek.valueOf(((JsonString)v).getString())));
 	}
 
 	public Optional<Short> interval() {
@@ -39,8 +40,25 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder daysOfWeek(List<DayOfWeek> daysOfWeek) {
-			;
+		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
+			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
+			return this;
+		}
+
+		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
+			var $changeBuilder = Json.createObjectBuilder();
+			$changeBuilder.add("@type", "delta-change");
+			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
+			$changeBuilder.add("removals", _JsonUtils.toJsonLiteralArray(removals));
+			$builder.add("daysOfWeek", $changeBuilder.build());
+			return this;
+		}
+
+		public PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
+			var $changeBuilder = Json.createObjectBuilder();
+			$changeBuilder.add("@type", "elements-change");
+			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
+			$builder.add("daysOfWeek", $changeBuilder.build());
 			return this;
 		}
 

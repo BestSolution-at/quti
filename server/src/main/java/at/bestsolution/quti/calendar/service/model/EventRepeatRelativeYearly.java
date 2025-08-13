@@ -39,7 +39,7 @@ public interface EventRepeatRelativeYearly {
 	}
 
 	public interface Patch extends _Base.BaseData, EventRepeatRelativeYearly {
-		public Optional<List<DayOfWeek>> daysOfWeek();
+		public Optional<_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>>> daysOfWeek();
 
 		public Optional<Month> month();
 
@@ -52,7 +52,10 @@ public interface EventRepeatRelativeYearly {
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatRelativeYearly.Patch> {
-		public PatchBuilder daysOfWeek(List<DayOfWeek> daysOfWeek);
+		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek);
+
+		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals);
+		public PatchBuilder daysOfWeek(List<DayOfWeek> elements);
 
 		public PatchBuilder month(Month month);
 

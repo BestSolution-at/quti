@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -127,6 +128,16 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 		handler.update(this.builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
 		assertNull(event(repeatingDailyEndlessKey).repeatPattern);
 		assertEquals(0, modifications(repeatingDailyEndlessKey).size());
+	}
+
+	@Test
+	public void updateReferencedCalendars() {
+		var dto = builderFactory.builder(Event.PatchBuilder.class)
+				.referencedCalendars(List.of(referenceCalendarKey.toString()))
+				.build();
+		handler.update(builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
+		assertEquals(event(repeatingDailyEndlessKey).references.size(), 1);
+		assertEquals(event(repeatingDailyEndlessKey).references.get(0).calendar.key, referenceCalendarKey);
 	}
 
 	// @Test

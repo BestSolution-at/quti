@@ -4,10 +4,12 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import at.bestsolution.quti.calendar.client.CalendarService;
 import at.bestsolution.quti.calendar.client.EventService;
 import at.bestsolution.quti.calendar.client.jdkhttp.JDKQutiClient;
+import at.bestsolution.quti.calendar.client.jdkhttp.impl.model._JsonUtils;
 import at.bestsolution.quti.calendar.client.model.Calendar;
 import at.bestsolution.quti.calendar.client.model.CalendarNew;
 import at.bestsolution.quti.calendar.client.model.Event;
@@ -16,7 +18,7 @@ import at.bestsolution.quti.calendar.client.model.EventRepeatDaily;
 
 public class Main {
 	public static void main(String[] args) {
-		var client = JDKQutiClient.create(URI.create("http://localhost:8080"));
+		var client = JDKQutiClient.create(URI.create("http://localhost:8083"));
 		var calendarService = client.service(CalendarService.class);
 		var eventService = client.service(EventService.class);
 
@@ -26,6 +28,8 @@ public class Main {
 				.build();
 		var calendarId = calendarService.create(calendarNewDto);
 		System.err.println("Created calendar '%s'".formatted(calendarId));
+
+		var addCalendarId = calendarService.create(calendarNewDto);
 
 		var calendar = calendarService.get(calendarId);
 		System.err.println("Loaded calendar - Name: %s".formatted(calendar.name()));
@@ -65,7 +69,9 @@ public class Main {
 		var eventPatchBuilder = client.builder(Event.PatchBuilder.class);
 		var eventPatch = eventPatchBuilder
 				.title("Sample Event Updated")
+				.referencedCalendars(List.of(addCalendarId))
 				.build();
+		System.err.println(_JsonUtils.toJsonString(eventPatch, true));
 		eventService.update(calendarId, eventId, eventPatch);
 
 		var events = calendarService.eventView(
@@ -86,7 +92,8 @@ public class Main {
 				ZoneId.of("Europe/Vienna"));
 
 		events.forEach(e -> {
-			System.err.println(e.title() + ":" + e.start() + " - " + e.end() + " - " + e.status() + " - " + e.description());
+			System.err.println(e.title() + ":" + e.start() + " - " + e.end() + " - " + e.status() + " - " + e.description()
+					+ " referenced in " + e.referencedCalendars());
 		});
 	}
 }
