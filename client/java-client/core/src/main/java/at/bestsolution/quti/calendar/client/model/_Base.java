@@ -22,6 +22,37 @@ public interface _Base {
 		public T build();
 	}
 
+	public interface ValueChange<T> {
+		public T value();
+	}
+
+	public interface DeltaChange<T> {
+		public T delta();
+	}
+
+	public interface Change<T,U> {
+		public Optional<T> valueChange();
+
+		public Optional<U> deltaChange();
+
+		public default void acceptOne(Consumer<T> valueChange, Consumer<U> deltaChange) {
+			valueChange().ifPresent(valueChange);
+			deltaChange().ifPresent(deltaChange);
+		}
+
+		public default <V> V applyOne(Function<T, V> valueChange, Function<U, V> deltaChange) {
+			var el = valueChange();
+			if (el.isPresent()) {
+				return valueChange.apply(el.get());
+			}
+			var de = deltaChange();
+			if (de.isPresent()) {
+				return deltaChange.apply(de.get());
+			}
+			throw new IllegalStateException();
+		}
+	}
+
 	public interface ListSetElementsChange<T> {
 		public List<T> elements();
 	}
@@ -40,16 +71,12 @@ public interface _Base {
 
 		public Optional<D> deltaChange();
 
-		public default void acceptOne(
-				Consumer<E> elementsChange,
-				Consumer<D> deltaChange) {
+		public default void acceptOne(Consumer<E> elementsChange, Consumer<D> deltaChange) {
 			elementsChange().ifPresent(elementsChange);
 			deltaChange().ifPresent(deltaChange);
 		}
 
-		public default <V> V applyOne(
-				Function<E, V> elementsChange,
-				Function<D, V> deltaChange) {
+		public default <V> V applyOne(Function<E, V> elementsChange, Function<D, V> deltaChange) {
 			var el = elementsChange();
 			if (el.isPresent()) {
 				return elementsChange.apply(el.get());
