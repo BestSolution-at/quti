@@ -42,25 +42,25 @@ public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implem
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder dayOfMonth(short dayOfMonth) {
+		public EventRepeatAbsoluteYearly.PatchBuilder dayOfMonth(short dayOfMonth) {
 			$builder.add("dayOfMonth", dayOfMonth);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder month(Month month) {
+		public EventRepeatAbsoluteYearly.PatchBuilder month(Month month) {
 			;
 			return this;
 		}
 
 		@Override
-		public PatchBuilder interval(short interval) {
+		public EventRepeatAbsoluteYearly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatAbsoluteYearly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -70,13 +70,13 @@ public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 
 		@Override
-		public PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatAbsoluteYearly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public Patch build() {
+		public EventRepeatAbsoluteYearly.Patch build() {
 			return new EventRepeatAbsoluteYearlyDataPatchImpl($builder.build());
 		}
 	}

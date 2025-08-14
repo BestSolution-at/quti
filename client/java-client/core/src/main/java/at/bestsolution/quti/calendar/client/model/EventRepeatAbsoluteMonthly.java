@@ -31,7 +31,7 @@ public interface EventRepeatAbsoluteMonthly {
 
 	}
 
-	public interface Patch extends _Base.BaseData, EventRepeatAbsoluteMonthly {
+	public interface Patch extends _Base.BaseData, EventRepeatAbsoluteMonthly, EventRepeat.Patch {
 		public Optional<Short> dayOfMonth();
 
 		public Optional<Short> interval();
@@ -42,7 +42,7 @@ public interface EventRepeatAbsoluteMonthly {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatAbsoluteMonthly.Patch> {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatAbsoluteMonthly.Patch>, EventRepeat.PatchBuilder {
 		public PatchBuilder dayOfMonth(short dayOfMonth);
 
 		public PatchBuilder interval(short interval);

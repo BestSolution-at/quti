@@ -40,12 +40,12 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
+		public EventRepeatWeekly.PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
 			return this;
 		}
 
-		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
+		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "delta-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
@@ -54,7 +54,7 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 			return this;
 		}
 
-		public PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
+		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "elements-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -63,13 +63,13 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 
 		@Override
-		public PatchBuilder interval(short interval) {
+		public EventRepeatWeekly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatWeekly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -79,13 +79,13 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 
 		@Override
-		public PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatWeekly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public Patch build() {
+		public EventRepeatWeekly.Patch build() {
 			return new EventRepeatWeeklyDataPatchImpl($builder.build());
 		}
 	}

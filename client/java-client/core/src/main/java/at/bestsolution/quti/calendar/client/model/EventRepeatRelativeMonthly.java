@@ -33,7 +33,7 @@ public interface EventRepeatRelativeMonthly {
 
 	}
 
-	public interface Patch extends _Base.BaseData, EventRepeatRelativeMonthly {
+	public interface Patch extends _Base.BaseData, EventRepeatRelativeMonthly, EventRepeat.Patch {
 		public Optional<_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>>> daysOfWeek();
 
 		public Optional<Short> interval();
@@ -44,7 +44,7 @@ public interface EventRepeatRelativeMonthly {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatRelativeMonthly.Patch> {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatRelativeMonthly.Patch>, EventRepeat.PatchBuilder {
 		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek);
 
 		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals);

@@ -3,6 +3,7 @@ package at.bestsolution.quti.calendar.service.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Optional;
 
 public interface EventRepeat {
 	public interface Data extends EventRepeat {
@@ -16,4 +17,17 @@ public interface EventRepeat {
 
 	public interface DataBuilder {
 	}
+
+	public interface Patch extends EventRepeat {
+		public Optional<Short> interval();
+
+		public _Base.Nillable<LocalDate> endDate();
+
+		public Optional<ZoneId> timeZone();
+
+	}
+
+	public interface PatchBuilder {
+	}
+
 }

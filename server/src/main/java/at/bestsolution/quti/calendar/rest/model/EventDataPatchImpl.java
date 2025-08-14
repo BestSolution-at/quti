@@ -65,19 +65,19 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 	public static class PatchBuilderImpl implements Event.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
-		public PatchBuilder key(String key) {
+		public Event.PatchBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder title(String title) {
+		public Event.PatchBuilder title(String title) {
 			$builder.add("title", title);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder description(String description) {
+		public Event.PatchBuilder description(String description) {
 			if (description == null) {
 				$builder.addNull("description");
 				return this;
@@ -87,19 +87,19 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public PatchBuilder start(ZonedDateTime start) {
+		public Event.PatchBuilder start(ZonedDateTime start) {
 			$builder.add("start", start.toString());
 			return this;
 		}
 
 		@Override
-		public PatchBuilder end(ZonedDateTime end) {
+		public Event.PatchBuilder end(ZonedDateTime end) {
 			$builder.add("end", end.toString());
 			return this;
 		}
 
 		@Override
-		public PatchBuilder fullday(Boolean fullday) {
+		public Event.PatchBuilder fullday(Boolean fullday) {
 			if (fullday == null) {
 				$builder.addNull("fullday");
 				return this;
@@ -109,7 +109,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public PatchBuilder repeat(EventRepeat.Data repeat) {
+		public Event.PatchBuilder repeat(EventRepeat.Data repeat) {
 			if (repeat == null) {
 				$builder.addNull("repeat");
 				return this;
@@ -118,7 +118,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 			return this;
 		}
 
-		public <T extends EventRepeat.DataBuilder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block) {
+		public <T extends EventRepeat.DataBuilder> Event.PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block) {
 			EventRepeat.DataBuilder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();
@@ -139,12 +139,12 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
+		public Event.PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
 			$builder.add("tags", ((_BaseDataImpl) tags).data);
 			return this;
 		}
 
-		public PatchBuilder tags(List<String> additions, List<String> removals) {
+		public Event.PatchBuilder tags(List<String> additions, List<String> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "delta-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonStringArray(additions));
@@ -153,7 +153,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 			return this;
 		}
 
-		public PatchBuilder tags(List<String> elements) {
+		public Event.PatchBuilder tags(List<String> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "elements-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -162,12 +162,12 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
+		public Event.PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
 			$builder.add("referencedCalendars", ((_BaseDataImpl) referencedCalendars).data);
 			return this;
 		}
 
-		public PatchBuilder referencedCalendars(List<String> additions, List<String> removals) {
+		public Event.PatchBuilder referencedCalendars(List<String> additions, List<String> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "delta-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonStringArray(additions));
@@ -176,7 +176,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 			return this;
 		}
 
-		public PatchBuilder referencedCalendars(List<String> elements) {
+		public Event.PatchBuilder referencedCalendars(List<String> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "elements-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -185,7 +185,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Patch build() {
+		public Event.Patch build() {
 			return new EventDataPatchImpl($builder.build());
 		}
 	}

@@ -33,13 +33,13 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder interval(short interval) {
+		public EventRepeatDaily.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatDaily.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -49,13 +49,13 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 		}
 
 		@Override
-		public PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatDaily.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public Patch build() {
+		public EventRepeatDaily.Patch build() {
 			return new EventRepeatDailyDataPatchImpl($builder.build());
 		}
 	}

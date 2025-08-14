@@ -37,19 +37,19 @@ public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl imple
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder dayOfMonth(short dayOfMonth) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder dayOfMonth(short dayOfMonth) {
 			$builder.add("dayOfMonth", dayOfMonth);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder interval(short interval) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -59,13 +59,13 @@ public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 
 		@Override
-		public PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public Patch build() {
+		public EventRepeatAbsoluteMonthly.Patch build() {
 			return new EventRepeatAbsoluteMonthlyDataPatchImpl($builder.build());
 		}
 	}

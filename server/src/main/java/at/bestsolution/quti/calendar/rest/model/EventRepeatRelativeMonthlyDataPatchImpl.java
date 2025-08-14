@@ -40,12 +40,12 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
 			return this;
 		}
 
-		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "delta-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
@@ -54,7 +54,7 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 			return this;
 		}
 
-		public PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "elements-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -63,13 +63,13 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 
 		@Override
-		public PatchBuilder interval(short interval) {
+		public EventRepeatRelativeMonthly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatRelativeMonthly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -79,13 +79,13 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 
 		@Override
-		public PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatRelativeMonthly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public Patch build() {
+		public EventRepeatRelativeMonthly.Patch build() {
 			return new EventRepeatRelativeMonthlyDataPatchImpl($builder.build());
 		}
 	}

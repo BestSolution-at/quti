@@ -27,7 +27,7 @@ public interface EventRepeatDaily {
 
 	}
 
-	public interface Patch extends _Base.BaseData, EventRepeatDaily {
+	public interface Patch extends _Base.BaseData, EventRepeatDaily, EventRepeat.Patch {
 		public Optional<Short> interval();
 
 		public _Base.Nillable<LocalDate> endDate();
@@ -36,7 +36,7 @@ public interface EventRepeatDaily {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatDaily.Patch> {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatDaily.Patch>, EventRepeat.PatchBuilder {
 		public PatchBuilder interval(short interval);
 
 		public PatchBuilder endDate(LocalDate endDate);

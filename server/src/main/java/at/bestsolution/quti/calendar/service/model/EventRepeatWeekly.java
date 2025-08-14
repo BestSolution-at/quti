@@ -33,7 +33,7 @@ public interface EventRepeatWeekly {
 
 	}
 
-	public interface Patch extends _Base.BaseData, EventRepeatWeekly {
+	public interface Patch extends _Base.BaseData, EventRepeatWeekly, EventRepeat.Patch {
 		public Optional<_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>>> daysOfWeek();
 
 		public Optional<Short> interval();
@@ -44,7 +44,7 @@ public interface EventRepeatWeekly {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatWeekly.Patch> {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatWeekly.Patch>, EventRepeat.PatchBuilder {
 		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek);
 
 		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals);

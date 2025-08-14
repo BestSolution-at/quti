@@ -45,12 +45,12 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		@Override
-		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
+		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
 			return this;
 		}
 
-		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
+		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "delta-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
@@ -59,7 +59,7 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 			return this;
 		}
 
-		public PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
+		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "elements-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -68,19 +68,19 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 
 		@Override
-		public PatchBuilder month(Month month) {
+		public EventRepeatRelativeYearly.PatchBuilder month(Month month) {
 			;
 			return this;
 		}
 
 		@Override
-		public PatchBuilder interval(short interval) {
+		public EventRepeatRelativeYearly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatRelativeYearly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -90,13 +90,13 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 
 		@Override
-		public PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatRelativeYearly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public Patch build() {
+		public EventRepeatRelativeYearly.Patch build() {
 			return new EventRepeatRelativeYearlyDataPatchImpl($builder.build());
 		}
 	}

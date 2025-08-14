@@ -30,19 +30,19 @@ public class CalendarDataPatchImpl extends _BaseDataImpl implements Calendar.Pat
 	public static class PatchBuilderImpl implements Calendar.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
-		public PatchBuilder key(String key) {
+		public Calendar.PatchBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder name(String name) {
+		public Calendar.PatchBuilder name(String name) {
 			$builder.add("name", name);
 			return this;
 		}
 
 		@Override
-		public PatchBuilder owner(String owner) {
+		public Calendar.PatchBuilder owner(String owner) {
 			if (owner == null) {
 				$builder.addNull("owner");
 				return this;
@@ -52,7 +52,7 @@ public class CalendarDataPatchImpl extends _BaseDataImpl implements Calendar.Pat
 		}
 
 		@Override
-		public Patch build() {
+		public Calendar.Patch build() {
 			return new CalendarDataPatchImpl($builder.build());
 		}
 	}
