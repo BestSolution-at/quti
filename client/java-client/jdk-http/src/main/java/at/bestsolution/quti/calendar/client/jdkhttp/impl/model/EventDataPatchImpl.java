@@ -50,16 +50,19 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		return _JsonUtils.mapNilBoolean(data, "fullday");
 	}
 
-	public _Base.Nillable<EventRepeat.Data> repeat() {
-		return _JsonUtils.mapNilObject(data, "repeat", EventRepeatDataImpl::of);
+	public _Base.Nillable<_Base.Change<_Base.SetChange<EventRepeat.Data>, _Base.DeltaChange<EventRepeat.Patch>>> repeat() {
+		return _JsonUtils.mapNilObject(data,
+				"repeat",
+				o -> _ChangeImpl.of(o, EventRepeatDataImpl::of, EventRepeatPatchImpl::of));
 	}
 
 	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags() {
-		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeImpl.of(o, v -> ((JsonString)v).getString()));
+		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeImpl.of(o, v -> ((JsonString) v).getString()));
 	}
 
 	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> referencedCalendars() {
-		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeImpl.of(o, v -> ((JsonString)v).getString()));
+		return _JsonUtils.mapOptObject(data, "referencedCalendars",
+				o -> _ListChangeImpl.of(o, v -> ((JsonString) v).getString()));
 	}
 
 	public static class PatchBuilderImpl implements Event.PatchBuilder {
@@ -109,16 +112,28 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Event.PatchBuilder repeat(EventRepeat.Data repeat) {
+		public Event.PatchBuilder repeat(EventRepeat repeat) {
 			if (repeat == null) {
 				$builder.addNull("repeat");
 				return this;
 			}
-			$builder.add("repeat", ((_BaseDataImpl) repeat).data);
+
+			var $changeBuilder = Json.createObjectBuilder();
+			if (repeat instanceof EventRepeat.Patch) {
+				$builder.add("@type", "delta-change");
+				$changeBuilder.add("delta", ((_BaseDataImpl) repeat).data);
+			} else {
+				$builder.add("@type", "set-change");
+				$changeBuilder.add("value", ((_BaseDataImpl) repeat).data);
+			}
+
+			$changeBuilder.add("repeat", $changeBuilder.build());
+
 			return this;
 		}
 
-		public <T extends EventRepeat.DataBuilder> Event.PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block) {
+		public <T extends EventRepeat.Builder> Event.PatchBuilder withRepeat(Class<T> clazz,
+				Function<T, EventRepeat> block) {
 			EventRepeat.DataBuilder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();
@@ -139,7 +154,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Event.PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
+		public Event.PatchBuilder tags(
+				_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
 			$builder.add("tags", ((_BaseDataImpl) tags).data);
 			return this;
 		}
@@ -162,7 +178,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Event.PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
+		public Event.PatchBuilder referencedCalendars(
+				_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
 			$builder.add("referencedCalendars", ((_BaseDataImpl) referencedCalendars).data);
 			return this;
 		}
