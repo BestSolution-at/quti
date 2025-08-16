@@ -46,7 +46,8 @@ public interface Event {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
+				Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 
@@ -55,6 +56,7 @@ public interface Event {
 	}
 
 	public interface Patch extends _Base.BaseData, Event {
+
 		public String key();
 
 		public Optional<String> title();
@@ -67,7 +69,7 @@ public interface Event {
 
 		public _Base.Nillable<Boolean> fullday();
 
-		public _Base.Nillable<_Base.Change<_Base.SetChange<EventRepeat.Data>, _Base.DeltaChange<EventRepeat.Patch>>> repeat();
+		public _Base.Nillable<EventRepeat> repeat();
 
 		public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags();
 
@@ -89,16 +91,21 @@ public interface Event {
 		public PatchBuilder fullday(Boolean fullday);
 
 		public PatchBuilder repeat(EventRepeat repeat);
+
 		public <T extends EventRepeat.Builder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat> block);
 
-		public PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags);
+		public PatchBuilder tags(
+				_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags);
 
 		public PatchBuilder tags(List<String> additions, List<String> removals);
+
 		public PatchBuilder tags(List<String> elements);
 
-		public PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars);
+		public PatchBuilder referencedCalendars(
+				_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars);
 
 		public PatchBuilder referencedCalendars(List<String> additions, List<String> removals);
+
 		public PatchBuilder referencedCalendars(List<String> elements);
 
 	}
