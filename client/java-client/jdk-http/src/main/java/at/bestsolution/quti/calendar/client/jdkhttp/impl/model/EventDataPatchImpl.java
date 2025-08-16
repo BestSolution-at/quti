@@ -50,10 +50,9 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		return _JsonUtils.mapNilBoolean(data, "fullday");
 	}
 
-	public _Base.Nillable<_Base.Change<_Base.SetChange<EventRepeat.Data>, _Base.DeltaChange<EventRepeat.Patch>>> repeat() {
-		return _JsonUtils.mapNilObject(data,
-				"repeat",
-				o -> _ChangeImpl.of(o, EventRepeatDataImpl::of, EventRepeatPatchImpl::of));
+	public _Base.Nillable<EventRepeat> repeat() {
+		return _JsonUtils.mapNilObject(data, "repeat",
+				o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatPatchImpl.of(o));
 	}
 
 	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags() {
@@ -118,23 +117,14 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 				return this;
 			}
 
-			var $changeBuilder = Json.createObjectBuilder();
-			if (repeat instanceof EventRepeat.Patch) {
-				$builder.add("@type", "delta-change");
-				$changeBuilder.add("delta", ((_BaseDataImpl) repeat).data);
-			} else {
-				$builder.add("@type", "set-change");
-				$changeBuilder.add("value", ((_BaseDataImpl) repeat).data);
-			}
-
-			$changeBuilder.add("repeat", $changeBuilder.build());
+			$builder.add("repeat", ((_BaseDataImpl) repeat).data);
 
 			return this;
 		}
 
 		public <T extends EventRepeat.Builder> Event.PatchBuilder withRepeat(Class<T> clazz,
 				Function<T, EventRepeat> block) {
-			EventRepeat.DataBuilder b;
+			EventRepeat.Builder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();
 			} else if (clazz == EventRepeatWeekly.DataBuilder.class) {
@@ -147,9 +137,22 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 				b = EventRepeatRelativeMonthlyDataImpl.builder();
 			} else if (clazz == EventRepeatRelativeYearly.DataBuilder.class) {
 				b = EventRepeatRelativeYearlyDataImpl.builder();
+			} else if (clazz == EventRepeatDaily.PatchBuilder.class) {
+				b = EventRepeatDailyDataPatchImpl.builder();
+			} else if (clazz == EventRepeatWeekly.PatchBuilder.class) {
+				b = EventRepeatWeeklyDataPatchImpl.builder();
+			} else if (clazz == EventRepeatAbsoluteMonthly.PatchBuilder.class) {
+				b = EventRepeatAbsoluteMonthlyDataPatchImpl.builder();
+			} else if (clazz == EventRepeatAbsoluteYearly.PatchBuilder.class) {
+				b = EventRepeatAbsoluteYearlyDataPatchImpl.builder();
+			} else if (clazz == EventRepeatRelativeMonthly.PatchBuilder.class) {
+				b = EventRepeatRelativeMonthlyDataPatchImpl.builder();
+			} else if (clazz == EventRepeatRelativeYearly.PatchBuilder.class) {
+				b = EventRepeatRelativeYearlyDataPatchImpl.builder();
 			} else {
-				throw new IllegalArgumentException("Unknown builder type %s".formatted(clazz));
+				throw new IllegalArgumentException("Unsupported builder type %s".formatted(clazz));
 			}
+
 			return repeat(block.apply(clazz.cast(b)));
 		}
 

@@ -25,9 +25,15 @@ public interface EventRepeat {
 	public interface Patch extends EventRepeat {
 		public Optional<Short> interval();
 
+
+
 		public _Base.Nillable<LocalDate> endDate();
 
+
+
 		public Optional<ZoneId> timeZone();
+
+
 
 	}
 
