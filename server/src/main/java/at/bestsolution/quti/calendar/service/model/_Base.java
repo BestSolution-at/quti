@@ -22,7 +22,7 @@ public interface _Base {
 		public T build();
 	}
 
-	public interface ValueChange<T> {
+	public interface SetChange<T> {
 		public T value();
 	}
 
@@ -30,20 +30,20 @@ public interface _Base {
 		public T delta();
 	}
 
-	public interface Change<T,U> {
-		public Optional<T> valueChange();
+	public interface Change<T, U> {
+		public Optional<T> setChange();
 
 		public Optional<U> deltaChange();
 
-		public default void acceptOne(Consumer<T> valueChange, Consumer<U> deltaChange) {
-			valueChange().ifPresent(valueChange);
+		public default void acceptOne(Consumer<T> setChange, Consumer<U> deltaChange) {
+			setChange().ifPresent(setChange);
 			deltaChange().ifPresent(deltaChange);
 		}
 
-		public default <V> V applyOne(Function<T, V> valueChange, Function<U, V> deltaChange) {
-			var el = valueChange();
+		public default <V> V applyOne(Function<T, V> setChange, Function<U, V> deltaChange) {
+			var el = setChange();
 			if (el.isPresent()) {
-				return valueChange.apply(el.get());
+				return setChange.apply(el.get());
 			}
 			var de = deltaChange();
 			if (de.isPresent()) {

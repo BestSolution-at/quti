@@ -36,6 +36,10 @@ public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl imple
 	public static class PatchBuilderImpl implements EventRepeatAbsoluteMonthly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		public PatchBuilderImpl() {
+			$builder.add("@type", "patch:absolute-monthly");
+		}
+
 		@Override
 		public EventRepeatAbsoluteMonthly.PatchBuilder dayOfMonth(short dayOfMonth) {
 			$builder.add("dayOfMonth", dayOfMonth);

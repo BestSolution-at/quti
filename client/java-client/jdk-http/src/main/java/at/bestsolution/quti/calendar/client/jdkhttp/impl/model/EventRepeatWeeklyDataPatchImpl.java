@@ -39,6 +39,10 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 	public static class PatchBuilderImpl implements EventRepeatWeekly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		public PatchBuilderImpl() {
+			$builder.add("@type", "patch:weekly");
+		}
+
 		@Override
 		public EventRepeatWeekly.PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);

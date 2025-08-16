@@ -7,6 +7,10 @@ import java.util.List;
 import at.bestsolution.quti.calendar.service.model.mixins.EventViewDataMixin;
 
 public interface EventView {
+	public interface Builder {
+
+	}
+
 	public interface Data extends EventView {
 		public String key();
 
@@ -30,6 +34,6 @@ public interface EventView {
 
 	}
 
-	public interface DataBuilder {
+	public interface DataBuilder extends Builder {
 	}
 }

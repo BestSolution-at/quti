@@ -201,4 +201,22 @@ public class EventRepeatDTOUtil {
 
 		throw new IllegalStateException(String.format("Unknown repeat type %s", repeat.getClass()));
 	}
+
+	public static EventRepeatEntity patchRepeatPattern(EventRepeatEntity entity, EventRepeat.Patch repeat) {
+		if (repeat instanceof EventRepeatDaily.Patch) {
+
+		} else if (repeat instanceof EventRepeatWeekly.Patch) {
+
+		} else if (repeat instanceof EventRepeatAbsoluteMonthly.Patch) {
+
+		} else if (repeat instanceof EventRepeatAbsoluteYearly.Patch) {
+
+		} else if (repeat instanceof EventRepeatRelativeMonthly.Patch) {
+
+		} else if (repeat instanceof EventRepeatRelativeYearly.Patch) {
+
+		}
+
+		return entity;
+	}
 }

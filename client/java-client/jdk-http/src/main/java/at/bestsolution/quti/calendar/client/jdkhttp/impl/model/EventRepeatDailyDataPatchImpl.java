@@ -32,6 +32,10 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 	public static class PatchBuilderImpl implements EventRepeatDaily.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		public PatchBuilderImpl() {
+			$builder.add("@type", "patch:daily");
+		}
+
 		@Override
 		public EventRepeatDaily.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);

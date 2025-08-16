@@ -41,6 +41,10 @@ public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implem
 	public static class PatchBuilderImpl implements EventRepeatAbsoluteYearly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		public PatchBuilderImpl() {
+			$builder.add("@type", "patch:absolute-yearly");
+		}
+
 		@Override
 		public EventRepeatAbsoluteYearly.PatchBuilder dayOfMonth(short dayOfMonth) {
 			$builder.add("dayOfMonth", dayOfMonth);

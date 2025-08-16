@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.bestsolution.quti.calendar.rest.model._JsonUtils;
 import at.bestsolution.quti.calendar.service.BuilderFactory;
 import at.bestsolution.quti.calendar.service.NotFoundException;
 import at.bestsolution.quti.calendar.service.Utils;
@@ -70,7 +71,16 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		patch.referencedCalendars()
 				.ifPresent(refs -> refs.acceptOne(e -> handleReferencedCalendardChange(em, entity, e.elements()),
 						d -> new UnsupportedOperationException("Delta-Change not yet implemented")));
-		patch.repeat().accept(r -> handleRepeatChange(em, entity, r));
+		var x = _JsonUtils.toJsonString(patch, true);
+		System.err.println(x);
+		patch.repeat().accept(r -> {
+			if (r == null) {
+				handleRepeatSetChange(em, entity, null);
+			} else {
+				r.acceptOne(d -> handleRepeatSetChange(em, entity, d.value()),
+						d -> new UnsupportedOperationException("Delta change not yet implemented"));
+			}
+		});
 
 		EventUtils.validateEvent(entity);
 	}
@@ -110,7 +120,8 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		;
 	}
 
-	private static void handleRepeatChange(EntityManager em, EventEntity entity, EventRepeat.Data repeat) {
+	private static void handleRepeatSetChange(EntityManager em, EventEntity entity, EventRepeat.Data repeat) {
+		System.err.println("====> CHANGED" + repeat);
 		if (entity.repeatPattern != null) {
 			entity.modifications.forEach(em::remove);
 			em.remove(entity.repeatPattern);
@@ -124,5 +135,12 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 			entity.repeatPattern = rv;
 			em.persist(entity.repeatPattern);
 		}
+	}
+
+	private static void handleRepeatDeltaChange(EntityManager em, EventEntity entity, EventRepeat.Patch repeat) {
+		if (entity.repeatPattern == null) {
+			throw new IllegalStateException("Event has no repeat pattern to update");
+		}
+
 	}
 }

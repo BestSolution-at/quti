@@ -6,6 +6,10 @@ import java.time.ZoneId;
 import java.util.Optional;
 
 public interface EventRepeat {
+	public interface Builder {
+
+	}
+
 	public interface Data extends EventRepeat {
 		public short interval();
 
@@ -15,19 +19,25 @@ public interface EventRepeat {
 
 	}
 
-	public interface DataBuilder {
+	public interface DataBuilder extends Builder {
 	}
 
 	public interface Patch extends EventRepeat {
 		public Optional<Short> interval();
 
+
+
 		public _Base.Nillable<LocalDate> endDate();
+
+
 
 		public Optional<ZoneId> timeZone();
 
+
+
 	}
 
-	public interface PatchBuilder {
+	public interface PatchBuilder extends Builder {
 	}
 
 }

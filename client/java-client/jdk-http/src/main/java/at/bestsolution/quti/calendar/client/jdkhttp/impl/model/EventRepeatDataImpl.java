@@ -6,20 +6,6 @@ import jakarta.json.JsonObject;
 import at.bestsolution.quti.calendar.client.model.EventRepeat;
 
 public abstract class EventRepeatDataImpl implements EventRepeat.Data {
-	public static boolean isSupportedType(JsonObject obj) {
-		var descriminator = obj.getString("@type");
-		return switch (descriminator) {
-			case "daily",
-					"weekly",
-					"absolute-monthly",
-					"absolute-yearly",
-					"relative-monthly",
-					"relative-yearly" ->
-				true;
-			default -> false;
-		};
-	}
-
 	public static EventRepeat.Data of(JsonObject obj) {
 		var descriminator = obj.getString("@type");
 		return switch (descriminator) {

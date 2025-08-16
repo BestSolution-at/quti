@@ -44,6 +44,10 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 	public static class PatchBuilderImpl implements EventRepeatRelativeYearly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		public PatchBuilderImpl() {
+			$builder.add("@type", "patch:relative-yearly");
+		}
+
 		@Override
 		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
