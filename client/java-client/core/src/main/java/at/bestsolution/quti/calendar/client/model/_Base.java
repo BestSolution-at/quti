@@ -28,33 +28,11 @@ public interface _Base {
 
 	public interface ListAddRemoveChange<A, R> {
 		public List<A> additions();
+
 		public List<R> removals();
 	}
 
 	public interface ListAddRemoveUpdateChange<A, U, R> extends ListAddRemoveChange<A, R> {
 		public List<U> updates();
-	}
-
-	public interface ListChange<E, D> {
-		public Optional<E> elementsChange();
-
-		public Optional<D> deltaChange();
-
-		public default void acceptOne(Consumer<E> elementsChange, Consumer<D> deltaChange) {
-			elementsChange().ifPresent(elementsChange);
-			deltaChange().ifPresent(deltaChange);
-		}
-
-		public default <V> V applyOne(Function<E, V> elementsChange, Function<D, V> deltaChange) {
-			var el = elementsChange();
-			if (el.isPresent()) {
-				return elementsChange.apply(el.get());
-			}
-			var de = deltaChange();
-			if (de.isPresent()) {
-				return deltaChange.apply(de.get());
-			}
-			throw new IllegalStateException();
-		}
 	}
 }

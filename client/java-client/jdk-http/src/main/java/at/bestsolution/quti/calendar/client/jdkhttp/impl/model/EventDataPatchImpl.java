@@ -10,8 +10,10 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonString;
-
+import jakarta.json.JsonValue;
 import at.bestsolution.quti.calendar.client.model._Base;
+import at.bestsolution.quti.calendar.client.jdkhttp.impl.model._ListChangeImpl.AddRemoveListChangeImpl;
+import at.bestsolution.quti.calendar.client.jdkhttp.impl.model._ListChangeImpl.ValueElementsChange;
 import at.bestsolution.quti.calendar.client.model.Event;
 import at.bestsolution.quti.calendar.client.model.EventRepeat;
 import at.bestsolution.quti.calendar.client.model.EventRepeatAbsoluteMonthly;
@@ -51,15 +53,31 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 	}
 
 	public _Base.Nillable<EventRepeat> repeat() {
-		return _JsonUtils.mapNilObject(data, "repeat", o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatDataPatchImpl.of(o));
+		return _JsonUtils.mapNilObject(data, "repeat",
+				o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatDataPatchImpl.of(o));
 	}
 
-	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags() {
-		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeImpl.of(o, v -> ((JsonString)v).getString()));
+	public Optional<TagsChange> tags() {
+		return _JsonUtils.mapOptObject(data, "tags",
+				o -> _ListChangeImpl.of(o, TagsSetChangeImpl::new, TagsAddRemoveChangeImpl::new));
+	}
+
+	static class TagsSetChangeImpl extends ValueElementsChange<String> implements TagsSetChange {
+		TagsSetChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString());
+		}
+	}
+
+	static class TagsAddRemoveChangeImpl extends AddRemoveListChangeImpl<String, String> implements TagsAddRemoveChange {
+
+		TagsAddRemoveChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
+		}
 	}
 
 	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> referencedCalendars() {
-		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeImpl.of(o, v -> ((JsonString)v).getString()));
+		return _JsonUtils.mapOptObject(data, "referencedCalendars",
+				o -> _ListChangeImpl.of(o, v -> ((JsonString) v).getString()));
 	}
 
 	public static class PatchBuilderImpl implements Event.PatchBuilder {
@@ -119,7 +137,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 			return this;
 		}
 
-		public <T extends EventRepeat.Builder> Event.PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat> block) {
+		public <T extends EventRepeat.Builder> Event.PatchBuilder withRepeat(Class<T> clazz,
+				Function<T, EventRepeat> block) {
 			EventRepeat.Builder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();
@@ -153,7 +172,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Event.PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
+		public Event.PatchBuilder tags(
+				_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
 			$builder.add("tags", ((_BaseDataImpl) tags).data);
 			return this;
 		}
@@ -176,7 +196,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Event.PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
+		public Event.PatchBuilder referencedCalendars(
+				_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
 			$builder.add("referencedCalendars", ((_BaseDataImpl) referencedCalendars).data);
 			return this;
 		}
