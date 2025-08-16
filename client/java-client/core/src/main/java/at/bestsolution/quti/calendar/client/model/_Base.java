@@ -28,7 +28,6 @@ public interface _Base {
 
 	public interface ListAddRemoveChange<A, R> {
 		public List<A> additions();
-
 		public List<R> removals();
 	}
 

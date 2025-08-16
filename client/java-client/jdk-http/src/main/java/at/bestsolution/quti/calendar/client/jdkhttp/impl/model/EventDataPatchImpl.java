@@ -24,6 +24,19 @@ import at.bestsolution.quti.calendar.client.model.EventRepeatRelativeYearly;
 import at.bestsolution.quti.calendar.client.model.EventRepeatWeekly;
 
 public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
+	static class TagsSetChangeImpl extends ValueElementsChange<String> implements TagsSetChange {
+		TagsSetChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString());
+		}
+	}
+
+	static class TagsAddRemoveChangeImpl extends AddRemoveListChangeImpl<String, String> implements TagsMergeChange {
+
+		TagsAddRemoveChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
+		}
+	}
+
 	EventDataPatchImpl(JsonObject data) {
 		super(data);
 	}
@@ -60,19 +73,6 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 	public Optional<TagsChange> tags() {
 		return _JsonUtils.mapOptObject(data, "tags",
 				o -> _ListChangeImpl.of(o, TagsSetChangeImpl::new, TagsAddRemoveChangeImpl::new));
-	}
-
-	static class TagsSetChangeImpl extends ValueElementsChange<String> implements TagsSetChange {
-		TagsSetChangeImpl(JsonObject data) {
-			super(data, v -> ((JsonString) v).getString());
-		}
-	}
-
-	static class TagsAddRemoveChangeImpl extends AddRemoveListChangeImpl<String, String> implements TagsAddRemoveChange {
-
-		TagsAddRemoveChangeImpl(JsonObject data) {
-			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
-		}
 	}
 
 	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> referencedCalendars() {

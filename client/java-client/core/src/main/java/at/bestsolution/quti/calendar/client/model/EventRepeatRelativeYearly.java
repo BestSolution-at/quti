@@ -39,7 +39,16 @@ public interface EventRepeatRelativeYearly {
 	}
 
 	public interface Patch extends _Base.BaseData, EventRepeatRelativeYearly, EventRepeat.Patch {
-		public Optional<_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>>> daysOfWeek();
+		public interface DaysOfWeekChange {
+		}
+
+		public interface DaysOfWeekSetChange extends DaysOfWeekChange, _Base.ListSetElementsChange<DayOfWeek> {
+		}
+
+		public interface DaysOfWeekMergeChange extends DaysOfWeekChange, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek> {
+		}
+
+		public Optional<DaysOfWeekChange> daysOfWeek();
 
 		public Optional<Month> month();
 
@@ -52,8 +61,7 @@ public interface EventRepeatRelativeYearly {
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatRelativeYearly.Patch>, EventRepeat.PatchBuilder {
-		public PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek);
-
+		public PatchBuilder daysOfWeek(Patch.DaysOfWeekChange daysOfWeek);
 		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals);
 		public PatchBuilder daysOfWeek(List<DayOfWeek> elements);
 
