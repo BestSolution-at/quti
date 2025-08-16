@@ -77,8 +77,11 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 			if (r == null) {
 				handleRepeatSetChange(em, entity, null);
 			} else {
-				r.acceptOne(d -> handleRepeatSetChange(em, entity, d.value()),
-						d -> new UnsupportedOperationException("Delta change not yet implemented"));
+				if (r instanceof EventRepeat.Data d) {
+					handleRepeatSetChange(em, entity, d);
+				} else {
+					new UnsupportedOperationException("Delta change not yet implemented");
+				}
 			}
 		});
 

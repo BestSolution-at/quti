@@ -50,8 +50,8 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		return _JsonUtils.mapNilBoolean(data, "fullday");
 	}
 
-	public _Base.Nillable<_Base.Change<_Base.SetChange<EventRepeat.Data>, _Base.DeltaChange<EventRepeat.Patch>>> repeat() {
-		return _JsonUtils.mapNilObject(data, "repeat", o -> _ChangeImpl.of(o, EventRepeatDataImpl::of, EventRepeatDataPatchImpl::of));
+	public _Base.Nillable<EventRepeat> repeat() {
+		return _JsonUtils.mapNilObject(data, "repeat", o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatDataPatchImpl.of(o));
 	}
 
 	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags() {
@@ -115,16 +115,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 				return this;
 			}
 
-			var $changeBuilder = Json.createObjectBuilder();
-			if (repeat instanceof EventRepeat.Patch) {
-				$changeBuilder.add("@type", "delta-change");
-				$changeBuilder.add("delta", ((_BaseDataImpl) repeat).data);
-			} else {
-				$changeBuilder.add("@type", "set-change");
-				$changeBuilder.add("value", ((_BaseDataImpl) repeat).data);
-			}
-
-			$builder.add("repeat", $changeBuilder.build());
+			$builder.add("repeat", ((_BaseDataImpl) repeat).data);
 			return this;
 		}
 

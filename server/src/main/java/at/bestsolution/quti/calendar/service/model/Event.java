@@ -67,7 +67,7 @@ public interface Event {
 
 		public _Base.Nillable<Boolean> fullday();
 
-		public _Base.Nillable<_Base.Change<_Base.SetChange<EventRepeat.Data>, _Base.DeltaChange<EventRepeat.Patch>>> repeat();
+		public _Base.Nillable<at.bestsolution.quti.calendar.service.model.EventRepeat> repeat();
 
 		public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags();
 
