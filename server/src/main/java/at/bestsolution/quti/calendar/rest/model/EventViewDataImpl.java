@@ -6,6 +6,17 @@ import jakarta.json.JsonObject;
 import at.bestsolution.quti.calendar.service.model.EventView;
 
 public abstract class EventViewDataImpl implements EventView.Data {
+	public static boolean isSupportedType(JsonObject obj) {
+		var descriminator = obj.getString("@type");
+		return switch (descriminator) {
+			case "single",
+					"series-moved",
+					"series" ->
+				true;
+			default -> false;
+		};
+	}
+
 	public static EventView.Data of(JsonObject obj) {
 		var descriminator = obj.getString("@type");
 		return switch (descriminator) {
