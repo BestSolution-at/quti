@@ -5,7 +5,7 @@ import jakarta.json.JsonObject;
 
 import at.bestsolution.quti.calendar.client.model.EventRepeat;
 
-public abstract class EventRepeatDataPatchImpl implements EventRepeat.Patch {
+public abstract class EventRepeatPatchImpl implements EventRepeat.Patch {
 	public static boolean isSupportedType(JsonObject obj) {
 		var descriminator = obj.getString("@type");
 		return switch (descriminator) {
@@ -23,12 +23,12 @@ public abstract class EventRepeatDataPatchImpl implements EventRepeat.Patch {
 	public static EventRepeat.Patch of(JsonObject obj) {
 		var descriminator = obj.getString("@type");
 		return switch (descriminator) {
-			case "patch:daily" -> new EventRepeatDailyDataPatchImpl(obj);
-			case "patch:weekly" -> new EventRepeatWeeklyDataPatchImpl(obj);
-			case "patch:absolute-monthly" -> new EventRepeatAbsoluteMonthlyDataPatchImpl(obj);
-			case "patch:absolute-yearly" -> new EventRepeatAbsoluteYearlyDataPatchImpl(obj);
-			case "patch:relative-monthly" -> new EventRepeatRelativeMonthlyDataPatchImpl(obj);
-			case "patch:relative-yearly" -> new EventRepeatRelativeYearlyDataPatchImpl(obj);
+			case "patch:daily" -> new EventRepeatDailyPatchImpl(obj);
+			case "patch:weekly" -> new EventRepeatWeeklyPatchImpl(obj);
+			case "patch:absolute-monthly" -> new EventRepeatAbsoluteMonthlyPatchImpl(obj);
+			case "patch:absolute-yearly" -> new EventRepeatAbsoluteYearlyPatchImpl(obj);
+			case "patch:relative-monthly" -> new EventRepeatRelativeMonthlyPatchImpl(obj);
+			case "patch:relative-yearly" -> new EventRepeatRelativeYearlyPatchImpl(obj);
 			default -> throw new IllegalArgumentException("Unexpected value: %s".formatted(descriminator));
 		};
 	}

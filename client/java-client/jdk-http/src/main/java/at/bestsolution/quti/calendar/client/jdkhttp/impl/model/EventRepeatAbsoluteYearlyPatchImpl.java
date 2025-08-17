@@ -2,6 +2,7 @@
 package at.bestsolution.quti.calendar.client.jdkhttp.impl.model;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.Optional;
 
@@ -10,15 +11,19 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 import at.bestsolution.quti.calendar.client.model._Base;
-import at.bestsolution.quti.calendar.client.model.EventRepeatAbsoluteMonthly;
+import at.bestsolution.quti.calendar.client.model.EventRepeatAbsoluteYearly;
 
-public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl implements EventRepeatAbsoluteMonthly.Patch {
-	EventRepeatAbsoluteMonthlyDataPatchImpl(JsonObject data) {
+public class EventRepeatAbsoluteYearlyPatchImpl extends _BaseDataImpl implements EventRepeatAbsoluteYearly.Patch {
+	EventRepeatAbsoluteYearlyPatchImpl(JsonObject data) {
 		super(data);
 	}
 
 	public Optional<Short> dayOfMonth() {
 		return _JsonUtils.mapOptShort(data, "dayOfMonth");
+	}
+
+	public Optional<Month> month() {
+		return _JsonUtils.mapOptLiteral(data, "month", Month::valueOf);
 	}
 
 	public Optional<Short> interval() {
@@ -33,27 +38,33 @@ public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl imple
 		return _JsonUtils.mapOptLiteral(data, "timeZone", ZoneId::of);
 	}
 
-	public static class PatchBuilderImpl implements EventRepeatAbsoluteMonthly.PatchBuilder {
+	public static class PatchBuilderImpl implements EventRepeatAbsoluteYearly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		public PatchBuilderImpl() {
-			$builder.add("@type", "patch:absolute-monthly");
+			$builder.add("@type", "patch:absolute-yearly");
 		}
 
 		@Override
-		public EventRepeatAbsoluteMonthly.PatchBuilder dayOfMonth(short dayOfMonth) {
+		public EventRepeatAbsoluteYearly.PatchBuilder dayOfMonth(short dayOfMonth) {
 			$builder.add("dayOfMonth", dayOfMonth);
 			return this;
 		}
 
 		@Override
-		public EventRepeatAbsoluteMonthly.PatchBuilder interval(short interval) {
+		public EventRepeatAbsoluteYearly.PatchBuilder month(Month month) {
+			;
+			return this;
+		}
+
+		@Override
+		public EventRepeatAbsoluteYearly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public EventRepeatAbsoluteMonthly.PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatAbsoluteYearly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -63,19 +74,19 @@ public class EventRepeatAbsoluteMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 
 		@Override
-		public EventRepeatAbsoluteMonthly.PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatAbsoluteYearly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public EventRepeatAbsoluteMonthly.Patch build() {
-			return new EventRepeatAbsoluteMonthlyDataPatchImpl($builder.build());
+		public EventRepeatAbsoluteYearly.Patch build() {
+			return new EventRepeatAbsoluteYearlyPatchImpl($builder.build());
 		}
 	}
 
-	public static EventRepeatAbsoluteMonthly.Patch of(JsonObject obj) {
-		return new EventRepeatAbsoluteMonthlyDataPatchImpl(obj);
+	public static EventRepeatAbsoluteYearly.Patch of(JsonObject obj) {
+		return new EventRepeatAbsoluteYearlyPatchImpl(obj);
 	}
 
 	public static PatchBuilderImpl builder() {

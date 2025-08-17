@@ -13,9 +13,9 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonString;
 
 import at.bestsolution.quti.calendar.client.model._Base;
-import at.bestsolution.quti.calendar.client.model.EventRepeatWeekly;
+import at.bestsolution.quti.calendar.client.model.EventRepeatRelativeMonthly;
 
-public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements EventRepeatWeekly.Patch {
+public class EventRepeatRelativeMonthlyPatchImpl extends _BaseDataImpl implements EventRepeatRelativeMonthly.Patch {
 	static class DaysOfWeekSetChangeImpl extends _ListChangeSupport.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
 		DaysOfWeekSetChangeImpl(JsonObject data) {
 			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()));
@@ -28,7 +28,7 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 	}
 
-	EventRepeatWeeklyDataPatchImpl(JsonObject data) {
+	EventRepeatRelativeMonthlyPatchImpl(JsonObject data) {
 		super(data);
 	}
 
@@ -48,20 +48,20 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		return _JsonUtils.mapOptLiteral(data, "timeZone", ZoneId::of);
 	}
 
-	public static class PatchBuilderImpl implements EventRepeatWeekly.PatchBuilder {
+	public static class PatchBuilderImpl implements EventRepeatRelativeMonthly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		public PatchBuilderImpl() {
-			$builder.add("@type", "patch:weekly");
+			$builder.add("@type", "patch:relative-monthly");
 		}
 
 		@Override
-		public EventRepeatWeekly.PatchBuilder daysOfWeek(DaysOfWeekChange daysOfWeek) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(DaysOfWeekChange daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
 			return this;
 		}
 
-		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "merge-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
@@ -70,7 +70,7 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 			return this;
 		}
 
-		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "set-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -79,13 +79,13 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 
 		@Override
-		public EventRepeatWeekly.PatchBuilder interval(short interval) {
+		public EventRepeatRelativeMonthly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public EventRepeatWeekly.PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatRelativeMonthly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -95,19 +95,19 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 
 		@Override
-		public EventRepeatWeekly.PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatRelativeMonthly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public EventRepeatWeekly.Patch build() {
-			return new EventRepeatWeeklyDataPatchImpl($builder.build());
+		public EventRepeatRelativeMonthly.Patch build() {
+			return new EventRepeatRelativeMonthlyPatchImpl($builder.build());
 		}
 	}
 
-	public static EventRepeatWeekly.Patch of(JsonObject obj) {
-		return new EventRepeatWeeklyDataPatchImpl(obj);
+	public static EventRepeatRelativeMonthly.Patch of(JsonObject obj) {
+		return new EventRepeatRelativeMonthlyPatchImpl(obj);
 	}
 
 	public static PatchBuilderImpl builder() {

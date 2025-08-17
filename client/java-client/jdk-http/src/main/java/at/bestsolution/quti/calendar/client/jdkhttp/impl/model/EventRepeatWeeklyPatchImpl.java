@@ -3,7 +3,6 @@ package at.bestsolution.quti.calendar.client.jdkhttp.impl.model;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +13,9 @@ import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonString;
 
 import at.bestsolution.quti.calendar.client.model._Base;
-import at.bestsolution.quti.calendar.client.model.EventRepeatRelativeYearly;
+import at.bestsolution.quti.calendar.client.model.EventRepeatWeekly;
 
-public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implements EventRepeatRelativeYearly.Patch {
+public class EventRepeatWeeklyPatchImpl extends _BaseDataImpl implements EventRepeatWeekly.Patch {
 	static class DaysOfWeekSetChangeImpl extends _ListChangeSupport.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
 		DaysOfWeekSetChangeImpl(JsonObject data) {
 			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()));
@@ -29,16 +28,12 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 	}
 
-	EventRepeatRelativeYearlyDataPatchImpl(JsonObject data) {
+	EventRepeatWeeklyPatchImpl(JsonObject data) {
 		super(data);
 	}
 
 	public Optional<DaysOfWeekChange> daysOfWeek() {
 		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeSupport.of(o, "@type", DaysOfWeekSetChangeImpl::new, DaysOfWeekMergeChangeImpl::new));
-	}
-
-	public Optional<Month> month() {
-		return _JsonUtils.mapOptLiteral(data, "month", Month::valueOf);
 	}
 
 	public Optional<Short> interval() {
@@ -53,20 +48,20 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		return _JsonUtils.mapOptLiteral(data, "timeZone", ZoneId::of);
 	}
 
-	public static class PatchBuilderImpl implements EventRepeatRelativeYearly.PatchBuilder {
+	public static class PatchBuilderImpl implements EventRepeatWeekly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		public PatchBuilderImpl() {
-			$builder.add("@type", "patch:relative-yearly");
+			$builder.add("@type", "patch:weekly");
 		}
 
 		@Override
-		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(DaysOfWeekChange daysOfWeek) {
+		public EventRepeatWeekly.PatchBuilder daysOfWeek(DaysOfWeekChange daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
 			return this;
 		}
 
-		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
+		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "merge-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
@@ -75,7 +70,7 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 			return this;
 		}
 
-		public EventRepeatRelativeYearly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
+		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
 			$changeBuilder.add("@type", "set-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
@@ -84,19 +79,13 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 
 		@Override
-		public EventRepeatRelativeYearly.PatchBuilder month(Month month) {
-			;
-			return this;
-		}
-
-		@Override
-		public EventRepeatRelativeYearly.PatchBuilder interval(short interval) {
+		public EventRepeatWeekly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public EventRepeatRelativeYearly.PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatWeekly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -106,19 +95,19 @@ public class EventRepeatRelativeYearlyDataPatchImpl extends _BaseDataImpl implem
 		}
 
 		@Override
-		public EventRepeatRelativeYearly.PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatWeekly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public EventRepeatRelativeYearly.Patch build() {
-			return new EventRepeatRelativeYearlyDataPatchImpl($builder.build());
+		public EventRepeatWeekly.Patch build() {
+			return new EventRepeatWeeklyPatchImpl($builder.build());
 		}
 	}
 
-	public static EventRepeatRelativeYearly.Patch of(JsonObject obj) {
-		return new EventRepeatRelativeYearlyDataPatchImpl(obj);
+	public static EventRepeatWeekly.Patch of(JsonObject obj) {
+		return new EventRepeatWeeklyPatchImpl(obj);
 	}
 
 	public static PatchBuilderImpl builder() {

@@ -5,12 +5,12 @@ import jakarta.inject.Singleton;
 
 import at.bestsolution.quti.calendar.rest.model._JsonUtils;
 import at.bestsolution.quti.calendar.rest.model.CalendarDataImpl;
-import at.bestsolution.quti.calendar.rest.model.CalendarDataPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.CalendarNewDataImpl;
+import at.bestsolution.quti.calendar.rest.model.CalendarPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.DateTimeRangeDataImpl;
 import at.bestsolution.quti.calendar.rest.model.EventDataImpl;
-import at.bestsolution.quti.calendar.rest.model.EventDataPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventNewDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatAbsoluteMonthlyDataImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatAbsoluteYearlyDataImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatDailyDataImpl;
@@ -49,7 +49,7 @@ public class RestBuilderFactory implements BuilderFactory {
 			return type.cast(CalendarDataImpl.builder());
 		}
 		if (type == Calendar.PatchBuilder.class) {
-			return type.cast(CalendarDataPatchImpl.builder());
+			return type.cast(CalendarPatchImpl.builder());
 		}
 		if (type == CalendarNew.DataBuilder.class) {
 			return type.cast(CalendarNewDataImpl.builder());
@@ -61,7 +61,7 @@ public class RestBuilderFactory implements BuilderFactory {
 			return type.cast(EventDataImpl.builder());
 		}
 		if (type == Event.PatchBuilder.class) {
-			return type.cast(EventDataPatchImpl.builder());
+			return type.cast(EventPatchImpl.builder());
 		}
 		if (type == EventViewFilter.DataBuilder.class) {
 			return type.cast(EventViewFilterDataImpl.builder());
@@ -107,7 +107,7 @@ public class RestBuilderFactory implements BuilderFactory {
 			return type.cast(_JsonUtils.fromString(data, CalendarDataImpl::of));
 		}
 		if (type == Calendar.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, CalendarDataPatchImpl::of));
+			return type.cast(_JsonUtils.fromString(data, CalendarPatchImpl::of));
 		}
 		if (type == CalendarNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CalendarNewDataImpl::of));
@@ -119,7 +119,7 @@ public class RestBuilderFactory implements BuilderFactory {
 			return type.cast(_JsonUtils.fromString(data, EventDataImpl::of));
 		}
 		if (type == Event.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, EventDataPatchImpl::of));
+			return type.cast(_JsonUtils.fromString(data, EventPatchImpl::of));
 		}
 		if (type == EventViewFilter.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventViewFilterDataImpl::of));

@@ -10,11 +10,15 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 import at.bestsolution.quti.calendar.client.model._Base;
-import at.bestsolution.quti.calendar.client.model.EventRepeatDaily;
+import at.bestsolution.quti.calendar.client.model.EventRepeatAbsoluteMonthly;
 
-public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements EventRepeatDaily.Patch {
-	EventRepeatDailyDataPatchImpl(JsonObject data) {
+public class EventRepeatAbsoluteMonthlyPatchImpl extends _BaseDataImpl implements EventRepeatAbsoluteMonthly.Patch {
+	EventRepeatAbsoluteMonthlyPatchImpl(JsonObject data) {
 		super(data);
+	}
+
+	public Optional<Short> dayOfMonth() {
+		return _JsonUtils.mapOptShort(data, "dayOfMonth");
 	}
 
 	public Optional<Short> interval() {
@@ -29,21 +33,27 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 		return _JsonUtils.mapOptLiteral(data, "timeZone", ZoneId::of);
 	}
 
-	public static class PatchBuilderImpl implements EventRepeatDaily.PatchBuilder {
+	public static class PatchBuilderImpl implements EventRepeatAbsoluteMonthly.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
 		public PatchBuilderImpl() {
-			$builder.add("@type", "patch:daily");
+			$builder.add("@type", "patch:absolute-monthly");
 		}
 
 		@Override
-		public EventRepeatDaily.PatchBuilder interval(short interval) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder dayOfMonth(short dayOfMonth) {
+			$builder.add("dayOfMonth", dayOfMonth);
+			return this;
+		}
+
+		@Override
+		public EventRepeatAbsoluteMonthly.PatchBuilder interval(short interval) {
 			$builder.add("interval", interval);
 			return this;
 		}
 
 		@Override
-		public EventRepeatDaily.PatchBuilder endDate(LocalDate endDate) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder endDate(LocalDate endDate) {
 			if (endDate == null) {
 				$builder.addNull("endDate");
 				return this;
@@ -53,19 +63,19 @@ public class EventRepeatDailyDataPatchImpl extends _BaseDataImpl implements Even
 		}
 
 		@Override
-		public EventRepeatDaily.PatchBuilder timeZone(ZoneId timeZone) {
+		public EventRepeatAbsoluteMonthly.PatchBuilder timeZone(ZoneId timeZone) {
 			$builder.add("timeZone", timeZone.toString());
 			return this;
 		}
 
 		@Override
-		public EventRepeatDaily.Patch build() {
-			return new EventRepeatDailyDataPatchImpl($builder.build());
+		public EventRepeatAbsoluteMonthly.Patch build() {
+			return new EventRepeatAbsoluteMonthlyPatchImpl($builder.build());
 		}
 	}
 
-	public static EventRepeatDaily.Patch of(JsonObject obj) {
-		return new EventRepeatDailyDataPatchImpl(obj);
+	public static EventRepeatAbsoluteMonthly.Patch of(JsonObject obj) {
+		return new EventRepeatAbsoluteMonthlyPatchImpl(obj);
 	}
 
 	public static PatchBuilderImpl builder() {

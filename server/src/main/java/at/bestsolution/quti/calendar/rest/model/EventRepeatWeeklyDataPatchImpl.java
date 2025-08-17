@@ -15,7 +15,7 @@ import jakarta.json.JsonString;
 import at.bestsolution.quti.calendar.service.model._Base;
 import at.bestsolution.quti.calendar.service.model.EventRepeatWeekly;
 
-public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements EventRepeatWeekly.Patch {
+public class EventRepeatWeeklyPatchImpl extends _BaseDataImpl implements EventRepeatWeekly.Patch {
 	static class DaysOfWeekSetChangeImpl extends _ListChangeSupport.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
 		DaysOfWeekSetChangeImpl(JsonObject data) {
 			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()));
@@ -28,7 +28,7 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 		}
 	}
 
-	EventRepeatWeeklyDataPatchImpl(JsonObject data) {
+	EventRepeatWeeklyPatchImpl(JsonObject data) {
 		super(data);
 	}
 
@@ -102,12 +102,12 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 
 		@Override
 		public EventRepeatWeekly.Patch build() {
-			return new EventRepeatWeeklyDataPatchImpl($builder.build());
+			return new EventRepeatWeeklyPatchImpl($builder.build());
 		}
 	}
 
 	public static EventRepeatWeekly.Patch of(JsonObject obj) {
-		return new EventRepeatWeeklyDataPatchImpl(obj);
+		return new EventRepeatWeeklyPatchImpl(obj);
 	}
 
 	public static PatchBuilderImpl builder() {

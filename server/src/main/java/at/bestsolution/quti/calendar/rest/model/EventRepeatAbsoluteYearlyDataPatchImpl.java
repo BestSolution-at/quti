@@ -13,8 +13,8 @@ import jakarta.json.JsonObjectBuilder;
 import at.bestsolution.quti.calendar.service.model._Base;
 import at.bestsolution.quti.calendar.service.model.EventRepeatAbsoluteYearly;
 
-public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implements EventRepeatAbsoluteYearly.Patch {
-	EventRepeatAbsoluteYearlyDataPatchImpl(JsonObject data) {
+public class EventRepeatAbsoluteYearlyPatchImpl extends _BaseDataImpl implements EventRepeatAbsoluteYearly.Patch {
+	EventRepeatAbsoluteYearlyPatchImpl(JsonObject data) {
 		super(data);
 	}
 
@@ -81,12 +81,12 @@ public class EventRepeatAbsoluteYearlyDataPatchImpl extends _BaseDataImpl implem
 
 		@Override
 		public EventRepeatAbsoluteYearly.Patch build() {
-			return new EventRepeatAbsoluteYearlyDataPatchImpl($builder.build());
+			return new EventRepeatAbsoluteYearlyPatchImpl($builder.build());
 		}
 	}
 
 	public static EventRepeatAbsoluteYearly.Patch of(JsonObject obj) {
-		return new EventRepeatAbsoluteYearlyDataPatchImpl(obj);
+		return new EventRepeatAbsoluteYearlyPatchImpl(obj);
 	}
 
 	public static PatchBuilderImpl builder() {
