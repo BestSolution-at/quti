@@ -22,25 +22,25 @@ import at.bestsolution.quti.calendar.service.model.EventRepeatRelativeYearly;
 import at.bestsolution.quti.calendar.service.model.EventRepeatWeekly;
 
 public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
-	static class TagsSetChangeImpl extends _ListChangeImpl.ValueElementsChange<String> implements TagsSetChange {
+	static class TagsSetChangeImpl extends _ListChangeSupport.ValueElementsChange<String> implements TagsSetChange {
 		TagsSetChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString());
 		}
 	}
 
-	static class TagsMergeChangeImpl extends _ListChangeImpl.AddRemoveListChangeImpl<String, String> implements TagsMergeChange {
+	static class TagsMergeChangeImpl extends _ListChangeSupport.AddRemoveListChangeImpl<String, String> implements TagsMergeChange {
 		TagsMergeChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
 		}
 	}
 
-	static class ReferencedCalendarsSetChangeImpl extends _ListChangeImpl.ValueElementsChange<String> implements ReferencedCalendarsSetChange {
+	static class ReferencedCalendarsSetChangeImpl extends _ListChangeSupport.ValueElementsChange<String> implements ReferencedCalendarsSetChange {
 		ReferencedCalendarsSetChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString());
 		}
 	}
 
-	static class ReferencedCalendarsMergeChangeImpl extends _ListChangeImpl.AddRemoveListChangeImpl<String, String> implements ReferencedCalendarsMergeChange {
+	static class ReferencedCalendarsMergeChangeImpl extends _ListChangeSupport.AddRemoveListChangeImpl<String, String> implements ReferencedCalendarsMergeChange {
 		ReferencedCalendarsMergeChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
 		}
@@ -79,11 +79,11 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 	}
 
 	public Optional<TagsChange> tags() {
-		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeImpl.of(o, "@type", TagsSetChangeImpl::new, TagsMergeChangeImpl::new));
+		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeSupport.of(o, "@type", TagsSetChangeImpl::new, TagsMergeChangeImpl::new));
 	}
 
 	public Optional<ReferencedCalendarsChange> referencedCalendars() {
-		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeImpl.of(o, "@type", ReferencedCalendarsSetChangeImpl::new, ReferencedCalendarsMergeChangeImpl::new));
+		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeSupport.of(o, "@type", ReferencedCalendarsSetChangeImpl::new, ReferencedCalendarsMergeChangeImpl::new));
 	}
 
 	public static class PatchBuilderImpl implements Event.PatchBuilder {

@@ -16,13 +16,13 @@ import at.bestsolution.quti.calendar.client.model._Base;
 import at.bestsolution.quti.calendar.client.model.EventRepeatWeekly;
 
 public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements EventRepeatWeekly.Patch {
-	static class DaysOfWeekSetChangeImpl extends _ListChangeImpl.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
+	static class DaysOfWeekSetChangeImpl extends _ListChangeSupport.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
 		DaysOfWeekSetChangeImpl(JsonObject data) {
 			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()));
 		}
 	}
 
-	static class DaysOfWeekMergeChangeImpl extends _ListChangeImpl.AddRemoveListChangeImpl<DayOfWeek, DayOfWeek> implements DaysOfWeekMergeChange {
+	static class DaysOfWeekMergeChangeImpl extends _ListChangeSupport.AddRemoveListChangeImpl<DayOfWeek, DayOfWeek> implements DaysOfWeekMergeChange {
 		DaysOfWeekMergeChangeImpl(JsonObject data) {
 			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()), v -> DayOfWeek.valueOf(((JsonString)v).getString()));
 		}
@@ -33,7 +33,7 @@ public class EventRepeatWeeklyDataPatchImpl extends _BaseDataImpl implements Eve
 	}
 
 	public Optional<DaysOfWeekChange> daysOfWeek() {
-		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeImpl.of(o, "@type", DaysOfWeekSetChangeImpl::new, DaysOfWeekMergeChangeImpl::new));
+		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeSupport.of(o, "@type", DaysOfWeekSetChangeImpl::new, DaysOfWeekMergeChangeImpl::new));
 	}
 
 	public Optional<Short> interval() {
