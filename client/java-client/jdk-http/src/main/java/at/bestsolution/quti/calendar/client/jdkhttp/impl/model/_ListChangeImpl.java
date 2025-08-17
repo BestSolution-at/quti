@@ -14,7 +14,7 @@ public class _ListChangeImpl {
 		var type = o.getString(descProperty);
 		return switch (type) {
 			case "set-change" -> setFactory.apply(o);
-			case "delta-change" -> deltaFactory.apply(o);
+			case "merge-change" -> deltaFactory.apply(o);
 			default -> throw new IllegalStateException("Unknown @type '%s'".formatted(type));
 		};
 	}

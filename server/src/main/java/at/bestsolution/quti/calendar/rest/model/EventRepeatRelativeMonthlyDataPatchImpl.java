@@ -16,12 +16,24 @@ import at.bestsolution.quti.calendar.service.model._Base;
 import at.bestsolution.quti.calendar.service.model.EventRepeatRelativeMonthly;
 
 public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl implements EventRepeatRelativeMonthly.Patch {
+	static class DaysOfWeekSetChangeImpl extends _ListChangeImpl.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
+		DaysOfWeekSetChangeImpl(JsonObject data) {
+			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()));
+		}
+	}
+
+	static class DaysOfWeekMergeChangeImpl extends _ListChangeImpl.AddRemoveListChangeImpl<DayOfWeek, DayOfWeek> implements DaysOfWeekMergeChange {
+		DaysOfWeekMergeChangeImpl(JsonObject data) {
+			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()), v -> DayOfWeek.valueOf(((JsonString)v).getString()));
+		}
+	}
+
 	EventRepeatRelativeMonthlyDataPatchImpl(JsonObject data) {
 		super(data);
 	}
 
-	public Optional<_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>>> daysOfWeek() {
-		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeImpl.of(o, v -> DayOfWeek.valueOf(((JsonString)v).getString())));
+	public Optional<DaysOfWeekChange> daysOfWeek() {
+		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeImpl.of(o, "@type", DaysOfWeekSetChangeImpl::new, DaysOfWeekMergeChangeImpl::new));
 	}
 
 	public Optional<Short> interval() {
@@ -44,14 +56,14 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 		}
 
 		@Override
-		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(_Base.ListChange<_Base.ListSetElementsChange<DayOfWeek>, _Base.ListAddRemoveChange<DayOfWeek, DayOfWeek>> daysOfWeek) {
+		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(DaysOfWeekChange daysOfWeek) {
 			$builder.add("daysOfWeek", ((_BaseDataImpl) daysOfWeek).data);
 			return this;
 		}
 
 		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "delta-change");
+			$changeBuilder.add("@type", "merge-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
 			$changeBuilder.add("removals", _JsonUtils.toJsonLiteralArray(removals));
 			$builder.add("daysOfWeek", $changeBuilder.build());
@@ -60,7 +72,7 @@ public class EventRepeatRelativeMonthlyDataPatchImpl extends _BaseDataImpl imple
 
 		public EventRepeatRelativeMonthly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "elements-change");
+			$changeBuilder.add("@type", "set-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
 			$builder.add("daysOfWeek", $changeBuilder.build());
 			return this;

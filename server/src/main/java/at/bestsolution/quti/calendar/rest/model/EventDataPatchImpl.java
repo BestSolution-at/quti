@@ -22,6 +22,30 @@ import at.bestsolution.quti.calendar.service.model.EventRepeatRelativeYearly;
 import at.bestsolution.quti.calendar.service.model.EventRepeatWeekly;
 
 public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
+	static class TagsSetChangeImpl extends _ListChangeImpl.ValueElementsChange<String> implements TagsSetChange {
+		TagsSetChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString());
+		}
+	}
+
+	static class TagsMergeChangeImpl extends _ListChangeImpl.AddRemoveListChangeImpl<String, String> implements TagsMergeChange {
+		TagsMergeChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
+		}
+	}
+
+	static class ReferencedCalendarsSetChangeImpl extends _ListChangeImpl.ValueElementsChange<String> implements ReferencedCalendarsSetChange {
+		ReferencedCalendarsSetChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString());
+		}
+	}
+
+	static class ReferencedCalendarsMergeChangeImpl extends _ListChangeImpl.AddRemoveListChangeImpl<String, String> implements ReferencedCalendarsMergeChange {
+		ReferencedCalendarsMergeChangeImpl(JsonObject data) {
+			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
+		}
+	}
+
 	EventDataPatchImpl(JsonObject data) {
 		super(data);
 	}
@@ -54,12 +78,12 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		return _JsonUtils.mapNilObject(data, "repeat", o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatDataPatchImpl.of(o));
 	}
 
-	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags() {
-		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeImpl.of(o, v -> ((JsonString)v).getString()));
+	public Optional<TagsChange> tags() {
+		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeImpl.of(o, "@type", TagsSetChangeImpl::new, TagsMergeChangeImpl::new));
 	}
 
-	public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> referencedCalendars() {
-		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeImpl.of(o, v -> ((JsonString)v).getString()));
+	public Optional<ReferencedCalendarsChange> referencedCalendars() {
+		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeImpl.of(o, "@type", ReferencedCalendarsSetChangeImpl::new, ReferencedCalendarsMergeChangeImpl::new));
 	}
 
 	public static class PatchBuilderImpl implements Event.PatchBuilder {
@@ -153,14 +177,14 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 
 		@Override
-		public Event.PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags) {
+		public Event.PatchBuilder tags(TagsChange tags) {
 			$builder.add("tags", ((_BaseDataImpl) tags).data);
 			return this;
 		}
 
 		public Event.PatchBuilder tags(List<String> additions, List<String> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "delta-change");
+			$changeBuilder.add("@type", "merge-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonStringArray(additions));
 			$changeBuilder.add("removals", _JsonUtils.toJsonStringArray(removals));
 			$builder.add("tags", $changeBuilder.build());
@@ -169,21 +193,21 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 
 		public Event.PatchBuilder tags(List<String> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "elements-change");
+			$changeBuilder.add("@type", "set-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
 			$builder.add("tags", $changeBuilder.build());
 			return this;
 		}
 
 		@Override
-		public Event.PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars) {
+		public Event.PatchBuilder referencedCalendars(ReferencedCalendarsChange referencedCalendars) {
 			$builder.add("referencedCalendars", ((_BaseDataImpl) referencedCalendars).data);
 			return this;
 		}
 
 		public Event.PatchBuilder referencedCalendars(List<String> additions, List<String> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "delta-change");
+			$changeBuilder.add("@type", "merge-change");
 			$changeBuilder.add("additions", _JsonUtils.toJsonStringArray(additions));
 			$changeBuilder.add("removals", _JsonUtils.toJsonStringArray(removals));
 			$builder.add("referencedCalendars", $changeBuilder.build());
@@ -192,7 +216,7 @@ public class EventDataPatchImpl extends _BaseDataImpl implements Event.Patch {
 
 		public Event.PatchBuilder referencedCalendars(List<String> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "elements-change");
+			$changeBuilder.add("@type", "set-change");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
 			$builder.add("referencedCalendars", $changeBuilder.build());
 			return this;

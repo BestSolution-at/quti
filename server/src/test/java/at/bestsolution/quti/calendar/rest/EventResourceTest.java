@@ -182,6 +182,7 @@ public class EventResourceTest extends BaseTest {
 						{
 							"title": "Patched Title",
 							"referencedCalendars": {
+								"@type": "set-change",
 								"elements": ["%s"]
 							}
 						}

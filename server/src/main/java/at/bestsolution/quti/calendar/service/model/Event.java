@@ -55,6 +55,24 @@ public interface Event {
 	}
 
 	public interface Patch extends _Base.BaseData, Event {
+		public interface TagsChange {
+		}
+
+		public interface TagsSetChange extends TagsChange, _Base.ListSetElementsChange<String> {
+		}
+
+		public interface TagsMergeChange extends TagsChange, _Base.ListAddRemoveChange<String, String> {
+		}
+
+		public interface ReferencedCalendarsChange {
+		}
+
+		public interface ReferencedCalendarsSetChange extends ReferencedCalendarsChange, _Base.ListSetElementsChange<String> {
+		}
+
+		public interface ReferencedCalendarsMergeChange extends ReferencedCalendarsChange, _Base.ListAddRemoveChange<String, String> {
+		}
+
 		public String key();
 
 		public Optional<String> title();
@@ -69,9 +87,9 @@ public interface Event {
 
 		public _Base.Nillable<at.bestsolution.quti.calendar.service.model.EventRepeat> repeat();
 
-		public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> tags();
+		public Optional<TagsChange> tags();
 
-		public Optional<_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>>> referencedCalendars();
+		public Optional<ReferencedCalendarsChange> referencedCalendars();
 
 	}
 
@@ -91,13 +109,11 @@ public interface Event {
 		public PatchBuilder repeat(EventRepeat repeat);
 		public <T extends EventRepeat.Builder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat> block);
 
-		public PatchBuilder tags(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> tags);
-
+		public PatchBuilder tags(Patch.TagsChange tags);
 		public PatchBuilder tags(List<String> additions, List<String> removals);
 		public PatchBuilder tags(List<String> elements);
 
-		public PatchBuilder referencedCalendars(_Base.ListChange<_Base.ListSetElementsChange<String>, _Base.ListAddRemoveChange<String, String>> referencedCalendars);
-
+		public PatchBuilder referencedCalendars(Patch.ReferencedCalendarsChange referencedCalendars);
 		public PatchBuilder referencedCalendars(List<String> additions, List<String> removals);
 		public PatchBuilder referencedCalendars(List<String> elements);
 

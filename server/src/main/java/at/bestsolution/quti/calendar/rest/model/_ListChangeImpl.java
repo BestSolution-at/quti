@@ -3,63 +3,23 @@ package at.bestsolution.quti.calendar.rest.model;
 
 import java.util.function.Function;
 import java.util.List;
-import java.util.Optional;
 
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 
 import at.bestsolution.quti.calendar.service.model._Base;
 
-public class _ListChangeImpl<E, D> extends _BaseDataImpl implements _Base.ListChange<E, D> {
-	private final Function<JsonObject, E> elementFactory;
-	private final Function<JsonObject, D> deltaFactory;
-
-	public _ListChangeImpl(
-			JsonObject data,
-			Function<JsonObject, E> elementFactory,
-			Function<JsonObject, D> deltaFactory) {
-		super(data);
-		this.elementFactory = elementFactory;
-		this.deltaFactory = deltaFactory;
+public class _ListChangeImpl {
+	public static <T> T of(JsonObject o, String descProperty, Function<JsonObject, T> setFactory, Function<JsonObject, T> deltaFactory) {
+		var type = o.getString(descProperty);
+		return switch (type) {
+			case "set-change" -> setFactory.apply(o);
+			case "merge-change" -> deltaFactory.apply(o);
+			default -> throw new IllegalStateException("Unknown @type '%s'".formatted(type));
+		};
 	}
 
-	@Override
-	public Optional<D> deltaChange() {
-		if (data.getString("@type", "").equals("delta-change")) {
-			return Optional.of(deltaFactory.apply(data));
-		}
-		return Optional.empty();
-	}
-
-	@Override
-	public Optional<E> elementsChange() {
-		if (data.getString("@type", "").equals("elements-change")) {
-			return Optional.of(elementFactory.apply(data));
-		}
-		return Optional.empty();
-	}
-
-	public static <T> _Base.ListChange<_Base.ListSetElementsChange<T>, _Base.ListAddRemoveChange<T, T>> of(
-			JsonObject data,
-			Function<JsonValue, T> converter) {
-		return new _ListChangeImpl<>(
-				data,
-				d -> new ValueElementsChange<>(d, converter),
-				d -> new AddRemoveListChangeImpl<>(d, converter, converter));
-	}
-
-	public static <A, U, R> _Base.ListChange<_Base.ListSetElementsChange<A>, _Base.ListAddRemoveUpdateChange<A, U, R>> of(
-			JsonObject data,
-			Function<JsonObject, A> additionConverter,
-			Function<JsonObject, U> updateConverter,
-			Function<JsonValue, R> removalConverter) {
-		return new _ListChangeImpl<>(
-				data,
-				d -> new ObjectElementsChange<>(d, additionConverter),
-				d -> new AddRemoveUpdateListChangeImpl<>(data, additionConverter, updateConverter, removalConverter));
-	}
-
-	private static class AddRemoveListChangeImpl<A, R> extends _BaseDataImpl
+	public abstract static class AddRemoveListChangeImpl<A, R> extends _BaseDataImpl
 			implements _Base.ListAddRemoveChange<A, R> {
 		private final Function<JsonValue, A> additionConverter;
 		private final Function<JsonValue, R> removalConverter;
@@ -92,7 +52,7 @@ public class _ListChangeImpl<E, D> extends _BaseDataImpl implements _Base.ListCh
 		}
 	}
 
-	private static class AddRemoveUpdateListChangeImpl<A, U, R> extends _BaseDataImpl
+	public abstract static class AddRemoveUpdateListChangeImpl<A, U, R> extends _BaseDataImpl
 			implements _Base.ListAddRemoveUpdateChange<A, U, R> {
 
 		private final Function<JsonObject, A> additionConverter;
@@ -126,7 +86,7 @@ public class _ListChangeImpl<E, D> extends _BaseDataImpl implements _Base.ListCh
 		}
 	}
 
-	private static class ValueElementsChange<T> extends _BaseDataImpl implements _Base.ListSetElementsChange<T> {
+	public abstract static class ValueElementsChange<T> extends _BaseDataImpl implements _Base.ListSetElementsChange<T> {
 		private final Function<JsonValue, T> converter;
 
 		ValueElementsChange(JsonObject data, Function<JsonValue, T> converter) {
@@ -140,7 +100,7 @@ public class _ListChangeImpl<E, D> extends _BaseDataImpl implements _Base.ListCh
 		}
 	}
 
-	private static class ObjectElementsChange<T> extends _BaseDataImpl implements _Base.ListSetElementsChange<T> {
+	public abstract static class ObjectElementsChange<T> extends _BaseDataImpl implements _Base.ListSetElementsChange<T> {
 		private final Function<JsonObject, T> converter;
 
 		ObjectElementsChange(JsonObject data, Function<JsonObject, T> converter) {

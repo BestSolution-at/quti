@@ -20,6 +20,8 @@ import at.bestsolution.quti.calendar.service.jpa.model.EventEntity;
 import at.bestsolution.quti.calendar.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.calendar.service.model.Event;
 import at.bestsolution.quti.calendar.service.model.EventRepeat;
+import at.bestsolution.quti.calendar.service.model.Event.Patch.TagsMergeChange;
+import at.bestsolution.quti.calendar.service.model.Event.Patch.TagsSetChange;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
@@ -69,8 +71,13 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		patch.end().ifPresent(entity::end);
 
 		patch.referencedCalendars()
-				.ifPresent(refs -> refs.acceptOne(e -> handleReferencedCalendardChange(em, entity, e.elements()),
-						d -> new UnsupportedOperationException("Delta-Change not yet implemented")));
+				.ifPresent(change -> {
+					if (change instanceof TagsSetChange c) {
+						handleReferencedCalendardChange(em, entity, c);
+					} else if (change instanceof TagsMergeChange c) {
+						handleReferencedCalendardChange(em, entity, c);
+					}
+				});
 		var x = _JsonUtils.toJsonString(patch, true);
 		System.err.println(x);
 		patch.repeat().accept(r -> {
@@ -102,8 +109,8 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		entity.start = v;
 	}
 
-	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity, List<String> refs) {
-		var refSet = new HashSet<>(refs);
+	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity, TagsSetChange change) {
+		var refSet = new HashSet<>(change.elements());
 		// Remove all references from DB who are not there anymore
 		entity.references.stream()
 				.filter(r -> !refSet.contains(r.calendar.key.toString()))
@@ -123,8 +130,11 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		;
 	}
 
+	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity, TagsMergeChange change) {
+		throw new UnsupportedOperationException();
+	}
+
 	private static void handleRepeatSetChange(EntityManager em, EventEntity entity, EventRepeat.Data repeat) {
-		System.err.println("====> CHANGED" + repeat);
 		if (entity.repeatPattern != null) {
 			entity.modifications.forEach(em::remove);
 			em.remove(entity.repeatPattern);
