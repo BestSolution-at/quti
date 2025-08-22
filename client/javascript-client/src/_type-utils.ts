@@ -39,19 +39,29 @@ export function isString(value: unknown): value is string {
 	return typeof value === 'string';
 }
 
-export function isStringType<T extends string>(value: unknown, type: T): value is T {
+export function isStringType<T extends string>(
+	value: unknown,
+	type: T,
+): value is T {
 	return value === type;
 }
 
-export function createIsStringTypeGuard<T extends string>(type: T): (v: unknown) => v is T {
+export function createIsStringTypeGuard<T extends string>(
+	type: T,
+): (v: unknown) => v is T {
 	return (v) => isStringType(v, type);
 }
 
-export function createTypedArrayGuard<T>(guard: (v: unknown) => v is T): (v: unknown) => v is T[] {
+export function createTypedArrayGuard<T>(
+	guard: (v: unknown) => v is T,
+): (v: unknown) => v is T[] {
 	return (v) => isTypedArray(v, guard);
 }
 
-export function isTypedArray<T>(value: unknown, guard: (v: unknown) => v is T): value is Array<T> {
+export function isTypedArray<T>(
+	value: unknown,
+	guard: (v: unknown) => v is T,
+): value is Array<T> {
 	if (isArray(value)) {
 		if (value.length === 0) {
 			return true;
@@ -65,18 +75,46 @@ export class PropertyCheckError extends Error {
 	readonly property: string;
 	readonly record: Record<string, unknown>;
 
-	constructor(message: string, property: string, record: Record<string, unknown>) {
+	constructor(
+		message: string,
+		property: string,
+		record: Record<string, unknown>,
+	) {
 		super(message);
 		this.property = property;
 		this.record = record;
 	}
 }
 
-export function propValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T): T;
-export function propValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow: 'optional'): T | undefined;
-export function propValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow: 'null'): T | null;
-export function propValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow: 'optional_null'): T | null | undefined;
-export function propValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow?: 'optional' | 'null' | 'optional_null'): T | null | undefined {
+export function propValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+): T;
+export function propValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow: 'optional',
+): T | undefined;
+export function propValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow: 'null',
+): T | null;
+export function propValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow: 'optional_null',
+): T | null | undefined;
+export function propValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow?: 'optional' | 'null' | 'optional_null',
+): T | null | undefined {
 	const v = record[name];
 	if (allow === 'optional' || allow === 'optional_null') {
 		if (isUndefined(v)) {
@@ -92,14 +130,42 @@ export function propValue<T>(name: string, record: Record<string, unknown>, guar
 		return v;
 	}
 
-	throw new PropertyCheckError(`Value in property ${name} is invalid`, name, record);
+	throw new PropertyCheckError(
+		`Value in property ${name} is invalid`,
+		name,
+		record,
+	);
 }
 
-export function propListValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T): T[];
-export function propListValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow: 'optional'): T[] | undefined;
-export function propListValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow: 'null'): T[] | null;
-export function propListValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow: 'optional_null'): T[] | undefined | null;
-export function propListValue<T>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, allow?: 'optional' | 'null' | 'optional_null'): T[] | undefined | null {
+export function propListValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+): T[];
+export function propListValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow: 'optional',
+): T[] | undefined;
+export function propListValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow: 'null',
+): T[] | null;
+export function propListValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow: 'optional_null',
+): T[] | undefined | null;
+export function propListValue<T>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	allow?: 'optional' | 'null' | 'optional_null',
+): T[] | undefined | null {
 	const v = record[name];
 	if (allow === 'optional' || allow == 'optional_null') {
 		if (isUndefined(v)) {
@@ -114,14 +180,47 @@ export function propListValue<T>(name: string, record: Record<string, unknown>, 
 	if (isTypedArray(v, guard)) {
 		return v;
 	}
-	throw new PropertyCheckError(`Value in property ${name} is invalid`, name, record);
+	throw new PropertyCheckError(
+		`Value in property ${name} is invalid`,
+		name,
+		record,
+	);
 }
 
-export function propMappedValue<T, U>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, map: (v: T) => U): U;
-export function propMappedValue<T, U>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, map: (v: T) => U, allow: 'optional'): U | undefined;
-export function propMappedValue<T, U>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, map: (v: T) => U, allow: 'null'): U | null;
-export function propMappedValue<T, U>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, map: (v: T) => U, allow: 'optional_null'): U | undefined | null;
-export function propMappedValue<T, U>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, map: (v: T) => U, allow?: 'optional' | 'null' | 'optional_null'): U | undefined | null {
+export function propMappedValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+): U;
+export function propMappedValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+	allow: 'optional',
+): U | undefined;
+export function propMappedValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+	allow: 'null',
+): U | null;
+export function propMappedValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+	allow: 'optional_null',
+): U | undefined | null;
+export function propMappedValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+	allow?: 'optional' | 'null' | 'optional_null',
+): U | undefined | null {
 	const v = record[name];
 	if (allow === 'optional' || allow === 'optional_null') {
 		if (isUndefined(v)) {
@@ -136,10 +235,27 @@ export function propMappedValue<T, U>(name: string, record: Record<string, unkno
 	if (guard(v)) {
 		return map(v);
 	}
-	throw new PropertyCheckError(`Value in property ${name} is invalid`, name, record);
+	throw new PropertyCheckError(
+		`Value in property ${name} is invalid`,
+		name,
+		record,
+	);
 }
 
-export function propMappedListValue<T, U>(name: string, record: Record<string, unknown>, guard: (v: unknown) => v is T, map: (v: T) => U, allow?: 'optional' | 'null' | 'optional_null'): U[] | undefined | null {
+export function propMappedListValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+	allow?: 'optional' | 'null' | 'optional_null',
+): U[];
+export function propMappedListValue<T, U>(
+	name: string,
+	record: Record<string, unknown>,
+	guard: (v: unknown) => v is T,
+	map: (v: T) => U,
+	allow?: 'optional' | 'null' | 'optional_null',
+): U[] | undefined | null {
 	const v = record[name];
 	if (allow === 'optional' || allow === 'optional_null') {
 		if (isUndefined(v)) {
@@ -154,10 +270,19 @@ export function propMappedListValue<T, U>(name: string, record: Record<string, u
 	if (isTypedArray(v, guard)) {
 		return v.map(map);
 	}
-	throw new PropertyCheckError(`Value in property ${name} is invalid`, name, record);
+	throw new PropertyCheckError(
+		`Value in property ${name} is invalid`,
+		name,
+		record,
+	);
 }
 
-export function checkProp<T, K extends string>(value: Record<string, unknown>, property: K, typeCheck: (value: unknown) => value is T, valueCheck?: (value: T) => boolean): value is Record<string, unknown> {
+export function checkProp<T, K extends string>(
+	value: Record<string, unknown>,
+	property: K,
+	typeCheck: (value: unknown) => value is T,
+	valueCheck?: (value: T) => boolean,
+): value is Record<string, unknown> {
 	if (property in value) {
 		const v = value[property];
 		return (
@@ -170,10 +295,241 @@ export function checkProp<T, K extends string>(value: Record<string, unknown>, p
 	return false;
 }
 
-export function checkOptProp<T, K extends string>(value: Record<string, unknown>, property: K, typeCheck: (value: unknown) => value is T, valueCheck?: (value: T) => boolean): value is Record<string, unknown> {
+export function checkOptProp<T, K extends string>(
+	value: Record<string, unknown>,
+	property: K,
+	typeCheck: (value: unknown) => value is T,
+	valueCheck?: (value: T) => boolean,
+): value is Record<string, unknown> {
 	if (!(property in value)) {
 		return true;
 	}
 	return checkProp(value, property, typeCheck, valueCheck);
 }
 
+function checkListProp<T, K extends string>(
+	value: Record<string, unknown>,
+	property: K,
+	typeCheck: (value: unknown) => value is T,
+	valueCheck?: (value: T) => boolean,
+): value is Record<string, unknown> {
+	return checkProp(
+		value,
+		property,
+		isArray,
+		(arr) =>
+			arr.find((v) => {
+				if (typeCheck(v)) {
+					if (valueCheck === undefined) {
+						return false;
+					} else {
+						return !valueCheck(v);
+					}
+				} else {
+					return true;
+				}
+			}) === undefined,
+	);
+}
+
+export type ListSetElementsChange<T> = {
+	'@type': 'set-change';
+	readonly elements: readonly T[];
+};
+
+export type ListAddRemoveChange<A, R> = {
+	'@type': 'patch-change';
+	readonly additions: readonly A[];
+	readonly removals: readonly R[];
+};
+
+export type ListAddUpdateRemoveChange<A, U, R> = {
+	'@type': 'patch-change';
+	readonly additions: readonly A[];
+	readonly updates: readonly U[];
+	readonly removals: readonly R[];
+};
+
+export function isListSetElementsChange<T>(
+	value: unknown,
+	typeCheck: (value: unknown) => value is T,
+): value is ListSetElementsChange<T> {
+	return (
+		isRecord(value) &&
+		checkProp(value, '@type', isString, (v) => v === 'set-change') &&
+		checkListProp(value, 'elements', typeCheck)
+	);
+}
+
+export function isListAddRemoveChange<A, R>(
+	value: unknown,
+	addTypeCheck: (value: unknown) => value is A,
+	removeTypeCheck: (value: unknown) => value is R,
+): value is ListAddRemoveChange<A, R> {
+	return (
+		isRecord(value) &&
+		checkProp(value, '@type', isString, (v) => v === 'patch-change') &&
+		checkListProp(value, 'additions', addTypeCheck) &&
+		checkListProp(value, 'removals', removeTypeCheck)
+	);
+}
+
+export function isListAddUpdateRemoveChange<A, U, R>(
+	value: unknown,
+	addTypeCheck: (value: unknown) => value is A,
+	updateTypeCheck: (value: unknown) => value is U,
+	removeTypeCheck: (value: unknown) => value is R,
+): value is ListAddUpdateRemoveChange<A, U, R> {
+	return (
+		isRecord(value) &&
+		checkProp(value, '@type', isString, (v) => v === 'patch-change') &&
+		checkListProp(value, 'additions', addTypeCheck) &&
+		checkListProp(value, 'updates', updateTypeCheck) &&
+		checkListProp(value, 'removals', removeTypeCheck)
+	);
+}
+
+export function ListSetElementsChangeFromJSON<T, U>(
+	value: Record<string, unknown>,
+	typeGuard: (v: unknown) => v is U,
+	map: (v: U) => T,
+): ListSetElementsChange<T> {
+	const elements = propMappedListValue('elements', value, typeGuard, map);
+	return {
+		'@type': 'set-change',
+		elements,
+	};
+}
+
+export function ListSetElementsChangeToJSON<T>(
+	value: ListSetElementsChange<T>,
+	map: (value: T) => JsonValue,
+) {
+	const elements = value.elements.map(map);
+	return {
+		'@type': 'set-change',
+		elements,
+	};
+}
+
+export function ListAddRemoveChangeFromJSON<A, X, R, Y>(
+	value: Record<string, unknown>,
+	addTypeGuard: (v: unknown) => v is X,
+	addMap: (v: X) => A,
+	removeTypeGuard: (v: unknown) => v is Y,
+	removeMap: (v: Y) => R,
+): ListAddRemoveChange<A, R> {
+	const additions = propMappedListValue(
+		'additions',
+		value,
+		addTypeGuard,
+		addMap,
+	);
+	const removals = propMappedListValue(
+		'removals',
+		value,
+		removeTypeGuard,
+		removeMap,
+	);
+	return {
+		'@type': 'patch-change',
+		additions,
+		removals,
+	};
+}
+
+export function ListAddRemoveChangeToJSON<A, R>(
+	value: ListAddRemoveChange<A, R>,
+	addMap: (value: A) => unknown,
+	removeMap: (value: R) => unknown,
+) {
+	const additions = value.additions.map(addMap);
+	const removals = value.removals.map(removeMap);
+	return {
+		'@type': 'patch-change',
+		additions,
+		removals,
+	};
+}
+
+export function ListAddUpdateRemoveChangeFromJSON<A, X, U, Y, R, Z>(
+	value: Record<string, unknown>,
+	addTypeGuard: (v: unknown) => v is X,
+	addMap: (v: X) => A,
+	updateTypeGuard: (v: unknown) => v is Y,
+	updateMap: (v: Y) => U,
+	removeTypeGuard: (v: unknown) => v is Z,
+	removeMap: (v: Z) => R,
+): ListAddUpdateRemoveChange<A, U, R> {
+	const additions = propMappedListValue(
+		'additions',
+		value,
+		addTypeGuard,
+		addMap,
+	);
+	const updates = propMappedListValue(
+		'updates',
+		value,
+		updateTypeGuard,
+		updateMap,
+	);
+	const removals = propMappedListValue(
+		'removals',
+		value,
+		removeTypeGuard,
+		removeMap,
+	);
+	return {
+		'@type': 'patch-change',
+		additions,
+		updates,
+		removals,
+	};
+}
+
+export function ListAddUpdateRemoveChangeToJSON<A, U, R>(
+	value: ListAddUpdateRemoveChange<A, U, R>,
+	addMap: (value: A) => unknown,
+	updateMap: (value: U) => unknown,
+	removeMap: (value: R) => unknown,
+) {
+	const additions = value.additions.map(addMap);
+	const updates = value.updates.map(updateMap);
+	const removals = value.removals.map(removeMap);
+	return {
+		'@type': 'patch-change',
+		additions,
+		updates,
+		removals,
+	};
+}
+
+export function SetOrPatchChangeFromJSON<S, P>(
+	value: Record<string, unknown>,
+	setMapper: (value: Record<string, unknown>) => S,
+	patchMapper: (value: Record<string, unknown>) => P,
+): S | P {
+	if (value['@type'] === 'set-change') {
+		return setMapper(value);
+	}
+	return patchMapper(value);
+}
+
+export function noopMap<T>(v: T): T {
+	return v;
+}
+
+type JsonValue =
+	| undefined
+	| null
+	| string
+	| number
+	| boolean
+	| Date
+	| JsonObject
+	| JsonArray;
+
+type JsonObject = {
+	[x: string]: JsonValue;
+};
+type JsonArray = Array<JsonValue>;

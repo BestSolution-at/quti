@@ -1,4 +1,5 @@
 import { api, $, createCalendarService, createEventService } from './index.ts';
+import { EventPatchToJSON } from './model/index.ts';
 
 /*
 const _S: unique symbol = Symbol('S');
@@ -33,6 +34,17 @@ const f = await _(blub());
 console.log(f);*/
 
 async function runDemo() {
+	const model: api.model.EventPatch = {
+		description: 'Foo',
+		referencedCalendars: {
+			'@type': 'set-change',
+			elements: ['a', 'b'],
+		},
+	};
+	console.log(EventPatchToJSON(model));
+}
+
+async function runDemo_x() {
 	const calendarService = createCalendarService({
 		baseUrl: 'http://127.0.0.1:8083',
 	});
@@ -208,7 +220,7 @@ if (import.meta.main) {
 	//const key = 'bec0c3f5-8a84-40e2-be70-75700fed8810';
 
 	try {
-		//await runDemo();
+		await runDemo();
 	} catch (e) {
 		console.error('Technical failure', e);
 	}
