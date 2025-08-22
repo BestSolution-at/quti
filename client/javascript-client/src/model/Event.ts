@@ -2,8 +2,11 @@
 import {
 	type EventRepeat,
 	EventRepeatFromJSON,
+	type EventRepeatPatch,
+	EventRepeatPatchFromJSON,
 	EventRepeatToJSON,
 	isEventRepeat,
+	isEventRepeatPatch,
 } from './EventRepeat.js';
 import {
 	checkOptProp,
@@ -125,13 +128,15 @@ export type EventPatch_ReferencedCalendars_Change =
 	| EventPatch_ReferencedCalendars_SetChange
 	| EventPatch_ReferencedCalendars_PatchChange;
 
+export type EventPatch_Repeat_Change = EventRepeat | EventRepeatPatch;
+
 export type EventPatch = {
 	readonly title?: string;
 	readonly description?: string | null;
 	readonly start?: string;
 	readonly end?: string;
 	readonly fullday?: boolean | null;
-	readonly repeat?: EventRepeat | null;
+	readonly repeat?: EventPatch_Repeat_Change | null;
 	readonly tags?: string[];
 	readonly referencedCalendars?: EventPatch_ReferencedCalendars_Change;
 };
@@ -187,6 +192,28 @@ export function EventPatchFromJSON(value: Record<string, unknown>): EventPatch {
 		tags,
 		referencedCalendars,
 	};
+}
+
+export function isEventPatch_Repeat_Change(value: unknown) {
+	return isRecord(value) && (isEventRepeat(value) || isEventRepeatPatch(value));
+}
+
+export function EventPatch_Repeat_ChangeFromJSON(
+	value: Record<string, unknown>,
+): EventPatch_Repeat_Change {
+	if (checkProp(value, '@type', isString, (v) => v.startsWith('patch:'))) {
+		return EventRepeatPatchFromJSON(value);
+	}
+	return EventRepeatFromJSON(value);
+}
+
+export function EventPatch_Repeat_ChangeToJSON(
+	value: EventPatch_Repeat_Change,
+): EventPatch_Repeat_Change {
+	if (isEventRepeat(value)) {
+		return EventRepeatFromJSON(value);
+	}
+	return EventRepeatPatchFromJSON(value);
 }
 
 export function isEventPatch_ReferencedCalendars_SetChange(
@@ -268,7 +295,7 @@ export function EventPatchToJSON(value: EventPatch): Record<string, unknown> {
 	const repeat =
 		isUndefined(value.repeat) || isNull(value.repeat)
 			? value.repeat
-			: EventRepeatToJSON(value.repeat);
+			: EventPatch_Repeat_ChangeToJSON(value.repeat);
 	const tags = value.tags;
 	const referencedCalendars = isUndefined(value.referencedCalendars)
 		? value.referencedCalendars
