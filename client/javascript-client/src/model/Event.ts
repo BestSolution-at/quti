@@ -118,6 +118,8 @@ export function EventToJSON(value: Event): Record<string, unknown> {
 	};
 }
 
+// --------------
+
 export type EventPatch_ReferencedCalendars_SetChange =
 	ListSetElementsChange<string>;
 export type EventPatch_ReferencedCalendars_PatchChange = ListAddRemoveChange<
@@ -127,94 +129,6 @@ export type EventPatch_ReferencedCalendars_PatchChange = ListAddRemoveChange<
 export type EventPatch_ReferencedCalendars_Change =
 	| EventPatch_ReferencedCalendars_SetChange
 	| EventPatch_ReferencedCalendars_PatchChange;
-
-export type EventPatch_Repeat_Change = EventRepeat | EventRepeatPatch;
-
-export type EventPatch = {
-	readonly title?: string;
-	readonly description?: string | null;
-	readonly start?: string;
-	readonly end?: string;
-	readonly fullday?: boolean | null;
-	readonly repeat?: EventPatch_Repeat_Change | null;
-	readonly tags?: string[];
-	readonly referencedCalendars?: EventPatch_ReferencedCalendars_Change;
-};
-
-export function isEventPatch(value: unknown): value is EventPatch {
-	return (
-		isRecord(value) &&
-		checkOptProp(value, 'title', isString) &&
-		(isNull(value.description) ||
-			checkOptProp(value, 'description', isString)) &&
-		checkOptProp(value, 'start', isString) &&
-		checkOptProp(value, 'end', isString) &&
-		(isNull(value.fullday) || checkOptProp(value, 'fullday', isBoolean)) &&
-		(isNull(value.repeat) || checkOptProp(value, 'repeat', isEventRepeat)) &&
-		checkOptProp(value, 'tags', createTypedArrayGuard(isString)) &&
-		checkOptProp(value, 'referencedCalendars', createTypedArrayGuard(isString))
-	);
-}
-
-export function EventPatchFromJSON(value: Record<string, unknown>): EventPatch {
-	const title = propValue('title', value, isString, 'optional');
-	const description = propValue(
-		'description',
-		value,
-		isString,
-		'optional_null',
-	);
-	const start = propValue('start', value, isString, 'optional');
-	const end = propValue('end', value, isString, 'optional');
-	const fullday = propValue('fullday', value, isBoolean, 'optional_null');
-	const repeat = propMappedValue(
-		'repeat',
-		value,
-		isRecord,
-		EventRepeatFromJSON,
-		'optional_null',
-	);
-	const tags = propListValue('tags', value, isString, 'optional');
-	const referencedCalendars = propMappedValue(
-		'referencedCalendars',
-		value,
-		isRecord,
-		EventPatch_ReferencedCalendars_ChangeFromJSON,
-		'optional',
-	);
-	return {
-		title,
-		description,
-		start,
-		end,
-		fullday,
-		repeat,
-		tags,
-		referencedCalendars,
-	};
-}
-
-export function isEventPatch_Repeat_Change(value: unknown) {
-	return isRecord(value) && (isEventRepeat(value) || isEventRepeatPatch(value));
-}
-
-export function EventPatch_Repeat_ChangeFromJSON(
-	value: Record<string, unknown>,
-): EventPatch_Repeat_Change {
-	if (checkProp(value, '@type', isString, (v) => v.startsWith('patch:'))) {
-		return EventRepeatPatchFromJSON(value);
-	}
-	return EventRepeatFromJSON(value);
-}
-
-export function EventPatch_Repeat_ChangeToJSON(
-	value: EventPatch_Repeat_Change,
-): EventPatch_Repeat_Change {
-	if (isEventRepeat(value)) {
-		return EventRepeatFromJSON(value);
-	}
-	return EventRepeatPatchFromJSON(value);
-}
 
 export function isEventPatch_ReferencedCalendars_SetChange(
 	value: unknown,
@@ -284,6 +198,96 @@ function EventPatch_ReferencedCalendars_ChangeToJSON(
 		return EventPatch_ReferencedCalendars_SetChangeToJSON(value);
 	}
 	return EventPatch_ReferencedCalendars_PatchChangeToJSON(value);
+}
+
+// --------------
+
+export type EventPatch_Repeat_Change = EventRepeat | EventRepeatPatch;
+
+export function isEventPatch_Repeat_Change(value: unknown) {
+	return isRecord(value) && (isEventRepeat(value) || isEventRepeatPatch(value));
+}
+
+export function EventPatch_Repeat_ChangeFromJSON(
+	value: Record<string, unknown>,
+): EventPatch_Repeat_Change {
+	if (checkProp(value, '@type', isString, (v) => v.startsWith('patch:'))) {
+		return EventRepeatPatchFromJSON(value);
+	}
+	return EventRepeatFromJSON(value);
+}
+
+export function EventPatch_Repeat_ChangeToJSON(
+	value: EventPatch_Repeat_Change,
+): EventPatch_Repeat_Change {
+	if (isEventRepeat(value)) {
+		return EventRepeatFromJSON(value);
+	}
+	return EventRepeatPatchFromJSON(value);
+}
+
+export type EventPatch = {
+	readonly title?: string;
+	readonly description?: string | null;
+	readonly start?: string;
+	readonly end?: string;
+	readonly fullday?: boolean | null;
+	readonly repeat?: EventPatch_Repeat_Change | null;
+	readonly tags?: string[];
+	readonly referencedCalendars?: EventPatch_ReferencedCalendars_Change;
+};
+
+export function isEventPatch(value: unknown): value is EventPatch {
+	return (
+		isRecord(value) &&
+		checkOptProp(value, 'title', isString) &&
+		(isNull(value.description) ||
+			checkOptProp(value, 'description', isString)) &&
+		checkOptProp(value, 'start', isString) &&
+		checkOptProp(value, 'end', isString) &&
+		(isNull(value.fullday) || checkOptProp(value, 'fullday', isBoolean)) &&
+		(isNull(value.repeat) || checkOptProp(value, 'repeat', isEventRepeat)) &&
+		checkOptProp(value, 'tags', createTypedArrayGuard(isString)) &&
+		checkOptProp(value, 'referencedCalendars', createTypedArrayGuard(isString))
+	);
+}
+
+export function EventPatchFromJSON(value: Record<string, unknown>): EventPatch {
+	const title = propValue('title', value, isString, 'optional');
+	const description = propValue(
+		'description',
+		value,
+		isString,
+		'optional_null',
+	);
+	const start = propValue('start', value, isString, 'optional');
+	const end = propValue('end', value, isString, 'optional');
+	const fullday = propValue('fullday', value, isBoolean, 'optional_null');
+	const repeat = propMappedValue(
+		'repeat',
+		value,
+		isRecord,
+		EventRepeatFromJSON,
+		'optional_null',
+	);
+	const tags = propListValue('tags', value, isString, 'optional');
+	const referencedCalendars = propMappedValue(
+		'referencedCalendars',
+		value,
+		isRecord,
+		EventPatch_ReferencedCalendars_ChangeFromJSON,
+		'optional',
+	);
+	return {
+		title,
+		description,
+		start,
+		end,
+		fullday,
+		repeat,
+		tags,
+		referencedCalendars,
+	};
 }
 
 export function EventPatchToJSON(value: EventPatch): Record<string, unknown> {

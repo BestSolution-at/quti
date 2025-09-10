@@ -4,7 +4,6 @@ package at.bestsolution.quti.calendar.client.model;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.List;
-import java.util.Optional;
 
 public interface _Base {
 	public interface Nillable<T> {
@@ -22,16 +21,17 @@ public interface _Base {
 		public T build();
 	}
 
-	public interface ListSetElementsChange<T> {
+	public interface ListReplace<T> {
 		public List<T> elements();
 	}
 
-	public interface ListAddRemoveChange<A, R> {
+	public interface ListMergeAddRemove<A, R> {
 		public List<A> additions();
+
 		public List<R> removals();
 	}
 
-	public interface ListAddRemoveUpdateChange<A, U, R> extends ListAddRemoveChange<A, R> {
+	public interface ListMergeAddRemoveUpdate<A, U, R> extends ListMergeAddRemove<A, R> {
 		public List<U> updates();
 	}
 }

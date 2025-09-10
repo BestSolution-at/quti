@@ -46,7 +46,8 @@ public interface Event {
 
 		public DataBuilder repeat(EventRepeat.Data repeat);
 
-		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat.Data> block);
+		public <T extends EventRepeat.DataBuilder> DataBuilder withRepeat(Class<T> clazz,
+				Function<T, EventRepeat.Data> block);
 
 		public DataBuilder tags(List<String> tags);
 
@@ -58,19 +59,20 @@ public interface Event {
 		public interface TagsChange {
 		}
 
-		public interface TagsSetChange extends TagsChange, _Base.ListSetElementsChange<String> {
+		public interface TagsSetChange extends TagsChange, _Base.ListReplace<String> {
 		}
 
-		public interface TagsMergeChange extends TagsChange, _Base.ListAddRemoveChange<String, String> {
+		public interface TagsMergeChange extends TagsChange, _Base.ListMergeAddRemove<String, String> {
 		}
 
 		public interface ReferencedCalendarsChange {
 		}
 
-		public interface ReferencedCalendarsSetChange extends ReferencedCalendarsChange, _Base.ListSetElementsChange<String> {
+		public interface ReferencedCalendarsSetChange extends ReferencedCalendarsChange, _Base.ListReplace<String> {
 		}
 
-		public interface ReferencedCalendarsMergeChange extends ReferencedCalendarsChange, _Base.ListAddRemoveChange<String, String> {
+		public interface ReferencedCalendarsMergeChange
+				extends ReferencedCalendarsChange, _Base.ListMergeAddRemove<String, String> {
 		}
 
 		public String key();
@@ -107,14 +109,19 @@ public interface Event {
 		public PatchBuilder fullday(Boolean fullday);
 
 		public PatchBuilder repeat(EventRepeat repeat);
+
 		public <T extends EventRepeat.Builder> PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat> block);
 
 		public PatchBuilder tags(Patch.TagsChange tags);
+
 		public PatchBuilder tags(List<String> additions, List<String> removals);
+
 		public PatchBuilder tags(List<String> elements);
 
 		public PatchBuilder referencedCalendars(Patch.ReferencedCalendarsChange referencedCalendars);
+
 		public PatchBuilder referencedCalendars(List<String> additions, List<String> removals);
+
 		public PatchBuilder referencedCalendars(List<String> elements);
 
 	}

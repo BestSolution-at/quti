@@ -16,15 +16,18 @@ import at.bestsolution.quti.calendar.service.model._Base;
 import at.bestsolution.quti.calendar.service.model.EventRepeatWeekly;
 
 public class EventRepeatWeeklyPatchImpl extends _BaseDataImpl implements EventRepeatWeekly.Patch {
-	static class DaysOfWeekSetChangeImpl extends _ListChangeSupport.ValueElementsChange<DayOfWeek> implements DaysOfWeekSetChange {
+	static class DaysOfWeekSetChangeImpl extends _ListChangeSupport.ValueElementsChange<DayOfWeek>
+			implements DaysOfWeekSetChange {
 		DaysOfWeekSetChangeImpl(JsonObject data) {
-			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()));
+			super(data, v -> DayOfWeek.valueOf(((JsonString) v).getString()));
 		}
 	}
 
-	static class DaysOfWeekMergeChangeImpl extends _ListChangeSupport.AddRemoveListChangeImpl<DayOfWeek, DayOfWeek> implements DaysOfWeekMergeChange {
+	static class DaysOfWeekMergeChangeImpl extends _ListChangeSupport.ListMergeAddRemoveImpl<DayOfWeek, DayOfWeek>
+			implements DaysOfWeekMergeChange {
 		DaysOfWeekMergeChangeImpl(JsonObject data) {
-			super(data, v -> DayOfWeek.valueOf(((JsonString)v).getString()), v -> DayOfWeek.valueOf(((JsonString)v).getString()));
+			super(data, v -> DayOfWeek.valueOf(((JsonString) v).getString()),
+					v -> DayOfWeek.valueOf(((JsonString) v).getString()));
 		}
 	}
 
@@ -33,7 +36,8 @@ public class EventRepeatWeeklyPatchImpl extends _BaseDataImpl implements EventRe
 	}
 
 	public Optional<DaysOfWeekChange> daysOfWeek() {
-		return _JsonUtils.mapOptObject(data, "daysOfWeek", o -> _ListChangeSupport.of(o, "@type", DaysOfWeekSetChangeImpl::new, DaysOfWeekMergeChangeImpl::new));
+		return _JsonUtils.mapOptObject(data, "daysOfWeek",
+				o -> _ListChangeSupport.of(o, "@type", DaysOfWeekSetChangeImpl::new, DaysOfWeekMergeChangeImpl::new));
 	}
 
 	public Optional<Short> interval() {
@@ -63,7 +67,7 @@ public class EventRepeatWeeklyPatchImpl extends _BaseDataImpl implements EventRe
 
 		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "merge-change");
+			$changeBuilder.add("@type", "merge");
 			$changeBuilder.add("additions", _JsonUtils.toJsonLiteralArray(additions));
 			$changeBuilder.add("removals", _JsonUtils.toJsonLiteralArray(removals));
 			$builder.add("daysOfWeek", $changeBuilder.build());
@@ -72,7 +76,7 @@ public class EventRepeatWeeklyPatchImpl extends _BaseDataImpl implements EventRe
 
 		public EventRepeatWeekly.PatchBuilder daysOfWeek(List<DayOfWeek> elements) {
 			var $changeBuilder = Json.createObjectBuilder();
-			$changeBuilder.add("@type", "set-change");
+			$changeBuilder.add("@type", "replace");
 			$changeBuilder.add("elements", _JsonUtils.toJsonLiteralArray(elements));
 			$builder.add("daysOfWeek", $changeBuilder.build());
 			return this;
