@@ -15,10 +15,10 @@ export function isEventSearch(value: unknown): value is EventSearch {
 		checkOptProp(value, 'endRange', isDateTimeRange);
 }
 
-export function EventSearchFromJSON(value: Record<string, unknown>): EventSearch {
-	const tags = propListValue('tags', value, isString, 'optional');
-	const startRange = propMappedValue('startRange', value, isRecord, DateTimeRangeFromJSON, 'optional');
-	const endRange = propMappedValue('endRange', value, isRecord, DateTimeRangeFromJSON, 'optional');
+export function EventSearchFromJSON($value: Record<string, unknown>): EventSearch {
+	const tags = propListValue('tags', $value, isString, 'optional');
+	const startRange = propMappedValue('startRange', $value, isRecord, DateTimeRangeFromJSON, 'optional');
+	const endRange = propMappedValue('endRange', $value, isRecord, DateTimeRangeFromJSON, 'optional');
 	return {
 		tags,
 		startRange,
@@ -26,10 +26,10 @@ export function EventSearchFromJSON(value: Record<string, unknown>): EventSearch
 	};
 }
 
-export function EventSearchToJSON(value: EventSearch): Record<string, unknown> {
-	const tags = value.tags;
-	const startRange = isUndefined(value.startRange) ? undefined : DateTimeRangeToJSON(value.startRange);
-	const endRange = isUndefined(value.endRange) ? undefined : DateTimeRangeToJSON(value.endRange);
+export function EventSearchToJSON($value: EventSearch): Record<string, unknown> {
+	const tags = $value.tags;
+	const startRange = isUndefined($value.startRange) ? undefined : DateTimeRangeToJSON($value.startRange);
+	const endRange = isUndefined($value.endRange) ? undefined : DateTimeRangeToJSON($value.endRange);
 
 	return {
 		tags,

@@ -21,12 +21,12 @@ export function isEventRepeatAbsoluteYearly(value: unknown): value is EventRepea
 		checkProp(value, 'timeZone', isString);
 }
 
-export function EventRepeatAbsoluteYearlyFromJSON(value: Record<string, unknown>): EventRepeatAbsoluteYearly {
-	const dayOfMonth = propValue('dayOfMonth', value, isNumber);
-	const month = propValue('month', value, isMonth);
-	const interval = propValue('interval', value, isNumber);
-	const endDate = propValue('endDate', value, isString, 'optional');
-	const timeZone = propValue('timeZone', value, isString);
+export function EventRepeatAbsoluteYearlyFromJSON($value: Record<string, unknown>): EventRepeatAbsoluteYearly {
+	const dayOfMonth = propValue('dayOfMonth', $value, isNumber);
+	const month = propValue('month', $value, isMonth);
+	const interval = propValue('interval', $value, isNumber);
+	const endDate = propValue('endDate', $value, isString, 'optional');
+	const timeZone = propValue('timeZone', $value, isString);
 	return {
 		'@type': 'absolute-yearly',
 		dayOfMonth,
@@ -37,12 +37,12 @@ export function EventRepeatAbsoluteYearlyFromJSON(value: Record<string, unknown>
 	};
 }
 
-export function EventRepeatAbsoluteYearlyToJSON(value: EventRepeatAbsoluteYearly): Record<string, unknown> {
-	const dayOfMonth = value.dayOfMonth;
-	const month = value.month;
-	const interval = value.interval;
-	const endDate = value.endDate;
-	const timeZone = value.timeZone;
+export function EventRepeatAbsoluteYearlyToJSON($value: EventRepeatAbsoluteYearly): Record<string, unknown> {
+	const dayOfMonth = $value.dayOfMonth;
+	const month = $value.month;
+	const interval = $value.interval;
+	const endDate = $value.endDate;
+	const timeZone = $value.timeZone;
 
 	return {
 		'@type': 'absolute-yearly',
@@ -53,20 +53,20 @@ export function EventRepeatAbsoluteYearlyToJSON(value: EventRepeatAbsoluteYearly
 		timeZone,
 	};
 }
-
 
 export type EventRepeatAbsoluteYearlyPatch = {
 	'@type': 'absolute-yearly-patch',
 	readonly dayOfMonth?: number;
 	readonly month?: Month;
 	readonly interval?: number;
-	readonly endDate?: (string | null);
+	readonly endDate?: string | null;
 	readonly timeZone?: string;
 };
 
 export function isEventRepeatAbsoluteYearlyPatch(value: unknown): value is EventRepeatAbsoluteYearlyPatch {
 	return isRecord(value) &&
 		checkProp(value, '@type', createIsStringTypeGuard('absolute-yearly')) &&
+		 &&
 		checkOptProp(value, 'dayOfMonth', isNumber) &&
 		checkOptProp(value, 'month', isMonth) &&
 		checkOptProp(value, 'interval', isNumber) &&
@@ -74,12 +74,12 @@ export function isEventRepeatAbsoluteYearlyPatch(value: unknown): value is Event
 		checkOptProp(value, 'timeZone', isString);
 }
 
-export function EventRepeatAbsoluteYearlyPatchFromJSON(value: Record<string, unknown>): EventRepeatAbsoluteYearlyPatch {
-	const dayOfMonth = propValue('dayOfMonth', value, isNumber, 'optional');
-	const month = propValue('month', value, isMonth, 'optional');
-	const interval = propValue('interval', value, isNumber, 'optional');
-	const endDate = propValue('endDate', value, isString, 'optional_null');
-	const timeZone = propValue('timeZone', value, isString, 'optional');
+export function EventRepeatAbsoluteYearlyPatchFromJSON($value: Record<string, unknown>): EventRepeatAbsoluteYearlyPatch {
+	const dayOfMonth = propValue('dayOfMonth', $value, isNumber, 'optional');
+	const month = propValue('month', $value, isMonth, 'optional');
+	const interval = propValue('interval', $value, isNumber, 'optional');
+	const endDate = propValue('endDate', $value, isString, 'optional_null');
+	const timeZone = propValue('timeZone', $value, isString, 'optional');
 	return {
 		'@type': 'absolute-yearly-patch',
 		dayOfMonth,
@@ -90,12 +90,12 @@ export function EventRepeatAbsoluteYearlyPatchFromJSON(value: Record<string, unk
 	};
 }
 
-export function EventRepeatAbsoluteYearlyPatchToJSON(value: EventRepeatAbsoluteYearlyPatch): Record<string, unknown> {
-	const dayOfMonth = value.dayOfMonth;
-	const month = value.month;
-	const interval = value.interval;
-	const endDate = value.endDate;
-	const timeZone = value.timeZone;
+export function EventRepeatAbsoluteYearlyPatchToJSON($value: EventRepeatAbsoluteYearlyPatch): Record<string, unknown> {
+	const dayOfMonth = $value.dayOfMonth;
+	const month = $value.month;
+	const interval = $value.interval;
+	const endDate = $value.endDate;
+	const timeZone = $value.timeZone;
 
 	return {
 		'@type': 'absolute-yearly-patch',

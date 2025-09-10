@@ -12,18 +12,18 @@ export function isDateTimeRange(value: unknown): value is DateTimeRange {
 		checkOptProp(value, 'max', isString);
 }
 
-export function DateTimeRangeFromJSON(value: Record<string, unknown>): DateTimeRange {
-	const min = propValue('min', value, isString, 'optional');
-	const max = propValue('max', value, isString, 'optional');
+export function DateTimeRangeFromJSON($value: Record<string, unknown>): DateTimeRange {
+	const min = propValue('min', $value, isString, 'optional');
+	const max = propValue('max', $value, isString, 'optional');
 	return {
 		min,
 		max,
 	};
 }
 
-export function DateTimeRangeToJSON(value: DateTimeRange): Record<string, unknown> {
-	const min = value.min;
-	const max = value.max;
+export function DateTimeRangeToJSON($value: DateTimeRange): Record<string, unknown> {
+	const min = $value.min;
+	const max = $value.max;
 
 	return {
 		min,

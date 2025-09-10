@@ -25,15 +25,15 @@ export function isEventNew(value: unknown): value is EventNew {
 		checkProp(value, 'referencedCalendars', createTypedArrayGuard(isString));
 }
 
-export function EventNewFromJSON(value: Record<string, unknown>): EventNew {
-	const title = propValue('title', value, isString);
-	const description = propValue('description', value, isString, 'optional');
-	const start = propValue('start', value, isString);
-	const end = propValue('end', value, isString);
-	const fullday = propValue('fullday', value, isBoolean, 'optional');
-	const repeat = propMappedValue('repeat', value, isRecord, EventRepeatFromJSON, 'optional');
-	const tags = propListValue('tags', value, isString);
-	const referencedCalendars = propListValue('referencedCalendars', value, isString);
+export function EventNewFromJSON($value: Record<string, unknown>): EventNew {
+	const title = propValue('title', $value, isString);
+	const description = propValue('description', $value, isString, 'optional');
+	const start = propValue('start', $value, isString);
+	const end = propValue('end', $value, isString);
+	const fullday = propValue('fullday', $value, isBoolean, 'optional');
+	const repeat = propMappedValue('repeat', $value, isRecord, EventRepeatFromJSON, 'optional');
+	const tags = propListValue('tags', $value, isString);
+	const referencedCalendars = propListValue('referencedCalendars', $value, isString);
 	return {
 		title,
 		description,
@@ -46,15 +46,15 @@ export function EventNewFromJSON(value: Record<string, unknown>): EventNew {
 	};
 }
 
-export function EventNewToJSON(value: EventNew): Record<string, unknown> {
-	const title = value.title;
-	const description = value.description;
-	const start = value.start;
-	const end = value.end;
-	const fullday = value.fullday;
-	const repeat = isUndefined(value.repeat) ? undefined : EventRepeatToJSON(value.repeat);
-	const tags = value.tags;
-	const referencedCalendars = value.referencedCalendars;
+export function EventNewToJSON($value: EventNew): Record<string, unknown> {
+	const title = $value.title;
+	const description = $value.description;
+	const start = $value.start;
+	const end = $value.end;
+	const fullday = $value.fullday;
+	const repeat = isUndefined($value.repeat) ? undefined : EventRepeatToJSON($value.repeat);
+	const tags = $value.tags;
+	const referencedCalendars = $value.referencedCalendars;
 
 	return {
 		title,

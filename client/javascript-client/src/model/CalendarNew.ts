@@ -12,18 +12,18 @@ export function isCalendarNew(value: unknown): value is CalendarNew {
 		checkOptProp(value, 'owner', isString);
 }
 
-export function CalendarNewFromJSON(value: Record<string, unknown>): CalendarNew {
-	const name = propValue('name', value, isString);
-	const owner = propValue('owner', value, isString, 'optional');
+export function CalendarNewFromJSON($value: Record<string, unknown>): CalendarNew {
+	const name = propValue('name', $value, isString);
+	const owner = propValue('owner', $value, isString, 'optional');
 	return {
 		name,
 		owner,
 	};
 }
 
-export function CalendarNewToJSON(value: CalendarNew): Record<string, unknown> {
-	const name = value.name;
-	const owner = value.owner;
+export function CalendarNewToJSON($value: CalendarNew): Record<string, unknown> {
+	const name = $value.name;
+	const owner = $value.owner;
 
 	return {
 		name,

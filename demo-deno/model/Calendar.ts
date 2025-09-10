@@ -14,10 +14,10 @@ export function isCalendar(value: unknown): value is Calendar {
 		checkOptProp(value, 'owner', isString);
 }
 
-export function CalendarFromJSON(value: Record<string, unknown>): Calendar {
-	const key = propValue('key', value, isString);
-	const name = propValue('name', value, isString);
-	const owner = propValue('owner', value, isString, 'optional');
+export function CalendarFromJSON($value: Record<string, unknown>): Calendar {
+	const key = propValue('key', $value, isString);
+	const name = propValue('name', $value, isString);
+	const owner = propValue('owner', $value, isString, 'optional');
 	return {
 		key,
 		name,
@@ -25,10 +25,10 @@ export function CalendarFromJSON(value: Record<string, unknown>): Calendar {
 	};
 }
 
-export function CalendarToJSON(value: Calendar): Record<string, unknown> {
-	const key = value.key;
-	const name = value.name;
-	const owner = value.owner;
+export function CalendarToJSON($value: Calendar): Record<string, unknown> {
+	const key = $value.key;
+	const name = $value.name;
+	const owner = $value.owner;
 
 	return {
 		key,
@@ -36,33 +36,38 @@ export function CalendarToJSON(value: Calendar): Record<string, unknown> {
 		owner,
 	};
 }
-
 
 export type CalendarPatch = {
+	readonly key: string;
 	readonly name?: string;
-	readonly owner?: (string | null);
+	readonly owner?: string | null;
 };
 
 export function isCalendarPatch(value: unknown): value is CalendarPatch {
 	return isRecord(value) &&
+		checkProp(value, 'key', isString) &&
 		checkOptProp(value, 'name', isString) &&
 		(isNull(value.owner) || checkOptProp(value, 'owner', isString));
 }
 
-export function CalendarPatchFromJSON(value: Record<string, unknown>): CalendarPatch {
-	const name = propValue('name', value, isString, 'optional');
-	const owner = propValue('owner', value, isString, 'optional_null');
+export function CalendarPatchFromJSON($value: Record<string, unknown>): CalendarPatch {
+	const key = propValue('key', $value, isString);
+	const name = propValue('name', $value, isString, 'optional');
+	const owner = propValue('owner', $value, isString, 'optional_null');
 	return {
+		key,
 		name,
 		owner,
 	};
 }
 
-export function CalendarPatchToJSON(value: CalendarPatch): Record<string, unknown> {
-	const name = value.name;
-	const owner = value.owner;
+export function CalendarPatchToJSON($value: CalendarPatch): Record<string, unknown> {
+	const key = $value.key;
+	const name = $value.name;
+	const owner = $value.owner;
 
 	return {
+		key,
 		name,
 		owner,
 	};

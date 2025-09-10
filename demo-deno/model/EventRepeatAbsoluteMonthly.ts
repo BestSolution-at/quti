@@ -18,11 +18,11 @@ export function isEventRepeatAbsoluteMonthly(value: unknown): value is EventRepe
 		checkProp(value, 'timeZone', isString);
 }
 
-export function EventRepeatAbsoluteMonthlyFromJSON(value: Record<string, unknown>): EventRepeatAbsoluteMonthly {
-	const dayOfMonth = propValue('dayOfMonth', value, isNumber);
-	const interval = propValue('interval', value, isNumber);
-	const endDate = propValue('endDate', value, isString, 'optional');
-	const timeZone = propValue('timeZone', value, isString);
+export function EventRepeatAbsoluteMonthlyFromJSON($value: Record<string, unknown>): EventRepeatAbsoluteMonthly {
+	const dayOfMonth = propValue('dayOfMonth', $value, isNumber);
+	const interval = propValue('interval', $value, isNumber);
+	const endDate = propValue('endDate', $value, isString, 'optional');
+	const timeZone = propValue('timeZone', $value, isString);
 	return {
 		'@type': 'absolute-monthly',
 		dayOfMonth,
@@ -32,11 +32,11 @@ export function EventRepeatAbsoluteMonthlyFromJSON(value: Record<string, unknown
 	};
 }
 
-export function EventRepeatAbsoluteMonthlyToJSON(value: EventRepeatAbsoluteMonthly): Record<string, unknown> {
-	const dayOfMonth = value.dayOfMonth;
-	const interval = value.interval;
-	const endDate = value.endDate;
-	const timeZone = value.timeZone;
+export function EventRepeatAbsoluteMonthlyToJSON($value: EventRepeatAbsoluteMonthly): Record<string, unknown> {
+	const dayOfMonth = $value.dayOfMonth;
+	const interval = $value.interval;
+	const endDate = $value.endDate;
+	const timeZone = $value.timeZone;
 
 	return {
 		'@type': 'absolute-monthly',
@@ -46,30 +46,30 @@ export function EventRepeatAbsoluteMonthlyToJSON(value: EventRepeatAbsoluteMonth
 		timeZone,
 	};
 }
-
 
 export type EventRepeatAbsoluteMonthlyPatch = {
 	'@type': 'absolute-monthly-patch',
 	readonly dayOfMonth?: number;
 	readonly interval?: number;
-	readonly endDate?: (string | null);
+	readonly endDate?: string | null;
 	readonly timeZone?: string;
 };
 
 export function isEventRepeatAbsoluteMonthlyPatch(value: unknown): value is EventRepeatAbsoluteMonthlyPatch {
 	return isRecord(value) &&
 		checkProp(value, '@type', createIsStringTypeGuard('absolute-monthly')) &&
+		 &&
 		checkOptProp(value, 'dayOfMonth', isNumber) &&
 		checkOptProp(value, 'interval', isNumber) &&
 		(isNull(value.endDate) || checkOptProp(value, 'endDate', isString)) &&
 		checkOptProp(value, 'timeZone', isString);
 }
 
-export function EventRepeatAbsoluteMonthlyPatchFromJSON(value: Record<string, unknown>): EventRepeatAbsoluteMonthlyPatch {
-	const dayOfMonth = propValue('dayOfMonth', value, isNumber, 'optional');
-	const interval = propValue('interval', value, isNumber, 'optional');
-	const endDate = propValue('endDate', value, isString, 'optional_null');
-	const timeZone = propValue('timeZone', value, isString, 'optional');
+export function EventRepeatAbsoluteMonthlyPatchFromJSON($value: Record<string, unknown>): EventRepeatAbsoluteMonthlyPatch {
+	const dayOfMonth = propValue('dayOfMonth', $value, isNumber, 'optional');
+	const interval = propValue('interval', $value, isNumber, 'optional');
+	const endDate = propValue('endDate', $value, isString, 'optional_null');
+	const timeZone = propValue('timeZone', $value, isString, 'optional');
 	return {
 		'@type': 'absolute-monthly-patch',
 		dayOfMonth,
@@ -79,11 +79,11 @@ export function EventRepeatAbsoluteMonthlyPatchFromJSON(value: Record<string, un
 	};
 }
 
-export function EventRepeatAbsoluteMonthlyPatchToJSON(value: EventRepeatAbsoluteMonthlyPatch): Record<string, unknown> {
-	const dayOfMonth = value.dayOfMonth;
-	const interval = value.interval;
-	const endDate = value.endDate;
-	const timeZone = value.timeZone;
+export function EventRepeatAbsoluteMonthlyPatchToJSON($value: EventRepeatAbsoluteMonthlyPatch): Record<string, unknown> {
+	const dayOfMonth = $value.dayOfMonth;
+	const interval = $value.interval;
+	const endDate = $value.endDate;
+	const timeZone = $value.timeZone;
 
 	return {
 		'@type': 'absolute-monthly-patch',

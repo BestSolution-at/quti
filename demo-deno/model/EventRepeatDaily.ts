@@ -16,10 +16,10 @@ export function isEventRepeatDaily(value: unknown): value is EventRepeatDaily {
 		checkProp(value, 'timeZone', isString);
 }
 
-export function EventRepeatDailyFromJSON(value: Record<string, unknown>): EventRepeatDaily {
-	const interval = propValue('interval', value, isNumber);
-	const endDate = propValue('endDate', value, isString, 'optional');
-	const timeZone = propValue('timeZone', value, isString);
+export function EventRepeatDailyFromJSON($value: Record<string, unknown>): EventRepeatDaily {
+	const interval = propValue('interval', $value, isNumber);
+	const endDate = propValue('endDate', $value, isString, 'optional');
+	const timeZone = propValue('timeZone', $value, isString);
 	return {
 		'@type': 'daily',
 		interval,
@@ -28,10 +28,10 @@ export function EventRepeatDailyFromJSON(value: Record<string, unknown>): EventR
 	};
 }
 
-export function EventRepeatDailyToJSON(value: EventRepeatDaily): Record<string, unknown> {
-	const interval = value.interval;
-	const endDate = value.endDate;
-	const timeZone = value.timeZone;
+export function EventRepeatDailyToJSON($value: EventRepeatDaily): Record<string, unknown> {
+	const interval = $value.interval;
+	const endDate = $value.endDate;
+	const timeZone = $value.timeZone;
 
 	return {
 		'@type': 'daily',
@@ -40,27 +40,27 @@ export function EventRepeatDailyToJSON(value: EventRepeatDaily): Record<string, 
 		timeZone,
 	};
 }
-
 
 export type EventRepeatDailyPatch = {
 	'@type': 'daily-patch',
 	readonly interval?: number;
-	readonly endDate?: (string | null);
+	readonly endDate?: string | null;
 	readonly timeZone?: string;
 };
 
 export function isEventRepeatDailyPatch(value: unknown): value is EventRepeatDailyPatch {
 	return isRecord(value) &&
 		checkProp(value, '@type', createIsStringTypeGuard('daily')) &&
+		 &&
 		checkOptProp(value, 'interval', isNumber) &&
 		(isNull(value.endDate) || checkOptProp(value, 'endDate', isString)) &&
 		checkOptProp(value, 'timeZone', isString);
 }
 
-export function EventRepeatDailyPatchFromJSON(value: Record<string, unknown>): EventRepeatDailyPatch {
-	const interval = propValue('interval', value, isNumber, 'optional');
-	const endDate = propValue('endDate', value, isString, 'optional_null');
-	const timeZone = propValue('timeZone', value, isString, 'optional');
+export function EventRepeatDailyPatchFromJSON($value: Record<string, unknown>): EventRepeatDailyPatch {
+	const interval = propValue('interval', $value, isNumber, 'optional');
+	const endDate = propValue('endDate', $value, isString, 'optional_null');
+	const timeZone = propValue('timeZone', $value, isString, 'optional');
 	return {
 		'@type': 'daily-patch',
 		interval,
@@ -69,10 +69,10 @@ export function EventRepeatDailyPatchFromJSON(value: Record<string, unknown>): E
 	};
 }
 
-export function EventRepeatDailyPatchToJSON(value: EventRepeatDailyPatch): Record<string, unknown> {
-	const interval = value.interval;
-	const endDate = value.endDate;
-	const timeZone = value.timeZone;
+export function EventRepeatDailyPatchToJSON($value: EventRepeatDailyPatch): Record<string, unknown> {
+	const interval = $value.interval;
+	const endDate = $value.endDate;
+	const timeZone = $value.timeZone;
 
 	return {
 		'@type': 'daily-patch',

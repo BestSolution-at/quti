@@ -18,12 +18,12 @@ export function isEventViewFilter(value: unknown): value is EventViewFilter {
 		checkOptProp(value, 'tags', createTypedArrayGuard(isString));
 }
 
-export function EventViewFilterFromJSON(value: Record<string, unknown>): EventViewFilter {
-	const owner = propValue('owner', value, isString, 'optional');
-	const title = propValue('title', value, isString, 'optional');
-	const description = propValue('description', value, isString, 'optional');
-	const fullday = propValue('fullday', value, isBoolean, 'optional');
-	const tags = propListValue('tags', value, isString, 'optional');
+export function EventViewFilterFromJSON($value: Record<string, unknown>): EventViewFilter {
+	const owner = propValue('owner', $value, isString, 'optional');
+	const title = propValue('title', $value, isString, 'optional');
+	const description = propValue('description', $value, isString, 'optional');
+	const fullday = propValue('fullday', $value, isBoolean, 'optional');
+	const tags = propListValue('tags', $value, isString, 'optional');
 	return {
 		owner,
 		title,
@@ -33,12 +33,12 @@ export function EventViewFilterFromJSON(value: Record<string, unknown>): EventVi
 	};
 }
 
-export function EventViewFilterToJSON(value: EventViewFilter): Record<string, unknown> {
-	const owner = value.owner;
-	const title = value.title;
-	const description = value.description;
-	const fullday = value.fullday;
-	const tags = value.tags;
+export function EventViewFilterToJSON($value: EventViewFilter): Record<string, unknown> {
+	const owner = $value.owner;
+	const title = $value.title;
+	const description = $value.description;
+	const fullday = $value.fullday;
+	const tags = $value.tags;
 
 	return {
 		owner,
