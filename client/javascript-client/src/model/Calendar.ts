@@ -47,7 +47,7 @@ export function isCalendarPatch(value: unknown): value is CalendarPatch {
 	return isRecord(value) &&
 		checkProp(value, 'key', isString) &&
 		checkOptProp(value, 'name', isString) &&
-		(isNull(value.owner) || checkOptProp(value, 'owner', isString));
+		(checkOptProp(value, 'owner', isNull) || checkOptProp(value, 'owner', isString));
 }
 
 export function CalendarPatchFromJSON($value: Record<string, unknown>): CalendarPatch {

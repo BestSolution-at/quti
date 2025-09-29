@@ -2,6 +2,7 @@
 package at.bestsolution.quti.calendar.rest;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.QueryParam;
 
 import at.bestsolution.quti.calendar.service.CalendarService;
@@ -97,6 +99,23 @@ public class CalendarResource {
 		try {
 			var result = service.eventView(builderFactory, key, start, end, timezone, resultTimeZone);
 			return responseBuilder.eventView(result, key, start, end, timezone, resultTimeZone).build();
+		} catch (NotFoundException e) {
+			return _RestUtils.toResponse(404, e);
+		} catch (InvalidArgumentException e) {
+			return _RestUtils.toResponse(400, e);
+		}
+	}
+
+	@PUT
+	@Path("{key}/action/close")
+	public Response close(
+			@PathParam("key") String _key,
+			ZonedDateTime _date) {
+		var key = _key;
+		var date = _date;
+		try {
+			service.close(builderFactory, key, date);
+			return responseBuilder.close(key, date).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidArgumentException e) {

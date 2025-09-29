@@ -60,12 +60,9 @@ public interface EventRepeatRelativeYearly {
 
 	}
 
-	public interface PatchBuilder
-			extends _Base.BaseDataBuilder<EventRepeatRelativeYearly.Patch>, EventRepeat.PatchBuilder {
+	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatRelativeYearly.Patch>, EventRepeat.PatchBuilder {
 		public PatchBuilder daysOfWeek(Patch.DaysOfWeekChange daysOfWeek);
-
 		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals);
-
 		public PatchBuilder daysOfWeek(List<DayOfWeek> elements);
 
 		public PatchBuilder month(Month month);

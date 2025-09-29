@@ -12,12 +12,21 @@ import at.bestsolution.quti.calendar.rest.model.EventDataImpl;
 import at.bestsolution.quti.calendar.rest.model.EventNewDataImpl;
 import at.bestsolution.quti.calendar.rest.model.EventPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatAbsoluteMonthlyDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatAbsoluteMonthlyPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatAbsoluteYearlyDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatAbsoluteYearlyPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatDailyDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatDailyPatchImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatRelativeMonthlyDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatRelativeMonthlyPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatRelativeYearlyDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatRelativeYearlyPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventRepeatWeeklyDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventRepeatWeeklyPatchImpl;
 import at.bestsolution.quti.calendar.rest.model.EventSearchDataImpl;
+import at.bestsolution.quti.calendar.rest.model.EventViewDataImpl;
 import at.bestsolution.quti.calendar.rest.model.EventViewFilterDataImpl;
 import at.bestsolution.quti.calendar.rest.model.SeriesEventViewDataImpl;
 import at.bestsolution.quti.calendar.rest.model.SeriesMovedEventViewDataImpl;
@@ -29,6 +38,7 @@ import at.bestsolution.quti.calendar.service.model.CalendarNew;
 import at.bestsolution.quti.calendar.service.model.DateTimeRange;
 import at.bestsolution.quti.calendar.service.model.Event;
 import at.bestsolution.quti.calendar.service.model.EventNew;
+import at.bestsolution.quti.calendar.service.model.EventRepeat;
 import at.bestsolution.quti.calendar.service.model.EventRepeatAbsoluteMonthly;
 import at.bestsolution.quti.calendar.service.model.EventRepeatAbsoluteYearly;
 import at.bestsolution.quti.calendar.service.model.EventRepeatDaily;
@@ -36,6 +46,7 @@ import at.bestsolution.quti.calendar.service.model.EventRepeatRelativeMonthly;
 import at.bestsolution.quti.calendar.service.model.EventRepeatRelativeYearly;
 import at.bestsolution.quti.calendar.service.model.EventRepeatWeekly;
 import at.bestsolution.quti.calendar.service.model.EventSearch;
+import at.bestsolution.quti.calendar.service.model.EventView;
 import at.bestsolution.quti.calendar.service.model.EventViewFilter;
 import at.bestsolution.quti.calendar.service.model.SeriesEventView;
 import at.bestsolution.quti.calendar.service.model.SeriesMovedEventView;
@@ -54,6 +65,42 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == CalendarNew.DataBuilder.class) {
 			return type.cast(CalendarNewDataImpl.builder());
 		}
+		if (type == EventRepeatDaily.DataBuilder.class) {
+			return type.cast(EventRepeatDailyDataImpl.builder());
+		}
+		if (type == EventRepeatDaily.PatchBuilder.class) {
+			return type.cast(EventRepeatDailyPatchImpl.builder());
+		}
+		if (type == EventRepeatWeekly.DataBuilder.class) {
+			return type.cast(EventRepeatWeeklyDataImpl.builder());
+		}
+		if (type == EventRepeatWeekly.PatchBuilder.class) {
+			return type.cast(EventRepeatWeeklyPatchImpl.builder());
+		}
+		if (type == EventRepeatAbsoluteMonthly.DataBuilder.class) {
+			return type.cast(EventRepeatAbsoluteMonthlyDataImpl.builder());
+		}
+		if (type == EventRepeatAbsoluteMonthly.PatchBuilder.class) {
+			return type.cast(EventRepeatAbsoluteMonthlyPatchImpl.builder());
+		}
+		if (type == EventRepeatAbsoluteYearly.DataBuilder.class) {
+			return type.cast(EventRepeatAbsoluteYearlyDataImpl.builder());
+		}
+		if (type == EventRepeatAbsoluteYearly.PatchBuilder.class) {
+			return type.cast(EventRepeatAbsoluteYearlyPatchImpl.builder());
+		}
+		if (type == EventRepeatRelativeMonthly.DataBuilder.class) {
+			return type.cast(EventRepeatRelativeMonthlyDataImpl.builder());
+		}
+		if (type == EventRepeatRelativeMonthly.PatchBuilder.class) {
+			return type.cast(EventRepeatRelativeMonthlyPatchImpl.builder());
+		}
+		if (type == EventRepeatRelativeYearly.DataBuilder.class) {
+			return type.cast(EventRepeatRelativeYearlyDataImpl.builder());
+		}
+		if (type == EventRepeatRelativeYearly.PatchBuilder.class) {
+			return type.cast(EventRepeatRelativeYearlyPatchImpl.builder());
+		}
 		if (type == EventNew.DataBuilder.class) {
 			return type.cast(EventNewDataImpl.builder());
 		}
@@ -63,33 +110,6 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == Event.PatchBuilder.class) {
 			return type.cast(EventPatchImpl.builder());
 		}
-		if (type == EventViewFilter.DataBuilder.class) {
-			return type.cast(EventViewFilterDataImpl.builder());
-		}
-		if (type == EventSearch.DataBuilder.class) {
-			return type.cast(EventSearchDataImpl.builder());
-		}
-		if (type == DateTimeRange.DataBuilder.class) {
-			return type.cast(DateTimeRangeDataImpl.builder());
-		}
-		if (type == EventRepeatDaily.DataBuilder.class) {
-			return type.cast(EventRepeatDailyDataImpl.builder());
-		}
-		if (type == EventRepeatWeekly.DataBuilder.class) {
-			return type.cast(EventRepeatWeeklyDataImpl.builder());
-		}
-		if (type == EventRepeatAbsoluteMonthly.DataBuilder.class) {
-			return type.cast(EventRepeatAbsoluteMonthlyDataImpl.builder());
-		}
-		if (type == EventRepeatAbsoluteYearly.DataBuilder.class) {
-			return type.cast(EventRepeatAbsoluteYearlyDataImpl.builder());
-		}
-		if (type == EventRepeatRelativeMonthly.DataBuilder.class) {
-			return type.cast(EventRepeatRelativeMonthlyDataImpl.builder());
-		}
-		if (type == EventRepeatRelativeYearly.DataBuilder.class) {
-			return type.cast(EventRepeatRelativeYearlyDataImpl.builder());
-		}
 		if (type == SingleEventView.DataBuilder.class) {
 			return type.cast(SingleEventViewDataImpl.builder());
 		}
@@ -98,6 +118,15 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == SeriesEventView.DataBuilder.class) {
 			return type.cast(SeriesEventViewDataImpl.builder());
+		}
+		if (type == EventViewFilter.DataBuilder.class) {
+			return type.cast(EventViewFilterDataImpl.builder());
+		}
+		if (type == EventSearch.DataBuilder.class) {
+			return type.cast(EventSearchDataImpl.builder());
+		}
+		if (type == DateTimeRange.DataBuilder.class) {
+			return type.cast(DateTimeRangeDataImpl.builder());
 		}
 		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
 	}
@@ -112,6 +141,42 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == CalendarNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CalendarNewDataImpl::of));
 		}
+		if (type == EventRepeatDaily.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatDailyDataImpl::of));
+		}
+		if (type == EventRepeatDaily.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatDailyPatchImpl::of));
+		}
+		if (type == EventRepeatWeekly.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatWeeklyDataImpl::of));
+		}
+		if (type == EventRepeatWeekly.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatWeeklyPatchImpl::of));
+		}
+		if (type == EventRepeatAbsoluteMonthly.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatAbsoluteMonthlyDataImpl::of));
+		}
+		if (type == EventRepeatAbsoluteMonthly.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatAbsoluteMonthlyPatchImpl::of));
+		}
+		if (type == EventRepeatAbsoluteYearly.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatAbsoluteYearlyDataImpl::of));
+		}
+		if (type == EventRepeatAbsoluteYearly.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatAbsoluteYearlyPatchImpl::of));
+		}
+		if (type == EventRepeatRelativeMonthly.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatRelativeMonthlyDataImpl::of));
+		}
+		if (type == EventRepeatRelativeMonthly.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatRelativeMonthlyPatchImpl::of));
+		}
+		if (type == EventRepeatRelativeYearly.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatRelativeYearlyDataImpl::of));
+		}
+		if (type == EventRepeatRelativeYearly.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatRelativeYearlyPatchImpl::of));
+		}
 		if (type == EventNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, EventNewDataImpl::of));
 		}
@@ -120,33 +185,6 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Event.Patch.class) {
 			return type.cast(_JsonUtils.fromString(data, EventPatchImpl::of));
-		}
-		if (type == EventViewFilter.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventViewFilterDataImpl::of));
-		}
-		if (type == EventSearch.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventSearchDataImpl::of));
-		}
-		if (type == DateTimeRange.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, DateTimeRangeDataImpl::of));
-		}
-		if (type == EventRepeatDaily.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventRepeatDailyDataImpl::of));
-		}
-		if (type == EventRepeatWeekly.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventRepeatWeeklyDataImpl::of));
-		}
-		if (type == EventRepeatAbsoluteMonthly.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventRepeatAbsoluteMonthlyDataImpl::of));
-		}
-		if (type == EventRepeatAbsoluteYearly.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventRepeatAbsoluteYearlyDataImpl::of));
-		}
-		if (type == EventRepeatRelativeMonthly.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventRepeatRelativeMonthlyDataImpl::of));
-		}
-		if (type == EventRepeatRelativeYearly.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, EventRepeatRelativeYearlyDataImpl::of));
 		}
 		if (type == SingleEventView.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, SingleEventViewDataImpl::of));
@@ -157,6 +195,25 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == SeriesEventView.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, SeriesEventViewDataImpl::of));
 		}
+		if (type == EventViewFilter.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventViewFilterDataImpl::of));
+		}
+		if (type == EventSearch.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventSearchDataImpl::of));
+		}
+		if (type == DateTimeRange.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, DateTimeRangeDataImpl::of));
+		}
+		if (type == EventRepeat.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatDataImpl::of));
+		}
+		if (type == EventRepeat.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, EventRepeatPatchImpl::of));
+		}
+		if (type == EventView.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, EventViewDataImpl::of));
+		}
+
 		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
 	}
 }

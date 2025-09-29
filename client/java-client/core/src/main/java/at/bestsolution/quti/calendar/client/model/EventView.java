@@ -11,7 +11,7 @@ public interface EventView {
 
 	}
 
-	public interface Data extends EventView {
+	public interface Data extends _Base.BaseData, EventView {
 		public String key();
 
 		public String calendarKey();

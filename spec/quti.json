@@ -1158,6 +1158,76 @@
               ]
             }
           }
+        },
+        {
+          "@type": "Operation",
+          "name": "close",
+          "doc": " close the calender at the given date - ie remove all events after that date",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "the calendar key",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "date",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "zoned-date-time",
+              "doc": "the date to close the calendar at"
+            }
+          ],
+          "errors": [
+            "NotFound",
+            "InvalidArgument"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": "if calendar with the given key is not found"
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidArgument",
+              "doc": "if the date passed is invalid"
+            }
+          ],
+          "meta": {
+            "rest": {
+              "method": "PUT",
+              "path": "${key}/action/close",
+              "results": [
+                {
+                  "statusCode": 204
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 400,
+                  "error": "InvalidArgument"
+                }
+              ]
+            }
+          }
         }
       ],
       "meta": {

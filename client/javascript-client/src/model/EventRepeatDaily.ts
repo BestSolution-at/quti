@@ -53,7 +53,7 @@ export function isEventRepeatDailyPatch(value: unknown): value is EventRepeatDai
 		checkProp(value, '@type', createIsStringTypeGuard('daily')) &&
 		 &&
 		checkOptProp(value, 'interval', isNumber) &&
-		(isNull(value.endDate) || checkOptProp(value, 'endDate', isString)) &&
+		(checkOptProp(value, 'endDate', isNull) || checkOptProp(value, 'endDate', isString)) &&
 		checkOptProp(value, 'timeZone', isString);
 }
 

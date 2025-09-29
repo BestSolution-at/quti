@@ -2,6 +2,7 @@
 package at.bestsolution.quti.calendar.rest;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class CalendarResourceResponseBuilder {
 
 	public ResponseBuilder eventView(List<EventView.Data> $result, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone) {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
+	}
+
+	public ResponseBuilder close(String key, ZonedDateTime date) {
+		return Response.status(204);
 	}
 
 }

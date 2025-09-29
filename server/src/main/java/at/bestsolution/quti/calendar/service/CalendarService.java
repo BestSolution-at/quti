@@ -2,6 +2,7 @@
 package at.bestsolution.quti.calendar.service;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -22,6 +23,10 @@ public interface CalendarService {
 			InvalidArgumentException;
 
 	public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
+			throws NotFoundException,
+			InvalidArgumentException;
+
+	public void close(BuilderFactory _factory, String key, ZonedDateTime date)
 			throws NotFoundException,
 			InvalidArgumentException;
 

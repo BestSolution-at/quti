@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import jakarta.inject.Singleton;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import at.bestsolution.quti.calendar.service.BuilderFactory;
 import at.bestsolution.quti.calendar.service.EventService;
@@ -16,7 +16,7 @@ import at.bestsolution.quti.calendar.service.model.EventNew;
 import at.bestsolution.quti.calendar.service.model.EventSearch;
 import at.bestsolution.quti.calendar.service.NotFoundException;
 
-@Singleton
+@ApplicationScoped
 public class EventServiceImpl implements EventService {
 	private final CreateHandler createHandler;
 	private final GetHandler getHandler;

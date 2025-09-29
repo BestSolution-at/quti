@@ -2,6 +2,7 @@
 package at.bestsolution.quti.calendar.client;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -30,5 +31,9 @@ public interface CalendarService extends BaseService {
 			LocalDate end, 
 			ZoneId timezone, 
 			ZoneId resultTimeZone) throws NotFoundException, NotFoundException;
+
+	public void close(
+			String key, 
+			ZonedDateTime date) throws NotFoundException, NotFoundException;
 
 }

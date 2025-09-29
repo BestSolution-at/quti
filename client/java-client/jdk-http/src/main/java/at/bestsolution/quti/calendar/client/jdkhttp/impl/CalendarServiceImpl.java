@@ -8,6 +8,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
@@ -201,6 +202,41 @@ public class CalendarServiceImpl implements CalendarService {
 			var $response = this.client.send($request, BodyHandlers.ofString());
 			if ($response.statusCode() == 200) {
 				return ServiceUtils.mapObjects($response, EventViewDataImpl::of);
+			} else if ($response.statusCode() == 404) {
+				throw new NotFoundException(ServiceUtils.mapString($response));
+			} else if ($response.statusCode() == 400) {
+				throw new InvalidArgumentException(ServiceUtils.mapString($response));
+			}
+			throw new IllegalStateException(String.format("Unsupported Http-Status '%s':\n%s", $response.statusCode(), $response.body()));
+		} catch (IOException | InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	public void close(String key, ZonedDateTime date)
+			throws NotFoundException,
+			InvalidArgumentException {
+		Objects.requireNonNull(key, "key must not be null");
+		Objects.requireNonNull(date, "date must not be null");
+
+		var $path = "%s/api/calendar/%s/action/close".formatted(
+				this.baseURI,
+				key);
+
+		var $uri = URI.create($path);
+		try {
+			var $contentType = "application/json";
+			var $body = BodyPublishers.ofString(String.format("\"%s\"", date));
+
+			var $request = HttpRequest.newBuilder()
+					.uri($uri)
+					.header("Content-Type", $contentType)
+					.PUT($body)
+					.build();
+
+			var $response = this.client.send($request, BodyHandlers.ofString());
+			if ($response.statusCode() == 204) {
+				return;
 			} else if ($response.statusCode() == 404) {
 				throw new NotFoundException(ServiceUtils.mapString($response));
 			} else if ($response.statusCode() == 400) {

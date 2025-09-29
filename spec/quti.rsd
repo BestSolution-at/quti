@@ -240,6 +240,18 @@ service Calendar {
           NotFound				<< if calendar with the given key is not found
           InvalidArgument << if one of the parameters is invalid
 				;
+
+		<*
+		 * close the calender at the given date - ie remove all events after that date
+		 *
+		 * @param key - the calendar key
+		 * @param date - the date to close the calendar at
+		 *>
+		operation close(key: string, date: zoned-date-time)
+			throws
+          NotFound				<< if calendar with the given key is not found
+          InvalidArgument << if the date passed is invalid
+			;
 }
 
 << Service to create and modify events in a calendar

@@ -55,9 +55,7 @@ public interface EventRepeatWeekly {
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<EventRepeatWeekly.Patch>, EventRepeat.PatchBuilder {
 		public PatchBuilder daysOfWeek(Patch.DaysOfWeekChange daysOfWeek);
-
 		public PatchBuilder daysOfWeek(List<DayOfWeek> additions, List<DayOfWeek> removals);
-
 		public PatchBuilder daysOfWeek(List<DayOfWeek> elements);
 
 		public PatchBuilder interval(short interval);

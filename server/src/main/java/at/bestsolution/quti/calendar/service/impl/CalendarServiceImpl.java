@@ -2,10 +2,11 @@
 package at.bestsolution.quti.calendar.service.impl;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import jakarta.inject.Singleton;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import at.bestsolution.quti.calendar.service.BuilderFactory;
 import at.bestsolution.quti.calendar.service.CalendarService;
@@ -16,18 +17,20 @@ import at.bestsolution.quti.calendar.service.model.CalendarNew;
 import at.bestsolution.quti.calendar.service.model.EventView;
 import at.bestsolution.quti.calendar.service.NotFoundException;
 
-@Singleton
+@ApplicationScoped
 public class CalendarServiceImpl implements CalendarService {
 	private final CreateHandler createHandler;
 	private final GetHandler getHandler;
 	private final UpdateHandler updateHandler;
 	private final EventViewHandler eventViewHandler;
+	private final CloseHandler closeHandler;
 
-	public CalendarServiceImpl(CreateHandler createHandler, GetHandler getHandler, UpdateHandler updateHandler, EventViewHandler eventViewHandler) {
+	public CalendarServiceImpl(CreateHandler createHandler, GetHandler getHandler, UpdateHandler updateHandler, EventViewHandler eventViewHandler, CloseHandler closeHandler) {
 		this.createHandler = createHandler;
 		this.getHandler = getHandler;
 		this.updateHandler = updateHandler;
 		this.eventViewHandler = eventViewHandler;
+		this.closeHandler = closeHandler;
 	}
 
 	@Override
@@ -57,6 +60,13 @@ public class CalendarServiceImpl implements CalendarService {
 		return eventViewHandler.eventView(_factory, key, start, end, timezone, resultTimeZone);
 	}
 
+	@Override
+	public void close(BuilderFactory _factory, String key, ZonedDateTime date)
+			throws NotFoundException,
+			InvalidArgumentException {
+		closeHandler.close(_factory, key, date);
+	}
+
 	public interface CreateHandler {
 		public String create(BuilderFactory _factory, CalendarNew.Data calendar)
 				throws InvalidContentException;
@@ -76,6 +86,12 @@ public class CalendarServiceImpl implements CalendarService {
 
 	public interface EventViewHandler {
 		public List<EventView.Data> eventView(BuilderFactory _factory, String key, LocalDate start, LocalDate end, ZoneId timezone, ZoneId resultTimeZone)
+				throws NotFoundException,
+				InvalidArgumentException;
+	}
+
+	public interface CloseHandler {
+		public void close(BuilderFactory _factory, String key, ZonedDateTime date)
 				throws NotFoundException,
 				InvalidArgumentException;
 	}

@@ -10,7 +10,7 @@ public interface EventRepeat {
 
 	}
 
-	public interface Data extends EventRepeat {
+	public interface Data extends _Base.BaseData, EventRepeat {
 		public short interval();
 
 		public LocalDate endDate();
@@ -22,18 +22,12 @@ public interface EventRepeat {
 	public interface DataBuilder extends Builder {
 	}
 
-	public interface Patch extends EventRepeat {
+	public interface Patch extends _Base.BaseData, EventRepeat {
 		public Optional<Short> interval();
-
-
 
 		public _Base.Nillable<LocalDate> endDate();
 
-
-
 		public Optional<ZoneId> timeZone();
-
-
 
 	}
 

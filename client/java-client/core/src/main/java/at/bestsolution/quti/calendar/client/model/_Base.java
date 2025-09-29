@@ -27,7 +27,6 @@ public interface _Base {
 
 	public interface ListMergeAddRemove<A, R> {
 		public List<A> additions();
-
 		public List<R> removals();
 	}
 

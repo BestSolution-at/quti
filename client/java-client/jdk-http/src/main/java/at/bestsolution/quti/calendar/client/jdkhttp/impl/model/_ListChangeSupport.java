@@ -10,8 +10,7 @@ import jakarta.json.JsonValue;
 import at.bestsolution.quti.calendar.client.model._Base;
 
 public class _ListChangeSupport {
-	public static <T> T of(JsonObject o, String descProperty, Function<JsonObject, T> setFactory,
-			Function<JsonObject, T> deltaFactory) {
+	public static <T> T of(JsonObject o, String descProperty, Function<JsonObject, T> setFactory, Function<JsonObject, T> deltaFactory) {
 		var type = o.getString(descProperty);
 		return switch (type) {
 			case "replace" -> setFactory.apply(o);
@@ -46,10 +45,10 @@ public class _ListChangeSupport {
 		@Override
 		public List<R> removals() {
 			return _JsonUtils.mapToStream(
-					data,
-					"removals",
-					JsonValue.class,
-					removalConverter).toList();
+				data,
+				"removals",
+				JsonValue.class,
+				removalConverter).toList();
 		}
 	}
 

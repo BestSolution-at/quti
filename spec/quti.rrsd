@@ -22,6 +22,11 @@ resource Calendar at '/api/calendar' {
 			404: NotFound
 			400: InvalidArgument
 		}
+		PUT close at '${key}/action/close' => {
+				204
+				404: NotFound
+				400: InvalidArgument
+		}
 }
 
 resource Event at '/api/calendar/${calendar}/events' {

@@ -61,7 +61,7 @@ export function isEventRepeatAbsoluteMonthlyPatch(value: unknown): value is Even
 		 &&
 		checkOptProp(value, 'dayOfMonth', isNumber) &&
 		checkOptProp(value, 'interval', isNumber) &&
-		(isNull(value.endDate) || checkOptProp(value, 'endDate', isString)) &&
+		(checkOptProp(value, 'endDate', isNull) || checkOptProp(value, 'endDate', isString)) &&
 		checkOptProp(value, 'timeZone', isString);
 }
 

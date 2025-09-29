@@ -8,6 +8,7 @@ export function createCalendarService(props: ServiceProps<api.service.ErrorType>
 		get: fnGet(props),
 		update: fnUpdate(props),
 		eventView: fnEventView(props),
+		close: fnClose(props),
 	};
 }
 function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.CalendarService['create'] {
@@ -177,6 +178,47 @@ function fnEventView(props: ServiceProps<api.service.ErrorType>): api.service.Ca
 			return api.result.ERR(err);
 		} finally {
 			final?.('eventView');
+		}
+	};
+}
+
+function fnClose(props: ServiceProps<api.service.ErrorType>): api.service.CalendarService['close'] {
+	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
+	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
+	return async (key: string, date: string) => {
+		try {
+			const $init = (await preFetch?.('close')) ?? {};
+			const $headers = new Headers($init.headers ?? {});
+			$headers.append('Content-Type', 'application/json');
+			$init.headers = $headers;
+
+			const $path = `${baseUrl}/api/calendar/${key}/action/close`;
+			const $body = `${date}`;
+			const $response = await fetchAPI($path, { ...$init, method: 'PUT', body: $body });
+			if($response.status === 204) {
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('close', api.result.Void));
+			} else if($response.status === 404) {
+				const err = {
+					_type: 'NotFound',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('close', err));
+			} else if($response.status === 400) {
+				const err = {
+					_type: 'InvalidArgument',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('close', err));
+			}
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			return api.result.ERR(err);
+		} catch(e) {
+			onCatch?.('close', e)
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			return api.result.ERR(err);
+		} finally {
+			final?.('close');
 		}
 	};
 }

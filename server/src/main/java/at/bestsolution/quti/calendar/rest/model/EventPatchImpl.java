@@ -28,22 +28,19 @@ public class EventPatchImpl extends _BaseDataImpl implements Event.Patch {
 		}
 	}
 
-	static class TagsMergeChangeImpl extends _ListChangeSupport.ListMergeAddRemoveImpl<String, String>
-			implements TagsMergeChange {
+	static class TagsMergeChangeImpl extends _ListChangeSupport.ListMergeAddRemoveImpl<String, String> implements TagsMergeChange {
 		TagsMergeChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
 		}
 	}
 
-	static class ReferencedCalendarsSetChangeImpl extends _ListChangeSupport.ValueElementsChange<String>
-			implements ReferencedCalendarsSetChange {
+	static class ReferencedCalendarsSetChangeImpl extends _ListChangeSupport.ValueElementsChange<String> implements ReferencedCalendarsSetChange {
 		ReferencedCalendarsSetChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString());
 		}
 	}
 
-	static class ReferencedCalendarsMergeChangeImpl extends _ListChangeSupport.ListMergeAddRemoveImpl<String, String>
-			implements ReferencedCalendarsMergeChange {
+	static class ReferencedCalendarsMergeChangeImpl extends _ListChangeSupport.ListMergeAddRemoveImpl<String, String> implements ReferencedCalendarsMergeChange {
 		ReferencedCalendarsMergeChangeImpl(JsonObject data) {
 			super(data, v -> ((JsonString) v).getString(), v -> ((JsonString) v).getString());
 		}
@@ -78,18 +75,15 @@ public class EventPatchImpl extends _BaseDataImpl implements Event.Patch {
 	}
 
 	public _Base.Nillable<EventRepeat> repeat() {
-		return _JsonUtils.mapNilObject(data, "repeat",
-				o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatPatchImpl.of(o));
+		return _JsonUtils.mapNilObject(data, "repeat", o -> EventRepeatDataImpl.isSupportedType(o) ? EventRepeatDataImpl.of(o) : EventRepeatPatchImpl.of(o));
 	}
 
 	public Optional<TagsChange> tags() {
-		return _JsonUtils.mapOptObject(data, "tags",
-				o -> _ListChangeSupport.of(o, "@type", TagsSetChangeImpl::new, TagsMergeChangeImpl::new));
+		return _JsonUtils.mapOptObject(data, "tags", o -> _ListChangeSupport.of(o, "@type", TagsSetChangeImpl::new, TagsMergeChangeImpl::new));
 	}
 
 	public Optional<ReferencedCalendarsChange> referencedCalendars() {
-		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeSupport.of(o, "@type",
-				ReferencedCalendarsSetChangeImpl::new, ReferencedCalendarsMergeChangeImpl::new));
+		return _JsonUtils.mapOptObject(data, "referencedCalendars", o -> _ListChangeSupport.of(o, "@type", ReferencedCalendarsSetChangeImpl::new, ReferencedCalendarsMergeChangeImpl::new));
 	}
 
 	public static class PatchBuilderImpl implements Event.PatchBuilder {
@@ -149,8 +143,7 @@ public class EventPatchImpl extends _BaseDataImpl implements Event.Patch {
 			return this;
 		}
 
-		public <T extends EventRepeat.Builder> Event.PatchBuilder withRepeat(Class<T> clazz,
-				Function<T, EventRepeat> block) {
+		public <T extends EventRepeat.Builder> Event.PatchBuilder withRepeat(Class<T> clazz, Function<T, EventRepeat> block) {
 			EventRepeat.Builder b;
 			if (clazz == EventRepeatDaily.DataBuilder.class) {
 				b = EventRepeatDailyDataImpl.builder();

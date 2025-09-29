@@ -10,4 +10,5 @@ export interface CalendarService {
 	get(key: string): Promise<Result<Calendar, NotFoundError | InvalidArgumentError | StatusRSDError | NativeRSDError>>;
 	update(key: string, changes: CalendarPatch): Promise<Result<VoidType, NotFoundError | InvalidArgumentError | StatusRSDError | NativeRSDError>>;
 	eventView(key: string, start: string, end: string, timezone: string, resultTimeZone?: string): Promise<Result<EventView[], NotFoundError | InvalidArgumentError | StatusRSDError | NativeRSDError>>;
+	close(key: string, date: string): Promise<Result<VoidType, NotFoundError | InvalidArgumentError | StatusRSDError | NativeRSDError>>;
 }
