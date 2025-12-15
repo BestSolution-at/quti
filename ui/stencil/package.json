@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.5.1",
-    "@stencil/core": "^4.7.0"
+    "@stencil/core": "^4.37.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",

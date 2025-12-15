@@ -11,35 +11,45 @@ export { QMenuItem, QMenuSection } from "./components/contextmenu/contextmenu";
 export { LocalDate, QEvent, QEvents } from "./components/multidayview/multidayview";
 export namespace Components {
     interface QutiContextMenu {
+        /**
+          * @default []
+         */
         "items": QMenuItem[] | QMenuSection[];
     }
     interface QutiMultidayView {
         /**
           * The number of days to show - defaults to 7
+          * @default 7
          */
         "days": number;
         /**
           * Array of events to show - might be encoded as a JSON-Array
+          * @default []
          */
         "events": QEvents | string;
         /**
           * End of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 24
+          * @default 24
          */
         "hoursMax": number;
         /**
           * Start of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 0
+          * @default 0
          */
         "hoursMin": number;
         /**
           * The start date - defaults to start of the current week
+          * @default defaultStartDate()
          */
         "startDate": LocalDate;
         /**
           * End of work hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 17
+          * @default 17
          */
         "workingHoursMax": number;
         /**
           * Start of working hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 8
+          * @default 8
          */
         "workingHoursMin": number;
     }
@@ -80,23 +90,30 @@ declare global {
 }
 declare namespace LocalJSX {
     interface QutiContextMenu {
+        /**
+          * @default []
+         */
         "items"?: QMenuItem[] | QMenuSection[];
     }
     interface QutiMultidayView {
         /**
           * The number of days to show - defaults to 7
+          * @default 7
          */
         "days"?: number;
         /**
           * Array of events to show - might be encoded as a JSON-Array
+          * @default []
          */
         "events"?: QEvents | string;
         /**
           * End of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 24
+          * @default 24
          */
         "hoursMax"?: number;
         /**
           * Start of hour grid, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 0
+          * @default 0
          */
         "hoursMin"?: number;
         /**
@@ -109,14 +126,17 @@ declare namespace LocalJSX {
         "onEventFocus"?: (event: QutiMultidayViewCustomEvent<QEvent>) => void;
         /**
           * The start date - defaults to start of the current week
+          * @default defaultStartDate()
          */
         "startDate"?: LocalDate;
         /**
           * End of work hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 17
+          * @default 17
          */
         "workingHoursMax"?: number;
         /**
           * Start of working hours, fractional digits are discarded and has to be in range of 0 - 24 - defaults to 8
+          * @default 8
          */
         "workingHoursMin"?: number;
     }
