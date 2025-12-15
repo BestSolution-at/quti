@@ -129,6 +129,29 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 		assertEquals(0, modifications(repeatingDailyEndlessKey).size());
 	}
 
+	@Test
+	public void updateTags() {
+		var dto = builderFactory.builder(Event.PatchBuilder.class)
+				.tags(java.util.List.of("tag1", "tag2", "tag3"))
+				.build();
+		handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
+		var entity = event(simpleEventKey);
+		assertEquals(3, entity.tags.size());
+		assertEquals("tag1", entity.tags.get(0));
+		assertEquals("tag2", entity.tags.get(1));
+		assertEquals("tag3", entity.tags.get(2));
+
+		dto = builderFactory.builder(Event.PatchBuilder.class)
+				.tags(java.util.List.of("tag1", "tag2"))
+				.build();
+		handler.update(this.builderFactory, basicCalendarKey.toString(), simpleEventKey.toString(), dto);
+		entity = event(simpleEventKey);
+		assertEquals(2, entity.tags.size());
+		assertEquals("tag1", entity.tags.get(0));
+		assertEquals("tag2", entity.tags.get(1));
+
+	}
+
 	// @Test
 	// public void updateEndRepeat() {
 	// var repeat = new EventRepeatDailyPatchDTOImpl();

@@ -69,6 +69,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 
 		patch.referencedCalendars().ifPresent(refs -> handleReferencedCalendardChange(em, entity, refs));
 		patch.repeat().accept(r -> handleRepeatChange(em, entity, r));
+		patch.tags().ifPresent(t -> entity.tags = t);
 
 		EventUtils.validateEvent(entity);
 	}
