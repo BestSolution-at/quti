@@ -131,14 +131,65 @@ public class UpdateHandlerTest extends EventHandlerTest<UpdateHandlerJPA> {
 	}
 
 	@Test
-	public void updateReferencedCalendars() {
+	public void updateReferencedCalendarsClear() {
 		var dto = builderFactory.builder(Event.PatchBuilder.class)
-				.referencedCalendars(List.of(referenceCalendarKey.toString()))
+				.referencedCalendars(List.of())
 				.build();
 		handler.update(builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
-		assertEquals(event(repeatingDailyEndlessKey).references.size(), 1);
-		assertEquals(event(repeatingDailyEndlessKey).references.get(0).calendar.key, referenceCalendarKey);
+		assertEquals(0, event(repeatingDailyEndlessKey).references.size());
 	}
+
+	@Test
+	public void updateReferencedCalendarsReplaceOne() {
+		var dto = builderFactory.builder(Event.PatchBuilder.class)
+				.referencedCalendars(List.of(ownerlessCalendarKey.toString()))
+				.build();
+		handler.update(builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
+		assertEquals(1, event(repeatingDailyEndlessKey).references.size());
+
+		assertEquals(event(repeatingDailyEndlessKey).references.get(0).calendar.key,
+				ownerlessCalendarKey);
+	}
+
+	@Test
+	public void updateReferencedCalendarsReplaceMulti() {
+		var dto = builderFactory.builder(Event.PatchBuilder.class)
+				.referencedCalendars(List.of(referenceCalendarKey.toString(), ownerlessCalendarKey.toString()))
+				.build();
+		handler.update(builderFactory, basicCalendarKey.toString(), repeatingDailyEndlessKey.toString(), dto);
+		assertEquals(2, event(repeatingDailyEndlessKey).references.size());
+
+		assertEquals(event(repeatingDailyEndlessKey).references.get(0).calendar.key,
+				referenceCalendarKey);
+		assertEquals(event(repeatingDailyEndlessKey).references.get(1).calendar.key,
+				ownerlessCalendarKey);
+	}
+
+	/*
+	 * @Test
+	 * public void updateTags() {
+	 * var dto = builderFactory.builder(Event.PatchBuilder.class)
+	 * .tags(java.util.List.of("tag1", "tag2", "tag3"))
+	 * .build();
+	 * handler.update(this.builderFactory, basicCalendarKey.toString(),
+	 * simpleEventKey.toString(), dto);
+	 * var entity = event(simpleEventKey);
+	 * assertEquals(3, entity.tags.size());
+	 * assertEquals("tag1", entity.tags.get(0));
+	 * assertEquals("tag2", entity.tags.get(1));
+	 * assertEquals("tag3", entity.tags.get(2));
+	 *
+	 * dto = builderFactory.builder(Event.PatchBuilder.class)
+	 * .tags(java.util.List.of("tag1", "tag2"))
+	 * .build();
+	 * handler.update(this.builderFactory, basicCalendarKey.toString(),
+	 * simpleEventKey.toString(), dto);
+	 * entity = event(simpleEventKey);
+	 * assertEquals(2, entity.tags.size());
+	 * assertEquals("tag1", entity.tags.get(0));
+	 * assertEquals("tag2", entity.tags.get(1));
+	 * }
+	 */
 
 	// @Test
 	// public void updateEndRepeat() {

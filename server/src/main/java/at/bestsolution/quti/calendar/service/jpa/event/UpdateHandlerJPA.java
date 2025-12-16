@@ -3,11 +3,9 @@ package at.bestsolution.quti.calendar.service.jpa.event;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import at.bestsolution.quti.calendar.rest.model._JsonUtils;
 import at.bestsolution.quti.calendar.service.BuilderFactory;
 import at.bestsolution.quti.calendar.service.NotFoundException;
 import at.bestsolution.quti.calendar.service.Utils;
@@ -20,8 +18,8 @@ import at.bestsolution.quti.calendar.service.jpa.model.EventEntity;
 import at.bestsolution.quti.calendar.service.jpa.model.EventReferenceEntity;
 import at.bestsolution.quti.calendar.service.model.Event;
 import at.bestsolution.quti.calendar.service.model.EventRepeat;
-import at.bestsolution.quti.calendar.service.model.Event.Patch.TagsMergeChange;
-import at.bestsolution.quti.calendar.service.model.Event.Patch.TagsSetChange;
+import at.bestsolution.quti.calendar.service.model.Event.Patch.ReferencedCalendarsMergeChange;
+import at.bestsolution.quti.calendar.service.model.Event.Patch.ReferencedCalendarsSetChange;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
@@ -72,14 +70,12 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 
 		patch.referencedCalendars()
 				.ifPresent(change -> {
-					if (change instanceof TagsSetChange c) {
+					if (change instanceof ReferencedCalendarsSetChange c) {
 						handleReferencedCalendardChange(em, entity, c);
-					} else if (change instanceof TagsMergeChange c) {
+					} else if (change instanceof ReferencedCalendarsMergeChange c) {
 						handleReferencedCalendardChange(em, entity, c);
 					}
 				});
-		var x = _JsonUtils.toJsonString(patch, true);
-		System.err.println(x);
 		patch.repeat().accept(r -> {
 			if (r == null) {
 				handleRepeatSetChange(em, entity, null);
@@ -90,6 +86,9 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 					new UnsupportedOperationException("Delta change not yet implemented");
 				}
 			}
+		});
+		patch.tags().ifPresent(change -> {
+
 		});
 
 		EventUtils.validateEvent(entity);
@@ -109,7 +108,8 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		entity.start = v;
 	}
 
-	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity, TagsSetChange change) {
+	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity,
+			ReferencedCalendarsSetChange change) {
 		var refSet = new HashSet<>(change.elements());
 		// Remove all references from DB who are not there anymore
 		entity.references.stream()
@@ -130,7 +130,8 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 		;
 	}
 
-	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity, TagsMergeChange change) {
+	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity,
+			ReferencedCalendarsMergeChange change) {
 		throw new UnsupportedOperationException();
 	}
 
