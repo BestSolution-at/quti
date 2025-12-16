@@ -63,9 +63,10 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 
 		patch.title().ifPresent(entity::title);
 		patch.description().accept(entity::description);
+		// Update before start/end to handle fullday changes correctly
 		patch.fullday().map(v -> v != null && v).accept(entity::fullday);
 		patch.start().ifPresent(v -> handleStartChange(em, entity, v));
-		patch.end().ifPresent(entity::end);
+		patch.end().map(v -> entity.fullday ? Utils.atEndOfDay(v) : v).ifPresent(entity::end);
 
 		patch.referencedCalendars().ifPresent(refs -> handleReferencedCalendardChange(em, entity, refs));
 		patch.repeat().accept(r -> handleRepeatChange(em, entity, r));
@@ -85,7 +86,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventServiceImpl.Up
 				entity.modifications.forEach(em::remove);
 			}
 		}
-		entity.start = v;
+		entity.start = entity.fullday ? Utils.atStartOfDay(v) : v;
 	}
 
 	private static void handleReferencedCalendardChange(EntityManager em, EventEntity entity, List<String> refs) {
