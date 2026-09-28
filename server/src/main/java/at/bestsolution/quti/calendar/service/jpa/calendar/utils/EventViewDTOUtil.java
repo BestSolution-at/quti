@@ -3,6 +3,7 @@ package at.bestsolution.quti.calendar.service.jpa.calendar.utils;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -89,6 +90,9 @@ public class EventViewDTOUtil {
 					.orElse(movedEntity.event.description);
 
 			var b = factory.builder(SeriesMovedEventView.DataBuilder.class);
+			List<String> tags = new ArrayList<>();
+			tags.add("quti:MOVED");
+			tags.addAll(Objects.requireNonNullElse(movedEntity.event.tags, List.of()));
 
 			return b
 					.key(movedEntity.event.key.toString() + "_" + movedEntity.date)
@@ -99,7 +103,7 @@ public class EventViewDTOUtil {
 					.description(description)
 					.start(movedEntity.start.withZoneSameInstant(resultZone))
 					.end(movedEntity.end.withZoneSameInstant(resultZone))
-					.tags(Objects.requireNonNullElse(movedEntity.event.tags, List.of()))
+					.tags(tags)
 					.referencedCalendars(movedEntity.event.references.stream().map(er -> er.calendar.key.toString()).toList())
 					.originalStart(movedEntity.event.start
 							.withZoneSameInstant(movedEntity.event.repeatPattern.recurrenceTimezone)
