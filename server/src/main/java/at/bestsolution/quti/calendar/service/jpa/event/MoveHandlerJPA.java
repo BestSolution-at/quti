@@ -56,6 +56,9 @@ public class MoveHandlerJPA extends BaseHandler implements EventServiceImpl.Move
 
 		event.start = event.fullday ? Utils.atStartOfDay(start) : start;
 		event.end = event.fullday ? Utils.atEndOfDay(end) : end;
+
+		EventUtils.validateEvent(event);
+
 		em.persist(event);
 	}
 
@@ -88,6 +91,8 @@ public class MoveHandlerJPA extends BaseHandler implements EventServiceImpl.Move
 		entity.event = event;
 		entity.start = event.fullday ? Utils.atStartOfDay(start) : start;
 		entity.end = event.fullday ? Utils.atEndOfDay(end) : end;
+
+		EventUtils.validateEventModification(entity);
 
 		em.persist(entity);
 	}

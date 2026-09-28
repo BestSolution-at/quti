@@ -1,6 +1,7 @@
 package at.bestsolution.quti.calendar.service.jpa.event.utils;
 
 import at.bestsolution.quti.calendar.service.jpa.model.EventEntity;
+import at.bestsolution.quti.calendar.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.calendar.service.InvalidContentException;
 import jakarta.persistence.EntityManager;
 
@@ -25,6 +26,18 @@ public class EventUtils {
 		}
 	}
 
+	public static void validateEventModification(EventModificationMovedEntity entity) {
+		if (entity.start == null) {
+			throw new InvalidContentException("event modification start must not be null");
+		}
+		if (entity.end == null) {
+			throw new InvalidContentException("event modification end must not be null");
+		}
+		if (entity.start.isAfter(entity.end) || entity.start.equals(entity.end)) {
+			throw new InvalidContentException("event modification start has to be before end");
+		}
+	}
+
 	public static EventEntity event(EntityManager em, UUID calendarKey, UUID eventKey) {
 		var result = em.createQuery("FROM Event e WHERE e.key = :eventKey AND e.calendar.key = :calendarKey",
 				EventEntity.class)
@@ -37,7 +50,7 @@ public class EventUtils {
 		} else if (result.size() == 0) {
 			return null;
 		}
-		throw new IllegalStateException("Multiple events with key '%s' found");
+		throw new IllegalStateException("Multiple events with key '%s' found".formatted(eventKey));
 
 	}
 }

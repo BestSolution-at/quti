@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import at.bestsolution.quti.calendar.service.jpa.model.modification.EventModificationMovedEntity;
 import at.bestsolution.quti.calendar.service.InvalidArgumentException;
+import at.bestsolution.quti.calendar.service.InvalidContentException;
 import at.bestsolution.quti.calendar.service.NotFoundException;
 import io.quarkus.test.junit.QuarkusTest;
 
@@ -39,6 +40,26 @@ public class MoveHandlerTest extends EventHandlerTest<MoveHandlerJPA> {
 				"abcd",
 				ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]"),
 				ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]")));
+	}
+
+	@Test
+	public void invalidStartEndSingleEntry() {
+		assertThrows(InvalidContentException.class, () -> handler.move(
+				builderFactory,
+				basicCalendarKey.toString(),
+				simpleEventKey.toString(),
+				ZonedDateTime.parse("2024-01-11T13:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-11T07:00:00+01:00[Europe/Vienna]")));
+	}
+
+	@Test
+	public void invalidStartEndRepeatEntry() {
+		assertThrows(InvalidContentException.class, () -> handler.move(
+				builderFactory,
+				basicCalendarKey.toString(),
+				repeatingDailyEndlessKey.toString() + "_2024-01-01",
+				ZonedDateTime.parse("2024-01-01T19:00:00+01:00[Europe/Vienna]"),
+				ZonedDateTime.parse("2024-01-01T17:00:00+01:00[Europe/Vienna]")));
 	}
 
 	@Test
